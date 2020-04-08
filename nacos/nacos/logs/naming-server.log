@@ -1,0 +1,693 @@
+2020-03-19 09:44:02,575 INFO listen for service meta change
+
+2020-03-19 09:44:03,836 INFO [SERVER-INIT] got port: 8848
+
+2020-03-19 09:44:03,836 INFO [SERVER-INIT] got path: /nacos
+
+2020-03-19 09:44:05,810 INFO receive config info: unknown#192.168.181.17:8848#1584582245810#6
+
+
+2020-03-19 09:44:05,814 ERROR [SERVER-STATUS] Exception while sending server status
+
+java.lang.IllegalArgumentException: server: 192.168.181.17:8848 is not in serverlist
+	at com.alibaba.nacos.naming.cluster.ServerListManager.onReceiveServerStatus(ServerListManager.java:198)
+	at com.alibaba.nacos.naming.cluster.ServerListManager$ServerStatusReporter.run(ServerListManager.java:345)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-19 09:44:07,815 INFO receive config info: unknown#192.168.181.17:8848#1584582247815#6
+
+
+2020-03-19 09:44:09,816 INFO [NACOS-DISTRO] healthy server list changed, old: [], new: [{"adWeight":0,"alive":true,"ip":"192.168.181.17","key":"192.168.181.17:8848","lastRefTime":1584582247815,"lastRefTimeStr":"2020-03-19 09:44:07","servePort":8848,"site":"unknown","weight":6}]
+
+2020-03-19 09:44:09,816 INFO [NACOS-DISTRO] disable health check for 60000 ms from now on.
+
+2020-03-19 09:44:09,816 INFO receive config info: unknown#192.168.181.17:8848#1584582249816#6
+
+
+2020-03-19 09:44:11,818 INFO receive config info: unknown#192.168.181.17:8848#1584582251818#6
+
+
+2020-03-19 09:44:13,820 INFO receive config info: unknown#192.168.181.17:8848#1584582253820#6
+
+
+2020-03-19 09:44:15,822 INFO receive config info: unknown#192.168.181.17:8848#1584582255822#6
+
+
+2020-03-19 09:44:17,824 INFO receive config info: unknown#192.168.181.17:8848#1584582257824#6
+
+
+2020-03-19 09:44:19,826 INFO receive config info: unknown#192.168.181.17:8848#1584582259826#6
+
+
+2020-03-19 09:44:21,826 INFO receive config info: unknown#192.168.181.17:8848#1584582261826#6
+
+
+2020-03-19 09:44:23,827 INFO receive config info: unknown#192.168.181.17:8848#1584582263827#6
+
+
+2020-03-19 09:44:25,828 INFO receive config info: unknown#192.168.181.17:8848#1584582265828#6
+
+
+2020-03-19 09:44:27,829 INFO receive config info: unknown#192.168.181.17:8848#1584582267829#6
+
+
+2020-03-19 09:44:29,831 INFO receive config info: unknown#192.168.181.17:8848#1584582269831#6
+
+
+2020-03-19 09:44:31,833 INFO receive config info: unknown#192.168.181.17:8848#1584582271833#6
+
+
+2020-03-19 09:44:33,835 INFO receive config info: unknown#192.168.181.17:8848#1584582273835#6
+
+
+2020-03-19 09:44:35,837 INFO receive config info: unknown#192.168.181.17:8848#1584582275837#6
+
+
+2020-03-19 09:44:37,839 INFO receive config info: unknown#192.168.181.17:8848#1584582277839#6
+
+
+2020-03-19 09:44:39,841 INFO receive config info: unknown#192.168.181.17:8848#1584582279841#6
+
+
+2020-03-19 09:44:41,843 INFO receive config info: unknown#192.168.181.17:8848#1584582281843#6
+
+
+2020-03-19 09:44:43,845 INFO receive config info: unknown#192.168.181.17:8848#1584582283845#6
+
+
+2020-03-19 09:44:45,846 INFO receive config info: unknown#192.168.181.17:8848#1584582285846#6
+
+
+2020-03-19 09:44:47,849 INFO receive config info: unknown#192.168.181.17:8848#1584582287849#6
+
+
+2020-03-19 09:44:49,851 INFO receive config info: unknown#192.168.181.17:8848#1584582289851#6
+
+
+2020-03-19 09:44:51,851 INFO receive config info: unknown#192.168.181.17:8848#1584582291851#6
+
+
+2020-03-19 09:44:53,853 INFO receive config info: unknown#192.168.181.17:8848#1584582293853#6
+
+
+2020-03-19 09:44:55,855 INFO receive config info: unknown#192.168.181.17:8848#1584582295855#6
+
+
+2020-03-19 09:44:57,856 INFO receive config info: unknown#192.168.181.17:8848#1584582297856#6
+
+
+2020-03-19 09:44:59,857 INFO receive config info: unknown#192.168.181.17:8848#1584582299857#6
+
+
+2020-03-19 09:45:01,858 INFO receive config info: unknown#192.168.181.17:8848#1584582301858#6
+
+
+2020-03-19 09:45:03,860 INFO receive config info: unknown#192.168.181.17:8848#1584582303860#6
+
+
+2020-03-19 09:45:05,861 INFO receive config info: unknown#192.168.181.17:8848#1584582305861#6
+
+
+2020-03-19 09:45:07,864 INFO receive config info: unknown#192.168.181.17:8848#1584582307864#6
+
+
+2020-03-19 09:45:09,865 INFO [NACOS-DISTRO] distro threshold restored and stable now, enable health check. current ratio: 1.0
+
+2020-03-19 09:45:09,865 INFO receive config info: unknown#192.168.181.17:8848#1584582309865#6
+
+
+2020-03-19 09:45:11,866 INFO receive config info: unknown#192.168.181.17:8848#1584582311866#6
+
+
+2020-03-19 09:45:13,867 INFO receive config info: unknown#192.168.181.17:8848#1584582313867#6
+
+
+2020-03-19 09:45:15,869 INFO receive config info: unknown#192.168.181.17:8848#1584582315869#6
+
+
+2020-03-19 09:45:17,870 INFO receive config info: unknown#192.168.181.17:8848#1584582317870#6
+
+
+2020-03-19 09:45:19,870 INFO receive config info: unknown#192.168.181.17:8848#1584582319870#6
+
+
+2020-03-19 09:45:21,871 INFO receive config info: unknown#192.168.181.17:8848#1584582321871#6
+
+
+2020-03-19 09:45:23,872 INFO receive config info: unknown#192.168.181.17:8848#1584582323872#6
+
+
+2020-03-19 09:45:25,873 INFO receive config info: unknown#192.168.181.17:8848#1584582325873#6
+
+
+2020-03-19 09:45:27,874 INFO receive config info: unknown#192.168.181.17:8848#1584582327874#6
+
+
+2020-03-19 09:45:29,874 INFO receive config info: unknown#192.168.181.17:8848#1584582329874#6
+
+
+2020-03-19 09:45:31,877 INFO receive config info: unknown#192.168.181.17:8848#1584582331877#6
+
+
+2020-03-19 09:45:33,878 INFO receive config info: unknown#192.168.181.17:8848#1584582333878#6
+
+
+2020-03-19 09:45:35,880 INFO receive config info: unknown#192.168.181.17:8848#1584582335880#6
+
+
+2020-03-19 09:45:37,881 INFO receive config info: unknown#192.168.181.17:8848#1584582337881#6
+
+
+2020-03-19 09:45:39,883 INFO receive config info: unknown#192.168.181.17:8848#1584582339883#6
+
+
+2020-03-19 09:45:41,884 INFO receive config info: unknown#192.168.181.17:8848#1584582341884#6
+
+
+2020-03-19 09:45:43,887 INFO receive config info: unknown#192.168.181.17:8848#1584582343887#6
+
+
+2020-03-19 09:45:45,888 INFO receive config info: unknown#192.168.181.17:8848#1584582345888#6
+
+
+2020-03-19 09:45:47,890 INFO receive config info: unknown#192.168.181.17:8848#1584582347890#6
+
+
+2020-03-19 09:45:49,891 INFO receive config info: unknown#192.168.181.17:8848#1584582349891#6
+
+
+2020-03-19 09:45:51,893 INFO receive config info: unknown#192.168.181.17:8848#1584582351893#6
+
+
+2020-03-19 09:45:53,896 INFO receive config info: unknown#192.168.181.17:8848#1584582353896#6
+
+
+2020-03-19 09:45:55,898 INFO receive config info: unknown#192.168.181.17:8848#1584582355898#6
+
+
+2020-03-19 09:45:57,898 INFO receive config info: unknown#192.168.181.17:8848#1584582357898#6
+
+
+2020-03-19 09:45:59,899 INFO receive config info: unknown#192.168.181.17:8848#1584582359899#6
+
+
+2020-03-19 09:46:01,901 INFO receive config info: unknown#192.168.181.17:8848#1584582361901#6
+
+
+2020-03-19 09:46:03,902 INFO receive config info: unknown#192.168.181.17:8848#1584582363902#6
+
+
+2020-03-19 09:46:05,904 INFO receive config info: unknown#192.168.181.17:8848#1584582365904#6
+
+
+2020-03-19 09:46:07,905 INFO receive config info: unknown#192.168.181.17:8848#1584582367905#6
+
+
+2020-03-19 09:46:09,907 INFO receive config info: unknown#192.168.181.17:8848#1584582369907#6
+
+
+2020-03-19 09:46:11,907 INFO receive config info: unknown#192.168.181.17:8848#1584582371907#6
+
+
+2020-03-19 09:46:13,909 INFO receive config info: unknown#192.168.181.17:8848#1584582373909#6
+
+
+2020-03-19 09:46:15,910 INFO receive config info: unknown#192.168.181.17:8848#1584582375910#6
+
+
+2020-03-19 09:46:17,911 INFO receive config info: unknown#192.168.181.17:8848#1584582377911#6
+
+
+2020-03-19 09:46:19,912 INFO receive config info: unknown#192.168.181.17:8848#1584582379912#6
+
+
+2020-03-19 09:46:21,913 INFO receive config info: unknown#192.168.181.17:8848#1584582381913#6
+
+
+2020-03-19 09:46:23,915 INFO receive config info: unknown#192.168.181.17:8848#1584582383915#6
+
+
+2020-03-19 09:46:25,916 INFO receive config info: unknown#192.168.181.17:8848#1584582385916#6
+
+
+2020-03-19 09:46:27,918 INFO receive config info: unknown#192.168.181.17:8848#1584582387918#6
+
+
+2020-03-19 09:46:29,920 INFO receive config info: unknown#192.168.181.17:8848#1584582389920#6
+
+
+2020-03-19 09:46:31,922 INFO receive config info: unknown#192.168.181.17:8848#1584582391922#6
+
+
+2020-03-19 09:46:33,923 INFO receive config info: unknown#192.168.181.17:8848#1584582393923#6
+
+
+2020-03-19 09:46:35,924 INFO receive config info: unknown#192.168.181.17:8848#1584582395924#6
+
+
+2020-03-19 09:46:37,926 INFO receive config info: unknown#192.168.181.17:8848#1584582397926#6
+
+
+2020-03-19 09:46:39,927 INFO receive config info: unknown#192.168.181.17:8848#1584582399927#6
+
+
+2020-03-19 09:46:41,928 INFO receive config info: unknown#192.168.181.17:8848#1584582401928#6
+
+
+2020-03-19 09:46:43,930 INFO receive config info: unknown#192.168.181.17:8848#1584582403930#6
+
+
+2020-03-19 09:46:45,931 INFO receive config info: unknown#192.168.181.17:8848#1584582405931#6
+
+
+2020-03-19 09:46:47,932 INFO receive config info: unknown#192.168.181.17:8848#1584582407932#6
+
+
+2020-03-19 09:46:49,933 INFO receive config info: unknown#192.168.181.17:8848#1584582409933#6
+
+
+2020-03-19 09:46:51,934 INFO receive config info: unknown#192.168.181.17:8848#1584582411934#6
+
+
+2020-03-19 09:46:53,935 INFO receive config info: unknown#192.168.181.17:8848#1584582413935#6
+
+
+2020-03-19 09:46:55,936 INFO receive config info: unknown#192.168.181.17:8848#1584582415936#6
+
+
+2020-03-19 09:46:57,937 INFO receive config info: unknown#192.168.181.17:8848#1584582417937#6
+
+
+2020-03-19 09:46:59,938 INFO receive config info: unknown#192.168.181.17:8848#1584582419938#6
+
+
+2020-03-19 09:47:01,940 INFO receive config info: unknown#192.168.181.17:8848#1584582421940#6
+
+
+2020-03-19 09:47:03,941 INFO receive config info: unknown#192.168.181.17:8848#1584582423941#6
+
+
+2020-03-19 09:47:05,941 INFO receive config info: unknown#192.168.181.17:8848#1584582425941#6
+
+
+2020-03-19 09:47:07,942 INFO receive config info: unknown#192.168.181.17:8848#1584582427942#6
+
+
+2020-03-19 09:47:09,943 INFO receive config info: unknown#192.168.181.17:8848#1584582429943#6
+
+
+2020-03-19 09:47:11,946 INFO receive config info: unknown#192.168.181.17:8848#1584582431946#6
+
+
+2020-03-19 09:47:13,946 INFO receive config info: unknown#192.168.181.17:8848#1584582433946#6
+
+
+2020-03-19 09:47:15,947 INFO receive config info: unknown#192.168.181.17:8848#1584582435947#6
+
+
+2020-03-19 09:47:17,948 INFO receive config info: unknown#192.168.181.17:8848#1584582437948#6
+
+
+2020-03-19 09:47:19,950 INFO receive config info: unknown#192.168.181.17:8848#1584582439950#6
+
+
+2020-03-19 09:47:21,951 INFO receive config info: unknown#192.168.181.17:8848#1584582441951#6
+
+
+2020-03-19 09:47:23,952 INFO receive config info: unknown#192.168.181.17:8848#1584582443952#6
+
+
+2020-03-19 09:47:25,953 INFO receive config info: unknown#192.168.181.17:8848#1584582445953#6
+
+
+2020-03-19 09:47:27,954 INFO receive config info: unknown#192.168.181.17:8848#1584582447954#6
+
+
+2020-03-19 09:47:29,954 INFO receive config info: unknown#192.168.181.17:8848#1584582449954#6
+
+
+2020-03-19 09:47:31,955 INFO receive config info: unknown#192.168.181.17:8848#1584582451955#6
+
+
+2020-03-19 09:47:33,957 INFO receive config info: unknown#192.168.181.17:8848#1584582453957#6
+
+
+2020-03-19 09:47:35,958 INFO receive config info: unknown#192.168.181.17:8848#1584582455958#6
+
+
+2020-03-19 09:47:37,959 INFO receive config info: unknown#192.168.181.17:8848#1584582457959#6
+
+
+2020-03-19 09:47:39,960 INFO receive config info: unknown#192.168.181.17:8848#1584582459960#6
+
+
+2020-03-19 09:47:41,961 INFO receive config info: unknown#192.168.181.17:8848#1584582461961#6
+
+
+2020-03-19 09:47:43,970 INFO receive config info: unknown#192.168.181.17:8848#1584582463963#6
+
+
+2020-03-19 09:47:45,973 INFO receive config info: unknown#192.168.181.17:8848#1584582465973#6
+
+
+2020-03-19 09:47:47,974 INFO receive config info: unknown#192.168.181.17:8848#1584582467974#6
+
+
+2020-03-19 09:47:49,975 INFO receive config info: unknown#192.168.181.17:8848#1584582469975#6
+
+
+2020-03-19 09:47:51,977 INFO receive config info: unknown#192.168.181.17:8848#1584582471977#6
+
+
+2020-03-19 09:47:53,979 INFO receive config info: unknown#192.168.181.17:8848#1584582473979#6
+
+
+2020-03-19 09:47:55,980 INFO receive config info: unknown#192.168.181.17:8848#1584582475980#6
+
+
+2020-03-19 09:47:57,982 INFO receive config info: unknown#192.168.181.17:8848#1584582477982#6
+
+
+2020-03-19 09:47:59,983 INFO receive config info: unknown#192.168.181.17:8848#1584582479983#6
+
+
+2020-03-19 09:48:01,984 INFO receive config info: unknown#192.168.181.17:8848#1584582481984#6
+
+
+2020-03-19 09:48:03,987 INFO receive config info: unknown#192.168.181.17:8848#1584582483987#6
+
+
+2020-03-19 09:48:05,987 INFO receive config info: unknown#192.168.181.17:8848#1584582485987#6
+
+
+2020-03-19 09:48:07,989 INFO receive config info: unknown#192.168.181.17:8848#1584582487989#6
+
+
+2020-03-19 09:48:09,990 INFO receive config info: unknown#192.168.181.17:8848#1584582489990#6
+
+
+2020-03-19 09:48:11,991 INFO receive config info: unknown#192.168.181.17:8848#1584582491991#6
+
+
+2020-03-19 09:48:13,992 INFO receive config info: unknown#192.168.181.17:8848#1584582493992#6
+
+
+2020-03-19 09:48:15,993 INFO receive config info: unknown#192.168.181.17:8848#1584582495993#6
+
+
+2020-03-19 09:48:17,995 INFO receive config info: unknown#192.168.181.17:8848#1584582497995#6
+
+
+2020-03-19 09:48:19,996 INFO receive config info: unknown#192.168.181.17:8848#1584582499996#6
+
+
+2020-03-19 09:48:21,997 INFO receive config info: unknown#192.168.181.17:8848#1584582501997#6
+
+
+2020-03-19 09:48:23,998 INFO receive config info: unknown#192.168.181.17:8848#1584582503998#6
+
+
+2020-03-19 09:48:25,999 INFO receive config info: unknown#192.168.181.17:8848#1584582505999#6
+
+
+2020-03-19 09:48:27,999 INFO receive config info: unknown#192.168.181.17:8848#1584582507999#6
+
+
+2020-03-19 09:48:30,001 INFO receive config info: unknown#192.168.181.17:8848#1584582510001#6
+
+
+2020-03-19 09:48:32,002 INFO receive config info: unknown#192.168.181.17:8848#1584582512002#6
+
+
+2020-03-19 09:48:34,003 INFO receive config info: unknown#192.168.181.17:8848#1584582514003#6
+
+
+2020-03-19 09:48:36,004 INFO receive config info: unknown#192.168.181.17:8848#1584582516004#6
+
+
+2020-03-19 09:48:38,005 INFO receive config info: unknown#192.168.181.17:8848#1584582518005#6
+
+
+2020-03-19 09:48:40,006 INFO receive config info: unknown#192.168.181.17:8848#1584582520006#6
+
+
+2020-03-19 09:48:42,008 INFO receive config info: unknown#192.168.181.17:8848#1584582522008#6
+
+
+2020-03-19 09:48:44,009 INFO receive config info: unknown#192.168.181.17:8848#1584582524009#6
+
+
+2020-03-19 09:48:46,009 INFO receive config info: unknown#192.168.181.17:8848#1584582526009#6
+
+
+2020-03-19 09:48:48,010 INFO receive config info: unknown#192.168.181.17:8848#1584582528010#6
+
+
+2020-03-19 09:48:50,011 INFO receive config info: unknown#192.168.181.17:8848#1584582530011#6
+
+
+2020-03-19 09:48:52,011 INFO receive config info: unknown#192.168.181.17:8848#1584582532011#6
+
+
+2020-03-19 09:48:54,012 INFO receive config info: unknown#192.168.181.17:8848#1584582534012#6
+
+
+2020-03-19 09:48:56,013 INFO receive config info: unknown#192.168.181.17:8848#1584582536013#6
+
+
+2020-03-19 09:48:58,014 INFO receive config info: unknown#192.168.181.17:8848#1584582538014#6
+
+
+2020-03-19 09:49:00,016 INFO receive config info: unknown#192.168.181.17:8848#1584582540016#6
+
+
+2020-03-19 09:49:02,016 INFO receive config info: unknown#192.168.181.17:8848#1584582542016#6
+
+
+2020-03-19 09:49:04,017 INFO receive config info: unknown#192.168.181.17:8848#1584582544017#6
+
+
+2020-03-19 09:49:06,019 INFO receive config info: unknown#192.168.181.17:8848#1584582546019#6
+
+
+2020-03-19 09:49:08,021 INFO receive config info: unknown#192.168.181.17:8848#1584582548021#6
+
+
+2020-03-19 09:49:10,022 INFO receive config info: unknown#192.168.181.17:8848#1584582550022#6
+
+
+2020-03-19 09:49:12,023 INFO receive config info: unknown#192.168.181.17:8848#1584582552023#6
+
+
+2020-03-19 09:49:14,024 INFO receive config info: unknown#192.168.181.17:8848#1584582554024#6
+
+
+2020-03-19 09:49:16,025 INFO receive config info: unknown#192.168.181.17:8848#1584582556025#6
+
+
+2020-03-19 09:49:18,026 INFO receive config info: unknown#192.168.181.17:8848#1584582558026#6
+
+
+2020-03-19 09:49:20,028 INFO receive config info: unknown#192.168.181.17:8848#1584582560028#6
+
+
+2020-03-19 09:49:22,029 INFO receive config info: unknown#192.168.181.17:8848#1584582562029#6
+
+
+2020-03-19 09:49:24,030 INFO receive config info: unknown#192.168.181.17:8848#1584582564030#6
+
+
+2020-03-19 09:49:26,031 INFO receive config info: unknown#192.168.181.17:8848#1584582566031#6
+
+
+2020-03-19 09:49:28,032 INFO receive config info: unknown#192.168.181.17:8848#1584582568032#6
+
+
+2020-03-19 09:49:30,033 INFO receive config info: unknown#192.168.181.17:8848#1584582570033#6
+
+
+2020-03-19 09:49:32,035 INFO receive config info: unknown#192.168.181.17:8848#1584582572035#6
+
+
+2020-03-19 09:49:34,036 INFO receive config info: unknown#192.168.181.17:8848#1584582574036#6
+
+
+2020-03-19 09:49:36,038 INFO receive config info: unknown#192.168.181.17:8848#1584582576038#6
+
+
+2020-03-19 09:49:38,039 INFO receive config info: unknown#192.168.181.17:8848#1584582578039#6
+
+
+2020-03-19 09:49:40,041 INFO receive config info: unknown#192.168.181.17:8848#1584582580041#6
+
+
+2020-03-19 09:49:42,042 INFO receive config info: unknown#192.168.181.17:8848#1584582582042#6
+
+
+2020-03-19 09:49:44,043 INFO receive config info: unknown#192.168.181.17:8848#1584582584043#6
+
+
+2020-03-19 09:49:46,045 INFO receive config info: unknown#192.168.181.17:8848#1584582586045#6
+
+
+2020-03-19 09:49:48,045 INFO receive config info: unknown#192.168.181.17:8848#1584582588045#6
+
+
+2020-03-19 09:49:50,047 INFO receive config info: unknown#192.168.181.17:8848#1584582590047#6
+
+
+2020-03-19 09:49:52,048 INFO receive config info: unknown#192.168.181.17:8848#1584582592048#6
+
+
+2020-03-19 09:49:54,048 INFO receive config info: unknown#192.168.181.17:8848#1584582594048#6
+
+
+2020-03-19 09:49:56,050 INFO receive config info: unknown#192.168.181.17:8848#1584582596050#6
+
+
+2020-03-19 09:49:58,051 INFO receive config info: unknown#192.168.181.17:8848#1584582598051#6
+
+
+2020-03-19 09:50:00,052 INFO receive config info: unknown#192.168.181.17:8848#1584582600052#6
+
+
+2020-03-19 09:50:02,053 INFO receive config info: unknown#192.168.181.17:8848#1584582602053#6
+
+
+2020-03-19 09:50:04,054 INFO receive config info: unknown#192.168.181.17:8848#1584582604054#6
+
+
+2020-03-19 09:50:06,056 INFO receive config info: unknown#192.168.181.17:8848#1584582606056#6
+
+
+2020-03-19 09:50:08,058 INFO receive config info: unknown#192.168.181.17:8848#1584582608058#6
+
+
+2020-03-19 09:50:10,059 INFO receive config info: unknown#192.168.181.17:8848#1584582610059#6
+
+
+2020-03-19 09:50:12,061 INFO receive config info: unknown#192.168.181.17:8848#1584582612061#6
+
+
+2020-03-19 09:50:14,062 INFO receive config info: unknown#192.168.181.17:8848#1584582614062#6
+
+
+2020-03-19 09:50:16,064 INFO receive config info: unknown#192.168.181.17:8848#1584582616064#6
+
+
+2020-03-19 09:50:18,065 INFO receive config info: unknown#192.168.181.17:8848#1584582618065#6
+
+
+2020-03-19 09:50:20,066 INFO receive config info: unknown#192.168.181.17:8848#1584582620066#6
+
+
+2020-03-19 09:50:22,067 INFO receive config info: unknown#192.168.181.17:8848#1584582622067#6
+
+
+2020-03-19 09:50:24,068 INFO receive config info: unknown#192.168.181.17:8848#1584582624068#6
+
+
+2020-03-19 09:50:26,069 INFO receive config info: unknown#192.168.181.17:8848#1584582626069#6
+
+
+2020-03-19 09:50:28,070 INFO receive config info: unknown#192.168.181.17:8848#1584582628070#6
+
+
+2020-03-19 09:50:30,072 INFO receive config info: unknown#192.168.181.17:8848#1584582630072#6
+
+
+2020-03-19 09:50:32,073 INFO receive config info: unknown#192.168.181.17:8848#1584582632073#6
+
+
+2020-03-19 09:50:34,075 INFO receive config info: unknown#192.168.181.17:8848#1584582634075#6
+
+
+2020-03-19 09:50:36,076 INFO receive config info: unknown#192.168.181.17:8848#1584582636076#6
+
+
+2020-03-19 09:50:38,077 INFO receive config info: unknown#192.168.181.17:8848#1584582638077#6
+
+
+2020-03-19 09:50:40,078 INFO receive config info: unknown#192.168.181.17:8848#1584582640078#6
+
+
+2020-03-19 09:50:42,079 INFO receive config info: unknown#192.168.181.17:8848#1584582642079#6
+
+
+2020-03-19 09:50:44,081 INFO receive config info: unknown#192.168.181.17:8848#1584582644081#6
+
+
+2020-03-19 09:50:46,082 INFO receive config info: unknown#192.168.181.17:8848#1584582646082#6
+
+
+2020-03-19 09:50:48,084 INFO receive config info: unknown#192.168.181.17:8848#1584582648084#6
+
+
+2020-03-19 09:50:50,085 INFO receive config info: unknown#192.168.181.17:8848#1584582650085#6
+
+
+2020-03-19 09:50:52,086 INFO receive config info: unknown#192.168.181.17:8848#1584582652086#6
+
+
+2020-03-19 09:50:54,089 INFO receive config info: unknown#192.168.181.17:8848#1584582654089#6
+
+
+2020-03-19 09:50:56,090 INFO receive config info: unknown#192.168.181.17:8848#1584582656090#6
+
+
+2020-03-19 09:50:58,090 INFO receive config info: unknown#192.168.181.17:8848#1584582658090#6
+
+
+2020-03-19 09:51:00,092 INFO receive config info: unknown#192.168.181.17:8848#1584582660092#6
+
+
+2020-03-19 09:51:02,094 INFO receive config info: unknown#192.168.181.17:8848#1584582662094#6
+
+
+2020-03-19 09:51:04,095 INFO receive config info: unknown#192.168.181.17:8848#1584582664095#6
+
+
+2020-03-19 09:51:06,096 INFO receive config info: unknown#192.168.181.17:8848#1584582666096#6
+
+
+2020-03-19 09:51:19,611 INFO listen for service meta change
+
+2020-03-19 09:51:20,782 INFO [SERVER-INIT] got port: 8848
+
+2020-03-19 09:51:20,782 INFO [SERVER-INIT] got path: /nacos
+
+2020-03-19 09:51:20,885 INFO receive config info: unknown#192.168.181.17:8848#1584582680885#6
+
+
+2020-03-19 09:51:20,887 ERROR [SERVER-STATUS] Exception while sending server status
+
+java.lang.IllegalArgumentException: server: 192.168.181.17:8848 is not in serverlist
+	at com.alibaba.nacos.naming.cluster.ServerListManager.onReceiveServerStatus(ServerListManager.java:198)
+	at com.alibaba.nacos.naming.cluster.ServerListManager$ServerStatusReporter.run(ServerListManager.java:345)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-19 09:51:22,888 INFO receive config info: unknown#192.168.181.17:8848#1584582682888#6
+
+
+2020-03-19 09:51:22,888 ERROR [SERVER-STATUS] Exception while sending server status
+
+java.lang.IllegalArgumentException: server: 192.168.181.17:8848 is not in serverlist
+	at com.alibaba.nacos.naming.cluster.ServerListManager.onReceiveServerStatus(ServerListManager.java:198)
+	at com.alibaba.nacos.naming.cluster.ServerListManager$ServerStatusReporter.run(ServerListManager.java:345)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
