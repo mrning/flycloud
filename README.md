@@ -22,9 +22,11 @@
 3.  xxxx
 
 #### 相关技术文档
-[springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
-[springboot-security](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security)
-[mybatis-spring](http://mybatis.org/spring/zh/)
-[dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
-[nacos](https://nacos.io/zh-cn/docs/quick-start.html)
+
+- [springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+- [springboot-security](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security)
+- [mybatis-spring](http://mybatis.org/spring/zh/)
+- [dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
+- [nacos](https://nacos.io/zh-cn/docs/quick-start.html)
+
 
