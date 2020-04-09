@@ -8,11 +8,49 @@
         <artifactId>fly_cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.zac</groupId>
     <artifactId>start</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>controller</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>bean</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>start</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -22,4 +60,24 @@
             <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>localRepository</id>
+            <url>file:D:\repository</url>
+        </repository>
+    </distributionManagement>
 </project>

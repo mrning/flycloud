@@ -8,9 +8,7 @@
         <artifactId>fly_cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.zac</groupId>
     <artifactId>service</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     
 </project>
