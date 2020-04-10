@@ -1,12 +1,13 @@
 package com.zac.fly_cloud.config;
 
 
-import com.zac.fly_cloud.UserService;
 import com.zac.fly_cloud.interceptor.SecurityAccessDecision;
 import com.zac.fly_cloud.interceptor.SecurityFilterInvocatioin;
 import com.zac.fly_cloud.interceptor.handler.CustomExpiredSessionStrategy;
+import com.zac.fly_cloud.properties.SecurityProperties;
 import com.zac.fly_cloud.service.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * Security配置类
  */
 @Configuration
+@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -44,6 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomExpiredSessionStrategy customExpiredSessionStrategy;
 
+    @Autowired
+    SecurityProperties securityProperties;
+
     /**
      * security基本配置
      * @param http
@@ -63,8 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-                .antMatchers("/500").permitAll()
-                .antMatchers("/404").permitAll()
+                .antMatchers(securityProperties.getIgnore().getUrls()).permitAll()
                 .anyRequest()                  // 任何其他请求
                 .authenticated()               // 需要身份认证
                 .and().formLogin()             // 并且使用表单认证的方式
