@@ -1,13 +1,13 @@
-debug: false
+debug: true
 server:
   port: 8080
 spring:
   devtools:
     livereload:
-      port: 35730
+      port: 35730 #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fly_cloud?useUnicode=true&characterEncoding=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+    url: jdbc:mysql://localhost:3306/fly_cloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
     password: 1234
   redis:
@@ -23,6 +23,13 @@ spring:
       name: admin
       password: 918f239c-3a5c-4d74-b0af-4600e5ae7ddc
       roles: admin
+mybatis:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.zac.fly_cloud.tablemodel
+
 # 自定义配置
 cus:
   security:
@@ -32,3 +39,7 @@ cus:
         /css/**,
         /images/**,
         /js/**
+  actable:
+    pack: com.zac.fly_cloud.tablemodel
+    primarykey: id
+    tableAuto: update

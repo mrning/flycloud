@@ -17,9 +17,9 @@ import java.util.Collection;
 @Component
 public class SecurityFilterInvocatioin implements FilterInvocationSecurityMetadataSource {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     /**
      * 访问一个url时，返回这个url需要的访问权限
@@ -46,8 +46,7 @@ public class SecurityFilterInvocatioin implements FilterInvocationSecurityMetada
 //            }
 //        }
         /**
-         * @Author: Galen
-         * @Description: 如果本方法返回null的话，意味着当前这个请求不需要任何角色就能访问
+         *  如果本方法返回null的话，意味着当前这个请求不需要任何角色就能访问
          * 此处做逻辑控制，如果没有匹配上的，返回一个默认具体权限，防止漏缺资源配置
          **/
         log.info("当前访问路径是{},这个url所需要的访问权限是{}", requestUrl, "ROLE_LOGIN");
