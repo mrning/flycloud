@@ -1,6 +1,5 @@
 package com.zac.fly_cloud.mybatis;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 /**

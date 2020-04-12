@@ -27,9 +27,9 @@ public class CamelCaseUtil {
     private static final Pattern humpPattern = Pattern.compile("[A-Z]");
 
     /**
-     * 驼峰转下划线,效率比上面高
+     * 驼峰转下划线
      */
-    public static String humpToLine2(String str) {
+    public static String humpToLine(String str) {
         Matcher matcher = humpPattern.matcher(str);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
@@ -42,6 +42,6 @@ public class CamelCaseUtil {
     public static void main(String[] args) {
         String lineToHump = lineToHump("f_parent_no_leader");
         System.out.println(lineToHump);//fParentNoLeader
-        System.out.println(humpToLine2(lineToHump));//f_parent_no_leader
+        System.out.println(humpToLine(lineToHump));//f_parent_no_leader
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "cus.actable")
-@MapperScan("com.zac.fly_cloud.actable.mapper")
 @Data
 public class ActableConfig {
 

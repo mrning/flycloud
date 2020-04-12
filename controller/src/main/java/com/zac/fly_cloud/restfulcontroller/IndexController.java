@@ -26,4 +26,9 @@ public class IndexController {
     public String login() {
         return "login";
     }
+
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    public String register() {
+        return "register";
+    }
 }

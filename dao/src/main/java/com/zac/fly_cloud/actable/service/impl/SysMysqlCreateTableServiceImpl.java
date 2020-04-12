@@ -77,7 +77,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
      */
     private String getTableName(Class clas) {
         String className = clas.getSimpleName();
-        String tableName = CamelCaseUtil.humpToLine2(className);
+        String tableName = CamelCaseUtil.humpToLine(className);
         //因为类名第一个肯定是大写的，所以去掉第一个_
         return tableName.substring(1);
     }
@@ -189,7 +189,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                 commonColumn.setName(column.name());
             } else {
                 //获取字段名称
-                String fieldName = CamelCaseUtil.humpToLine2(field.getName());
+                String fieldName = CamelCaseUtil.humpToLine(field.getName());
                 commonColumn.setName(fieldName);
             }
             //设置字段类型

@@ -38,7 +38,6 @@ public class ClassTools {
 			ResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
 			Resource[] source = resourceLoader.getResources(pattern);
 			MetadataReaderFactory readerFactory = new CachingMetadataReaderFactory(resourceLoader);
-			//System.out.println("length:" + source.length);
 			for (Resource resource : source) {
 				if (resource.isReadable()) {
 					MetadataReader reader = readerFactory.getMetadataReader(resource);

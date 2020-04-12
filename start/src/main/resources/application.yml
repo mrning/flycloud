@@ -4,12 +4,27 @@ server:
 spring:
   devtools:
     livereload:
-      port: 35730 #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
+      #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
+      port: 35730
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/fly_cloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
     password: 1234
+    hikari:
+      #最小空闲链接数量
+      minimum-idle: 5
+      #空闲连接存活最大时间（默认600000）
+      idle-timeout: 180000
+      #最大连接数
+      maximum-pool-size: 10
+      #是否自动提交
+      auto-commit: true
+      #连接池中链接的最长生命周期默认30分钟 = 1800000
+      max-lifetime: 1800000
+      #链接超时时间
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
   redis:
     database: 0
     url: redis://user:@localhost:6379
@@ -29,7 +44,9 @@ mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.zac.fly_cloud.tablemodel
-
+  configuration:
+    # 设置下划线和驼峰转换
+    map-underscore-to-camel-case: true
 # 自定义配置
 cus:
   security:
