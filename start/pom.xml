@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zac</groupId>
-        <artifactId>fly_cloud</artifactId>
+        <artifactId>fly-cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>start</artifactId>

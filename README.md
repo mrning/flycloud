@@ -1,10 +1,10 @@
-# fly_cloud
+# fly-cloud
 
 #### 介绍
 飞云平台
 
 #### 软件架构
-- JDK14
+- JDK14 [下载地址](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
 - SpringBoot 2.2.6
 - Spring-security
 - Mybatis
@@ -13,6 +13,7 @@
 
 
 #### 安装教程
+- 安装lombok插件
 - 搜索 application.properties 修改数据库配置
 - 启动FlyCloudApplication类中的main方法
 
@@ -28,5 +29,6 @@
 - [mybatis-spring](http://mybatis.org/spring/zh/)
 - [dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
 - [nacos](https://nacos.io/zh-cn/docs/quick-start.html)
+- [jdk14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
 
 

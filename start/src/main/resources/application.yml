@@ -8,9 +8,9 @@ spring:
       port: 35730
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fly_cloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+    url: jdbc:mysql://localhost:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
-    password: 1234
+    password: mysql417298...
     hikari:
       #最小空闲链接数量
       minimum-idle: 5
@@ -43,7 +43,7 @@ mybatis:
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
   mapper-locations: classpath*:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.zac.fly_cloud.tablemodel
+  typeAliasesPackage: com.zac.flycloud.tablemodel
   configuration:
     # 设置下划线和驼峰转换
     map-underscore-to-camel-case: true
@@ -57,6 +57,6 @@ cus:
         /images/**,
         /js/**
   actable:
-    pack: com.zac.fly_cloud.tablemodel
+    pack: com.zac.flycloud.tablemodel
     primarykey: id
     tableAuto: update

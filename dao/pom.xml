@@ -17,7 +17,7 @@
     </build>
     <parent>
         <groupId>com.zac</groupId>
-        <artifactId>fly_cloud</artifactId>
+        <artifactId>fly-cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>dao</artifactId>

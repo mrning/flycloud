@@ -16,7 +16,7 @@
         </plugins>
     </build>
     <parent>
-        <artifactId>fly_cloud</artifactId>
+        <artifactId>fly-cloud</artifactId>
         <groupId>com.zac</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
