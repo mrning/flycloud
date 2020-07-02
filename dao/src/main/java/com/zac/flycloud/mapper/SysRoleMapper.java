@@ -1,22 +1,22 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zac.flycloud.tablemodel.SysRole;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
-import org.jeecg.modules.system.entity.SysRole;
 
 /**
  * <p>
  * 角色表 Mapper 接口
  * </p>
  *
- * @Author scott
+ * @Author zac
  * @since 2018-12-19
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     /**
-     * @Author scott
+     * @Author zac
      * @Date 2019/12/13 16:12
      * @Description: 删除角色与用户关系
      */
@@ -25,7 +25,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 
 
     /**
-     * @Author scott
+     * @Author zac
      * @Date 2019/12/13 16:12
      * @Description: 删除角色与权限关系
      */

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.fly_cloud.utils.MD5Util;
 import com.zac.fly_cloud.utils.RedisUtil;
 import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.log.SysLogService;
+import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.UserService;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CommonConstant;
@@ -33,11 +35,11 @@ public class LoginController {
 	@Autowired
 	private SysBaseAPI sysBaseAPI;
 	@Autowired
-	private ISysLogService logService;
+	private SysLogService logService;
 	@Autowired
     private RedisUtil redisUtil;
 	@Autowired
-    private ISysDepartService sysDepartService;
+    private SysDeptService sysDeptService;
 	@Autowired
     private ISysDictService sysDictService;
 
@@ -146,7 +148,7 @@ public class LoginController {
 		//update-end--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
 		obj.put("todayIp", todayIp);
 		result.setResult(obj);
-		result.success("登录成功");
+		DataResponseResult.success("登录成功");
 		return result;
 	}
 	
@@ -341,7 +343,7 @@ public class LoginController {
 		obj.put("userInfo", sysUser);
 		obj.put("sysAllDictItems", sysDictService.queryAllDictItems());
 		result.setResult(obj);
-		result.success("登录成功");
+		DataResponseResult.success("登录成功");
 		return result;
 	}
 

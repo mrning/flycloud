@@ -13,7 +13,7 @@ import java.util.Map;
  * 系统日志表 Mapper 接口
  * </p>
  *
- * @Author zhangweijian
+ * @Author zac
  * @since 2018-12-26
  */
 public interface SysLogMapper extends BaseMapper<SysLog> {
@@ -21,7 +21,7 @@ public interface SysLogMapper extends BaseMapper<SysLog> {
 	/**
 	 * @功能：清空所有日志记录
 	 */
-	public void removeAll();
+    void removeAll();
 
 	/**
 	 * 获取系统总访问次数

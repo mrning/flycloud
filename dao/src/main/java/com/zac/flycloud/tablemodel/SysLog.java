@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.jeecg.common.aspect.annotation.Dict;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -36,7 +35,7 @@ public class SysLog implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private String createBy;
+	private String createUser;
 
 	/**
 	 * 创建时间
@@ -48,7 +47,7 @@ public class SysLog implements Serializable {
 	/**
 	 * 更新人
 	 */
-	private String updateBy;
+	private String updateUser;
 
 	/**
 	 * 更新时间
@@ -100,13 +99,11 @@ public class SysLog implements Serializable {
 	/**
 	 * 日志类型（1登录日志，2操作日志）
 	 */
-	@Dict(dicCode = "log_type")
 	private Integer logType;
 
 	/**
 	 * 操作类型（1查询，2添加，3修改，4删除,5导入，6导出）
 	 */
-	@Dict(dicCode = "operate_type")
 	private Integer operateType;
 
 }

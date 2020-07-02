@@ -9,25 +9,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zac.flycloud.mapper.SysDeptMapper;
+import com.zac.flycloud.mapper.SysLogMapper;
+import com.zac.flycloud.mapper.SysRoleMapper;
+import com.zac.flycloud.mapper.SysUserRoleMapper;
+import com.zac.flycloud.tablemodel.SysLog;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.jeecg.common.constant.CacheConstant;
-import org.jeecg.common.constant.CommonConstant;
-import org.jeecg.common.constant.DataBaseConstant;
-import org.jeecg.common.constant.WebsocketConst;
-import org.jeecg.common.exception.JeecgBootException;
-import org.jeecg.common.system.api.ISysBaseAPI;
-import org.jeecg.common.system.vo.*;
-import org.jeecg.common.util.*;
-import org.jeecg.common.util.oss.OssBootUtil;
-import org.jeecg.modules.message.entity.SysMessageTemplate;
-import org.jeecg.modules.message.service.ISysMessageTemplateService;
-import org.jeecg.modules.message.websocket.WebSocket;
-import org.jeecg.modules.system.entity.*;
-import org.jeecg.modules.system.mapper.*;
-import org.jeecg.modules.system.service.ISysDataSourceService;
-import org.jeecg.modules.system.service.ISysDepartService;
-import org.jeecg.modules.system.service.ISysDictService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -55,7 +43,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class SysBaseApiImpl implements ISysBaseAPI {
+public class SysBaseApiImpl implements SysBaseAPI {
 	/** 当前系统数据库类型 */
 	private static String DB_TYPE = "";
 	@Autowired
@@ -67,24 +55,13 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 	@Autowired
 	private SysUserRoleMapper sysUserRoleMapper;
 	@Autowired
-	private ISysDepartService sysDepartService;
-	@Autowired
-	private ISysDictService sysDictService;
-	@Resource
-	private SysAnnouncementMapper sysAnnouncementMapper;
-	@Resource
-	private SysAnnouncementSendMapper sysAnnouncementSendMapper;
-	@Resource
-    private WebSocket webSocket;
+	private SysDeptService sysDepartService;
 	@Resource
 	private SysRoleMapper roleMapper;
 	@Resource
-	private SysDepartMapper departMapper;
+	private SysDeptMapper departMapper;
 	@Resource
 	private SysCategoryMapper categoryMapper;
-
-	@Autowired
-	private ISysDataSourceService dataSourceService;
 
 	@Override
 	public void addLog(String LogContent, Integer logType, Integer operatetype) {
@@ -680,7 +657,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 						inputStream = MinioUtil.getMinioFile(bucketName,objectName);
 					}
 				}
-				response.addHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("UTF-8"),"iso-8859-1"));
+				response.addHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
 			}else{
 				// 本地文件处理
 				filePath = filePath.replace("..", "");
@@ -691,7 +668,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 				String downloadFilePath = uploadpath + File.separator + fullPath;
 				File file = new File(downloadFilePath);
 				inputStream = new BufferedInputStream(new FileInputStream(fullPath));
-				response.addHeader("Content-Disposition", "attachment;fileName=" + new String(file.getName().getBytes("UTF-8"),"iso-8859-1"));
+				response.addHeader("Content-Disposition", "attachment;fileName=" + new String(file.getName().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
 			}
 			response.setContentType("application/force-download");// 设置强制下载不打开
 			outputStream = response.getOutputStream();

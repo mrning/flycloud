@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zac.flycloud.dto.SysUserDeptDto;
 import com.zac.flycloud.tablemodel.SysUser;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface UserMapper extends BaseMapper<SysUser> {
      * @param username
      * @return
      */
-    public SysUser getUserByName(@Param("username") String username);
+    SysUser getUserByName(@Param("username") String username);
 
     /**
      *  根据部门Id查询用户信息
@@ -64,7 +63,7 @@ public interface UserMapper extends BaseMapper<SysUser> {
      * @param phone
      * @return
      */
-    public SysUser getUserByPhone(@Param("phone") String phone);
+    SysUser getUserByPhone(@Param("phone") String phone);
 
 
     /**
@@ -72,7 +71,7 @@ public interface UserMapper extends BaseMapper<SysUser> {
      * @param email
      * @return
      */
-    public SysUser getUserByEmail(@Param("email")String email);
+    SysUser getUserByEmail(@Param("email") String email);
 
     /**
      * 根据 orgCode 查询用户，包括子部门下的用户

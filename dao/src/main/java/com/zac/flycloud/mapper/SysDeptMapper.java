@@ -12,7 +12,7 @@ import java.util.List;
  * 部门 Mapper 接口
  * <p>
  * 
- * @Author: Steve
+ * @Author: zac
  * @Since：   2019-01-22
  */
 public interface SysDeptMapper extends BaseMapper<SysDept> {
@@ -20,7 +20,7 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	/**
 	 * 根据用户ID查询部门集合
 	 */
-	public List<SysDept> queryUserDeparts(@Param("userId") String userId);
+    List<SysDept> queryUserDeparts(@Param("userId") String userId);
 
 	/**
 	 * 根据用户名查询部门
@@ -28,13 +28,13 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	 * @param username
 	 * @return
 	 */
-	public List<SysDept> queryDepartsByUsername(@Param("username") String username);
+    List<SysDept> queryDepartsByUsername(@Param("username") String username);
 
 	@Select("select id from sys_depart where org_code=#{orgCode}")
-	public String queryDepartIdByOrgCode(@Param("orgCode") String orgCode);
+    String queryDepartIdByOrgCode(@Param("orgCode") String orgCode);
 
 	@Select("select id,parent_id from sys_depart where id=#{departId}")
-	public SysDept getParentDepartId(@Param("departId") String departId);
+    SysDept getParentDepartId(@Param("departId") String departId);
 
 	/**
 	 *  根据部门Id查询,当前和下级所有部门IDS

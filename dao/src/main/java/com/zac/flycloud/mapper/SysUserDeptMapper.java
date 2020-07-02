@@ -1,12 +1,16 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zac.flycloud.tablemodel.SysUserDept;
 import io.lettuce.core.dynamic.annotation.Param;
-import org.jeecg.modules.system.entity.SysUserDepart;
 
 import java.util.List;
 
-public interface SysUserDeptMapper extends BaseMapper<SysUserDepart>{
-	
-	List<SysUserDepart> getUserDepartByUid(@Param("userId") String userId);
+public interface SysUserDeptMapper extends BaseMapper<SysUserDept>{
+	/**
+	 * 根据用户id查询部门id
+	 * @param userId
+	 * @return
+	 */
+	List<SysUserDept> getUserDeptByUid(@Param("userId") String userId);
 }
