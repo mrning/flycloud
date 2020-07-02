@@ -1,9 +1,9 @@
 package com.zac.flycloud.dao;
 
-import com.zac.flycloud.tablemodel.FcUser;
+import com.zac.flycloud.tablemodel.SysUser;
 
 public interface UserDao {
 
-    FcUser findByUserName(String username);
+    SysUser findByUserName(String username);
 
 }

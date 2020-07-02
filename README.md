@@ -13,8 +13,11 @@
 
 
 #### 安装教程
-- 安装lombok插件
-- 搜索 application.properties 修改数据库配置
+- 安装jdk14
+- 安装mysql8 并启动
+- 安装redis 并启动
+- 安装elasticsearch 并启动 [安装地址](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.1.msi)
+- 搜索 application.yml 修改数据库配置
 - 启动FlyCloudApplication类中的main方法
 
 #### 使用说明

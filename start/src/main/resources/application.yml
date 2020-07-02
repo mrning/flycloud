@@ -48,15 +48,16 @@ mybatis:
     # 设置下划线和驼峰转换
     map-underscore-to-camel-case: true
 # 自定义配置
-cus:
+flycloud:
   security:
     ignore:
-      httpUrls:
-        /login,
-        /css/**,
-        /images/**,
-        /js/**
+      httpUrls: /login, /css/**, /images/**, /js/**
   actable:
     pack: com.zac.flycloud.tablemodel
     primarykey: id
     tableAuto: update
+   # ElasticSearch 6设置
+  elasticsearch:
+    cluster-name: elasticsearch
+    cluster-nodes: 127.0.0.1:9200
+    check-enabled: false

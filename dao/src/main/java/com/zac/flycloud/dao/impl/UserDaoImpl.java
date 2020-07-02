@@ -2,7 +2,7 @@ package com.zac.flycloud.dao.impl;
 
 import com.zac.flycloud.dao.UserDao;
 import com.zac.flycloud.mapper.UserMapper;
-import com.zac.flycloud.tablemodel.FcUser;
+import com.zac.flycloud.tablemodel.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDao {
     private UserMapper userMapper;
 
     @Override
-    public FcUser findByUserName(String username) {
+    public SysUser findByUserName(String username) {
         return userMapper.findByUserName(username);
     }
 }
