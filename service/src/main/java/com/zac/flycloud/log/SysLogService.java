@@ -1,7 +1,7 @@
 package com.zac.flycloud.log;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.tablemodel.SysLog;
+import com.zac.flycloud.entity.tablemodel.SysLog;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface SysLogService extends IService<SysLog> {
 	/**
 	 * @功能：清空所有日志记录
 	 */
-	public void removeAll();
+    void removeAll();
 	
 	/**
 	 * 获取系统总访问次数

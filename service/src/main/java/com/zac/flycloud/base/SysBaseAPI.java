@@ -2,9 +2,9 @@ package com.zac.flycloud.base;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.zac.flycloud.tablemodel.SysDept;
-import com.zac.flycloud.tablemodel.SysRole;
-import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.entity.tablemodel.SysRole;
+import com.zac.flycloud.entity.tablemodel.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,21 +33,21 @@ public interface SysBaseAPI {
 	 * @param username
 	 * @return
 	 */
-	public SysUser getUserByName(String username);
+    SysUser getUserByName(String username);
 	
 	/**
 	  * 根据用户id查询用户信息
 	 * @param id
 	 * @return
 	 */
-	public SysUser getUserById(String id);
+    SysUser getUserById(String id);
 	
 	/**
 	 * 通过用户账号查询角色集合
 	 * @param username
 	 * @return
 	 */
-	public List<String> getRolesByUsername(String username);
+    List<String> getRolesByUsername(String username);
 
 	/**
 	 * 通过用户账号查询部门集合
@@ -68,7 +68,7 @@ public interface SysBaseAPI {
 	 * @return
 	 * @throws Exception 
 	 */
-	public String getDatabaseType() throws SQLException;
+    String getDatabaseType() throws SQLException;
 
     /**
    	 * 查询所有部门，拼接查询条件
@@ -83,7 +83,7 @@ public interface SysBaseAPI {
 	 * @param title  消息主题
 	 * @param msgContent  消息内容
 	 */
-	public void sendSysAnnouncement(String fromUser,String toUser,String title, String msgContent);
+    void sendSysAnnouncement(String fromUser, String toUser, String title, String msgContent);
 
 	/**
 	 * 发送系统消息
@@ -93,7 +93,7 @@ public interface SysBaseAPI {
 	 * @param map  	   模板参数
 	 * @param templateCode  模板编码
 	 */
-	public void sendSysAnnouncement(String fromUser, String toUser,String title, Map<String, String> map, String templateCode);
+    void sendSysAnnouncement(String fromUser, String toUser, String title, Map<String, String> map, String templateCode);
 
 	/**
 	 *
@@ -105,7 +105,7 @@ public interface SysBaseAPI {
 	 * @param busType 业务类型
 	 * @param busId 业务id
 	 */
-	public void sendSysAnnouncement(String fromUser, String toUser,String title, Map<String, String> map, String templateCode,String busType,String busId);
+    void sendSysAnnouncement(String fromUser, String toUser, String title, Map<String, String> map, String templateCode, String busType, String busId);
 
 	/**
 	 * 通过消息中心模板，生成推送内容
@@ -114,7 +114,7 @@ public interface SysBaseAPI {
 	 * @param map          模板参数
 	 * @return
 	 */
-	public String parseTemplateByCode(String templateCode, Map<String, String> map);
+    String parseTemplateByCode(String templateCode, Map<String, String> map);
 
 
 	/**
@@ -125,7 +125,7 @@ public interface SysBaseAPI {
 	 * @param msgContent  消息内容
 	 * @param setMsgCategory  消息类型 1:消息2:系统消息
 	 */
-	public void sendSysAnnouncement(String fromUser, String toUser, String title, String msgContent, String setMsgCategory);
+    void sendSysAnnouncement(String fromUser, String toUser, String title, String msgContent, String setMsgCategory);
 
 	/**queryTableDictByKeys
 	 * 发送系统消息
@@ -137,27 +137,27 @@ public interface SysBaseAPI {
 	 * @param busType  业务类型
 	 * @param busId  业务id
 	 */
-	public void sendSysAnnouncement(String fromUser, String toUser, String title, String msgContent, String setMsgCategory,String busType,String busId);
+    void sendSysAnnouncement(String fromUser, String toUser, String title, String msgContent, String setMsgCategory, String busType, String busId);
 
 	/**
 	 * 根据业务类型及业务id修改消息已读
 	 * @param busType
 	 * @param busId
 	 */
-	public void updateSysAnnounReadFlag(String busType,String busId);
+    void updateSysAnnounReadFlag(String busType, String busId);
 
 	/**
 	 * 获取所有有效用户
 	 * @return
 	 */
-	public List<SysUser> queryAllUser();
+    List<SysUser> queryAllUser();
 
     /**
      * 获取所有有效用户 带参
      * userIds 默认选中用户
      * @return
      */
-    public JSONObject queryAllUser(String[] userIds, int pageNo, int pageSize);
+    JSONObject queryAllUser(String[] userIds, int pageNo, int pageSize);
 
     /**
      * 获取所有有效用户 拼接查询条件
@@ -170,48 +170,48 @@ public interface SysBaseAPI {
 	 * 获取所有角色
 	 * @return
 	 */
-	public List<SysRole> queryAllRole();
+    List<SysRole> queryAllRole();
 
 	/**
 	 * 获取所有角色 带参
      * roleIds 默认选中角色
 	 * @return
 	 */
-	public List<SysRole> queryAllRole(String[] roleIds );
+    List<SysRole> queryAllRole(String[] roleIds);
 
 	/**
 	 * 通过用户账号查询角色Id集合
 	 * @param username
 	 * @return
 	 */
-	public List<String> getRoleIdsByUsername(String username);
+    List<String> getRoleIdsByUsername(String username);
 
 	/**
 	 * 通过部门编号查询部门id
 	 * @param orgCode
 	 * @return
 	 */
-	public String getDepartIdsByOrgCode(String orgCode);
+    String getDepartIdsByOrgCode(String orgCode);
 
 	/**
 	 * 查询上一级部门
 	 * @param departId
 	 * @return
 	 */
-	public SysDept getParentDepartId(String departId);
+    SysDept getParentDepartId(String departId);
 
 	/**
 	 * 查询所有部门
 	 * @return
 	 */
-	public List<SysDept> getAllSysDepart();
+    List<SysDept> getAllSysDepart();
 
 	/**
 	 * 根据部门Id获取部门负责人
 	 * @param deptId
 	 * @return
 	 */
-	public List<String> getDeptHeadByDepId(String deptId);
+    List<String> getDeptHeadByDepId(String deptId);
 
 	/**
 	 * 文件上传
@@ -220,7 +220,7 @@ public interface SysBaseAPI {
 	 * @param uploadType 上传方式
 	 * @return
 	 */
-	public String upload(MultipartFile file, String bizPath, String uploadType);
+    String upload(MultipartFile file, String bizPath, String uploadType);
 
 	/**
 	 * 文件上传 自定义桶
@@ -230,7 +230,7 @@ public interface SysBaseAPI {
 	 * @param customBucket
 	 * @return
 	 */
-	public String upload(MultipartFile file, String bizPath, String uploadType, String customBucket);
+    String upload(MultipartFile file, String bizPath, String uploadType, String customBucket);
 
 	/**
 	 * 文档管理文件下载预览
@@ -238,7 +238,7 @@ public interface SysBaseAPI {
 	 * @param uploadpath
 	 * @param response
 	 */
-	public void viewAndDownload(String filePath, String uploadpath, String uploadType, HttpServletResponse response);
+    void viewAndDownload(String filePath, String uploadpath, String uploadType, HttpServletResponse response);
 
 
 	/**
@@ -246,6 +246,6 @@ public interface SysBaseAPI {
 	 * @param userIds
 	 * @param cmd
 	 */
-	public void sendWebSocketMsg(String[] userIds, String cmd);
+    void sendWebSocketMsg(String[] userIds, String cmd);
 
 }

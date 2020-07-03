@@ -43,7 +43,7 @@ mybatis:
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
   mapper-locations: classpath*:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.zac.flycloud.tablemodel
+  typeAliasesPackage: com.zac.flycloud.entity.tablemodel
   configuration:
     # 设置下划线和驼峰转换
     map-underscore-to-camel-case: true
@@ -53,7 +53,7 @@ flycloud:
     ignore:
       httpUrls: /login, /css/**, /images/**, /js/**
   actable:
-    pack: com.zac.flycloud.tablemodel
+    pack: com.zac.flycloud.entity.tablemodel
     primarykey: id
     tableAuto: update
    # ElasticSearch 6设置

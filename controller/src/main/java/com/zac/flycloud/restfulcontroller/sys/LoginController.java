@@ -1,19 +1,23 @@
 package com.zac.flycloud.restfulcontroller.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.fly_cloud.utils.MD5Util;
-import com.zac.fly_cloud.utils.RedisUtil;
+import com.zac.fly_cloud.utils.*;
 import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.constant.CacheConstant;
+import com.zac.flycloud.entity.SysUserLoginVO;
+import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.entity.tablemodel.SysUser;
 import com.zac.flycloud.log.SysLogService;
 import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.UserService;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.dto.SysLoginDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,14 +44,12 @@ public class LoginController {
     private RedisUtil redisUtil;
 	@Autowired
     private SysDeptService sysDeptService;
-	@Autowired
-    private ISysDictService sysDictService;
 
 	private static final String BASE_CHECK_CODES = "qwertyuiplkjhgfdsazxcvbnmQWERTYUPLKJHGFDSAZXCVBNM1234567890";
 
 	@ApiOperation("登录接口")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public DataResponseResult<JSONObject> login(@RequestBody SysLoginDto sysLoginModel){
+	public DataResponseResult<JSONObject> login(@RequestBody SysUserLoginVO sysLoginModel){
 		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
 		// 用户名
 		String username = sysLoginModel.getUsername();
@@ -75,7 +77,7 @@ public class LoginController {
 		}
 		
 		//2. 校验用户名或密码是否正确
-		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
+		String userpassword = JwtUtil.getPasswordEncode(password);
 		String syspassword = sysUser.getPassword();
 		if (!syspassword.equals(userpassword)) {
 			result.error500("用户名或密码错误");
@@ -99,21 +101,19 @@ public class LoginController {
 	public DataResponseResult<Object> logout(HttpServletRequest request, HttpServletResponse response) {
 		//用户退出逻辑
 	    String token = request.getHeader(DefContants.X_ACCESS_TOKEN);
-	    if(oConvertUtils.isEmpty(token)) {
+	    if(StringUtils.isEmpty(token)) {
 	    	return DataResponseResult.error("退出登录失败！");
 	    }
 	    String username = JwtUtil.getUsername(token);
-		LoginUser sysUser = sysBaseAPI.getUserByName(username);
+		SysUser sysUser = sysBaseAPI.getUserByName(username);
 	    if(sysUser!=null) {
 	    	sysBaseAPI.addLog("用户名: "+sysUser.getRealname()+",退出成功！", CommonConstant.LOG_TYPE_1, null);
 	    	log.info(" 用户名:  "+sysUser.getRealname()+",退出成功！ ");
 	    	//清空用户登录Token缓存
 	    	redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
-	    	//清空用户登录Shiro权限缓存
-			redisUtil.del(CommonConstant.PREFIX_USER_SHIRO_CACHE + sysUser.getId());
 			//清空用户的缓存信息（包括部门信息），例如sys:cache:user::<username>
 			redisUtil.del(String.format("%s::%s", CacheConstant.SYS_USERS_CACHE, sysUser.getUsername()));
-			//调用shiro的logout
+			// 调用 security 的logout
 			SecurityUtils.getSubject().logout();
 	    	return DataResponseResult.ok("退出登录成功！");
 	    }else {
@@ -148,7 +148,7 @@ public class LoginController {
 		//update-end--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
 		obj.put("todayIp", todayIp);
 		result.setResult(obj);
-		DataResponseResult.success("登录成功");
+		DataResponseResult.success("登录成功","ok");
 		return result;
 	}
 	
@@ -169,30 +169,7 @@ public class LoginController {
         calendar.add(Calendar.DAY_OF_MONTH, -7);
         Date dayStart = calendar.getTime();
         List<Map<String,Object>> list = logService.findVisitCount(dayStart, dayEnd);
-		result.setResult(oConvertUtils.toLowerCasePageList(list));
-		return result;
-	}
-	
-	
-	/**
-	 * 登陆成功选择用户当前部门
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping(value = "/selectDepart", method = RequestMethod.PUT)
-	public DataResponseResult<JSONObject> selectDepart(@RequestBody SysUser user) {
-		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-		String username = user.getUsername();
-		if(oConvertUtils.isEmpty(username)) {
-			LoginUser sysUser = (LoginUser)SecurityUtils.getSubject().getPrincipal();
-			username = sysUser.getUsername();
-		}
-		String orgCode= user.getOrgCode();
-		this.userService.updateUserDepart(username, orgCode);
-		SysUser sysUser = userService.getUserByName(username);
-		JSONObject obj = new JSONObject();
-		obj.put("userInfo", sysUser);
-		result.setResult(obj);
+		result.setResult(ConverUtil.toLowerCasePageList(list));
 		return result;
 	}
 
@@ -202,79 +179,79 @@ public class LoginController {
 	 * @param jsonObject
 	 * @return
 	 */
-	@PostMapping(value = "/sms")
-	public DataResponseResult<String> sms(@RequestBody JSONObject jsonObject) {
-		DataResponseResult<String> result = new DataResponseResult<String>();
-		String mobile = jsonObject.get("mobile").toString();
-		//手机号模式 登录模式: "2"  注册模式: "1"
-		String smsmode=jsonObject.get("smsmode").toString();
-		log.info(mobile);
-		if(oConvertUtils.isEmpty(mobile)){
-			result.setMessage("手机号不允许为空！");
-			result.setSuccess(false);
-			return result;
-		}
-		Object object = redisUtil.get(mobile);
-		if (object != null) {
-			result.setMessage("验证码10分钟内，仍然有效！");
-			result.setSuccess(false);
-			return result;
-		}
-
-		//随机数
-		String captcha = RandomUtil.randomNumbers(6);
-		JSONObject obj = new JSONObject();
-    	obj.put("code", captcha);
-		try {
-			boolean b = false;
-			//注册模板
-			if (CommonConstant.SMS_TPL_TYPE_1.equals(smsmode)) {
-				SysUser sysUser = userService.getUserByPhone(mobile);
-				if(sysUser!=null) {
-					result.error500(" 手机号已经注册，请直接登录！");
-					sysBaseAPI.addLog("手机号已经注册，请直接登录！", CommonConstant.LOG_TYPE_1, null);
-					return result;
-				}
-				b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.REGISTER_TEMPLATE_CODE);
-			}else {
-				//登录模式，校验用户有效性
-				SysUser sysUser = userService.getUserByPhone(mobile);
-				result = userService.checkUserIsEffective(sysUser);
-				if(!result.isSuccess()) {
-					return result;
-				}
-				
-				/**
-				 * smsmode 短信模板方式  0 .登录模板、1.注册模板、2.忘记密码模板
-				 */
-				if (CommonConstant.SMS_TPL_TYPE_0.equals(smsmode)) {
-					//登录模板
-					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.LOGIN_TEMPLATE_CODE);
-				} else if(CommonConstant.SMS_TPL_TYPE_2.equals(smsmode)) {
-					//忘记密码模板
-					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.FORGET_PASSWORD_TEMPLATE_CODE);
-				}
-			}
-
-			if (b == false) {
-				result.setMessage("短信验证码发送失败,请稍后重试");
-				result.setSuccess(false);
-				return result;
-			}
-			//验证码10分钟内有效
-			redisUtil.set(mobile, captcha, 600);
-			//update-begin--Author:scott  Date:20190812 for：issues#391
-			//result.setResult(captcha);
-			//update-end--Author:scott  Date:20190812 for：issues#391
-			result.setSuccess(true);
-
-		} catch (ClientException e) {
-			e.printStackTrace();
-			result.error500(" 短信接口未配置，请联系管理员！");
-			return result;
-		}
-		return result;
-	}
+//	@PostMapping(value = "/sms")
+//	public DataResponseResult<String> sms(@RequestBody JSONObject jsonObject) {
+//		DataResponseResult<String> result = new DataResponseResult<String>();
+//		String mobile = jsonObject.get("mobile").toString();
+//		//手机号模式 登录模式: "2"  注册模式: "1"
+//		String smsmode=jsonObject.get("smsmode").toString();
+//		log.info(mobile);
+//		if(oConvertUtils.isEmpty(mobile)){
+//			result.setMessage("手机号不允许为空！");
+//			result.setSuccess(false);
+//			return result;
+//		}
+//		Object object = redisUtil.get(mobile);
+//		if (object != null) {
+//			result.setMessage("验证码10分钟内，仍然有效！");
+//			result.setSuccess(false);
+//			return result;
+//		}
+//
+//		//随机数
+//		String captcha = RandomUtil.randomNumbers(6);
+//		JSONObject obj = new JSONObject();
+//    	obj.put("code", captcha);
+//		try {
+//			boolean b = false;
+//			//注册模板
+//			if (CommonConstant.SMS_TPL_TYPE_1.equals(smsmode)) {
+//				SysUser sysUser = userService.getUserByPhone(mobile);
+//				if(sysUser!=null) {
+//					result.error500(" 手机号已经注册，请直接登录！");
+//					sysBaseAPI.addLog("手机号已经注册，请直接登录！", CommonConstant.LOG_TYPE_1, null);
+//					return result;
+//				}
+//				b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.REGISTER_TEMPLATE_CODE);
+//			}else {
+//				//登录模式，校验用户有效性
+//				SysUser sysUser = userService.getUserByPhone(mobile);
+//				result = userService.checkUserIsEffective(sysUser);
+//				if(!result.isSuccess()) {
+//					return result;
+//				}
+//
+//				/**
+//				 * smsmode 短信模板方式  0 .登录模板、1.注册模板、2.忘记密码模板
+//				 */
+//				if (CommonConstant.SMS_TPL_TYPE_0.equals(smsmode)) {
+//					//登录模板
+//					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.LOGIN_TEMPLATE_CODE);
+//				} else if(CommonConstant.SMS_TPL_TYPE_2.equals(smsmode)) {
+//					//忘记密码模板
+//					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.FORGET_PASSWORD_TEMPLATE_CODE);
+//				}
+//			}
+//
+//			if (b == false) {
+//				result.setMessage("短信验证码发送失败,请稍后重试");
+//				result.setSuccess(false);
+//				return result;
+//			}
+//			//验证码10分钟内有效
+//			redisUtil.set(mobile, captcha, 600);
+//			//update-begin--Author:scott  Date:20190812 for：issues#391
+//			//result.setResult(captcha);
+//			//update-end--Author:scott  Date:20190812 for：issues#391
+//			result.setSuccess(true);
+//
+//		} catch (ClientException e) {
+//			e.printStackTrace();
+//			result.error500(" 短信接口未配置，请联系管理员！");
+//			return result;
+//		}
+//		return result;
+//	}
 	
 
 	/**
@@ -283,32 +260,32 @@ public class LoginController {
 	 * @param jsonObject
 	 * @return
 	 */
-	@ApiOperation("手机号登录接口")
-	@PostMapping("/phoneLogin")
-	public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) {
-		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-		String phone = jsonObject.getString("mobile");
-		
-		//校验用户有效性
-		SysUser sysUser = userService.getUserByPhone(phone);
-		result = userService.checkUserIsEffective(sysUser);
-		if(!result.isSuccess()) {
-			return result;
-		}
-		
-		String smscode = jsonObject.getString("captcha");
-		Object code = redisUtil.get(phone);
-		if (!smscode.equals(code)) {
-			result.setMessage("手机验证码错误");
-			return result;
-		}
-		//用户信息
-		userInfo(sysUser, result);
-		//添加日志
-		sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
-
-		return result;
-	}
+//	@ApiOperation("手机号登录接口")
+//	@PostMapping("/phoneLogin")
+//	public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) {
+//		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
+//		String phone = jsonObject.getString("mobile");
+//
+//		//校验用户有效性
+//		SysUser sysUser = userService.getUserByPhone(phone);
+//		result = userService.checkUserIsEffective(sysUser);
+//		if(!result.isSuccess()) {
+//			return result;
+//		}
+//
+//		String smscode = jsonObject.getString("captcha");
+//		Object code = redisUtil.get(phone);
+//		if (!smscode.equals(code)) {
+//			result.setMessage("手机验证码错误");
+//			return result;
+//		}
+//		//用户信息
+//		userInfo(sysUser, result);
+//		//添加日志
+//		sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+//
+//		return result;
+//	}
 
 
 	/**
@@ -329,35 +306,12 @@ public class LoginController {
 
 		// 获取用户部门信息
 		JSONObject obj = new JSONObject();
-		List<SysDepart> departs = sysDepartService.queryUserDeparts(sysUser.getId());
+		List<SysDept> departs = sysDeptService.queryUserDeparts(String.valueOf(sysUser.getId()));
 		obj.put("departs", departs);
-		if (departs == null || departs.size() == 0) {
-			obj.put("multi_depart", 0);
-		} else if (departs.size() == 1) {
-			userService.updateUserDepart(username, departs.get(0).getOrgCode());
-			obj.put("multi_depart", 1);
-		} else {
-			obj.put("multi_depart", 2);
-		}
 		obj.put("token", token);
 		obj.put("userInfo", sysUser);
-		obj.put("sysAllDictItems", sysDictService.queryAllDictItems());
 		result.setResult(obj);
-		DataResponseResult.success("登录成功");
-		return result;
-	}
-
-	/**
-	 * 获取加密字符串
-	 * @return
-	 */
-	@GetMapping(value = "/getEncryptedString")
-	public DataResponseResult<Map<String,String>> getEncryptedString(){
-		DataResponseResult<Map<String,String>> result = new Result<Map<String,String>>();
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("key", EncryptedString.key);
-		map.put("iv",EncryptedString.iv);
-		result.setResult(map);
+		DataResponseResult.ok("登录成功");
 		return result;
 	}
 
@@ -371,7 +325,7 @@ public class LoginController {
 	public DataResponseResult<String> randomImage(HttpServletResponse response, @PathVariable String key){
 		DataResponseResult<String> res = new DataResponseResult<String>();
 		try {
-			String code = RandomUtil.randomString(BASE_CHECK_CODES,4);
+			String code = MD5Util.createCode(4);
 
 			log.debug("验证码 = "+code);
 			String lowerCaseCode = code.toLowerCase();
@@ -393,76 +347,55 @@ public class LoginController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/mLogin", method = RequestMethod.POST)
-	public DataResponseResult<JSONObject> mLogin(@RequestBody SysLoginDto sysLoginModel) throws Exception {
-		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-		String username = sysLoginModel.getUsername();
-		String password = sysLoginModel.getPassword();
-		
-		//1. 校验用户是否有效
-		SysUser sysUser = userService.getUserByName(username);
-		result = userService.checkUserIsEffective(sysUser);
-		if(!result.isSuccess()) {
-			return result;
-		}
-		
-		//2. 校验用户名或密码是否正确
-		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
-		String syspassword = sysUser.getPassword();
-		if (!syspassword.equals(userpassword)) {
-			result.error500("用户名或密码错误");
-			return result;
-		}
-		
-		String orgCode = sysUser.getOrgCode();
-		if(oConvertUtils.isEmpty(orgCode)) {
-			//如果当前用户无选择部门 查看部门关联信息
-			List<SysDepart> departs = sysDepartService.queryUserDeparts(sysUser.getId());
-			if (departs == null || departs.size() == 0) {
-				result.error500("用户暂未归属部门,不可登录!");
-				return result;
-			}
-			orgCode = departs.get(0).getOrgCode();
-			sysUser.setOrgCode(orgCode);
-			this.userService.updateUserDepart(username, orgCode);
-		}
-		JSONObject obj = new JSONObject();
-		//用户登录信息
-		obj.put("userInfo", sysUser);
-		
-		// 生成token
-		String token = JwtUtil.sign(username, syspassword);
-		// 设置超时时间
-		redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
-		redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME*2 / 1000);
-		//token 信息
-		obj.put("token", token);
-		result.setResult(obj);
-		result.setSuccess(true);
-		result.setCode(200);
-		sysBaseAPI.addLog("用户名: " + username + ",登录成功[移动端]！", CommonConstant.LOG_TYPE_1, null);
-		return result;
-	}
-
-	/**
-	 * 图形验证码
-	 * @param sysLoginModel
-	 * @return
-	 */
-	@RequestMapping(value = "/checkCaptcha", method = RequestMethod.POST)
-	public DataResponseResult<?> checkCaptcha(@RequestBody SysLoginDto sysLoginModel){
-		String captcha = sysLoginModel.getCaptcha();
-		String checkKey = sysLoginModel.getCheckKey();
-		if(captcha==null){
-			return DataResponseResult.error("验证码无效");
-		}
-		String lowerCaseCaptcha = captcha.toLowerCase();
-		String realKey = MD5Util.MD5Encode(lowerCaseCaptcha+checkKey, "utf-8");
-		Object checkCode = redisUtil.get(realKey);
-		if(checkCode==null || !checkCode.equals(lowerCaseCaptcha)) {
-			return DataResponseResult.error("验证码错误");
-		}
-		return DataResponseResult.ok();
-	}
+//	@RequestMapping(value = "/mLogin", method = RequestMethod.POST)
+//	public DataResponseResult<JSONObject> mLogin(@RequestBody SysLoginDto sysLoginModel) throws Exception {
+//		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
+//		String username = sysLoginModel.getUsername();
+//		String password = sysLoginModel.getPassword();
+//
+//		//1. 校验用户是否有效
+//		SysUser sysUser = userService.getUserByName(username);
+//		result = userService.checkUserIsEffective(sysUser);
+//		if(!result.isSuccess()) {
+//			return result;
+//		}
+//
+//		//2. 校验用户名或密码是否正确
+//		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
+//		String syspassword = sysUser.getPassword();
+//		if (!syspassword.equals(userpassword)) {
+//			result.error500("用户名或密码错误");
+//			return result;
+//		}
+//
+//		String orgCode = sysUser.getOrgCode();
+//		if(oConvertUtils.isEmpty(orgCode)) {
+//			//如果当前用户无选择部门 查看部门关联信息
+//			List<SysDepart> departs = sysDepartService.queryUserDeparts(sysUser.getId());
+//			if (departs == null || departs.size() == 0) {
+//				result.error500("用户暂未归属部门,不可登录!");
+//				return result;
+//			}
+//			orgCode = departs.get(0).getOrgCode();
+//			sysUser.setOrgCode(orgCode);
+//			this.userService.updateUserDepart(username, orgCode);
+//		}
+//		JSONObject obj = new JSONObject();
+//		//用户登录信息
+//		obj.put("userInfo", sysUser);
+//
+//		// 生成token
+//		String token = JwtUtil.sign(username, syspassword);
+//		// 设置超时时间
+//		redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
+//		redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME*2 / 1000);
+//		//token 信息
+//		obj.put("token", token);
+//		result.setResult(obj);
+//		result.setSuccess(true);
+//		result.setCode(200);
+//		sysBaseAPI.addLog("用户名: " + username + ",登录成功[移动端]！", CommonConstant.LOG_TYPE_1, null);
+//		return result;
+//	}
 
 }

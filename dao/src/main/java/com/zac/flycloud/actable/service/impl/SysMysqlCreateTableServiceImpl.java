@@ -1,6 +1,6 @@
 package com.zac.flycloud.actable.service.impl;
 
-import com.zac.flycloud.actable.annotation.AutoColumn;
+import com.zac.flycloud.annotation.AutoColumn;
 import com.zac.flycloud.actable.config.ActableConfig;
 import com.zac.flycloud.actable.mapper.CreateMysqlTablesMapper;
 import com.zac.flycloud.actable.service.SysMysqlCreateTableService;

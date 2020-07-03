@@ -13,7 +13,7 @@ import com.zac.flycloud.mapper.SysDeptMapper;
 import com.zac.flycloud.mapper.SysLogMapper;
 import com.zac.flycloud.mapper.SysRoleMapper;
 import com.zac.flycloud.mapper.SysUserRoleMapper;
-import com.zac.flycloud.tablemodel.SysLog;
+import com.zac.flycloud.entity.tablemodel.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

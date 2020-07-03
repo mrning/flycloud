@@ -1,8 +1,7 @@
 package com.zac.flycloud.sys.sysutils;
 
-import com.zac.flycloud.dto.SysDeptDto;
-import com.zac.flycloud.dto.TreeDto;
-import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.entity.TreeDto;
+import com.zac.flycloud.entity.tablemodel.SysDept;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

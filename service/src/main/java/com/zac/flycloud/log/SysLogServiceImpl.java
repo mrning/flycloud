@@ -3,7 +3,7 @@ package com.zac.flycloud.log;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.mapper.SysLogMapper;
-import com.zac.flycloud.tablemodel.SysLog;
+import com.zac.flycloud.entity.tablemodel.SysLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

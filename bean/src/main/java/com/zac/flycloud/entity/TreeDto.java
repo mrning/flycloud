@@ -1,4 +1,4 @@
-package com.zac.flycloud.dto;
+package com.zac.flycloud.entity;
 
 import lombok.Data;
 

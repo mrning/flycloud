@@ -1,4 +1,4 @@
-package com.zac.flycloud.tablemodel;
+package com.zac.flycloud.entity.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

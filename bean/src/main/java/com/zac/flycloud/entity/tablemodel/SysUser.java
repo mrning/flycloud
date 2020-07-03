@@ -1,8 +1,7 @@
-package com.zac.flycloud.tablemodel;
+package com.zac.flycloud.entity.tablemodel;
 
-import com.zac.flycloud.actable.annotation.AutoColumn;
 import lombok.Data;
-
+import com.zac.flycloud.annotation.*;
 import java.util.Date;
 
 

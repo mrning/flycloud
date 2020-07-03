@@ -7,8 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
+import com.zac.flycloud.entity.tablemodel.SysUserRole;
 import com.zac.flycloud.mapper.*;
-import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.entity.tablemodel.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -59,8 +60,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = {CacheConstant.SYS_USERS_CACHE}, allEntries = true)
     public DataResponseResult<?> changePassword(SysUser sysUser) {
-        String salt = oConvertUtils.randomGen(8);
-        sysUser.setSalt(salt);
         String password = sysUser.getPassword();
         String passwordEncode = PasswordUtil.encrypt(sysUser.getUsername(), password, salt);
         sysUser.setPassword(passwordEncode);
@@ -235,28 +234,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectPage(page, lambdaQueryWrapper);
     }
 
-    @Override
-    public IPage<SysUserSysDepartModel> queryUserByOrgCode(String orgCode, SysUser userParams, IPage page) {
-        List<SysUserSysDepartModel> list = baseMapper.getUserByOrgCode(page, orgCode, userParams);
-        Integer total = baseMapper.getUserByOrgCodeTotal(orgCode, userParams);
-
-        IPage<SysUserSysDepartModel> result = new Page<>(page.getCurrent(), page.getSize(), total);
-        result.setRecords(list);
-
-        return result;
-    }
-
     // 根据角色Id查询
     @Override
     public IPage<SysUser> getUserByRoleId(Page<SysUser> page, String roleId, String username) {
         return userMapper.getUserByRoleId(page,roleId,username);
-    }
-
-
-    @Override
-    @CacheEvict(value= {CacheConstant.SYS_USERS_CACHE}, key="#username")
-    public void updateUserDepart(String username,String orgCode) {
-        baseMapper.updateUserDepart(username, orgCode);
     }
 
 

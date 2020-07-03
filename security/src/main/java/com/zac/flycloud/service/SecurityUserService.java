@@ -1,7 +1,7 @@
 package com.zac.flycloud.service;
 
 import com.zac.flycloud.dao.UserDao;
-import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.entity.tablemodel.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,7 +23,7 @@ public class SecurityUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         // 根据用户名查询用户
-        SysUser user = userDao.findByUserName(s);
+        SysUser user = userDao.getUserByName(s);
         Assert.notNull(user,"用户不存在");
         // 查询用户权限
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

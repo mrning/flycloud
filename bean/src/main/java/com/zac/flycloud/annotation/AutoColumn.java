@@ -1,4 +1,4 @@
-package com.zac.flycloud.actable.annotation;
+package com.zac.flycloud.annotation;
 
 import java.lang.annotation.*;
 

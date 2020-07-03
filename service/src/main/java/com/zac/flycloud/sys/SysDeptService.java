@@ -1,8 +1,8 @@
 package com.zac.flycloud.sys;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.dto.TreeDto;
-import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.entity.TreeDto;
+import com.zac.flycloud.entity.tablemodel.SysDept;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public interface SysDeptService extends IService<SysDept>{
     boolean delete(String id);
     
     /**
-     * 查询SysDepart集合
+     * 根据用户id查询所属部门列表
      * @param userId
      * @return
      */

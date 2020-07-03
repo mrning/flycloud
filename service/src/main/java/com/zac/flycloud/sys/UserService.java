@@ -1,7 +1,7 @@
 package com.zac.flycloud.sys;
 
 import com.zac.flycloud.basebean.DataResponseResult;
-import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.entity.tablemodel.SysUser;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -26,7 +26,7 @@ public interface UserService extends IService<SysUser>{
      * @param confirmpassword
      * @return
      */
-    public DataResponseResult<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword);
+    DataResponseResult<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword);
 
     /**
      * 修改密码
@@ -34,30 +34,30 @@ public interface UserService extends IService<SysUser>{
      * @param sysUser
      * @return
      */
-    public DataResponseResult<?> changePassword(SysUser sysUser);
+    DataResponseResult<?> changePassword(SysUser sysUser);
 
     /**
      * 删除用户
      * @param userId
      * @return
      */
-    public boolean deleteUser(String userId);
+    boolean deleteUser(String userId);
 
     /**
      * 批量删除用户
      * @param userIds
      * @return
      */
-    public boolean deleteBatchUsers(String userIds);
+    boolean deleteBatchUsers(String userIds);
 
-    public SysUser getUserByName(String username);
+    SysUser getUserByName(String username);
 
     /**
      * 添加用户和用户角色关系
      * @param user
      * @param roles
      */
-    public void addUserWithRole(SysUser user,String roles);
+    void addUserWithRole(SysUser user, String roles);
 
 
     /**
@@ -65,14 +65,14 @@ public interface UserService extends IService<SysUser>{
      * @param user
      * @param roles
      */
-    public void editUserWithRole(SysUser user,String roles);
+    void editUserWithRole(SysUser user, String roles);
 
     /**
      * 获取用户的授权角色
      * @param username
      * @return
      */
-    public List<String> getRole(String username);
+    List<String> getRole(String username);
 
     /**
      * 查询用户信息包括 部门信息
@@ -86,21 +86,21 @@ public interface UserService extends IService<SysUser>{
      * @param
      * @return
      */
-    public IPage<SysUser> getUserByDepId(Page<SysUser> page, String departId, String username);
+    IPage<SysUser> getUserByDepId(Page<SysUser> page, String departId, String username);
 
     /**
      * 根据部门Ids查询
      * @param
      * @return
      */
-    public IPage<SysUser> getUserByDepIds(Page<SysUser> page, List<String> departIds, String username);
+    IPage<SysUser> getUserByDepIds(Page<SysUser> page, List<String> departIds, String username);
 
     /**
      * 根据 userIds查询，查询用户所属部门的名称（多个部门名逗号隔开）
      * @param
      * @return
      */
-    public Map<String,String> getDepNamesByUserIds(List<String> userIds);
+    Map<String,String> getDepNamesByUserIds(List<String> userIds);
 
     /**
      * 根据部门 Id 和 QueryWrapper 查询
@@ -110,24 +110,15 @@ public interface UserService extends IService<SysUser>{
      * @param queryWrapper
      * @return
      */
-    public IPage<SysUser> getUserByDepartIdAndQueryWrapper(Page<SysUser> page, String departId, QueryWrapper<SysUser> queryWrapper);
+    IPage<SysUser> getUserByDepartIdAndQueryWrapper(Page<SysUser> page, String departId, QueryWrapper<SysUser> queryWrapper);
 
-    /**
-     * 根据 orgCode 查询用户，包括子部门下的用户
-     *
-     * @param orgCode
-     * @param userParams 用户查询条件，可为空
-     * @param page 分页参数
-     * @return
-     */
-//    IPage<SysUserSysDepartModel> queryUserByOrgCode(String orgCode, SysUser userParams, IPage page);
 
     /**
      * 根据角色Id查询
      * @param
      * @return
      */
-    public IPage<SysUser> getUserByRoleId(Page<SysUser> page,String roleId, String username);
+    IPage<SysUser> getUserByRoleId(Page<SysUser> page, String roleId, String username);
 
     /**
      * 通过用户名获取用户角色集合
@@ -146,22 +137,15 @@ public interface UserService extends IService<SysUser>{
     Set<String> getUserPermissionsSet(String username);
 
     /**
-     * 根据用户名设置部门ID
-     * @param username
-     * @param orgCode
-     */
-    void updateUserDepart(String username,String orgCode);
-
-    /**
      * 根据手机号获取用户名和密码
      */
-    public SysUser getUserByPhone(String phone);
+    SysUser getUserByPhone(String phone);
 
 
     /**
      * 根据邮箱获取用户
      */
-    public SysUser getUserByEmail(String email);
+    SysUser getUserByEmail(String email);
 
 
     /**
