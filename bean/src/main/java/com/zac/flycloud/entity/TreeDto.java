@@ -1,5 +1,7 @@
 package com.zac.flycloud.entity;
 
+import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.entity.tablemodel.SysPermission;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -88,7 +90,7 @@ public class TreeDto implements Serializable {
 	 * 构建菜单权限树
 	 * @param permission
 	 */
-	public TreeDto(SysPermissionDto permission) {
+	public TreeDto(SysPermission permission) {
 		this.key = permission.getId();
 		this.icon = permission.getIcon();
 		this.parentId = permission.getParentId();
@@ -106,18 +108,13 @@ public class TreeDto implements Serializable {
 	 * 构建部门树
 	 * @param sysDeptDto
 	 */
-	public TreeDto(SysDeptDto sysDeptDto) {
+	public TreeDto(SysDept sysDeptDto) {
 		this.key = sysDeptDto.getId();
-		this.icon = sysDeptDto.getIcon();
 		this.parentId = sysDeptDto.getParentId();
 		this.title = sysDeptDto.getDepartName();
 		this.slotTitle =  sysDeptDto.getDepartName();
 		this.value = sysDeptDto.getId();
-		this.isLeaf = sysDeptDto.isLeaf();
 		this.label = sysDeptDto.getDepartName();
-		if(!sysDeptDto.isLeaf()) {
-			this.children = new ArrayList<TreeDto>();
-		}
 	}
 
 	 public TreeDto(String key, String parentId, String slotTitle, Integer ruleFlag, boolean isLeaf) {

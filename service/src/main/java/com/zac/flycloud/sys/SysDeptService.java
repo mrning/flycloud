@@ -17,12 +17,6 @@ import java.util.List;
 public interface SysDeptService extends IService<SysDept>{
 
     /**
-     * 查询我的部门信息,并分节点进行显示
-     * @return
-     */
-    List<TreeDto> queryMyDeptTreeList(String departIds);
-
-    /**
      * 查询所有部门信息,并分节点进行显示
      * @return
      */
@@ -86,10 +80,5 @@ public interface SysDeptService extends IService<SysDept>{
      */
     List<String> getSubDepIdsByDepId(String departId);
 
-    /**
-     * 获取我的部门下级所有部门IDS
-     * @return
-     */
-    List<String> getMySubDepIdsByDepId(String departIds);
     
 }

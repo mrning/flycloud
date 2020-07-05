@@ -19,14 +19,14 @@ public class FindsDeptsChildrenUtil {
 
     /**
      * queryTreeList的子方法 ====1=====
-     * 该方法是s将SysDept类型的list集合转换成TreeDto类型的集合
+     * 该方法是将SysDept类型的list集合转换成TreeDto类型的集合
      */
-    public static List<TreeDto> wrapTreeDataToTreeList(List<SysDeptDto> recordList) {
+    public static List<TreeDto> wrapTreeDataToTreeList(List<SysDept> recordList) {
         // 在该方法每请求一次,都要对全局list集合进行一次清理
-    	List<SysDeptDto> idList = new ArrayList<>();
+    	List<SysDept> idList = new ArrayList<>();
         List<TreeDto> records = new ArrayList<>();
         for (int i = 0; i < recordList.size(); i++) {
-            SysDeptDto depart = recordList.get(i);
+            SysDept depart = recordList.get(i);
             records.add(new TreeDto(depart));
         }
         List<TreeDto> tree = findChildren(records, idList);
@@ -35,17 +35,17 @@ public class FindsDeptsChildrenUtil {
     }
 
     /**
-     * 获取 SysDeptDto
+     * 获取 SysDept
      * @param recordList
      * @return
      */
-    public static List<SysDeptDto> wrapTreeDataToDepartIdTreeList(List<SysDept> recordList) {
+    public static List<SysDept> wrapTreeDataToDepartIdTreeList(List<SysDept> recordList) {
         // 在该方法每请求一次,都要对全局list集合进行一次清理
         //idList.clear();
-        List<SysDeptDto> idList = new ArrayList<>();
+        List<SysDept> idList = new ArrayList<>();
         List<TreeDto> records = new ArrayList<>();
         for (int i = 0; i < recordList.size(); i++) {
-            SysDeptDto depart = recordList.get(i);
+            SysDept depart = recordList.get(i);
             records.add(new TreeDto(depart));
         }
         findChildren(records, idList);
@@ -57,20 +57,20 @@ public class FindsDeptsChildrenUtil {
      * 该方法是找到并封装顶级父类的节点到TreeList集合
      */
     private static List<TreeDto> findChildren(List<TreeDto> recordList,
-                                                         List<SysDeptDto> departIdList) {
+                                                         List<SysDept> departIdList) {
 
         List<TreeDto> treeList = new ArrayList<>();
-        for (int i = 0; i < recordList.size(); i++) {
-            TreeDto branch = recordList.get(i);
-            if (StringUtils.isEmpty(branch.getParentId())) {
-                treeList.add(branch);
-                SysDeptDto SysDeptDto = new SysDeptDto().convert(branch);
-                departIdList.add(SysDeptDto);
-            }
-        }
-        getGrandChildren(treeList,recordList,departIdList);
+//        for (int i = 0; i < recordList.size(); i++) {
+//            TreeDto branch = recordList.get(i);
+//            if (StringUtils.isEmpty(branch.getParentId())) {
+//                treeList.add(branch);
+//                SysDept sysDept = new SysDept();
+//                sysDept.set
+//                departIdList.add(sysDept);
+//            }
+//        }
+//        getGrandChildren(treeList,recordList,departIdList);
         
-        //idList = departIdList;
         return treeList;
     }
 
@@ -78,21 +78,21 @@ public class FindsDeptsChildrenUtil {
      * queryTreeList的子方法====3====
      *该方法是找到顶级父类下的所有子节点集合并封装到TreeList集合
      */
-    private static void getGrandChildren(List<TreeDto> treeList,List<TreeDto> recordList,List<SysDeptDto> idList) {
+    private static void getGrandChildren(List<TreeDto> treeList,List<TreeDto> recordList,List<SysDept> idList) {
 
-        for (int i = 0; i < treeList.size(); i++) {
-            TreeDto treeDto = treeList.get(i);
-            SysDeptDto idModel = idList.get(i);
-            for (int i1 = 0; i1 < recordList.size(); i1++) {
-                TreeDto m = recordList.get(i1);
-                if (m.getParentId()!=null && m.getParentId().equals(treeDto.getId())) {
-                    treeDto.getChildren().add(m);
-                    SysDeptDto dim = new SysDeptDto().convert(m);
-                    idModel.getChildren().add(dim);
-                }
-            }
-            getGrandChildren(treeList.get(i).getChildren(), recordList, idList.get(i).getChildren());
-        }
+//        for (int i = 0; i < treeList.size(); i++) {
+//            TreeDto treeDto = treeList.get(i);
+//            SysDept idModel = idList.get(i);
+//            for (int i1 = 0; i1 < recordList.size(); i1++) {
+//                TreeDto m = recordList.get(i1);
+//                if (m.getParentId()!=null && m.getParentId().equals(treeDto.getId())) {
+//                    treeDto.getChildren().add(m);
+//                    SysDept dim = new SysDept().convert(m);
+//                    idModel.getChildren().add(dim);
+//                }
+//            }
+//            getGrandChildren(treeList.get(i).getChildren(), recordList, idList.get(i).getChildren());
+//        }
 
     }
     

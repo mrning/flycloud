@@ -53,6 +53,7 @@ flycloud:
     ignore:
       httpUrls: /login, /css/**, /images/**, /js/**
   actable:
+    # 需要自动建表的报名
     pack: com.zac.flycloud.entity.tablemodel
     primarykey: id
     tableAuto: update

@@ -1,4 +1,4 @@
-package com.zac.fly_cloud.utils;
+package com.zac.flycloud.utils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;

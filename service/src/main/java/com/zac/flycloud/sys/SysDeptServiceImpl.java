@@ -10,6 +10,7 @@ import com.zac.flycloud.mapper.SysDeptMapper;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.entity.tablemodel.SysDept;
 import com.zac.flycloud.entity.tablemodel.SysUserDept;
+import com.zac.flycloud.sys.sysutils.FindsDeptsChildrenUtil;
 import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -70,73 +71,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		}
 
 	}
-	
-	/**
-	 * saveDepartData 的调用方法,生成部门编码和部门类型（作废逻辑）
-	 * @deprecated
-	 * @param parentId
-	 * @return
-	 */
-	private String[] generateOrgCode(String parentId) {	
-		//update-begin--Author:Steve  Date:20190201 for：组织机构添加数据代码调整
-				LambdaQueryWrapper<SysDept> query = new LambdaQueryWrapper<SysDept>();
-				LambdaQueryWrapper<SysDept> query1 = new LambdaQueryWrapper<SysDept>();
-				String[] strArray = new String[2];
-		        // 创建一个List集合,存储查询返回的所有SysDept对象
-		        List<SysDept> departList = new ArrayList<>();
-				// 定义新编码字符串
-				String newOrgCode = "";
-				// 定义旧编码字符串
-				String oldOrgCode = "";
-				// 定义部门类型
-				String orgType = "";
-				// 如果是最高级,则查询出同级的org_code, 调用工具类生成编码并返回
-				if (StringUtil.isNullOrEmpty(parentId)) {
-					// 线判断数据库中的表是否为空,空则直接返回初始编码
-					query1.eq(SysDept::getParentId, "").or().isNull(SysDept::getParentId);
-					query1.orderByDesc(SysDept::getOrgCode);
-					departList = this.list(query1);
-					if(departList == null || departList.size() == 0) {
-						strArray[0] = YouBianCodeUtil.getNextYouBianCode(null);
-						strArray[1] = "1";
-						return strArray;
-					}else {
-					SysDept depart = departList.get(0);
-					oldOrgCode = depart.getOrgCode();
-					orgType = depart.getOrgType();
-					newOrgCode = YouBianCodeUtil.getNextYouBianCode(oldOrgCode);
-					}
-				} else { // 反之则查询出所有同级的部门,获取结果后有两种情况,有同级和没有同级
-					// 封装查询同级的条件
-					query.eq(SysDept::getParentId, parentId);
-					// 降序排序
-					query.orderByDesc(SysDept::getOrgCode);
-					// 查询出同级部门的集合
-					List<SysDept> parentList = this.list(query);
-					// 查询出父级部门
-					SysDept depart = this.getById(parentId);
-					// 获取父级部门的Code
-					String parentCode = depart.getOrgCode();
-					// 根据父级部门类型算出当前部门的类型
-					orgType = String.valueOf(Integer.valueOf(depart.getOrgType()) + 1);
-					// 处理同级部门为null的情况
-					if (parentList == null || parentList.size() == 0) {
-						// 直接生成当前的部门编码并返回
-						newOrgCode = YouBianCodeUtil.getSubYouBianCode(parentCode, null);
-					} else { //处理有同级部门的情况
-						// 获取同级部门的编码,利用工具类
-						String subCode = parentList.get(0).getOrgCode();
-						// 返回生成的当前部门编码
-						newOrgCode = YouBianCodeUtil.getSubYouBianCode(parentCode, subCode);
-					}
-				}
-				// 返回最终封装了部门编码和部门类型的数组
-				strArray[0] = newOrgCode;
-				strArray[1] = orgType;
-				return strArray;
-		//update-end--Author:Steve  Date:20190201 for：组织机构添加数据代码调整
-	} 
-	
 
 	/**
 	 * updateDepartDataById 对应 edit 根据部门主键来更新对应的部门数据
@@ -166,7 +100,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		this.removeByIds(idList);
 		
 		//根据部门id删除用户与部门关系
-		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDepId,idList));
+		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,idList));
 		
 	}
 
@@ -178,13 +112,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Override
 	public List<String> getSubDepIdsByDepId(String departId) {
 		return this.baseMapper.getSubDepIdsByDepId(departId);
-	}
-
-	@Override
-	public List<String> getMySubDepIdsByDepId(String departIds) {
-		//根据部门id获取所负责部门
-		String[] codeArr = this.getMyDeptParentOrgCode(departIds);
-		return this.baseMapper.getSubDepIdsByOrgCodes(codeArr);
 	}
 
 	/**
@@ -201,11 +128,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			//departIds 为空普通用户或没有管理部门
 			if(StringUtil.isNullOrEmpty(departIds)){
 				return newList;
-			}
-			//根据部门id获取所负责部门
-			String[] codeArr = this.getMyDeptParentOrgCode(departIds);
-			for(int i=0;i<codeArr.length;i++){
-				query.or().likeRight(SysDept::getOrgCode,codeArr[i]);
 			}
 			query.eq(SysDept::getDelFlag, CommonConstant.DEL_FLAG_0.toString());
 		}
@@ -238,7 +160,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		//根据部门id获取部门角色id
 		List<String> roleIdList = new ArrayList<>();
 		//根据部门id删除用户与部门关系
-		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDepId,idList));
+		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,idList));
 		return ok;
 	}
 	
@@ -252,38 +174,21 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		query.eq(SysDept::getParentId,id);
 		List<SysDept> departList = this.list(query);
 		if(departList != null && departList.size() > 0) {
-			for(SysDept depart : departList) {
-				idList.add(depart.getId());
-				this.checkChildrenExists(depart.getId(), idList);
+			for(SysDept sysDept : departList) {
+				idList.add(sysDept.getUuid());
+				this.checkChildrenExists(sysDept.getUuid(), idList);
 			}
 		}
 	}
 
 	@Override
-	public List<SysDept> queryUserDeparts(String userId) {
-		return baseMapper.queryUserDeparts(userId);
+	public List<SysDept> queryUserDeparts(String userUuid) {
+		return baseMapper.queryUserDeparts(userUuid);
 	}
 
 	@Override
 	public List<SysDept> queryDepartsByUsername(String username) {
 		return baseMapper.queryDepartsByUsername(username);
 	}
-	
 
-	/**
-	 * 获取同一公司中部门编码长度最小的部门
-	 * @param str
-	 * @return
-	 */
-	private String getMinLengthNode(String[] str){
-		int min =str[0].length();
-		String orgCode = str[0];
-		for(int i =1;i<str.length;i++){
-			if(str[i].length()<=min){
-				min = str[i].length();
-				orgCode = orgCode+","+str[i];
-			}
-		}
-		return orgCode;
-	}
 }

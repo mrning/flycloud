@@ -2,7 +2,7 @@ package com.zac.flycloud.esconfig;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.fly_cloud.utils.RestUtil;
+import com.zac.flycloud.utils.RestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.zac.fly_cloud.utils;
+package com.zac.flycloud.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;

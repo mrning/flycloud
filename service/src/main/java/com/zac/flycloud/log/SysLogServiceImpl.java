@@ -18,7 +18,7 @@ import java.util.Map;
  * 系统日志表 服务实现类
  * </p>
  *
- * @Author zhangweijian
+ * @Author zac
  * @since 2018-12-26
  */
 @Service
@@ -54,11 +54,6 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	@Override
 	public List<Map<String,Object>> findVisitCount(Date dayStart, Date dayEnd) {
-		try {
-			String dbType = sysBaseAPI.getDatabaseType();
-			return sysLogMapper.findVisitCount(dayStart, dayEnd,dbType);
-		} catch (SQLException e) {
-		}
-		return null;
+			return sysLogMapper.findVisitCount(dayStart, dayEnd,"MYSQL");
 	}
 }

@@ -1,4 +1,4 @@
-package com.zac.fly_cloud.utils;
+package com.zac.flycloud.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
 	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate redisTemplate;
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 

@@ -1,4 +1,4 @@
-package com.zac.fly_cloud.utils;
+package com.zac.flycloud.utils;
 
 import org.springframework.util.StringUtils;
 
@@ -632,8 +632,7 @@ public class DateUtils extends PropertyEditorSupport {
                     throw new IllegalArgumentException("Could not parse date, date format is error ");
                 }
             } catch (ParseException ex) {
-                IllegalArgumentException iae = new IllegalArgumentException("Could not parse date: " + ex.getMessage());
-                iae.initCause(ex);
+                IllegalArgumentException iae = new IllegalArgumentException("Could not parse date: " + ex.getMessage(), ex);
                 throw iae;
             }
         } else {

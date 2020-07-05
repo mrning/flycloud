@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * 配置
  **/
 @Configuration
-@ConfigurationProperties(prefix = "cus.actable")
+@ConfigurationProperties(prefix = "flycloud.actable")
 @Data
 public class ActableConfig {
 

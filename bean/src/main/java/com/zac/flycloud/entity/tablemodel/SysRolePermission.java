@@ -2,6 +2,7 @@ package com.zac.flycloud.entity.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.zac.flycloud.annotation.AutoColumn;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -28,28 +29,31 @@ public class SysRolePermission implements Serializable {
      */
     @TableId(type = IdType.ID_WORKER_STR)
     private String id;
+
+    @AutoColumn(isNull = false)
+    private String uuid;
     
     /**
      * 角色id
      */
-    private String roleId;
+    private String roleUuid;
 
     /**
      * 权限id
      */
-    private String permissionId;
+    private String permissionUuid;
     
     /**
      * 数据权限
      */
-    private String dataRuleIds;
+    private String dataRuleUuids;
 
     public SysRolePermission() {
    	}
        
-   	public SysRolePermission(String roleId, String permissionId) {
-   		this.roleId = roleId;
-   		this.permissionId = permissionId;
+   	public SysRolePermission(String roleUuid, String permissionUuid) {
+   		this.roleUuid = roleUuid;
+   		this.permissionUuid = permissionUuid;
    	}
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zac.flycloud.annotation.AutoColumn;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,10 +24,14 @@ import java.util.Objects;
 @TableName("sys_depart")
 public class SysDept implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
 	/**ID*/
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
+
+	@AutoColumn(isNull = false)
+	private String uuid;
+
 	/**父机构ID*/
 	private String parentId;
 	/**机构/部门名称*/

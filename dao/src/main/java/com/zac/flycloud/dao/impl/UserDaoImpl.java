@@ -1,7 +1,7 @@
 package com.zac.flycloud.dao.impl;
 
 import com.zac.flycloud.dao.UserDao;
-import com.zac.flycloud.mapper.UserMapper;
+import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.entity.tablemodel.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 public class UserDaoImpl implements UserDao {
 
     @Autowired
-    private UserMapper userMapper;
+    private SysUserMapper sysUserMapper;
 
     @Override
     public SysUser getUserByName(String username) {
-        return userMapper.getUserByName(username);
+        return sysUserMapper.getUserByName(username);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface UserService extends IService<SysUser>{
+public interface SysUserService extends IService<SysUser>{
 
     /**
      * 重置密码
@@ -75,13 +75,6 @@ public interface UserService extends IService<SysUser>{
     List<String> getRole(String username);
 
     /**
-     * 查询用户信息包括 部门信息
-     * @param username
-     * @return
-     */
-//    public SysUserCacheInfo getCacheUser(String username);
-
-    /**
      * 根据部门Id查询
      * @param
      * @return
@@ -94,23 +87,6 @@ public interface UserService extends IService<SysUser>{
      * @return
      */
     IPage<SysUser> getUserByDepIds(Page<SysUser> page, List<String> departIds, String username);
-
-    /**
-     * 根据 userIds查询，查询用户所属部门的名称（多个部门名逗号隔开）
-     * @param
-     * @return
-     */
-    Map<String,String> getDepNamesByUserIds(List<String> userIds);
-
-    /**
-     * 根据部门 Id 和 QueryWrapper 查询
-     *
-     * @param page
-     * @param departId
-     * @param queryWrapper
-     * @return
-     */
-    IPage<SysUser> getUserByDepartIdAndQueryWrapper(Page<SysUser> page, String departId, QueryWrapper<SysUser> queryWrapper);
 
 
     /**
@@ -189,17 +165,6 @@ public interface UserService extends IService<SysUser>{
      */
     boolean removeLogicDeleted(List<String> userIds);
 
-    /**
-     * 更新手机号、邮箱空字符串为 null
-     */
-    @Transactional(rollbackFor = Exception.class)
-    boolean updateNullPhoneEmail();
-
-    /**
-     * 保存第三方用户信息
-     * @param sysUser
-     */
-    void saveThirdUser(SysUser sysUser);
 
     /**
      * 根据部门Ids查询

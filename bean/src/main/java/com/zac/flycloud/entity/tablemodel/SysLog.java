@@ -3,6 +3,7 @@ package com.zac.flycloud.entity.tablemodel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zac.flycloud.annotation.AutoColumn;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -31,6 +32,9 @@ public class SysLog implements Serializable {
 	 */
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
+
+	@AutoColumn(isNull = false)
+	private String uuid;
 
 	/**
 	 * 创建人

@@ -3,6 +3,7 @@ package com.zac.flycloud.entity.tablemodel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zac.flycloud.annotation.AutoColumn;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,19 +16,24 @@ public class SysUserDept implements Serializable {
 	/**主键id*/
     @TableId(type = IdType.ID_WORKER_STR)
 	private String id;
+
+	@AutoColumn(isNull = false)
+	private String uuid;
+
 	/**用户id*/
-	private String userId;
+	private String userUuid;
 	/**部门id*/
-	private String depId;
-	public SysUserDept(String id, String userId, String depId) {
+	private String deptUuid;
+
+	public SysUserDept(String uuid, String userUuid, String deptUuid) {
 		super();
-		this.id = id;
-		this.userId = userId;
-		this.depId = depId;
+		this.uuid = uuid;
+		this.userUuid = userUuid;
+		this.deptUuid = deptUuid;
 	}
 
-	public SysUserDept(String id, String departId) {
-		this.userId = id;
-		this.depId = departId;
+	public SysUserDept(String userUuid, String deptUuid) {
+		this.userUuid = userUuid;
+		this.deptUuid = deptUuid;
 	}
 }

@@ -13,6 +13,9 @@ public class SysUser {
 
     private Long id;
 
+    @AutoColumn(isNull = false)
+    private String uuid;
+
     /**
      * 用户名
      */

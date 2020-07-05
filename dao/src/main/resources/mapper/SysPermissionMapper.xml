@@ -9,10 +9,10 @@
 	    <result column="keep_alive" property="keepAlive"/>
 	    <result column="is_leaf" property="leaf"/>
 	</resultMap>
-	
-	
-	<select id="queryListByParentId" parameterType="Object"  resultMap="TreeModel">
-		   SELECT   
+
+
+	<select id="queryListByParentId" parameterType="Object"  resultType="com.zac.flycloud.entity.tablemodel.SysPermission">
+		   SELECT
 		   id
 		   ,parent_id
 		   ,name

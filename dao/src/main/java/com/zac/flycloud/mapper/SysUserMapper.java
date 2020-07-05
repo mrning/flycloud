@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface UserMapper extends BaseMapper<SysUser> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 通过用户账号查询用户信息

@@ -1,4 +1,4 @@
-package com.zac.fly_cloud.utils;
+package com.zac.flycloud.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2019年01月14日
  */
 public class IPUtils {
-	private static Logger logger = LoggerFactory.getLogger(IPUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(IPUtils.class);
 
 	/**
 	 * 获取IP地址
