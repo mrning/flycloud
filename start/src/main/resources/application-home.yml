@@ -1,0 +1,64 @@
+debug: true
+server:
+  port: 8080
+spring:
+  devtools:
+    livereload:
+      #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
+      port: 35730
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+    username: root
+    password: mysql417298...
+    hikari:
+      #最小空闲链接数量
+      minimum-idle: 5
+      #空闲连接存活最大时间（默认600000）
+      idle-timeout: 180000
+      #最大连接数
+      maximum-pool-size: 10
+      #是否自动提交
+      auto-commit: true
+      #连接池中链接的最长生命周期默认30分钟 = 1800000
+      max-lifetime: 1800000
+      #链接超时时间
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    database: 0
+    url: redis://user:@localhost:6379
+    host: localhost
+    port: 6379
+    password:
+    ssl: true
+    timeout: 3000
+  security:
+    user:
+      name: admin
+      password: 918f239c-3a5c-4d74-b0af-4600e5ae7ddc
+      roles: admin
+mybatis:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.zac.flycloud.entity.tablemodel
+  configuration:
+    # 设置下划线和驼峰转换
+    map-underscore-to-camel-case: true
+# 自定义配置
+flycloud:
+  security:
+    ignore:
+      httpUrls: /login, /css/**, /images/**, /js/**
+  actable:
+    # 需要自动建表的报名
+    pack: com.zac.flycloud.entity.tablemodel
+    primarykey: id
+    tableAuto: update
+   # ElasticSearch 6设置
+  elasticsearch:
+    cluster-name: elasticsearch
+    cluster-nodes: 127.0.0.1:9200
+    check-enabled: false
