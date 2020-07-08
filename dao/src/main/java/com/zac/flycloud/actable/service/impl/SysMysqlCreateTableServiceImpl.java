@@ -1,6 +1,5 @@
 package com.zac.flycloud.actable.service.impl;
 
-import com.zac.flycloud.annotation.AutoColumn;
 import com.zac.flycloud.actable.config.ActableConfig;
 import com.zac.flycloud.actable.mapper.CreateMysqlTablesMapper;
 import com.zac.flycloud.actable.service.SysMysqlCreateTableService;
@@ -10,6 +9,7 @@ import com.zac.flycloud.actable.table.CommonColumn;
 import com.zac.flycloud.actable.table.TableSql;
 import com.zac.flycloud.actable.util.CamelCaseUtil;
 import com.zac.flycloud.actable.util.ClassTools;
+import com.zac.flycloud.annotation.AutoColumn;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -62,8 +62,12 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
             // 构建出全部表的增删改的map
             allTableMapConstruct(classes, newTableMap, addTableMap);
 
-            // 根据传入的map，分别去创建或修改表结构
-            createOrModifyTableConstruct(newTableMap, addTableMap);
+            if(newTableMap.isEmpty() && addTableMap.isEmpty()){
+                log.info("不需要创建表 || 更新表。");
+            }else{
+                // 根据传入的map，分别去创建或修改表结构
+                createOrModifyTableConstruct(newTableMap, addTableMap);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

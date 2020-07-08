@@ -9,7 +9,10 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 自定义资源权限过滤器，实现动态权限验证
@@ -50,7 +53,8 @@ public class SecurityFilterInvocatioin implements FilterInvocationSecurityMetada
          * 此处做逻辑控制，如果没有匹配上的，返回一个默认具体权限，防止漏缺资源配置
          **/
         log.info("当前访问路径是{},这个url所需要的访问权限是{}", requestUrl, "ROLE_LOGIN");
-        return SecurityConfig.createList("ROLE_LOGIN");
+        return null;
+//        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override

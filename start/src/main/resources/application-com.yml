@@ -1,6 +1,6 @@
 debug: true
 server:
-  port: 8080
+  port: 9088
 spring:
   devtools:
     livereload:
@@ -28,8 +28,8 @@ spring:
   redis:
     database: 0
     url: redis://user:@localhost:6379
-    host: localhost
-    port: 6379
+#    host: localhost
+#    port: 6379
     password:
     ssl: true
     timeout: 3000
@@ -51,7 +51,7 @@ mybatis:
 flycloud:
   security:
     ignore:
-      httpUrls: /login, /css/**, /images/**, /js/**
+      httpUrls: /login, /css/**, /images/**, /js/**, /sys/randomImage
   actable:
     # 需要自动建表的报名
     pack: com.zac.flycloud.entity.tablemodel

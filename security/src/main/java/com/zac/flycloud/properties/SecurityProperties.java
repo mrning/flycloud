@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "cus.security")
+@ConfigurationProperties(prefix = "flycloud.security")
 public class SecurityProperties {
     private PermitProperties ignore = new PermitProperties();
 }
