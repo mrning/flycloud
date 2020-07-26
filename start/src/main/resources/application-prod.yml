@@ -1,6 +1,6 @@
 debug: true
 server:
-  port: 8080
+  port: 9088
 spring:
   devtools:
     livereload:
@@ -8,7 +8,7 @@ spring:
       port: 35730
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+    url: jdbc:mysql://localhost:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
     username: root
     password: mysql417298...
     hikari:
