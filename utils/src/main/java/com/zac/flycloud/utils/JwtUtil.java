@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 /**
- * @Author Scott
- * @Date 2018-07-12 14:23
+ * @Author zac
+ * @Date 20200802
  * @Desc JWT工具类
  **/
 public class JwtUtil {
@@ -112,16 +112,7 @@ public class JwtUtil {
 		return returnValue;
 	}
 
-	/**
-	 * 根据密码明文获取加密后的密码
-	 * @param password
-	 * @return
-	 */
-	public static String getPasswordEncode(String password){
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password);
-	}
 
-	
 	public static void main(String[] args) {
 		 String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUzMzY1MTMsInVzZXJuYW1lIjoiYWRtaW4ifQ.xjhud_tWCNYBOg_aRlMgOdlZoWFFKB_givNElHNw3X0";
 		 System.out.println(getUsername(token));

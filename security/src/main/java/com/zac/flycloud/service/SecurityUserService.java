@@ -1,9 +1,14 @@
 package com.zac.flycloud.service;
 
+import com.zac.flycloud.SampleAuthenticationManager;
 import com.zac.flycloud.dao.UserDao;
 import com.zac.flycloud.entity.tablemodel.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +32,9 @@ public class SecurityUserService implements UserDetailsService {
         Assert.notNull(user,"用户不存在");
         // 查询用户权限
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        Authentication request = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        Authentication result = new SampleAuthenticationManager().authenticate(request);
+        SecurityContextHolder.getContext().setAuthentication(result);
         return new User(user.getUsername(),user.getPassword(),user.getEnableStatus(),true,true,true,authorities);
     }
 }

@@ -33,28 +33,12 @@ public class SecurityFilterInvocatioin implements FilterInvocationSecurityMetada
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        //去数据库查询菜单资源
-//        List<Menu> allMenu = menuService.getAllMenu();
-//        for (Menu menu : allMenu) {
-//            if (antPathMatcher.match(menu.getUrl(), requestUrl)
-//                    && menu.getRoles().size() > 0) {
-//                List<Role> roles = menu.getRoles();
-//                int size = roles.size();
-//                String[] values = new String[size];
-//                for (int i = 0; i < size; i++) {
-//                    values[i] = roles.get(i).getName();
-//                }
-//                log.info("当前访问路径是{},这个url所需要的访问权限是{}", requestUrl, values);
-//                return SecurityConfig.createList(values);
-//            }
-//        }
         /**
          *  如果本方法返回null的话，意味着当前这个请求不需要任何角色就能访问
          * 此处做逻辑控制，如果没有匹配上的，返回一个默认具体权限，防止漏缺资源配置
          **/
         log.info("当前访问路径是{},这个url所需要的访问权限是{}", requestUrl, "ROLE_LOGIN");
         return null;
-//        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override

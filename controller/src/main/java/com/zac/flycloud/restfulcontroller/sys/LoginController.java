@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,9 +75,9 @@ public class LoginController {
         }
 
         //2. 校验用户名或密码是否正确
-        String userpassword = JwtUtil.getPasswordEncode(password);
+        String userpassword = PasswordUtil.getPasswordEncode(password);
         String syspassword = sysUser.getPassword();
-        if (!syspassword.equals(userpassword)) {
+        if (!PasswordUtil.getPasswordMatch(syspassword,userpassword)) {
             result.error500("用户名或密码错误");
             return result;
         }
@@ -184,7 +185,7 @@ public class LoginController {
 //		//手机号模式 登录模式: "2"  注册模式: "1"
 //		String smsmode=jsonObject.get("smsmode").toString();
 //		log.info(mobile);
-//		if(oConvertUtils.isEmpty(mobile)){
+//		if(StringUtils.isEmpty(mobile)){
 //			result.setMessage("手机号不允许为空！");
 //			result.setSuccess(false);
 //			return result;
@@ -339,62 +340,5 @@ public class LoginController {
         }
         return res;
     }
-
-    /**
-     * app登录
-     * @param sysLoginModel
-     * @return
-     * @throws Exception
-     */
-//	@RequestMapping(value = "/mLogin", method = RequestMethod.POST)
-//	public DataResponseResult<JSONObject> mLogin(@RequestBody SysLoginDto sysLoginModel) throws Exception {
-//		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-//		String username = sysLoginModel.getUsername();
-//		String password = sysLoginModel.getPassword();
-//
-//		//1. 校验用户是否有效
-//		SysUser sysUser = userService.getUserByName(username);
-//		result = userService.checkUserIsEffective(sysUser);
-//		if(!result.isSuccess()) {
-//			return result;
-//		}
-//
-//		//2. 校验用户名或密码是否正确
-//		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
-//		String syspassword = sysUser.getPassword();
-//		if (!syspassword.equals(userpassword)) {
-//			result.error500("用户名或密码错误");
-//			return result;
-//		}
-//
-//		String orgCode = sysUser.getOrgCode();
-//		if(oConvertUtils.isEmpty(orgCode)) {
-//			//如果当前用户无选择部门 查看部门关联信息
-//			List<SysDepart> departs = sysDepartService.queryUserDeparts(sysUser.getUuid());
-//			if (departs == null || departs.size() == 0) {
-//				result.error500("用户暂未归属部门,不可登录!");
-//				return result;
-//			}
-//			orgCode = departs.get(0).getOrgCode();
-//			sysUser.setOrgCode(orgCode);
-//			this.userService.updateUserDepart(username, orgCode);
-//		}
-//		JSONObject obj = new JSONObject();
-//		//用户登录信息
-//		obj.put("userInfo", sysUser);
-//
-//		// 生成token
-//		String token = JwtUtil.sign(username, syspassword);
-//		// 设置超时时间
-//		redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
-//		redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME*2 / 1000);
-//		//token 信息
-//		obj.put("token", token);
-//		result.setResult(obj);
-//		result.setSuccess(true);
-//		result.setCode(200);
-//		sysBaseAPI.addLog("用户名: " + username + ",登录成功[移动端]！", CommonConstant.LOG_TYPE_1, null);
-//		return result;
-//	}
 
 }

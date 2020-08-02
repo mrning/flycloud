@@ -1,7 +1,6 @@
 package com.zac.flycloud.config;
 
 
-import com.zac.flycloud.interceptor.SecurityAccessDecision;
 import com.zac.flycloud.interceptor.SecurityFilterInvocatioin;
 import com.zac.flycloud.interceptor.handler.CustomExpiredSessionStrategy;
 import com.zac.flycloud.properties.SecurityProperties;
@@ -34,8 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthenticationFailureHandler securityLoginFailHandler;
 
-    @Autowired
-    SecurityAccessDecision securityAccessDecision;
 
     @Autowired
     SecurityFilterInvocatioin securityFilterInvocatioin;
@@ -63,8 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
                         // 设置 获取请求url的所有权限
                         o.setSecurityMetadataSource(securityFilterInvocatioin);
-                        // 设置 获取请求url需要的权限当前登录用户时候拥有
-                        o.setAccessDecisionManager(securityAccessDecision);
                         return o;
                     }
                 })

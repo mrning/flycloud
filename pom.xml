@@ -120,6 +120,12 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.0.7</version>
+		</dependency>
+
 		<!-- Swagger API文档 -->
 		<dependency>
 			<groupId>io.springfox</groupId>

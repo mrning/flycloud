@@ -4,17 +4,17 @@
 
 	<!-- 根据用户名查询 -->
 	<select id="getUserByName" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where username = #{username} and enable_status = 0
+		select * from  sys_user  where username = #{username} and enable_status = 1
 	</select>
 
 	<!-- 根据手机号查询 -->
 	<select id="getUserByPhone"  resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where phone = #{phone} and enable_status = 0
+		select * from  sys_user  where phone = #{phone} and enable_status = 1
 	</select>
 
 	<!-- 根据邮箱查询用户信息 -->
 	<select id="getUserByEmail" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where email = #{email} and enable_status = 0
+		select * from  sys_user  where email = #{email} and enable_status = 1
 	</select>
 
 	<!-- 根据部门Id查询 -->
@@ -27,7 +27,7 @@
 
 	<!-- 通过多个部门IDS，查询部门下的用户信息 -->
 	<select id="getUserByDepIds" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 0
+		select * from sys_user where enable_status = 1
 		<if test="departIds!=null  and departIds.size()>0">
 			and id in (select user_id from sys_user_depart where dep_id in
 			<foreach collection="departIds" index="index" item="id" open="(" separator="," close=")">
@@ -84,22 +84,22 @@
 		UPDATE
 			sys_user
 		SET
-			enable_status = 0,
+			enable_status = 1,
 			update_by = #{entity.updateBy},
 			update_time = #{entity.updateTime}
 		WHERE
-			enable_status = 1
+			enable_status = 0
 			AND id IN (${userIds})
 	</update>
 
 	<!-- 彻底删除被逻辑删除的用户 -->
 	<delete id="deleteLogicDeleted">
-		DELETE FROM sys_user WHERE enable_status = 1 AND id IN (${userIds})
+		DELETE FROM sys_user WHERE enable_status = 0 AND id IN (${userIds})
 	</delete>
 
 	<!-- 通过多个部门IDS，查询部门下的用户信息 -->
 	<select id="queryByDepIds" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 0
+		select * from sys_user where enable_status = 1
 		<if test="departIds!=null  and departIds.size()>0">
 			and id in (select user_id from sys_user_depart where dep_id in
 			<foreach collection="departIds" index="index" item="id" open="(" separator="," close=")">

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zac.flycloud.utils.JwtUtil;
 import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
@@ -18,6 +17,7 @@ import com.zac.flycloud.mapper.SysPermissionMapper;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.mapper.SysUserRoleMapper;
+import com.zac.flycloud.utils.PasswordUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -55,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>  imp
     @CacheEvict(value = {CacheConstant.SYS_USERS_CACHE}, allEntries = true)
     public DataResponseResult<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword) {
         SysUser user = sysUserMapper.getUserByName(username);
-        String passwordEncode = JwtUtil.getPasswordEncode(oldpassword);
+        String passwordEncode = PasswordUtil.getPasswordEncode(oldpassword);
         if (!user.getPassword().equals(passwordEncode)) {
             return DataResponseResult.error("旧密码输入错误!");
         }
@@ -65,7 +65,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>  imp
         if (!newpassword.equals(confirmpassword)) {
             return DataResponseResult.error("两次输入密码不一致!");
         }
-        String password = JwtUtil.getPasswordEncode(newpassword);
+        String password = PasswordUtil.getPasswordEncode(newpassword);
         SysUser sysUser = new SysUser();
         sysUser.setPassword(password);
         this.sysUserMapper.update(sysUser, new LambdaQueryWrapper<SysUser>().eq(SysUser::getId, user.getUuid()));
@@ -81,7 +81,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>  imp
     @CacheEvict(value = {CacheConstant.SYS_USERS_CACHE}, allEntries = true)
     public DataResponseResult<?> changePassword(SysUser sysUser) {
         String password = sysUser.getPassword();
-        String passwordEncode = JwtUtil.getPasswordEncode(password);
+        String passwordEncode = PasswordUtil.getPasswordEncode(password);
         sysUser.setPassword(passwordEncode);
         this.sysUserMapper.updateById(sysUser);
         return DataResponseResult.ok("密码修改成功!");

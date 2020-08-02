@@ -27,11 +27,10 @@ spring:
       connection-test-query: SELECT 1
   redis:
     database: 0
-    url: redis://user:@localhost:6379
     host: localhost
     port: 6379
     password:
-    ssl: true
+    ssl: false
     timeout: 3000
   security:
     user:
