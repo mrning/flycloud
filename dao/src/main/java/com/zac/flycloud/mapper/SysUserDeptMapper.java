@@ -12,5 +12,5 @@ public interface SysUserDeptMapper extends BaseMapper<SysUserDept>{
 	 * @param userId
 	 * @return
 	 */
-	List<SysUserDept> getUserDeptByUid(@Param("userId") String userId);
+	List<SysUserDept> getUserDeptByUuid(@Param("userId") String userId);
 }

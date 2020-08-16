@@ -1,4 +1,4 @@
-package com.zac.flycloud.sys;
+package com.zac.flycloud.sys.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -10,6 +10,7 @@ import com.zac.flycloud.mapper.SysDeptMapper;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.entity.tablemodel.SysDept;
 import com.zac.flycloud.entity.tablemodel.SysUserDept;
+import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.sysutils.FindsDeptsChildrenUtil;
 import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,31 +46,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		// 调用wrapTreeDataToTreeList方法生成树状数据
 		List<TreeDto> listResult = FindsDeptsChildrenUtil.wrapTreeDataToTreeList(list);
 		return listResult;
-	}
-
-
-	/**
-	 * saveDepartData 对应 add 保存用户在页面添加的新的部门对象数据
-	 */
-	@Override
-	@Transactional
-	public void saveDepartData(SysDept sysDept, String username) {
-		if (sysDept != null && username != null) {
-			if (sysDept.getParentId() == null) {
-				sysDept.setParentId("");
-			}
-			String s = UUID.randomUUID().toString().replace("-", "");
-			sysDept.setId(s);
-			// 先判断该对象有无父级ID,有则意味着不是最高级,否则意味着是最高级
-			// 获取父级ID
-			String parentId = sysDept.getParentId();
-			JSONObject formData = new JSONObject();
-			formData.put("parentId",parentId);
-			sysDept.setCreateTime(new Date());
-			sysDept.setDelFlag(CommonConstant.DEL_FLAG_0.toString());
-			this.save(sysDept);
-		}
-
 	}
 
 	/**

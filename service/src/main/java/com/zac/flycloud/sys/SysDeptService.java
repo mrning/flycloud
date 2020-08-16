@@ -24,12 +24,6 @@ public interface SysDeptService extends IService<SysDept>{
 
 
     /**
-     * 保存部门数据
-     * @param sysDepart
-     */
-    void saveDepartData(SysDept sysDepart,String username);
-
-    /**
      * 更新depart数据
      * @param sysDepart
      * @return

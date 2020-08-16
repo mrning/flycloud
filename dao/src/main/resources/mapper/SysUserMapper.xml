@@ -2,113 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zac.flycloud.mapper.SysUserMapper">
 
-	<!-- 根据用户名查询 -->
-	<select id="getUserByName" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where username = #{username} and enable_status = 1
-	</select>
+    <!-- 根据用户名查询 -->
+    <select id="getUserByName" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+        select *
+        from sys_user
+        where username = #{username}
+          and enable_status = 1
+    </select>
 
-	<!-- 根据手机号查询 -->
-	<select id="getUserByPhone"  resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where phone = #{phone} and enable_status = 1
-	</select>
+    <!-- 根据手机号查询 -->
+    <select id="getUserByPhone" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+        select *
+        from sys_user
+        where phone = #{phone}
+          and enable_status = 1
+    </select>
 
-	<!-- 根据邮箱查询用户信息 -->
-	<select id="getUserByEmail" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from  sys_user  where email = #{email} and enable_status = 1
-	</select>
+    <!-- 根据邮箱查询用户信息 -->
+    <select id="getUserByEmail" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+        select *
+        from sys_user
+        where email = #{email}
+          and enable_status = 1
+    </select>
 
-	<!-- 根据部门Id查询 -->
-	<select id="getUserByDepId" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 0 and id in (select user_id from sys_user_depart where dep_id=#{departId})
-		<if test="username!=null and username!=''">
-			and username = #{username}
-		</if>
-	</select>
+    <!-- 查询用户的所属部门名称信息 -->
+    <select id="getDeptsByUserUuid" resultType="com.zac.flycloud.entity.tablemodel.SysDept">
+        select *
+        from sys_dept
+        where uuid in
+        (select dept_uuid from sys_user_dept where user_uuid = #{userUuid})
+    </select>
 
-	<!-- 通过多个部门IDS，查询部门下的用户信息 -->
-	<select id="getUserByDepIds" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 1
-		<if test="departIds!=null  and departIds.size()>0">
-			and id in (select user_id from sys_user_depart where dep_id in
-			<foreach collection="departIds" index="index" item="id" open="(" separator="," close=")">
-				#{id}
-			</foreach>
-			)
-		</if>
-		<if test="username!=null and username!=''">
-			and username = #{username}
-		</if>
-	</select>
+    <!-- 查询用户的角色信息 -->
+    <select id="getRolesByUserUuid" resultType="com.zac.flycloud.entity.tablemodel.SysRole">
+        select *
+        from sys_role
+        where uuid in
+              (select role_uuid from sys_user_role where user_uuid = #{userUuid})
+    </select>
 
-	<!-- 查询用户的所属部门名称信息 -->
-	<select id="getDeptNamesByUserIds" resultType="com.zac.flycloud.entity.tablemodel.SysUserDept">
-		select d.depart_name,ud.user_id from sys_user_depart ud,sys_depart d where d.id = ud.dep_id and ud.user_id in
-		<foreach collection="userIds" index="index" item="id" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</select>
-
-	<!-- 根据角色Id查询 -->
-	<select id="getUserByRoleId" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 0 and id in (select user_id from sys_user_role where role_id=#{roleId})
-		<if test="username!=null and username!=''">
-			and username = #{username}
-		</if>
-	</select>
-
-	<!-- 根据角色id批量删除角色的与用户关系-->
-	<update id="batchDeleteRolePermissionRelation">
-		delete from sys_user_role
-		where role_id in
-		<foreach item="id" collection="roleIdArray" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</update>
-
-	<!-- 根据角色id批量删除角色的与权限关系-->
-	<update id="deleteBathRolePermissionRelation">
-		delete from sys_role_permission
-		where role_id in
-		<foreach item="id" collection="roleIdArray" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</update>
-
-	<!-- 查询被逻辑删除的用户 -->
-	<select id="selectLogicDeleted" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		SELECT * FROM sys_user ${ew.customSqlSegment}
-	</select>
-
-	<!-- 还原被逻辑删除的用户 -->
-	<update id="revertLogicDeleted">
-		UPDATE
-			sys_user
-		SET
-			enable_status = 1,
-			update_by = #{entity.updateBy},
-			update_time = #{entity.updateTime}
-		WHERE
-			enable_status = 0
-			AND id IN (${userIds})
-	</update>
-
-	<!-- 彻底删除被逻辑删除的用户 -->
-	<delete id="deleteLogicDeleted">
-		DELETE FROM sys_user WHERE enable_status = 0 AND id IN (${userIds})
-	</delete>
-
-	<!-- 通过多个部门IDS，查询部门下的用户信息 -->
-	<select id="queryByDepIds" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
-		select * from sys_user where enable_status = 1
-		<if test="departIds!=null  and departIds.size()>0">
-			and id in (select user_id from sys_user_depart where dep_id in
-			<foreach collection="departIds" index="index" item="id" open="(" separator="," close=")">
-				#{id}
-			</foreach>
-			)
-		</if>
-		<if test="username!=null and username!=''">
-			and username != #{username}
-		</if>
-	</select>
 </mapper>

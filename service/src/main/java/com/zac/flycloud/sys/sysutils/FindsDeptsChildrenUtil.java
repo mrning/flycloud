@@ -30,7 +30,7 @@ public class FindsDeptsChildrenUtil {
             records.add(new TreeDto(depart));
         }
         List<TreeDto> tree = findChildren(records, idList);
-        setEmptyChildrenAsNull(tree);
+//        setEmptyChildrenAsNull(tree);
         return tree;
     }
 
@@ -97,22 +97,4 @@ public class FindsDeptsChildrenUtil {
     }
     
 
-    /**
-     * queryTreeList的子方法 ====4====
-     * 该方法是将子节点为空的List集合设置为Null值
-     */
-    private static void setEmptyChildrenAsNull(List<TreeDto> treeList) {
-
-        for (int i = 0; i < treeList.size(); i++) {
-            TreeDto model = treeList.get(i);
-            if (model.getChildren().size() == 0) {
-                model.setChildren(null);
-                model.setIsLeaf(true);
-            }else{
-                setEmptyChildrenAsNull(model.getChildren());
-                model.setIsLeaf(false);
-            }
-        }
-        // SysDeptTreeList = treeList;
-    }
 }

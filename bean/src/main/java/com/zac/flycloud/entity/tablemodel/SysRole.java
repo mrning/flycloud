@@ -30,8 +30,9 @@ public class SysRole implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
+    @TableId(type = IdType.AUTO)
+    @AutoColumn(isAutoIncrement = true)
+    private Long id;
 
     @AutoColumn(isNull = false)
     private String uuid;

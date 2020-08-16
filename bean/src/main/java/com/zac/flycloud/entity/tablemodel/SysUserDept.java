@@ -9,13 +9,14 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("sys_user_depart")
+@TableName("sys_user_dept")
 public class SysUserDept implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**主键id*/
-    @TableId(type = IdType.ID_WORKER_STR)
-	private String id;
+	@TableId(type = IdType.AUTO)
+	@AutoColumn(isAutoIncrement = true)
+	private Long id;
 
 	@AutoColumn(isNull = false)
 	private String uuid;

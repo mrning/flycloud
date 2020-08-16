@@ -21,13 +21,14 @@ import java.util.Objects;
  * @Since  2019-01-22
  */
 @Data
-@TableName("sys_depart")
+@TableName("sys_dept")
 public class SysDept implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**ID*/
-	@TableId(type = IdType.ID_WORKER_STR)
-	private String id;
+	@TableId(type = IdType.AUTO)
+	@AutoColumn(isAutoIncrement = true)
+	private Long id;
 
 	@AutoColumn(isNull = false)
 	private String uuid;

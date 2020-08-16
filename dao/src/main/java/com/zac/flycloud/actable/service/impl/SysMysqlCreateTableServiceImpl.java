@@ -181,6 +181,9 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
         // 判断是否有父类，如果有拉取父类的field，这里只支持多层继承
         fields = recursionParents(clas, fields);
         for (Field field : fields) {
+            if("serialVersionUID".equals(field.getName())){
+                continue;
+            }
             AutoColumn column = field.getAnnotation(AutoColumn.class);
             // 注解，不需要的字段
             if (column != null && column.isIgnore()) {
@@ -208,10 +211,6 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
             //设置长度
             if (column != null && column.length() > 0) {
                 commonColumn.setDecimalLength(column.decimalLength());
-            }
-            //设置自增
-            if (column != null && column.isAutoIncrement()) {
-                commonColumn.setAutoIncrement(column.isAutoIncrement());
             }
             //设置自增
             if (column != null && column.isAutoIncrement()) {

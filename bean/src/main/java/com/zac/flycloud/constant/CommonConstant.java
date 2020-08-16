@@ -235,7 +235,7 @@ public interface CommonConstant {
     String SQL_INDEX_UNIQ_CODE = "uniq_code";
     /** sys_role 表 code 唯一键索引 */
     String SQL_INDEX_UNIQ_SYS_ROLE_CODE = "uniq_sys_role_role_code";
-    /** sys_depart 表 code 唯一键索引 */
+    /** sys_dept 表 code 唯一键索引 */
     String SQL_INDEX_UNIQ_DEPART_ORG_CODE = "uniq_depart_org_code";
     /**
      * 在线聊天 是否为默认分组

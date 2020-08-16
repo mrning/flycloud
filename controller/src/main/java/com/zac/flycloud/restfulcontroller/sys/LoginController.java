@@ -35,13 +35,13 @@ import java.util.*;
 public class LoginController {
 
     @Autowired
-    private SysUserService sysUserService;
-    @Autowired
     private SysBaseAPI sysBaseAPI;
     @Autowired
     private SysLogService logService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private SysUserService sysUserService;
     @Autowired
     private SysDeptService sysDeptService;
 
@@ -74,7 +74,7 @@ public class LoginController {
             return result;
         }
 
-        //2. 校验用户名或密码是否正确
+        //2. 校验用户名或密码是否正确 TODO security加密的密码怎样和输入的密码对比
         String userpassword = PasswordUtil.getPasswordEncode(password);
         String syspassword = sysUser.getPassword();
         if (!PasswordUtil.getPasswordMatch(syspassword,userpassword)) {

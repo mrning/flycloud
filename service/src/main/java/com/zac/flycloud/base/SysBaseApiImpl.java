@@ -77,7 +77,7 @@ public class SysBaseApiImpl implements SysBaseAPI {
             sysLog.setIp("127.0.0.1");
         }
 
-        //获取登录用户信息
+        //获取登录用户信息 TODO 获取登录用户信息
         SysUser sysUser = (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (sysUser != null) {
             sysLog.setUserid(sysUser.getUsername());
@@ -136,16 +136,6 @@ public class SysBaseApiImpl implements SysBaseAPI {
     }
 
     @Override
-    public List<String> getDepartIdsByUsername(String username) {
-        List<SysDept> list = sysDepartService.queryDepartsByUsername(username);
-        List<String> result = new ArrayList<>(list.size());
-        for (SysDept depart : list) {
-            result.add(depart.getId());
-        }
-        return result;
-    }
-
-    @Override
     public List<String> getDepartNamesByUsername(String username) {
         List<SysDept> list = sysDepartService.queryDepartsByUsername(username);
         List<String> result = new ArrayList<>(list.size());
@@ -158,13 +148,11 @@ public class SysBaseApiImpl implements SysBaseAPI {
 
     @Override
     public List<JSONObject> queryAllDepart(Wrapper wrapper) {
-        //noinspection unchecked
         return JSON.parseArray(JSON.toJSONString(sysDepartService.list(wrapper))).toJavaList(JSONObject.class);
     }
 
     @Override
     public List<JSONObject> queryAllUser(Wrapper wrapper) {
-        //noinspection unchecked
         return JSON.parseArray(JSON.toJSONString(sysUserMapper.selectList(wrapper))).toJavaList(JSONObject.class);
     }
 

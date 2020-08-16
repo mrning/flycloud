@@ -30,10 +30,10 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	 */
     List<SysDept> queryDepartsByUsername(@Param("username") String username);
 
-	@Select("select id from sys_depart where org_code=#{orgCode}")
+	@Select("select id from sys_dept where org_code=#{orgCode}")
     String queryDepartIdByOrgCode(@Param("orgCode") String orgCode);
 
-	@Select("select id,parent_id from sys_depart where id=#{departId}")
+	@Select("select id,parent_id from sys_dept where id=#{departId}")
     SysDept getParentDepartId(@Param("departId") String departId);
 
 	/**
