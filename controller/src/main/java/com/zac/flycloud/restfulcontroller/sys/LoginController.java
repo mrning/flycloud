@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
+
 /**
  * @Author zac
  * @Date 20200702
@@ -83,7 +85,12 @@ public class LoginController {
         }
 
         //用户登录信息
-        userInfo(sysUser, result);
+        try {
+            userInfo(sysUser, result);
+        } catch (Exception e) {
+            log.error("登录异常",e);
+            result.error500(e.getMessage());
+        }
         sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
         return result;
@@ -103,7 +110,7 @@ public class LoginController {
         if (StringUtils.isEmpty(token)) {
             return DataResponseResult.error("退出登录失败！");
         }
-        String username = JwtUtil.getUsername(token);
+        String username = String.valueOf(redisUtil.get(token));
         SysUser sysUser = sysBaseAPI.getUserByName(username);
         if (sysUser != null) {
             sysBaseAPI.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_1, null);
@@ -294,14 +301,16 @@ public class LoginController {
      * @param result
      * @return
      */
-    private DataResponseResult<JSONObject> userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) {
+    private DataResponseResult<JSONObject> userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception{
         String syspassword = sysUser.getPassword();
         String username = sysUser.getUsername();
         // 生成token
-        String token = JwtUtil.sign(username, syspassword);
-        // 设置token缓存有效时间
+        String token = PasswordUtil.createToken(username,syspassword);
+        // 设置token缓存有效时间 1个小时
+        redisUtil.set(token,username);
+        redisUtil.expire(token, TOKEN_EXPIRE_TIME);
         redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
-        redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME * 2 / 1000);
+        redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, TOKEN_EXPIRE_TIME);
 
         // 获取用户部门信息
         JSONObject obj = new JSONObject();

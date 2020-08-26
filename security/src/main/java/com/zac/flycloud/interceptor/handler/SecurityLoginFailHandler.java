@@ -1,7 +1,12 @@
 package com.zac.flycloud.interceptor.handler;
 
+import ch.qos.logback.core.util.ContentTypeUtil;
+import cn.hutool.http.ContentType;
+import com.alibaba.fastjson.JSONObject;
+import com.zac.flycloud.basebean.DataResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -21,6 +26,7 @@ public class SecurityLoginFailHandler extends SimpleUrlAuthenticationFailureHand
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("SecurityLoginFailHandler 登录认证失败！");
-        response.sendRedirect("500");
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.error("登录认证失败")));
     }
 }

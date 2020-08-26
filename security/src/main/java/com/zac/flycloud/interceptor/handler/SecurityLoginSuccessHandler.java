@@ -1,5 +1,7 @@
 package com.zac.flycloud.interceptor.handler;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zac.flycloud.basebean.DataResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -21,7 +23,7 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         log.info("SecurityLoginSuccessHandler  登录成功。");
-        // 认证通过后跳转到其他页面
-        response.sendRedirect("index");
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.ok("登录成功")));
     }
 }

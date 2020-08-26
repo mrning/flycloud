@@ -1,0 +1,38 @@
+debug: true
+trace: true
+server:
+  port: 9088
+spring:
+  devtools:
+    livereload:
+      #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
+      port: 35730
+  output:
+    ansi:
+      enabled: always
+# mybatis相关配置
+mybatis:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.zac.flycloud.entity.tablemodel
+  configuration:
+    # 设置下划线和驼峰转换
+    map-underscore-to-camel-case: true
+
+# 自定义配置
+flycloud:
+  security:
+    ignore:
+      httpUrls: /css/**, /images/**, /img/**, /js/**, /index, /sys/**,/user/**
+  actable:
+    # 需要自动建表的报名
+    pack: com.zac.flycloud.entity.tablemodel
+    primarykey: id
+    tableAuto: update
+    # ElasticSearch 6设置
+  elasticsearch:
+    cluster-name: elasticsearch
+    cluster-nodes: 127.0.0.1:9200
+    check-enabled: false
