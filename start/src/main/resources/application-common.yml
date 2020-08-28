@@ -1,5 +1,5 @@
 debug: true
-trace: true
+#trace: true
 server:
   port: 9088
 spring:
@@ -25,7 +25,7 @@ mybatis:
 flycloud:
   security:
     ignore:
-      httpUrls: /css/**, /images/**, /img/**, /js/**, /index, /sys/**,/user/**
+      httpUrls: /css/**, /images/**, /img/**, /js/**, /index, /sys/**
   actable:
     # 需要自动建表的报名
     pack: com.zac.flycloud.entity.tablemodel
