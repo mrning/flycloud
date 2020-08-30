@@ -21,13 +21,4 @@ public class UserDaoImpl implements UserDao {
         return sysUserMapper.getUserByName(username);
     }
 
-    @Override
-    public List<SysDept> getDeptsByUserUuid(String userUuid) {
-        return sysUserMapper.getDeptsByUserUuid(userUuid);
-    }
-
-    @Override
-    public List<SysRole> getRolesByUserUuid(String userUuid) {
-        return sysUserMapper.getRolesByUserUuid(userUuid);
-    }
 }

@@ -2,9 +2,12 @@ package com.zac.flycloud.interceptor.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +23,15 @@ import java.io.IOException;
 public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Value("${flycloud.tokenKey}")
+    private String tokenKey;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         log.info("SecurityLoginSuccessHandler  登录成功。");
+        String token = TokenUtil.createToken(((User)authentication.getPrincipal()).getUsername(),tokenKey);
+
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.ok("登录成功")));
+        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.ok("登录成功",token)));
     }
 }

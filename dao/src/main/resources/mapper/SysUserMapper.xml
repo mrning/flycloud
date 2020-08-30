@@ -26,20 +26,4 @@
           and enable_status = 1
     </select>
 
-    <!-- 查询用户的所属部门名称信息 -->
-    <select id="getDeptsByUserUuid" resultType="com.zac.flycloud.entity.tablemodel.SysDept">
-        select *
-        from sys_dept
-        where uuid in
-        (select dept_uuid from sys_user_dept where user_uuid = #{userUuid})
-    </select>
-
-    <!-- 查询用户的角色信息 -->
-    <select id="getRolesByUserUuid" resultType="com.zac.flycloud.entity.tablemodel.SysRole">
-        select *
-        from sys_role
-        where uuid in
-              (select role_uuid from sys_user_role where user_uuid = #{userUuid})
-    </select>
-
 </mapper>

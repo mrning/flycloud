@@ -1,9 +1,7 @@
 package com.zac.flycloud.utils;
 
-import cn.hutool.core.util.HashUtil;
 import com.alibaba.nacos.client.naming.utils.SignUtil;
 import com.alibaba.nacos.common.util.Md5Utils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

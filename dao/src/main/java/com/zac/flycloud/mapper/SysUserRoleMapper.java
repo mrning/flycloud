@@ -1,6 +1,7 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zac.flycloud.entity.tablemodel.SysRole;
 import com.zac.flycloud.entity.tablemodel.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -22,5 +23,8 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
 	@Select("select id from sys_role where id in (select role_id from sys_user_role where user_id = (select id from sys_user where username=#{username}))")
 	List<String> getRoleIdByUserName(@Param("username") String username);
+
+	@Select("select * from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = #{userUuid})")
+	List<SysRole> getRolesByUserUuid(@Param("userUuid") String userUuid);
 
 }

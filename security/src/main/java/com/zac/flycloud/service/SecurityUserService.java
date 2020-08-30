@@ -1,7 +1,10 @@
 package com.zac.flycloud.service;
 
 import com.zac.flycloud.dao.UserDao;
+import com.zac.flycloud.dao.UserRoleDao;
+import com.zac.flycloud.entity.tablemodel.SysRole;
 import com.zac.flycloud.entity.tablemodel.SysUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -13,11 +16,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service("securityUserService")
 public class SecurityUserService implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -25,12 +31,20 @@ public class SecurityUserService implements UserDetailsService {
         SysUser user = userDao.getUserByName(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
-        }else{
+        } else {
             // 查询用户权限
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-            //  accountNonExpired = 账户是否过期; accountNonLocked = 账户是否锁定; credentialsNonExpired = 登录凭据(密碼)是否过期
-            return new User(user.getUsername(),user.getPassword(),user.getEnableStatus(),true,true,true,authorities);
+            List<SysRole> roles = userRoleDao.getRolesByUserUuid(user.getUuid());
+            if (!roles.isEmpty()) {
+                roles.stream().forEach(sysRole -> authorities.add(new SimpleGrantedAuthority(sysRole.getRoleCode())));
+            } else {
+                log.error("SecurityUserService #loadUserByUsername 用户未关联角色，username = " + username);
+            }
+
+            //  accountNonExpired = 账户是否过期;
+            //  accountNonLocked = 账户是否锁定;
+            //  credentialsNonExpired = 登录凭据(密碼)是否过期
+            return new User(user.getUsername(), user.getPassword(), user.getEnableStatus(), true, true, true, authorities);
         }
     }
 }

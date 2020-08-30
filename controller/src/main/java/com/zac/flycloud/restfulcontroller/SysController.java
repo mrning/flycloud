@@ -1,4 +1,4 @@
-package com.zac.flycloud.restfulcontroller.sys;
+package com.zac.flycloud.restfulcontroller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -37,7 +37,7 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
  */
 @RestController
 @RequestMapping("/sys")
-@Api(tags = "用户登录")
+@Api(tags = "系统相关")
 @Slf4j
 public class SysController {
 
@@ -462,9 +462,9 @@ public class SysController {
      */
     @GetMapping("loginfo")
     public DataResponseResult<JSONObject> loginfo() {
+        log.info("获取访问量");
         DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
         JSONObject obj = new JSONObject();
-        //update-begin--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
         // 获取一天的开始和结束时间
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -480,7 +480,6 @@ public class SysController {
         Long todayVisitCount = logService.findTodayVisitCount(dayStart, dayEnd);
         obj.put("todayVisitCount", todayVisitCount);
         Long todayIp = logService.findTodayIp(dayStart, dayEnd);
-        //update-end--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
         obj.put("todayIp", todayIp);
         result.setResult(obj);
         DataResponseResult.success("登录成功", "ok");

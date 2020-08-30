@@ -69,10 +69,11 @@ public class DataResponseResult<T> implements Serializable {
 		return r;
 	}
 	
-	public static DataResponseResult<Object> ok(Object data) {
+	public static DataResponseResult<Object> ok(String msg, Object data) {
 		DataResponseResult<Object> r = new DataResponseResult<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
+		r.setMessage(msg);
 		r.setResult(data);
 		return r;
 	}

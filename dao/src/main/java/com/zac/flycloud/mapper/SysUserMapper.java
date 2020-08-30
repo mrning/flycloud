@@ -35,17 +35,4 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     SysUser getUserByEmail(@Param("email") String email);
 
-    /**
-     * 根据用户uuid获取所属部门列表
-     * @param userUuid
-     * @return
-     */
-    List<SysDept> getDeptsByUserUuid(@Param("userUuid") String userUuid);
-
-    /**
-     * 根据用户uuid获取所属部门列表
-     * @param userUuid
-     * @return
-     */
-    List<SysRole> getRolesByUserUuid(@Param("userUuid") String userUuid);
 }

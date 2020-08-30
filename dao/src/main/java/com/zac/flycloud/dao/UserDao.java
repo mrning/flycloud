@@ -10,7 +10,6 @@ public interface UserDao {
 
     SysUser getUserByName(String username);
 
-    List<SysDept> getDeptsByUserUuid(String userUuid);
 
-    List<SysRole> getRolesByUserUuid(String userUuid);
+
 }
