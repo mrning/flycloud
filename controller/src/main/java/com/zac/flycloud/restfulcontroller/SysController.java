@@ -254,7 +254,7 @@ public class SysController {
     }
 
     /**
-     * 查询用户拥有的菜单权限和按钮权限（根据TOKEN）
+     * 查询用户拥有的菜单权限
      *
      * @return
      */
@@ -342,9 +342,6 @@ public class SysController {
         JSONObject json = new JSONObject();
         // 类型(0：一级菜单 1：子菜单 2：按钮)
         if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2)) {
-            //json.put("action", permission.getPerms());
-            //json.put("type", permission.getPermsType());
-            //json.put("describe", permission.getName());
             return null;
         } else if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
             json.put("id", permission.getId());
@@ -381,10 +378,8 @@ public class SysController {
             // 由用户设置是否缓存页面 用布尔值
             meta.put("keepAlive", permission.isKeepAlive());
 
-            /*update_begin author:wuxianquan date:20190908 for:往菜单信息里添加外链菜单打开方式 */
             //外链菜单打开方式
             meta.put("internalOrExternal", permission.isInternalOrExternal());
-            /* update_end author:wuxianquan date:20190908 for: 往菜单信息里添加外链菜单打开方式*/
 
             meta.put("title", permission.getName());
             if (StringUtils.isEmpty(permission.getParentId())) {
@@ -509,118 +504,37 @@ public class SysController {
     }
 
     /**
-     * 短信登录接口
-     *
-     * @param jsonObject
-     * @return
-     */
-//	@PostMapping(value = "/sms")
-//	public DataResponseResult<String> sms(@RequestBody JSONObject jsonObject) {
-//		DataResponseResult<String> result = new DataResponseResult<String>();
-//		String mobile = jsonObject.get("mobile").toString();
-//		//手机号模式 登录模式: "2"  注册模式: "1"
-//		String smsmode=jsonObject.get("smsmode").toString();
-//		log.info(mobile);
-//		if(StringUtils.isEmpty(mobile)){
-//			result.setMessage("手机号不允许为空！");
-//			result.setSuccess(false);
-//			return result;
-//		}
-//		Object object = redisUtil.get(mobile);
-//		if (object != null) {
-//			result.setMessage("验证码10分钟内，仍然有效！");
-//			result.setSuccess(false);
-//			return result;
-//		}
-//
-//		//随机数
-//		String captcha = RandomUtil.randomNumbers(6);
-//		JSONObject obj = new JSONObject();
-//    	obj.put("code", captcha);
-//		try {
-//			boolean b = false;
-//			//注册模板
-//			if (CommonConstant.SMS_TPL_TYPE_1.equals(smsmode)) {
-//				SysUser sysUser = userService.getUserByPhone(mobile);
-//				if(sysUser!=null) {
-//					result.error500(" 手机号已经注册，请直接登录！");
-//					sysBaseAPI.addLog("手机号已经注册，请直接登录！", CommonConstant.LOG_TYPE_1, null);
-//					return result;
-//				}
-//				b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.REGISTER_TEMPLATE_CODE);
-//			}else {
-//				//登录模式，校验用户有效性
-//				SysUser sysUser = userService.getUserByPhone(mobile);
-//				result = userService.checkUserIsEffective(sysUser);
-//				if(!result.isSuccess()) {
-//					return result;
-//				}
-//
-//				/**
-//				 * smsmode 短信模板方式  0 .登录模板、1.注册模板、2.忘记密码模板
-//				 */
-//				if (CommonConstant.SMS_TPL_TYPE_0.equals(smsmode)) {
-//					//登录模板
-//					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.LOGIN_TEMPLATE_CODE);
-//				} else if(CommonConstant.SMS_TPL_TYPE_2.equals(smsmode)) {
-//					//忘记密码模板
-//					b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.FORGET_PASSWORD_TEMPLATE_CODE);
-//				}
-//			}
-//
-//			if (b == false) {
-//				result.setMessage("短信验证码发送失败,请稍后重试");
-//				result.setSuccess(false);
-//				return result;
-//			}
-//			//验证码10分钟内有效
-//			redisUtil.set(mobile, captcha, 600);
-//			//update-begin--Author:scott  Date:20190812 for：issues#391
-//			//result.setResult(captcha);
-//			//update-end--Author:scott  Date:20190812 for：issues#391
-//			result.setSuccess(true);
-//
-//		} catch (ClientException e) {
-//			e.printStackTrace();
-//			result.error500(" 短信接口未配置，请联系管理员！");
-//			return result;
-//		}
-//		return result;
-//	}
-
-
-    /**
      * 手机号登录接口
      *
      * @param jsonObject
      * @return
      */
-//	@ApiOperation("手机号登录接口")
-//	@PostMapping("/phoneLogin")
-//	public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) {
-//		DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-//		String phone = jsonObject.getString("mobile");
-//
-//		//校验用户有效性
-//		SysUser sysUser = userService.getUserByPhone(phone);
-//		result = userService.checkUserIsEffective(sysUser);
-//		if(!result.isSuccess()) {
-//			return result;
-//		}
-//
-//		String smscode = jsonObject.getString("captcha");
-//		Object code = redisUtil.get(phone);
-//		if (!smscode.equals(code)) {
-//			result.setMessage("手机验证码错误");
-//			return result;
-//		}
-//		//用户信息
-//		userInfo(sysUser, result);
-//		//添加日志
-//		sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
-//
-//		return result;
-//	}
+	@ApiOperation("手机号登录接口")
+	@PostMapping("/phoneLogin")
+	public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
+		String phone = jsonObject.getString("mobile");
+        String smscode = jsonObject.getString("captcha");
+
+		// 校验用户有效性
+		SysUser sysUser = sysUserService.getUserByPhone(phone);
+        DataResponseResult<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
+		if(!result.isSuccess()) {
+			return result;
+		}
+
+		// 验证手机验证码
+		Object code = redisUtil.get(phone);
+		if (!smscode.equals(code)) {
+			result.setMessage("手机验证码错误");
+			return result;
+		}
+		// 获取用户信息
+		userInfo(sysUser, result);
+		// 添加日志
+		sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+
+		return result;
+	}
 
 
     /**
