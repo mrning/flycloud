@@ -18,12 +18,12 @@
 - 安装redis 并启动
 - 安装elasticsearch 并启动 [安装地址](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.1.msi)
 - 搜索 application.yml 修改数据库配置
+- 执行dbsql文件夹下的create-db.sql中的建库语句
 - 启动FlyCloudApplication类中的main方法
+- 数据库中执行 dbsql文件夹下的init-data.sql中的初始化语句
 
 #### 使用说明
-1.  xxxx
-2.  xxxx
-3.  xxxx
+TODO 
 
 #### 相关技术文档
 
