@@ -35,9 +35,9 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
  * @Author zac
  * @Date 20200702
  */
+@Api(tags = "系统相关 登录注册，获取权限")
 @RestController
 @RequestMapping("/sys")
-@Api(tags = "系统相关")
 @Slf4j
 public class SysController {
 
@@ -110,7 +110,8 @@ public class SysController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/logout")
+    @ApiOperation("登出")
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
     public DataResponseResult<Object> logout(HttpServletRequest request, HttpServletResponse response) {
         //用户退出逻辑
         String token = request.getHeader("X-Access-Token");
@@ -139,6 +140,7 @@ public class SysController {
      * @param user
      * @return
      */
+    @ApiOperation("注册")
     @PostMapping("/register")
     public DataResponseResult<JSONObject> userRegister(@RequestBody JSONObject jsonObject, SysUser user) {
         DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
@@ -217,6 +219,7 @@ public class SysController {
      * @param sysUser
      * @return
      */
+    @ApiOperation("校验账户唯一")
     @RequestMapping(value = "/checkOnlyUser", method = RequestMethod.GET)
     public DataResponseResult<Boolean> checkOnlyUser(SysUser sysUser) {
         DataResponseResult<Boolean> result = new DataResponseResult<>();
@@ -243,6 +246,7 @@ public class SysController {
     /**
      * 修改密码
      */
+    @ApiOperation("修改密码")
     @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
     public DataResponseResult<?> changePassword(@RequestBody SysUser sysUser) {
         SysUser u = this.sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
@@ -258,6 +262,7 @@ public class SysController {
      *
      * @return
      */
+    @ApiOperation("获取用户权限")
     @RequestMapping(value = "/getPermissionList", method = RequestMethod.GET)
     public DataResponseResult<?> getPermissionList() {
         DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
@@ -455,6 +460,7 @@ public class SysController {
      *
      * @return
      */
+    @ApiOperation("获取访问量")
     @GetMapping("loginfo")
     public DataResponseResult<JSONObject> loginfo() {
         log.info("获取访问量");

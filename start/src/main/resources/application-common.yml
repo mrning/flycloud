@@ -26,9 +26,10 @@ flycloud:
   security:
     ignore:
       httpUrls: /css/**, /images/**, /img/**, /js/**, /index, /sys/**
+
   tokenKey: 644b18e4eade56810e649357597aa3b0
   actable:
-    # 需要自动建表的报名
+    # 需要自动建表的包名
     pack: com.zac.flycloud.entity.tablemodel
     primarykey: id
     tableAuto: update

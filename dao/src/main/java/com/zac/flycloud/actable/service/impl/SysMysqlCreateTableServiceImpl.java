@@ -285,6 +285,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                     log.info("完成为表" + entry.getKey() + "增加字段" + column.getName());
                 }
             }
+            log.info("所有表添加字段结束：数量为 " + addTableMap.size());
         }
     }
 
@@ -303,6 +304,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                 createMysqlTablesMapper.createTable(tableSql);
                 log.info("完成创建表：" + entry.getKey());
             }
+            log.info("建表结束：数量为" + newTableMap.size());
         }
     }
 
