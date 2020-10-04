@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zac.flycloud.utils.IPUtils;
+import com.zac.flycloud.utils.UrlIPUtils;
 import com.zac.flycloud.utils.SpringContextUtils;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.entity.tablemodel.SysDept;
@@ -72,7 +72,7 @@ public class SysBaseApiImpl implements SysBaseAPI {
             //获取request
             HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
             //设置IP地址
-            sysLog.setIp(IPUtils.getIpAddr(request));
+            sysLog.setIp(UrlIPUtils.getIpAddr(request));
         } catch (Exception e) {
             sysLog.setIp("127.0.0.1");
         }

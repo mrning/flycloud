@@ -55,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         SysUser sysUser = new SysUser();
         sysUser.setPassword(password);
         this.sysUserMapper.update(sysUser, new LambdaQueryWrapper<SysUser>().eq(SysUser::getId, user.getUuid()));
-        return DataResponseResult.ok("密码重置成功!");
+        return DataResponseResult.success("密码重置成功!");
     }
 
     /**
@@ -70,7 +70,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         String passwordEncode = PasswordUtil.getPasswordEncode(password);
         sysUser.setPassword(passwordEncode);
         this.sysUserMapper.updateById(sysUser);
-        return DataResponseResult.ok("密码修改成功!");
+        return DataResponseResult.success("密码修改成功!");
     }
 
     /**

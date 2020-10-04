@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * IP地址
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Author zac
  * @Date 2019年01月14日
  */
-public class IPUtils {
-	private static final Logger logger = LoggerFactory.getLogger(IPUtils.class);
+public class UrlIPUtils {
+	private static final Logger logger = LoggerFactory.getLogger(UrlIPUtils.class);
 
 	/**
 	 * 获取IP地址
@@ -44,14 +45,38 @@ public class IPUtils {
         	logger.error("IPUtils ERROR ", e);
         }
         
-//        //使用代理，则获取第一个IP地址
-//        if(StringUtils.isEmpty(ip) && ip.length() > 15) {
-//			if(ip.indexOf(",") > 0) {
-//				ip = ip.substring(0, ip.indexOf(","));
-//			}
-//		}
-        
         return ip;
     }
-	
+
+
+    /**
+     * 判断是否外网URL 例如： http://localhost:8080/jeecg-boot/swagger-ui.html#/ 支持特殊格式： {{
+     * window._CONFIG['domianURL'] }}/druid/ {{ JS代码片段 }}，前台解析会自动执行JS代码片段
+     *
+     * @return
+     */
+    public static boolean isWWWHttpUrl(String url) {
+        return url != null && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("{{"));
+    }
+
+    /**
+     * 通过URL生成路由name（去掉URL前缀斜杠，替换内容中的斜杠‘/’为-） 举例： URL = /isystem/role RouteName =
+     * isystem-role
+     *
+     * @return
+     */
+    public static String urlToRouteName(String url) {
+        if (StringUtils.isNotEmpty(url)) {
+            if (url.startsWith("/")) {
+                url = url.substring(1);
+            }
+            url = url.replace("/", "-");
+
+            // 特殊标记
+            url = url.replace(":", "@");
+            return url;
+        } else {
+            return null;
+        }
+    }
 }

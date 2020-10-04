@@ -249,6 +249,35 @@ public class DateUtils extends PropertyEditorSupport {
     }
 
     /**
+     * 获取今天开始时间
+     * @return
+     */
+    public static Date getTodayStart(){
+        // 获取当天的开始时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取明天开始时间
+     * @return
+     */
+    public static Date getTodayEnd(){
+        // 获取第二天的开始时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.DATE, 1);
+        return calendar.getTime();
+    }
+
+    /**
      * 系统当前的时间戳
      *
      * @return 系统当前的时间戳

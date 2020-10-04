@@ -53,28 +53,30 @@ public class DataResponseResult<T> implements Serializable {
 	}
 	
 	
-	public static DataResponseResult<Object> ok() {
+	public static DataResponseResult<Object> success() {
 		DataResponseResult<Object> r = new DataResponseResult<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
+		r.setResult("success");
 		r.setMessage("成功");
 		return r;
 	}
 	
-	public static DataResponseResult<Object> ok(String msg) {
+	public static DataResponseResult<Object> success(String msg) {
 		DataResponseResult<Object> r = new DataResponseResult<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
+		r.setResult("success");
 		r.setMessage(msg);
 		return r;
 	}
-	
-	public static DataResponseResult<Object> ok(String msg, Object data) {
+
+	public static DataResponseResult<Object> success(Object data) {
 		DataResponseResult<Object> r = new DataResponseResult<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setMessage(msg);
 		r.setResult(data);
+		r.setMessage("成功");
 		return r;
 	}
 
@@ -103,6 +105,13 @@ public class DataResponseResult<T> implements Serializable {
 	public DataResponseResult<T> error500(String message) {
 		this.message = message;
 		this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
+		this.success = false;
+		return this;
+	}
+
+	public DataResponseResult<T> error404(String message) {
+		this.message = message;
+		this.code = CommonConstant.SC_RESOURCE_NOTFOUND_ERROR_404;
 		this.success = false;
 		return this;
 	}

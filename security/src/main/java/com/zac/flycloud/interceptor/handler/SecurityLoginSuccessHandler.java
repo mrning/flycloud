@@ -32,6 +32,6 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
         String token = TokenUtil.createToken(((SysUser)authentication.getPrincipal()).getUsername(),tokenKey);
 
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.ok("登录成功",token)));
+        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.success("登录成功",token)));
     }
 }

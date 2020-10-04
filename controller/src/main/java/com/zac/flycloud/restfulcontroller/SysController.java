@@ -21,7 +21,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -127,7 +126,7 @@ public class SysController {
             redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
             //清空用户的缓存信息（包括部门信息），例如sys:cache:user::<username>
             redisUtil.del(String.format("%s::%s", CacheConstant.SYS_USERS_CACHE, sysUser.getUsername()));
-            return DataResponseResult.ok("退出登录成功！");
+            return DataResponseResult.success("退出登录成功！");
         } else {
             return DataResponseResult.error("Token无效!");
         }
@@ -204,7 +203,7 @@ public class SysController {
             user.setPassword(passwordEncode);
             user.setMail(email);
             user.setPhone(phone);
-            DataResponseResult.ok("注册成功");
+            DataResponseResult.success("注册成功");
         } catch (Exception e) {
             result.error500("注册失败");
         }
@@ -356,7 +355,7 @@ public class SysController {
                 json.put("route", "0");// 表示不生成路由
             }
 
-            if (isWWWHttpUrl(permission.getUrl())) {
+            if (UrlIPUtils.isWWWHttpUrl(permission.getUrl())) {
                 json.put("path", MD5Util.MD5Encode(permission.getUrl(), "utf-8"));
             } else {
                 json.put("path", permission.getUrl());
@@ -366,7 +365,7 @@ public class SysController {
             if (StringUtils.isNotBlank(permission.getComponentName())) {
                 json.put("name", permission.getComponentName());
             } else {
-                json.put("name", urlToRouteName(permission.getUrl()));
+                json.put("name", UrlIPUtils.urlToRouteName(permission.getUrl()));
             }
 
             // 是否隐藏路由，默认都是显示的
@@ -398,7 +397,7 @@ public class SysController {
                     meta.put("icon", permission.getIcon());
                 }
             }
-            if (isWWWHttpUrl(permission.getUrl())) {
+            if (UrlIPUtils.isWWWHttpUrl(permission.getUrl())) {
                 meta.put("url", permission.getUrl());
             }
             json.put("meta", meta);
@@ -406,38 +405,6 @@ public class SysController {
 
         return json;
     }
-
-    /**
-     * 判断是否外网URL 例如： http://localhost:8080/jeecg-boot/swagger-ui.html#/ 支持特殊格式： {{
-     * window._CONFIG['domianURL'] }}/druid/ {{ JS代码片段 }}，前台解析会自动执行JS代码片段
-     *
-     * @return
-     */
-    private boolean isWWWHttpUrl(String url) {
-        return url != null && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("{{"));
-    }
-
-    /**
-     * 通过URL生成路由name（去掉URL前缀斜杠，替换内容中的斜杠‘/’为-） 举例： URL = /isystem/role RouteName =
-     * isystem-role
-     *
-     * @return
-     */
-    private String urlToRouteName(String url) {
-        if (StringUtils.isNotEmpty(url)) {
-            if (url.startsWith("/")) {
-                url = url.substring(1);
-            }
-            url = url.replace("/", "-");
-
-            // 特殊标记
-            url = url.replace(":", "@");
-            return url;
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * 判断是否授权首页
@@ -462,19 +429,11 @@ public class SysController {
      */
     @ApiOperation("获取访问量")
     @GetMapping("loginfo")
-    public DataResponseResult<JSONObject> loginfo() {
-        log.info("获取访问量");
-        DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
+    public DataResponseResult<Object> loginfo() {
         JSONObject obj = new JSONObject();
         // 获取一天的开始和结束时间
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        Date dayStart = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date dayEnd = calendar.getTime();
+        Date dayStart = DateUtils.getTodayStart();
+        Date dayEnd = DateUtils.getTodayEnd();
         // 获取系统访问记录
         Long totalVisitCount = logService.findTotalVisitCount();
         obj.put("totalVisitCount", totalVisitCount);
@@ -482,9 +441,7 @@ public class SysController {
         obj.put("todayVisitCount", todayVisitCount);
         Long todayIp = logService.findTodayIp(dayStart, dayEnd);
         obj.put("todayIp", todayIp);
-        result.setResult(obj);
-        DataResponseResult.success("登录成功", "ok");
-        return result;
+        return DataResponseResult.success(obj, "获取访问量成功");
     }
 
     /**
@@ -493,6 +450,7 @@ public class SysController {
      * @return
      */
     @GetMapping("visitInfo")
+    @ApiOperation("获取最近一周访问数量/ip数量")
     public DataResponseResult<List<Map<String, Object>>> visitInfo() {
         DataResponseResult<List<Map<String, Object>>> result = new DataResponseResult<List<Map<String, Object>>>();
         Calendar calendar = new GregorianCalendar();
@@ -568,7 +526,7 @@ public class SysController {
         obj.put("token", token);
         obj.put("userInfo", sysUser);
         result.setResult(obj);
-        DataResponseResult.ok("登录成功");
+        DataResponseResult.success("登录成功");
         return result;
     }
 
