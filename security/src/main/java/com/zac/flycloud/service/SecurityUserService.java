@@ -44,7 +44,7 @@ public class SecurityUserService implements UserDetailsService {
             //  accountNonExpired = 账户是否过期;
             //  accountNonLocked = 账户是否锁定;
             //  credentialsNonExpired = 登录凭据(密碼)是否过期
-            return new User(user.getUsername(), user.getPassword(), user.getEnableStatus(), true, true, true, authorities);
+            return new User(user.getUsername(), user.getPassword(), user.getDeleted(), true, true, true, authorities);
         }
     }
 }

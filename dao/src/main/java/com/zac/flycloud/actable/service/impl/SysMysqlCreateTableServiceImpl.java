@@ -62,9 +62,9 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
             // 构建出全部表的增删改的map
             allTableMapConstruct(classes, newTableMap, addTableMap);
 
-            if(newTableMap.isEmpty() && addTableMap.isEmpty()){
+            if (newTableMap.isEmpty() && addTableMap.isEmpty()) {
                 log.info("不需要创建表 || 更新表。");
-            }else{
+            } else {
                 // 根据传入的map，分别去创建或修改表结构
                 createOrModifyTableConstruct(newTableMap, addTableMap);
             }
@@ -181,7 +181,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
         // 判断是否有父类，如果有拉取父类的field，这里只支持多层继承
         fields = recursionParents(clas, fields);
         for (Field field : fields) {
-            if("serialVersionUID".equals(field.getName())){
+            if ("serialVersionUID".equals(field.getName())) {
                 continue;
             }
             AutoColumn column = field.getAnnotation(AutoColumn.class);
@@ -199,37 +199,41 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                 String fieldName = CamelCaseUtil.humpToLine(field.getName());
                 commonColumn.setName(fieldName);
             }
-            //设置字段类型
-            if (column != null && StringUtils.isNoneEmpty(column.type())) {
-                commonColumn.setType(column.type());
-            }
 
-            //设置长度
-            if (column != null && column.length() > 0) {
-                commonColumn.setLength(column.length());
-            }
-            //设置长度
-            if (column != null && column.length() > 0) {
-                commonColumn.setDecimalLength(column.decimalLength());
-            }
-            //设置自增
-            if (column != null && column.isAutoIncrement()) {
-                commonColumn.setAutoIncrement(column.isAutoIncrement());
-            }
-            //是否为空
-            if (column != null && !column.isNull()) {
-                commonColumn.setNullValue(column.isNull());
-            }
-            //是否主键
-            if (column != null && !column.isKey()) {
-                commonColumn.setKey(column.isKey());
-            }
             //设置字段类型
-            if (column != null && StringUtils.isNoneEmpty(column.defaultValue())) {
-                commonColumn.setDefaultValue(column.defaultValue());
+            if (column != null) {
+                if (StringUtils.isNoneEmpty(column.type())) {
+                    commonColumn.setType(column.type());
+                }
+                //设置长度
+                if (column.length() > 0) {
+                    commonColumn.setLength(column.length());
+                    commonColumn.setDecimalLength(column.decimalLength());
+                }
+                //设置自增
+                if (column.isAutoIncrement()) {
+                    commonColumn.setAutoIncrement(column.isAutoIncrement());
+                }
+                //是否为空
+                if (!column.isNull()) {
+                    commonColumn.setNullValue(column.isNull());
+                }
+                //是否主键
+                if (!column.isKey()) {
+                    commonColumn.setKey(column.isKey());
+                }
+                //设置字段类型
+                if (StringUtils.isNoneEmpty(column.defaultValue())) {
+                    commonColumn.setDefaultValue(column.defaultValue());
+                }
+                // 设置字段顺序
+                if (column.orderIndex() >= 0) {
+                    newFieldList.add(column.orderIndex(), commonColumn);
+                }
             }
-            newFieldList.add(commonColumn);
-
+            if(!newFieldList.stream().anyMatch(c -> c.getName().equals(commonColumn.getName()))){
+                newFieldList.add(commonColumn);
+            }
         }
     }
 

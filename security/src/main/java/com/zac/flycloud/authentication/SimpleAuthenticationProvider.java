@@ -33,7 +33,7 @@ public class SimpleAuthenticationProvider implements AuthenticationProvider {
         SysUser userInfo = new SysUser();
         userInfo.setUsername(userDetails.getUsername());
         userInfo.setPassword(userDetails.getPassword());
-        userInfo.setEnableStatus(userDetails.isEnabled());
+        userInfo.setDeleted(!userDetails.isEnabled());
 
         boolean isValid = PasswordUtil.getPasswordMatch(password, userInfo.getPassword());
         // 验证密码

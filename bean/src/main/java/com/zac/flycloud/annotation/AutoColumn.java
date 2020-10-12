@@ -80,4 +80,6 @@ public @interface AutoColumn {
      */
     boolean isIgnore() default false;
 
+    int orderIndex() default -1;
+
 }

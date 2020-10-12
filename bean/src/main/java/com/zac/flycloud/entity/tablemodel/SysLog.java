@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zac.flycloud.annotation.AutoColumn;
+import com.zac.flycloud.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -23,41 +24,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysLog implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * id
-	 */
-	@TableId(type = IdType.AUTO)
-	@AutoColumn(isAutoIncrement = true)
-	private Long id;
-
-	@AutoColumn(isNull = false)
-	private String uuid;
-
-	/**
-	 * 创建人
-	 */
-	private String createUser;
-
-	/**
-	 * 创建时间
-	 */
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createTime;
-
-	/**
-	 * 更新人
-	 */
-	private String updateUser;
-
-	/**
-	 * 更新时间
-	 */
-	private Date updateTime;
+public class SysLog extends BaseEntity {
 
 	/**
 	 * 耗时

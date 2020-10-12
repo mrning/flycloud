@@ -41,7 +41,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Override
 	public List<TreeDto> queryTreeList() {
 		LambdaQueryWrapper<SysDept> query = new LambdaQueryWrapper<SysDept>();
-		query.eq(SysDept::getDelFlag, CommonConstant.DEL_FLAG_0.toString());
+		query.eq(SysDept::getDeleted, CommonConstant.DEL_FLAG_0.toString());
 		List<SysDept> list = this.list(query);
 		// 调用wrapTreeDataToTreeList方法生成树状数据
 		List<TreeDto> listResult = FindsDeptsChildrenUtil.wrapTreeDataToTreeList(list);
@@ -56,7 +56,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	public Boolean updateDepartDataById(SysDept SysDept, String username) {
 		if (SysDept != null && username != null) {
 			SysDept.setUpdateTime(new Date());
-			SysDept.setUpdateBy(username);
+			SysDept.setUpdateUser(username);
 			this.updateById(SysDept);
 			return true;
 		} else {
@@ -105,7 +105,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			if(StringUtil.isNullOrEmpty(departIds)){
 				return newList;
 			}
-			query.eq(SysDept::getDelFlag, CommonConstant.DEL_FLAG_0.toString());
+			query.eq(SysDept::getDeleted, CommonConstant.DEL_FLAG_0.toString());
 		}
 		query.like(SysDept::getDepartName, keyWord);
 		TreeDto model = new TreeDto();

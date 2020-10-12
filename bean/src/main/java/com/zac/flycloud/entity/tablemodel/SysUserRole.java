@@ -1,13 +1,9 @@
 package com.zac.flycloud.entity.tablemodel;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.zac.flycloud.annotation.AutoColumn;
+import com.zac.flycloud.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -20,17 +16,8 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysUserRole implements Serializable {
+public class SysUserRole extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableId(type = IdType.AUTO)
-    @AutoColumn(isAutoIncrement = true)
-    private Long id;
-
-    @AutoColumn(isNull = false)
-    private String uuid;
-    
     /**
      * 用户id
      */
@@ -41,14 +28,13 @@ public class SysUserRole implements Serializable {
      */
     private String roleUuid;
 
-	public SysUserRole() {
-	}
+    public SysUserRole() {
+    }
 
-	public SysUserRole(String userUuid, String roleUuid) {
-		this.userUuid = userUuid;
-		this.roleUuid = roleUuid;
-	}
+    public SysUserRole(String userUuid, String roleUuid) {
+        this.userUuid = userUuid;
+        this.roleUuid = roleUuid;
+    }
 
-    
 
 }

@@ -2,6 +2,7 @@ package com.zac.flycloud.entity.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.zac.flycloud.entity.BaseEntity;
 import lombok.Data;
 import com.zac.flycloud.annotation.*;
 import java.util.Date;
@@ -11,14 +12,8 @@ import java.util.Date;
  * 用户表
  */
 @Data
-public class SysUser {
+public class SysUser extends BaseEntity {
 
-    @TableId(type = IdType.AUTO)
-    @AutoColumn(isAutoIncrement = true)
-    private Long id;
-
-    @AutoColumn(isNull = false)
-    private String uuid;
 
     /**
      * 用户名
@@ -57,29 +52,4 @@ public class SysUser {
      */
     private String phone;
 
-    /**
-     * 创建人
-     */
-    private String createUser;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private String updateUser;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 启用状态
-     */
-    @AutoColumn(defaultValue = "1")
-    private Boolean enableStatus;
 }
