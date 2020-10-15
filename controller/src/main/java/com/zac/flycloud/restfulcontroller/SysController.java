@@ -512,7 +512,7 @@ public class SysController {
         String syspassword = sysUser.getPassword();
         String username = sysUser.getUsername();
         // 生成token
-        String token = PasswordUtil.createToken(username,syspassword);
+        String token = PasswordUtil.createToken(username);
         // 设置token缓存有效时间 1个小时
         redisUtil.set(token,username);
         redisUtil.expire(token, TOKEN_EXPIRE_TIME);

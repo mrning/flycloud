@@ -1,5 +1,8 @@
 package com.zac.flycloud.constant;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface CommonConstant {
 
     /**
@@ -300,4 +303,21 @@ public interface CommonConstant {
      */
     String SIGN_PATCH_BIZ_STATUS_1 = "1";
     String SIGN_PATCH_BIZ_STATUS_2 = "2";
+
+    /**
+     * 接口url
+     */
+    public static Map<String,String> URL_MAPPING_MAP = new HashMap<>();
+
+    /**
+     * 请求头 - token
+     */
+    public static final String REQUEST_HEADER = "X-Token";
+
+    /**
+     * 请求头类型：
+     * application/x-www-form-urlencoded ： form表单格式
+     * application/json ： json格式
+     */
+    public static final String REQUEST_HEADERS_CONTENT_TYPE = "application/json";
 }
