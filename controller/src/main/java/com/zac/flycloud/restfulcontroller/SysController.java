@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +53,8 @@ public class SysController {
     private SysDeptService sysDeptService;
     @Autowired
     private SysPermissionService sysPermissionService;
+    @Value("${flycloud.tokenKey}")
+    private String tokenKey;
 
     @ApiOperation("登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -82,7 +85,7 @@ public class SysController {
             return result;
         }
 
-        //2. 校验用户名或密码是否正确 TODO security加密的密码怎样和输入的密码对比
+        //2. 校验用户名或密码是否正确
         String userpassword = PasswordUtil.getPasswordEncode(password);
         String syspassword = sysUser.getPassword();
         if (!PasswordUtil.getPasswordMatch(syspassword,userpassword)) {
@@ -512,7 +515,7 @@ public class SysController {
         String syspassword = sysUser.getPassword();
         String username = sysUser.getUsername();
         // 生成token
-        String token = PasswordUtil.createToken(username);
+        String token = PasswordUtil.createToken(username,tokenKey);
         // 设置token缓存有效时间 1个小时
         redisUtil.set(token,username);
         redisUtil.expire(token, TOKEN_EXPIRE_TIME);

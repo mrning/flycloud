@@ -8,6 +8,7 @@ import com.zac.flycloud.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -37,6 +38,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private SecurityUserService securityUserService;
     @Autowired
     private RedisUtil redisUtil;
+    @Value("${flycloud.tokenKey}")
+    private String tokenKey;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -59,7 +62,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             log.debug("后台检查令牌:{}", token);
             if (StringUtils.isNotBlank(token)) {
                 // 检查token
-                if (!PasswordUtil.verifyToken(token)) {
+                if (!PasswordUtil.verifyToken(token,tokenKey)) {
                     throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
                 }
                 UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));

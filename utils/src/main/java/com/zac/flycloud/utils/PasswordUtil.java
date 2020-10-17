@@ -1,27 +1,11 @@
 package com.zac.flycloud.utils;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HexUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.*;
-import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.crypto.symmetric.AES;
-import cn.hutool.crypto.symmetric.DES;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import com.alibaba.nacos.client.naming.utils.SignUtil;
-import com.alibaba.nacos.common.util.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.DigestUtils;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 public class PasswordUtil {
 
@@ -56,8 +40,8 @@ public class PasswordUtil {
      * @param username
      * @return
      */
-    public static String createToken(String username) {
-        byte[] signByte = sign.sign(username.getBytes());
+    public static String createToken(String username,String key) {
+        byte[] signByte = sign.sign((username+key).getBytes());
         // 公钥加密
         byte[] encode = algorithm.encrypt(signByte, KeyType.PublicKey);
         return HexUtil.encodeHexStr(encode);
@@ -68,11 +52,12 @@ public class PasswordUtil {
      *
      * @param token
      */
-    public static Boolean verifyToken(String token) {
+    public static Boolean verifyToken(String token,String key) {
         if(StringUtils.isBlank(token)){
             return false;
         }
-        String signData = (String) SpringContextUtils.getBean(RedisUtil.class).get(token);
+        String signData = SpringContextUtils.getBean(RedisUtil.class).get(token) + key;
+        // 私钥解密
         byte[] signByte = algorithm.decrypt(HexUtil.decodeHex(token), KeyType.PrivateKey);
         return sign.verify(signData.getBytes(), signByte);
     }
