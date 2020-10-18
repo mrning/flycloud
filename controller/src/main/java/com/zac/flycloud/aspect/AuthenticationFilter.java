@@ -60,18 +60,17 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
             String token = wrappedRequest.getHeader(REQUEST_HEADER);
             log.debug("后台检查令牌:{}", token);
-            if (StringUtils.isNotBlank(token)) {
-                // 检查token
-                if (!PasswordUtil.verifyToken(token,tokenKey)) {
-                    throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
-                }
-                UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
-                // 全局注入角色权限信息和登录用户基本信息
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (StringUtils.isBlank(token) || !PasswordUtil.verifyToken(token, tokenKey)) {
+                throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
             }
+
+            UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+            // 全局注入角色权限信息和登录用户基本信息
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(wrappedRequest, wrappedResponse);
         } catch (AuthenticationException e) {
+            log.error("AuthenticationException 校验过滤异常：",e);
             SecurityContextHolder.clearContext();
         } finally {
             stopWatch.stop();
@@ -88,7 +87,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 String bodyJson = wrapper.getBodyJsonStrByJson(request);
                 String url = wrapper.getRequestURI().replace("//", "/");
                 URL_MAPPING_MAP.put(url, url);
-                log.info("`{}` 接收到的参数: {}", url, bodyJson);
+                log.info("{} 接收到的参数: {}", url, bodyJson);
                 return bodyJson;
             } catch (Exception e) {
                 e.printStackTrace();
