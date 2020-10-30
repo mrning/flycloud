@@ -1,4 +1,4 @@
-debug: true
+#debug: true
 #trace: true
 server:
   port: 9088
@@ -20,12 +20,13 @@ mybatis:
   configuration:
     # 设置下划线和驼峰转换
     map-underscore-to-camel-case: true
-
 # 自定义配置
 flycloud:
   security:
     ignore:
-      httpUrls: /css/**, /images/**, /img/**, /js/**, /index, /sys/**
+      httpUrls: /css/**, /images/**, /img/**, /js/**,
+        /swagger-ui.html, /swagger-ui/**, /swagger-resources, /swagger-resources/**, /v2/api-docs, /v3/api-docs,
+        /webjars/**, /index, /sys/randomImage, /mybatisGenerator/**
 
   tokenKey: 644b18e4eade56810e649357597aa3b0
   actable:

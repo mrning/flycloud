@@ -7,7 +7,7 @@
         select *
         from sys_user
         where username = #{username}
-          and enable_status = 1
+          and deleted = 0
     </select>
 
     <!-- 根据手机号查询 -->
@@ -15,7 +15,7 @@
         select *
         from sys_user
         where phone = #{phone}
-          and enable_status = 1
+        and deleted = 0
     </select>
 
     <!-- 根据邮箱查询用户信息 -->
@@ -23,7 +23,7 @@
         select *
         from sys_user
         where email = #{email}
-          and enable_status = 1
+        and deleted = 0
     </select>
 
 </mapper>

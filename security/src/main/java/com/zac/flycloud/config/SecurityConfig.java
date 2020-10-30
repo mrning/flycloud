@@ -42,17 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.customAuthenticationProcessingFilter = customAuthenticationProcessingFilter;
     }
 
-    private static final String[] AUTH_WHITELIST = {
-            "/sys/randomImage",
-            // -- swagger ui
-            "/swagger-ui.html",
-            "/swagger-ui/*",
-            "/swagger-resources/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/webjars/**"
-    };
-
     /**
      * security基本配置
      *
@@ -61,7 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
         // 定义哪些url请求需要被保护，哪些不被保护
         http.antMatcher("/**").authorizeRequests()
                 .antMatchers(securityProperties.getIgnore().getUrls()).permitAll() // 不限制权限的url列表

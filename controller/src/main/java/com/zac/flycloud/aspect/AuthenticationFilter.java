@@ -1,5 +1,7 @@
 package com.zac.flycloud.aspect;
 
+import cn.hutool.core.util.ArrayUtil;
+import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
 import com.zac.flycloud.utils.MultiReadHttpServletResponse;
@@ -9,12 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,12 +44,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private RedisUtil redisUtil;
     @Value("${flycloud.tokenKey}")
     private String tokenKey;
+    @Autowired
+    SecurityProperties securityProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.debug("请求头类型： " + httpServletRequest.getContentType());
         if ((httpServletRequest.getContentType() == null && httpServletRequest.getContentLength() > 0)
-                || (httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_CONTENT_TYPE))) {
+                || (httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_CONTENT_TYPE))
+                || checkSwagger(httpServletRequest.getRequestURI())) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
@@ -110,5 +117,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 log.info("`{}`  耗时:{}ms  返回的参数: {}", URL_MAPPING_MAP.get(request.getRequestURI()), useTime, payload);
             }
         }
+    }
+
+    private boolean checkSwagger(String url){
+        boolean match = false;
+        for(String s : securityProperties.getIgnore().getUrls()){
+            if(PatternMatchUtils.simpleMatch(s,url)){
+                match = true;
+            }
+        }
+        return match;
     }
 }
