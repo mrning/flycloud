@@ -10,7 +10,7 @@
 - Mybatis
 - Mysql8
 - Dubbo + Nacos
-
+- Redis
 
 #### 安装教程
 - 安装jdk14
@@ -23,7 +23,12 @@
 - 数据库中执行 dbsql文件夹下的init-data.sql中的初始化语句
 
 #### 使用说明
-TODO 
+ 理想状态下，使用该平台的正确打开方式：
+ 1. 在com.zac.flycloud.entity.tablemodel包下面创建需要的entity类，并且继承BaseEntity
+ 2. 项目启动后，会自动检查是否需要根据entity新建表，增加字段等。
+ 3. 然后访问[swagger-ui](http://localhost:9088/swagger-ui/index.html)
+ 4. 调用 `mybatis自动生成代码 >>> 代码生成入口` 自动生成对应的CRUD代码
+ 5. 前端直接调用接口使用数据即可
 
 #### 相关技术文档
 

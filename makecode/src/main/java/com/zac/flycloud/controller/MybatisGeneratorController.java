@@ -31,8 +31,9 @@ public class MybatisGeneratorController {
 
     @RequestMapping(value = "/doGenerator", method = RequestMethod.POST)
     @ApiOperation("代码生成入口")
-    public void doDenerator() {
+    public String doDenerator() {
         mybatisGeneratorService.doDenerator();
+        return "success";
     }
 }
 
