@@ -71,8 +71,8 @@ public class DataResponseResult<T> implements Serializable {
 		return r;
 	}
 
-	public static DataResponseResult<Object> success(Object data) {
-		DataResponseResult<Object> r = new DataResponseResult<Object>();
+	public static<T> DataResponseResult<T> success(T data) {
+		DataResponseResult<T> r = new DataResponseResult<T>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
 		r.setResult(data);
@@ -80,8 +80,8 @@ public class DataResponseResult<T> implements Serializable {
 		return r;
 	}
 
-	public static DataResponseResult<Object> success(Object data, String message) {
-		DataResponseResult<Object> r = new DataResponseResult<Object>();
+	public static<T> DataResponseResult<T> success(T data, String message) {
+		DataResponseResult<T> r = new DataResponseResult<T>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
 		r.setResult(data);

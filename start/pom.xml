@@ -14,42 +14,37 @@
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>controller</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>security</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>bean</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>service</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>dao</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zac</groupId>
-            <artifactId>start</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>utils</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

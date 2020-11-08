@@ -1,7 +1,7 @@
 package com.zac.flycloud.entity.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.zac.flycloud.entity.BaseEntity;
+import com.zac.flycloud.basebean.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

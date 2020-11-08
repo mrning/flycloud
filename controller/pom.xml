@@ -14,22 +14,22 @@
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>bean</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>utils</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>service</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>security</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
     <build>

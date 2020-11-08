@@ -1,17 +1,9 @@
 package com.zac.flycloud.entity.tablemodel;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zac.flycloud.annotation.AutoColumn;
-import com.zac.flycloud.entity.BaseEntity;
+import com.zac.flycloud.basebean.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
