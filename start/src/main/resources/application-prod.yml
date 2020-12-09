@@ -32,3 +32,7 @@ spring:
       roles: admin
   profiles:
     include: common
+springfox:
+  documentation:
+    # prod环境不启用swagger
+    enabled: false

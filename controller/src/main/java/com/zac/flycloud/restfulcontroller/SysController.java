@@ -37,7 +37,7 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
  */
 @Api(tags = "系统相关 登录注册，获取权限")
 @RestController
-@RequestMapping("/sys")
+@RequestMapping("/api/sys")
 @Slf4j
 public class SysController {
 

@@ -64,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 自定义过滤器认证用户名密码
         http.addFilterAt(customAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     /**
