@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
@@ -17,7 +18,7 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
 
     public MultiReadHttpServletRequest(HttpServletRequest request) throws IOException {
         super(request);
-        body = getBodyString(request).getBytes(Charset.forName("UTF-8"));
+        body = getBodyString(request).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
         BufferedReader reader = null;
         try {
             inputStream = request.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             String line = "";
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

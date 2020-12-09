@@ -307,17 +307,17 @@ public interface CommonConstant {
     /**
      * 接口url
      */
-    public static Map<String,String> URL_MAPPING_MAP = new HashMap<>();
+    Map<String,String> URL_MAPPING_MAP = new HashMap<>();
 
     /**
      * 请求头 - token
      */
-    public static final String REQUEST_HEADER = "X-Token";
+    String REQUEST_HEADER = "X-Token";
 
     /**
      * 请求头类型：
      * application/x-www-form-urlencoded ： form表单格式
      * application/json ： json格式
      */
-    public static final String REQUEST_HEADERS_CONTENT_TYPE = "application/json";
+    String REQUEST_HEADERS_CONTENT_TYPE = "application/json";
 }

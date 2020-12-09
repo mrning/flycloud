@@ -21,8 +21,8 @@ import java.io.PrintWriter;
  */
 public class MultiReadHttpServletResponse extends HttpServletResponseWrapper {
 
-    private ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    private HttpServletResponse response;
+    private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    private final HttpServletResponse response;
 
     public MultiReadHttpServletResponse(HttpServletResponse response) {
         super(response);

@@ -9,18 +9,17 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.*;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.ScalarType;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +49,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     /**
      * 后台管理页面接口文档
+     *
      * @return
      */
     @Bean
@@ -70,6 +70,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     /**
      * app端接口文档
+     *
      * @return
      */
     @Bean
@@ -118,6 +119,13 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     /**
+     * 配置全局参数，配置一个名为Auth的请求头
+     */
+    private SecurityScheme securityScheme() {
+        return new ApiKey("Auth-Token", "Authorization", "header");
+    }
+
+    /**
      * api说明
      *
      * @return
@@ -128,12 +136,5 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .description("飞云后台 api 文档")
                 .version("1.0.0")
                 .build();
-    }
-
-    /**
-     * 配置全局参数，配置一个名为Auth的请求头
-     */
-    private SecurityScheme securityScheme() {
-        return new ApiKey("Auth-Token", "Authorization", "header");
     }
 }
