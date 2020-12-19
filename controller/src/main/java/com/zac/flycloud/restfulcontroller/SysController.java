@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +41,7 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
  * @Author zac
  * @Date 20200702
  */
-@Api(tags = "SysController", description = "系统相关 登录注册，获取权限")
+@Api(tags = "系统相关")
 @RestController
 @RequestMapping("/api/sys")
 @Slf4j

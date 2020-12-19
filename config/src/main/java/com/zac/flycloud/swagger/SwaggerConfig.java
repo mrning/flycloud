@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.zac.flycloud.constant.CommonConstant.REQUEST_HEADER_TOKEN;
+
 /**
  * springfox3.0文档地址
  * http://springfox.github.io/springfox/docs/current/#configuring-springfox
@@ -32,6 +34,8 @@ import java.util.List;
 @EnableOpenApi
 @ComponentScan(basePackages = {"com.zac.flycloud"})
 public class SwaggerConfig implements WebMvcConfigurer {
+
+    public static final String SWAGGER_TOKEN = "flycloud-88888888-token";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -63,9 +67,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build()
                 .groupName("app接口")
                 .globalRequestParameters(pars)
-                // 添加security登录认证
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Collections.singletonList(securityScheme()))
                 .apiInfo(apiInfo());
     }
 
@@ -86,9 +87,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build()
                 .groupName("后台管理接口")
                 .globalRequestParameters(pars)
-                // 添加security登录认证
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Collections.singletonList(securityScheme()))
                 .apiInfo(apiInfo());
     }
 
@@ -96,37 +94,15 @@ public class SwaggerConfig implements WebMvcConfigurer {
         // 配置公共参数，每个请求里面都会携带
         List<RequestParameter> pars = new ArrayList<>();
         RequestParameterBuilder ticketPar = new RequestParameterBuilder();
-        ticketPar.name("token").description("用户登录token")
+        ticketPar.name(REQUEST_HEADER_TOKEN).description("登录验证token")
                 .in(ParameterType.HEADER)
                 .accepts(Collections.singleton(MediaType.APPLICATION_JSON))
                 .query(q -> q.style(ParameterStyle.LABEL)
                         .model(m -> m.scalarModel(ScalarType.STRING))
-                        .defaultValue("flycloud-88888888-token"))
+                        .defaultValue(SWAGGER_TOKEN))
                 .required(true).build();
         pars.add(ticketPar.build());
         return pars;
-    }
-
-    @Bean
-    SecurityContext securityContext() {
-        AuthorizationScope readScope = new AuthorizationScope("flycloud", "飞云信息");
-        AuthorizationScope[] scopes = new AuthorizationScope[1];
-        scopes[0] = readScope;
-        SecurityReference securityReference = SecurityReference.builder()
-                .reference("flycloud")
-                .scopes(scopes)
-                .build();
-
-        return SecurityContext.builder()
-                .securityReferences(Collections.singletonList(securityReference))
-                .build();
-    }
-
-    /**
-     * 配置全局参数，配置一个名为Auth的请求头
-     */
-    private SecurityScheme securityScheme() {
-        return new ApiKey("Auth-Token", "Authorization", "header");
     }
 
     /**

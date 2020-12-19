@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.util.StringJoiner;
+
 /**
  * 异常处理器
  * 
@@ -46,8 +48,8 @@ public class ExceptionHandler {
 	}
 	
 	/**
-	 * @Author 政辉
-	 * @param e
+	 * @Author zac
+	 * @param
 	 * @return
 	 */
 	@org.springframework.web.bind.annotation.ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -56,16 +58,16 @@ public class ExceptionHandler {
 		sb.append("不支持");
 		sb.append(e.getMethod());
 		sb.append("请求方法，");
-		sb.append("支持以下");
 		String [] methods = e.getSupportedMethods();
 		if(methods!=null){
+			sb.append("支持以下");
+			StringJoiner joiner = new StringJoiner("、");
 			for(String str:methods){
-				sb.append(str);
-				sb.append("、");
+				joiner.add(str);
 			}
+			sb.append(joiner);
 		}
 		log.error(sb.toString(), e);
-		//return DataResponseResult.error("没有权限，请联系管理员授权");
 		return DataResponseResult.error(405,sb.toString());
 	}
 	
