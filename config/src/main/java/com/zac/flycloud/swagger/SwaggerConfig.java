@@ -48,6 +48,28 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     /**
+     * app端接口文档
+     *
+     * @return
+     */
+    @Bean
+    public Docket appDocket() {
+        List<RequestParameter> pars = getGlobalRequestParameters();
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                // 所有以app开头的接口都显示到app接口分组里面
+                .paths(input -> input.startsWith("/app"))
+                .build()
+                .groupName("app接口")
+                .globalRequestParameters(pars)
+                // 添加security登录认证
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(Collections.singletonList(securityScheme()))
+                .apiInfo(apiInfo());
+    }
+
+    /**
      * 后台管理页面接口文档
      *
      * @return
@@ -59,30 +81,12 @@ public class SwaggerConfig implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
+                // 所有以api开头的接口都显示到后台管理接口分组里面
                 .paths(input -> input.startsWith("/api"))
                 .build()
                 .groupName("后台管理接口")
                 .globalRequestParameters(pars)
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Collections.singletonList(securityScheme()))
-                .apiInfo(apiInfo());
-    }
-
-    /**
-     * app端接口文档
-     *
-     * @return
-     */
-    @Bean
-    public Docket appDocket() {
-        List<RequestParameter> pars = getGlobalRequestParameters();
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(input -> input.startsWith("/app"))
-                .build()
-                .groupName("app接口")
-                .globalRequestParameters(pars)
+                // 添加security登录认证
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(securityScheme()))
                 .apiInfo(apiInfo());

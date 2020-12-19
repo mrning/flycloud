@@ -13,17 +13,17 @@ import java.util.Objects;
  * 自定义认证管理器
  */
 @Component
-public class SimpleAuthenticationManager implements AuthenticationManager {
+public class CustomAuthenticationManager implements AuthenticationManager {
 
-    private final SimpleAuthenticationProvider simpleAuthenticationProvider;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
-    public SimpleAuthenticationManager(SimpleAuthenticationProvider authenticationProvider) {
-        this.simpleAuthenticationProvider = authenticationProvider;
+    public CustomAuthenticationManager(CustomAuthenticationProvider authenticationProvider) {
+        this.customAuthenticationProvider = authenticationProvider;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Authentication result = simpleAuthenticationProvider.authenticate(authentication);
+        Authentication result = customAuthenticationProvider.authenticate(authentication);
         if (Objects.nonNull(result)) {
             return result;
         }

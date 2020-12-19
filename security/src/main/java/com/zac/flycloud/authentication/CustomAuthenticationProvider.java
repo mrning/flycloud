@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * 自定义认证处理
  */
 @Component
-public class SimpleAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     SecurityUserService securityUserService;

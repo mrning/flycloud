@@ -1,8 +1,11 @@
 package com.zac.flycloud.config;
 
 
-import com.zac.flycloud.interceptor.CustomAuthenticationProcessingFilter;
-import com.zac.flycloud.interceptor.handler.CustomExpiredSessionStrategy;
+import com.zac.flycloud.interceptor.filters.AuthenticationFilter;
+import com.zac.flycloud.authentication.CustomAuthenticationProvider;
+import com.zac.flycloud.interceptor.filters.CustomAuthenticationProcessingFilter;
+import com.zac.flycloud.interceptor.handler.RestAuthenticationEntryPoint;
+import com.zac.flycloud.interceptor.handler.RestfulAccessDeniedHandler;
 import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,10 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     SecurityUserService securityUserService;
 
     @Autowired
-    CustomExpiredSessionStrategy customExpiredSessionStrategy;
+    SecurityProperties securityProperties;
 
     @Autowired
-    SecurityProperties securityProperties;
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @Autowired
+    private AuthenticationFilter authenticationFilter;
 
     /**
      * 用户密码校验过滤器
@@ -44,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * security基本配置
+     * 用于配置需要拦截的url路径
      *
      * @param http
      * @throws Exception
@@ -57,13 +71,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()               // 需要身份认证
                 .and().formLogin()             // 并且使用表单认证的方式
                 .loginProcessingUrl("/index")  // 默认登录入口为login
-                .and().csrf().disable()                         // 关闭跨站请求伪造保护
-                .sessionManagement().maximumSessions(1)         // 同一个session的最大登录数
-                .maxSessionsPreventsLogin(false)                // 当达到最大session的时候是否将旧用户提出（单点登录）
-                .expiredSessionStrategy(customExpiredSessionStrategy); //当同账户登录个数达到最大值时，旧用户被踢出后的操作
+                .and().csrf().disable()        // 关闭跨站请求伪造保护
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 基于token，不需要session
+        // 禁用缓存
+        http.headers().cacheControl();
 
         // 自定义过滤器认证用户名密码
         http.addFilterAt(customAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // 处理登录后 token认证的逻辑
+        http.addFilterBefore(authenticationFilter,CustomAuthenticationProcessingFilter.class);
+
+        //添加自定义未授权和未登录结果返回
+        http.exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 
     /**
@@ -78,9 +101,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(securityProperties.getIgnore().getUrls());
     }
 
+    /**
+     * 用于配置UserDetailsService及PasswordEncoder；
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(securityUserService).passwordEncoder(setPasswordEncoder());
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
     @Bean

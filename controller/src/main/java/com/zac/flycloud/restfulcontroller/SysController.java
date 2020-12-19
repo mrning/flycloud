@@ -23,6 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +36,11 @@ import java.util.*;
 import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 
 /**
+ * 系统相关接口  登录/登出/注册/重置密码等
  * @Author zac
  * @Date 20200702
  */
-@Api(tags = "系统相关 登录注册，获取权限")
+@Api(tags = "SysController", description = "系统相关 登录注册，获取权限")
 @RestController
 @RequestMapping("/api/sys")
 @Slf4j
@@ -53,9 +58,17 @@ public class SysController {
     private SysDeptService sysDeptService;
     @Autowired
     private SysPermissionService sysPermissionService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Value("${flycloud.tokenKey}")
     private String tokenKey;
 
+    /**
+     * 登录接口
+     * @param sysLoginModel
+     * @return
+     */
     @ApiOperation("登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public DataResponseResult<JSONObject> login(@RequestBody SysUserLoginVO sysLoginModel) {
@@ -85,10 +98,9 @@ public class SysController {
             return result;
         }
 
-        //2. 校验用户名或密码是否正确
-        String userpassword = PasswordUtil.getPasswordEncode(password);
+        //2. 校验密码是否正确
         String syspassword = sysUser.getPassword();
-        if (!PasswordUtil.getPasswordMatch(syspassword,userpassword)) {
+        if (!PasswordUtil.getPasswordMatch(password,syspassword)) {
             result.error500("用户名或密码错误");
             return result;
         }
@@ -100,7 +112,8 @@ public class SysController {
             log.error("登录异常",e);
             result.error500(e.getMessage());
         }
-        sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+        // 记录操作日志 TODO 通过注解切面记录日志
+//        sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
         return result;
     }
@@ -511,9 +524,13 @@ public class SysController {
      * @param result
      * @return
      */
-    private DataResponseResult<JSONObject> userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception{
-        String syspassword = sysUser.getPassword();
+    private void userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception{
         String username = sysUser.getUsername();
+        // 登录信息记录到security
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         // 生成token
         String token = PasswordUtil.createToken(username,tokenKey);
         // 设置token缓存有效时间 1个小时
@@ -529,8 +546,7 @@ public class SysController {
         obj.put("token", token);
         obj.put("userInfo", sysUser);
         result.setResult(obj);
-        DataResponseResult.success("登录成功");
-        return result;
+        DataResponseResult.success(result);
     }
 
     /**
@@ -546,10 +562,11 @@ public class SysController {
         try {
             String code = MD5Util.createCode(4);
 
-            log.debug("验证码 = " + code);
+            log.info("验证码 = " + code);
             String lowerCaseCode = code.toLowerCase();
             String realKey = MD5Util.MD5Encode(lowerCaseCode + key, "utf-8");
-            redisUtil.set(realKey, lowerCaseCode, 60);
+            // 验证码5分钟有效
+            redisUtil.set(realKey, lowerCaseCode, 60*5);
             String base64 = RandImageUtil.generate(code);
             res.setSuccess(true);
             res.setResult(base64);

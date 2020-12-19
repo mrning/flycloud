@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.basebean.DataResponseResult;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 尚未登录处理
+ * 尚未登录 或登录失效的处理
  */
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+@Component
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     /**
      * 尚未登录处理

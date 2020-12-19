@@ -1,7 +1,7 @@
-package com.zac.flycloud.interceptor;
+package com.zac.flycloud.interceptor.filters;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.authentication.SimpleAuthenticationManager;
+import com.zac.flycloud.authentication.CustomAuthenticationManager;
 import com.zac.flycloud.entity.tablemodel.SysUser;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +29,9 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    public CustomAuthenticationProcessingFilter(SimpleAuthenticationManager simpleAuthenticationManager, AuthenticationSuccessHandler securityLoginSuccessHandler, AuthenticationFailureHandler securityLoginFailHandler) {
+    public CustomAuthenticationProcessingFilter(CustomAuthenticationManager customAuthenticationManager, AuthenticationSuccessHandler securityLoginSuccessHandler, AuthenticationFailureHandler securityLoginFailHandler) {
         super(new AntPathRequestMatcher("/sys/login", "POST"));
-        this.setAuthenticationManager(simpleAuthenticationManager);
+        this.setAuthenticationManager(customAuthenticationManager);
         // 认证成功逻辑
         this.setAuthenticationSuccessHandler(securityLoginSuccessHandler);
         // 认证失败逻辑

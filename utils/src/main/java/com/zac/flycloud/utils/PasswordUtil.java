@@ -63,7 +63,7 @@ public class PasswordUtil {
     }
 
     public static void main(String[] args) throws Exception {
-//        System.out.println(getPasswordMatch("123456",getPasswordEncode("123456")));
+        System.out.println(getPasswordMatch("123456",getPasswordEncode("123456")));
 //        String token = createToken("abc");
 //        System.out.println(token);
 //        System.out.println(getUserNameByToken(token));

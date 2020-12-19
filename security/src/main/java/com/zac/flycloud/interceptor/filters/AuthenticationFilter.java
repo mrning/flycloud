@@ -1,6 +1,5 @@
-package com.zac.flycloud.aspect;
+package com.zac.flycloud.interceptor.filters;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -50,8 +48,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.debug("请求头类型： " + httpServletRequest.getContentType());
-        if ((httpServletRequest.getContentType() == null && httpServletRequest.getContentLength() > 0)
-                || (httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_CONTENT_TYPE))
+        if ((httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_CONTENT_TYPE))
                 || checkSwagger(httpServletRequest.getRequestURI())) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
@@ -65,7 +62,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             // 记录请求的消息体
             logRequestBody(wrappedRequest);
             // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
-            String token = wrappedRequest.getHeader(REQUEST_HEADER);
+            String token = wrappedRequest.getHeader(REQUEST_HEADER_TOKEN);
             log.debug("后台检查令牌:{}", token);
             if (StringUtils.isBlank(token) || !PasswordUtil.verifyToken(token, tokenKey)) {
                 throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");

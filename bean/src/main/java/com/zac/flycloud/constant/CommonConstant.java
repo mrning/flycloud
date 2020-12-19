@@ -312,7 +312,7 @@ public interface CommonConstant {
     /**
      * 请求头 - token
      */
-    String REQUEST_HEADER = "X-Token";
+    String REQUEST_HEADER_TOKEN = "token";
 
     /**
      * 请求头类型：
