@@ -1,5 +1,6 @@
 package com.zac.flycloud.interceptor.filters;
 
+import com.zac.flycloud.entity.tablemodel.SysUser;
 import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
@@ -40,10 +41,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private SecurityUserService securityUserService;
     @Autowired
     private RedisUtil redisUtil;
-    @Value("${flycloud.tokenKey}")
-    private String tokenKey;
     @Autowired
     SecurityProperties securityProperties;
+
+    @Value("${flycloud.security.tokenKey}")
+    private String tokenKey;
+    @Value("${flycloud.security.sysToken}")
+    private String sysToken;
+    @Value("${flycloud.security.swaggerUser}")
+    private String swaggerUser;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -61,26 +67,36 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             stopWatch.start();
             // 记录请求的消息体
             logRequestBody(wrappedRequest);
-            // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
-            String token = wrappedRequest.getHeader(REQUEST_HEADER_TOKEN);
-            log.debug("后台检查令牌:{}", token);
-            if (StringUtils.isBlank(token) || !PasswordUtil.verifyToken(token, tokenKey)) {
-                throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
-            }
-
-            UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
-            // 全局注入角色权限信息和登录用户基本信息
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(wrappedRequest, wrappedResponse);
+            handToken(filterChain, wrappedRequest, wrappedResponse);
         } catch (AuthenticationException e) {
-            log.error("AuthenticationException 校验过滤异常：",e);
+            log.error("AuthenticationException 校验过滤异常：", e);
             SecurityContextHolder.clearContext();
         } finally {
             stopWatch.stop();
             long usedTimes = stopWatch.getTotalTimeMillis();
             // 记录响应的消息体
             logResponseBody(wrappedRequest, wrappedResponse, usedTimes);
+        }
+    }
+
+    private void handToken(FilterChain filterChain, MultiReadHttpServletRequest wrappedRequest, MultiReadHttpServletResponse wrappedResponse) throws IOException, ServletException {
+        // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
+        String token = wrappedRequest.getHeader(REQUEST_HEADER_TOKEN);
+        log.debug("后台检查令牌:{}", token);
+        if (StringUtils.equals(token, sysToken)) {
+            UserDetails securityUser = securityUserService.loadUserByUsername(swaggerUser);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+            // 全局注入角色权限信息和登录用户基本信息
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(wrappedRequest, wrappedResponse);
+        } else if (StringUtils.isNotBlank(token) && !PasswordUtil.verifyToken(token, tokenKey)) {
+            UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+            // 全局注入角色权限信息和登录用户基本信息
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(wrappedRequest, wrappedResponse);
+        } else {
+            throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
         }
     }
 
@@ -116,10 +132,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean checkSwagger(String url){
+    private boolean checkSwagger(String url) {
         boolean match = false;
-        for(String s : securityProperties.getIgnore().getUrls()){
-            if(PatternMatchUtils.simpleMatch(s,url)){
+        for (String s : securityProperties.getIgnore().getUrls()) {
+            if (PatternMatchUtils.simpleMatch(s, url)) {
                 match = true;
             }
         }

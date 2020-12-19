@@ -61,7 +61,7 @@ public class SysController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Value("${flycloud.tokenKey}")
+    @Value("${flycloud.security.tokenKey}")
     private String tokenKey;
 
     /**
@@ -112,8 +112,8 @@ public class SysController {
             log.error("登录异常",e);
             result.error500(e.getMessage());
         }
-        // 记录操作日志 TODO 通过注解切面记录日志
-//        sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+        // 记录操作日志
+        sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
         return result;
     }

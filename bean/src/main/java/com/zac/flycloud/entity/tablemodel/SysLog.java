@@ -6,12 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
  * 系统日志表
- * </p>
  *
- * @Author zhangweijian
- * @since 2018-12-26
+ * @Author zac
+ * @since
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

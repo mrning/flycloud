@@ -28,8 +28,9 @@ flycloud:
         /css/**, /images/**, /img/**, /js/**,
         /swagger-ui.html, /swagger-ui/**, /swagger-resources, /swagger-resources/**, /v2/api-docs, /v3/api-docs,
         /webjars/**, /index, /api/sys/**, /mybatisGenerator/**
-
-  tokenKey: 644b18e4eade56810e649357597aa3b0
+    tokenKey: 644b18e4eade56810e649357597aa3b0
+    sysToken: flycloud-88888888-token
+    swaggerUser: flycloud
   actable:
     # 需要自动建表的包名
     pack: com.zac.flycloud.entity.tablemodel

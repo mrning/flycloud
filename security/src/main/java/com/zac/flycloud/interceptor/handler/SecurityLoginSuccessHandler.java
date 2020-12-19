@@ -23,7 +23,7 @@ import java.io.IOException;
 public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${flycloud.tokenKey}")
+    @Value("${flycloud.security.tokenKey}")
     private String tokenKey;
 
     @Override

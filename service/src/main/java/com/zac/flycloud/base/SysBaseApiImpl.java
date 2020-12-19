@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -77,12 +78,12 @@ public class SysBaseApiImpl implements SysBaseAPI {
             sysLog.setIp("127.0.0.1");
         }
 
-        //获取登录用户信息 TODO 获取登录用户信息
-        SysUser sysUser = (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (sysUser != null) {
+        //获取登录用户信息
+        User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SysUser sysUser = getUserByName(securityUser.getUsername());
+        if (securityUser != null) {
             sysLog.setUserid(sysUser.getUsername());
-            sysLog.setUsername(sysUser.getRealname());
-
+            sysLog.setUserid(sysUser.getRealname());
         }
         sysLog.setCreateTime(new Date());
         //保存系统日志
