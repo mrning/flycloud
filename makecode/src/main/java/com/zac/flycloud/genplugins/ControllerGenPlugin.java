@@ -26,6 +26,8 @@ public class ControllerGenPlugin extends PluginAdapter {
     private String controllerPackage = "";
     private String firstLowerServiceName = "";
     private String dtoName = "";
+    // 要生成api/app的controller注解
+    public static final String API_APP = "/api/";
 
 
     public ControllerGenPlugin() {
@@ -69,7 +71,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         // base文件名
         String baseDomainName = dtoName.replace(DTO_SUFFIX,"");
         // service名称
-        firstLowerServiceName = StringUtils.firstCharToLower(baseDomainName)+SERVICE_SUFFIX;
+        firstLowerServiceName = StringUtils.firstToLowerCase(baseDomainName)+SERVICE_SUFFIX;
 
         TopLevelClass topLevelClass = new TopLevelClass(controllerPackage+"."+baseDomainName+CONTROLLER_SUFFIX);
         topLevelClass.addImportedType(TARGETPACKAGE+".BaseController");
@@ -88,7 +90,7 @@ public class ControllerGenPlugin extends PluginAdapter {
                 " * @author zac\n" +
                 " */");
         topLevelClass.addAnnotation(ANNOTATION_RESTCONTROLLER);
-        topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING+("(\"/"+StringUtils.firstCharToLower(baseDomainName)+"\")"));
+        topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING+("(\""+API_APP+StringUtils.firstToLowerCase(baseDomainName)+"\")"));
         topLevelClass.addAnnotation(ANNOTATION_SL4J);
         topLevelClass.setSuperClass("BaseController");
 
@@ -116,7 +118,7 @@ public class ControllerGenPlugin extends PluginAdapter {
     }
 
     private void createMethod(String methodName, TopLevelClass topLevelClass) {
-        String firstLowerDtoName = StringUtils.firstCharToLower(dtoName);
+        String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         // 加注解

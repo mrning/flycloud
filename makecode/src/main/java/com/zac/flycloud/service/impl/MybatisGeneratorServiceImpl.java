@@ -135,6 +135,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         domainObjectRenamingRule.setSearchString("$");
         domainObjectRenamingRule.setReplaceString("DTO");
         tableConfiguration.setDomainObjectRenamingRule(domainObjectRenamingRule);
+        tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
         context.addTableConfiguration(tableConfiguration);
     }
 

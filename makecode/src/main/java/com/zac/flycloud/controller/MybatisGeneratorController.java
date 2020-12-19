@@ -20,9 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "mybatis自动生成代码")
+@Api(tags = "Mybatis自动生成代码")
 @RestController
-@RequestMapping("/mybatisGenerator")
+@RequestMapping("/api/mybatisGenerator")
 @Slf4j
 public class MybatisGeneratorController {
 

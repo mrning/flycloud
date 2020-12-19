@@ -55,7 +55,7 @@ public class DaoGenPlugin extends PluginAdapter {
         // base文件名
         String baseDomainName = dtoName.replace(DTO_SUFFIX,"");
         // mapper名称 首字符小写
-        firstLowerMapperName = StringUtils.firstCharToLower(baseDomainName)+MAPPER_SUFFIX;
+        firstLowerMapperName = StringUtils.firstToLowerCase(baseDomainName)+MAPPER_SUFFIX;
 
         generatedJavaFiles.add(buildServiceFile(baseDomainName,daoPackage+"."+ baseDomainName +DAO_SUFFIX));
         generatedJavaFiles.add(buildServiceFile(baseDomainName,daoPackage+".impl."+ baseDomainName +DAO_SUFFIX+IMPL_SUFFIX));
@@ -119,7 +119,7 @@ public class DaoGenPlugin extends PluginAdapter {
     }
 
     private void createMethod(String methodName, CompilationUnit compilationUnit) {
-        String firstLowerDtoName = StringUtils.firstCharToLower(dtoName);
+        String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         String firstLowerExample = firstLowerDtoName+EXAMPLE_SUFFIX;
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);

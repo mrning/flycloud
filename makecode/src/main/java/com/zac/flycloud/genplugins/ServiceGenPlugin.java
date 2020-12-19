@@ -57,7 +57,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         // base文件名
         String baseDomainName = dtoName.replace(DTO_SUFFIX,"");
         // dao名称 首字符小写
-        daoName = StringUtils.firstCharToLower(baseDomainName)+DAO_SUFFIX;
+        daoName = StringUtils.firstToLowerCase(baseDomainName)+DAO_SUFFIX;
 
         generatedJavaFiles.add(buildServiceFile(baseDomainName,servicePackage+"."+ baseDomainName +SERVICE_SUFFIX));
         generatedJavaFiles.add(buildServiceFile(baseDomainName,servicePackage+".impl."+ baseDomainName +SERVICE_SUFFIX+IMPL_SUFFIX));
@@ -126,8 +126,8 @@ public class ServiceGenPlugin extends PluginAdapter {
     }
 
     private void createMethod(String methodName, CompilationUnit compilationUnit) {
-        String firstLowerDtoName = StringUtils.firstCharToLower(dtoName);
-        String firstLowerDaoName = StringUtils.firstCharToLower(daoName);
+        String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
+        String firstLowerDaoName = StringUtils.firstToLowerCase(daoName);
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(new Parameter(
