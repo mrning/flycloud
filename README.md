@@ -4,10 +4,10 @@
 飞云平台
 
 #### 软件架构
-- JDK14 [下载地址](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
+- Jdk14 [下载地址](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
 - SpringBoot 2.2.6
 - Spring-security
-- Mybatis
+- Mybatis + Mybatis-plus
 - Mysql8
 - Dubbo + Nacos
 - Redis
@@ -36,11 +36,14 @@
 
 #### 相关技术文档
 
-- [springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
-- [springboot-security](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security)
-- [mybatis-spring](http://mybatis.org/spring/zh/)
-- [dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
-- [nacos](https://nacos.io/zh-cn/docs/quick-start.html)
-- [jdk14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
+- [Jdk14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
+- [Springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+- [Springboot-security](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security)
+- [Mybatis-spring](http://mybatis.org/spring/zh/)
+- [Mybatis-plus](https://baomidou.com/guide/)
+- [Dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
+- [Nacos](https://nacos.io/zh-cn/docs/quick-start.html)
+
+
 
 

@@ -32,7 +32,7 @@
 		<java.version>14</java.version>
 		<spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
 		<mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
-		<mybatis-plus.version>3.1.2</mybatis-plus.version>
+		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<mysql.version>8.0.19</mysql.version>
 		<io.springfox.version>3.0.0</io.springfox.version>
 		<hutool.version>5.5.4</hutool.version>

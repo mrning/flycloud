@@ -1,5 +1,6 @@
 package com.zac.flycloud.base;
 
+import cn.hutool.core.lang.UUID;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -86,6 +87,7 @@ public class SysBaseApiImpl implements SysBaseAPI {
             sysLog.setUserid(sysUser.getRealname());
         }
         sysLog.setCreateTime(new Date());
+        sysLog.setUuid(UUID.randomUUID().toString());
         //保存系统日志
         sysLogMapper.insert(sysLog);
     }
