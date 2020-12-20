@@ -27,7 +27,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private String dbPassword;
 
     @Override
-    public String doDenerator()  {
+    public String doDenerator(String tableName)  {
         Configuration config = new Configuration();
 
         // conditional:*这是默认值*,这个模型和下面的hierarchical类似，除了如果那个单独的类将只包含一个字段，将不会生成一个单独的类。
@@ -42,6 +42,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addProperty("autoDelimitKeywords","true");
         context.addProperty("beginningDelimiter","`");
         context.addProperty("endingDelimiter","`");
+        context.addProperty("tableName",tableName);
 
         // 添加插件
         addPlugins(context);
@@ -127,7 +128,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
 
     private void buildTables(Context context) {
         TableConfiguration tableConfiguration = new TableConfiguration(context);
-        tableConfiguration.setTableName("sys_user");
+        tableConfiguration.setTableName(context.getProperty("tableName"));
         GeneratedKey generatedKey = new GeneratedKey("id","JDBC",true,"post");
         tableConfiguration.setGeneratedKey(generatedKey);
         // 生成的domain增加DTO后缀
@@ -136,6 +137,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         domainObjectRenamingRule.setReplaceString("DTO");
         tableConfiguration.setDomainObjectRenamingRule(domainObjectRenamingRule);
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
+        tableConfiguration.setSchema("flycloud");
         context.addTableConfiguration(tableConfiguration);
     }
 
