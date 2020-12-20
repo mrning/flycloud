@@ -128,7 +128,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
 
     private void buildTables(Context context) {
         TableConfiguration tableConfiguration = new TableConfiguration(context);
-        tableConfiguration.setTableName(context.getProperty("tableName"));
+        tableConfiguration.setTableName(context.getProperty("tableName")); // TODO 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
         GeneratedKey generatedKey = new GeneratedKey("id","JDBC",true,"post");
         tableConfiguration.setGeneratedKey(generatedKey);
         // 生成的domain增加DTO后缀
