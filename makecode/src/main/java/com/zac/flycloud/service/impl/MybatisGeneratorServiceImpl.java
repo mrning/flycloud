@@ -114,7 +114,6 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         javaModelGeneratorConfiguration.setTargetProject("bean\\"+TARGETPROJECT);
         javaModelGeneratorConfiguration.setTargetPackage(TARGETPACKAGE_DTO);
         javaModelGeneratorConfiguration.addProperty("rootClass",TARGETPACKAGE+".basebean.BaseDTO");
-        javaModelGeneratorConfiguration.addProperty("enableSubPackages","true");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");
         javaModelGeneratorConfiguration.addProperty("trimStrings","true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
@@ -128,7 +127,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
 
     private void buildTables(Context context) {
         TableConfiguration tableConfiguration = new TableConfiguration(context);
-        tableConfiguration.setTableName(context.getProperty("tableName")); // TODO 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
+        tableConfiguration.setTableName(context.getProperty("tableName"));
         GeneratedKey generatedKey = new GeneratedKey("id","JDBC",true,"post");
         tableConfiguration.setGeneratedKey(generatedKey);
         // 生成的domain增加DTO后缀
@@ -136,8 +135,10 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         domainObjectRenamingRule.setSearchString("$");
         domainObjectRenamingRule.setReplaceString("DTO");
         tableConfiguration.setDomainObjectRenamingRule(domainObjectRenamingRule);
+
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
-        tableConfiguration.setSchema("flycloud");
+        // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO    todo 生成的表名多了小数点导致sql执行异常  flycloud..sys_user
+        tableConfiguration.setCatalog("flycloud");
         context.addTableConfiguration(tableConfiguration);
     }
 
