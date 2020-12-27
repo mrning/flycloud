@@ -53,8 +53,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // 配置要生成代码的表
         buildTables(context);
 
-        //生成注释
-        buildComment(context);
+        //生成注释 默认实现：DefaultCommentGenerator
 
         // 用来控制生成的实体类
         buildJavaModel(context);
@@ -119,12 +118,6 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
     }
 
-    private void buildComment(Context context) {
-        CommentGeneratorConfiguration commentGenerator = new CommentGeneratorConfiguration();
-        commentGenerator.setConfigurationType("DEFAULT");
-        context.setCommentGeneratorConfiguration(commentGenerator);
-    }
-
     private void buildTables(Context context) {
         TableConfiguration tableConfiguration = new TableConfiguration(context);
         tableConfiguration.setTableName(context.getProperty("tableName"));
@@ -137,8 +130,9 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         tableConfiguration.setDomainObjectRenamingRule(domainObjectRenamingRule);
 
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
-        // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO    todo 生成的表名多了小数点导致sql执行异常  flycloud..sys_user
+        // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
         tableConfiguration.setCatalog("flycloud");
+        tableConfiguration.addProperty("ignoreQualifiersAtRuntime","true");
         context.addTableConfiguration(tableConfiguration);
     }
 
