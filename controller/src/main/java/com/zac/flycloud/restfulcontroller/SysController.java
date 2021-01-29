@@ -38,6 +38,7 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
+ *
  * @Author zac
  * @Date 20200702
  */
@@ -67,6 +68,7 @@ public class SysController {
 
     /**
      * 登录接口
+     *
      * @param sysLoginModel
      * @return
      */
@@ -100,8 +102,8 @@ public class SysController {
         }
 
         //2. 校验密码是否正确
-        String syspassword = sysUser.getPassword();
-        if (!PasswordUtil.getPasswordMatch(password,syspassword)) {
+        String sysPassword = sysUser.getPassword();
+        if (!PasswordUtil.getPasswordMatch(password, sysPassword)) {
             result.error500("用户名或密码错误");
             return result;
         }
@@ -110,7 +112,7 @@ public class SysController {
         try {
             userInfo(sysUser, result);
         } catch (Exception e) {
-            log.error("登录异常",e);
+            log.error("登录异常", e);
             result.error500(e.getMessage());
         }
         // 记录操作日志
@@ -127,7 +129,7 @@ public class SysController {
      * @return
      */
     @ApiOperation("登出")
-    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public DataResponseResult<Object> logout(HttpServletRequest request, HttpServletResponse response) {
         //用户退出逻辑
         String token = request.getHeader("X-Access-Token");
@@ -174,13 +176,13 @@ public class SysController {
         String email = jsonObject.getString("email");
 
         //未设置用户名
-        if(StringUtils.isBlank(username)){
+        if (StringUtils.isBlank(username)) {
             result.setMessage("用户名不能为空");
             result.setSuccess(false);
             return result;
         }
         //未设置密码
-        if(StringUtils.isBlank(password)){
+        if (StringUtils.isBlank(password)) {
             result.setMessage("密码不能为空");
             result.setSuccess(false);
             return result;
@@ -203,7 +205,7 @@ public class SysController {
             return result;
         }
         //校验邮箱
-        if(StringUtils.isNotBlank(email)){
+        if (StringUtils.isNotBlank(email)) {
             SysUser sysUser3 = sysUserService.getUserByEmail(email);
             if (sysUser3 != null) {
                 result.setMessage("邮箱已被注册");
@@ -229,8 +231,8 @@ public class SysController {
 
 
     /**
-     *  校验用户账号是否唯一<br>
-     *  可以校验其他 需要检验什么就传什么。。。
+     * 校验用户账号是否唯一<br>
+     * 可以校验其他 需要检验什么就传什么。。。
      *
      * @param sysUser
      * @return
@@ -285,9 +287,9 @@ public class SysController {
         try {
             List<SysPermission> metaList = sysPermissionService.list();
             //添加首页路由
-            if(!hasIndexPage(metaList)){
-                SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getName,"首页")).get(0);
-                metaList.add(0,indexMenu);
+            if (!hasIndexPage(metaList)) {
+                SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getName, "首页")).get(0);
+                metaList.add(0, indexMenu);
             }
             JSONObject json = new JSONObject();
             JSONArray menujsonArray = new JSONArray();
@@ -304,7 +306,8 @@ public class SysController {
     }
 
     /**
-     *  获取菜单JSON数组
+     * 获取菜单JSON数组
+     *
      * @param jsonArray
      * @param metaList
      * @param parentJson
@@ -316,7 +319,7 @@ public class SysController {
             }
             String tempPid = permission.getParentId();
             JSONObject json = getPermissionJsonObject(permission);
-            if(json==null) {
+            if (json == null) {
                 continue;
             }
             if (parentJson == null && StringUtils.isEmpty(tempPid)) {
@@ -356,6 +359,7 @@ public class SysController {
 
     /**
      * 根据菜单配置生成路由json
+     *
      * @param permission
      * @return
      */
@@ -425,13 +429,14 @@ public class SysController {
 
     /**
      * 判断是否授权首页
+     *
      * @param metaList
      * @return
      */
-    public boolean hasIndexPage(List<SysPermission> metaList){
+    public boolean hasIndexPage(List<SysPermission> metaList) {
         boolean hasIndexMenu = false;
         for (SysPermission sysPermission : metaList) {
-            if("首页".equals(sysPermission.getName())) {
+            if ("首页".equals(sysPermission.getName())) {
                 hasIndexMenu = true;
                 break;
             }
@@ -490,32 +495,32 @@ public class SysController {
      * @param jsonObject
      * @return
      */
-	@ApiOperation("手机号登录接口")
-	@PostMapping("/phoneLogin")
-	public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
-		String phone = jsonObject.getString("mobile");
+    @ApiOperation("手机号登录接口")
+    @PostMapping("/phoneLogin")
+    public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
+        String phone = jsonObject.getString("mobile");
         String smscode = jsonObject.getString("captcha");
 
-		// 校验用户有效性
-		SysUser sysUser = sysUserService.getUserByPhone(phone);
+        // 校验用户有效性
+        SysUser sysUser = sysUserService.getUserByPhone(phone);
         DataResponseResult<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
-		if(!result.isSuccess()) {
-			return result;
-		}
+        if (!result.isSuccess()) {
+            return result;
+        }
 
-		// 验证手机验证码
-		Object code = redisUtil.get(phone);
-		if (!smscode.equals(code)) {
-			result.setMessage("手机验证码错误");
-			return result;
-		}
-		// 获取用户信息
-		userInfo(sysUser, result);
-		// 添加日志
-		sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+        // 验证手机验证码
+        Object code = redisUtil.get(phone);
+        if (!smscode.equals(code)) {
+            result.setMessage("手机验证码错误");
+            return result;
+        }
+        // 获取用户信息
+        userInfo(sysUser, result);
+        // 添加日志
+        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
-		return result;
-	}
+        return result;
+    }
 
 
     /**
@@ -525,7 +530,7 @@ public class SysController {
      * @param result
      * @return
      */
-    private void userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception{
+    private void userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception {
         String username = sysUser.getUsername();
         // 登录信息记录到security
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -533,9 +538,9 @@ public class SysController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 生成token
-        String token = PasswordUtil.createToken(username,tokenKey);
+        String token = PasswordUtil.createToken(username, tokenKey);
         // 设置token缓存有效时间 1个小时
-        redisUtil.set(token,username);
+        redisUtil.set(token, username);
         redisUtil.expire(token, TOKEN_EXPIRE_TIME);
         redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
         redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, TOKEN_EXPIRE_TIME);
@@ -567,7 +572,7 @@ public class SysController {
             String lowerCaseCode = code.toLowerCase();
             String realKey = MD5Util.MD5Encode(lowerCaseCode + key, "utf-8");
             // 验证码5分钟有效
-            redisUtil.set(realKey, lowerCaseCode, 60*5);
+            redisUtil.set(realKey, lowerCaseCode, 60 * 5);
             String base64 = RandImageUtil.generate(code);
             res.setSuccess(true);
             res.setResult(base64);

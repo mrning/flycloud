@@ -13,10 +13,8 @@ import java.util.Date;
 @Data
 public class BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @TableId(type = IdType.AUTO)
-    @AutoColumn(isAutoIncrement = true,orderIndex = 0)
+    @AutoColumn(isAutoIncrement = true,orderIndex = 0,type = "bigint")
     private Long id;
 
     @AutoColumn(isNull = false, orderIndex = 1)

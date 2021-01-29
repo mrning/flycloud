@@ -80,11 +80,16 @@ public class SysBaseApiImpl implements SysBaseAPI {
         }
 
         //获取登录用户信息
-        User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = getUserByName(securityUser.getUsername());
-        if (securityUser != null) {
-            sysLog.setUserid(sysUser.getUsername());
-            sysLog.setUserid(sysUser.getRealname());
+        if(null == SecurityContextHolder.getContext().getAuthentication()){
+            sysLog.setUserid(null);
+            sysLog.setUsername(null);
+        }else{
+            User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SysUser sysUser = getUserByName(securityUser.getUsername());
+            if (securityUser != null) {
+                sysLog.setUserid(String.valueOf(sysUser.getId()));
+                sysLog.setUsername(sysUser.getRealname());
+            }
         }
         sysLog.setCreateTime(new Date());
         sysLog.setUuid(UUID.randomUUID().toString());
