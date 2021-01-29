@@ -65,7 +65,7 @@ public class SysPermission extends BaseEntity {
     /**
      * 菜单排序
      */
-    private Double sortNo;
+    private Integer sortNo;
 
     /**
      * 类型（0：一级菜单；1：子菜单 ；2：按钮权限）
@@ -134,7 +134,7 @@ public class SysPermission extends BaseEntity {
             this.url = "/dashboard/analysis";
             this.icon = "home";
             this.menuType = 0;
-            this.sortNo = 0.0;
+            this.sortNo = 0;
             this.ruleFlag = 0;
             this.setDeleted(false);
             this.alwaysShow = false;

@@ -285,15 +285,16 @@ public class SysController {
     public DataResponseResult<?> getPermissionList() {
         DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
         try {
-            List<SysPermission> metaList = sysPermissionService.list();
+            List<SysPermission> sysPermissions = sysPermissionService.list();
             //添加首页路由
-            if (!hasIndexPage(metaList)) {
+            if (!hasIndexPage(sysPermissions)) {
                 SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getName, "首页")).get(0);
-                metaList.add(0, indexMenu);
+                sysPermissions.add(0, indexMenu);
             }
             JSONObject json = new JSONObject();
             JSONArray menujsonArray = new JSONArray();
-            this.getPermissionJsonArray(menujsonArray, metaList, null);
+            sysPermissions.sort(Comparator.comparingInt(SysPermission::getSortNo));
+            this.getPermissionJsonArray(menujsonArray, sysPermissions, null);
             //路由菜单
             json.put("menu", menujsonArray);
             result.setResult(json);
@@ -375,37 +376,34 @@ public class SysController {
             } else {
                 json.put("route", "0");// 表示不生成路由
             }
-
+            // 判断url是否外链
             if (UrlIPUtils.isWWWHttpUrl(permission.getUrl())) {
                 json.put("path", MD5Util.MD5Encode(permission.getUrl(), "utf-8"));
             } else {
                 json.put("path", permission.getUrl());
             }
-
             // 重要规则：路由name (通过URL生成路由name,路由name供前端开发，页面跳转使用)
             if (StringUtils.isNotBlank(permission.getComponentName())) {
                 json.put("name", permission.getComponentName());
             } else {
                 json.put("name", UrlIPUtils.urlToRouteName(permission.getUrl()));
             }
-
             // 是否隐藏路由，默认都是显示的
             if (permission.isHidden()) {
                 json.put("hidden", true);
-
             }
             // 聚合路由
             if (permission.isAlwaysShow()) {
                 json.put("alwaysShow", true);
             }
             json.put("component", permission.getComponent());
+
             JSONObject meta = new JSONObject();
             // 由用户设置是否缓存页面 用布尔值
             meta.put("keepAlive", permission.isKeepAlive());
-
-            //外链菜单打开方式
+            // 外链菜单打开方式
             meta.put("internalOrExternal", permission.isInternalOrExternal());
-
+            // 菜单名称
             meta.put("title", permission.getName());
             if (StringUtils.isEmpty(permission.getParentId())) {
                 // 一级菜单跳转地址
@@ -418,6 +416,7 @@ public class SysController {
                     meta.put("icon", permission.getIcon());
                 }
             }
+            // 如果是外链的话
             if (UrlIPUtils.isWWWHttpUrl(permission.getUrl())) {
                 meta.put("url", permission.getUrl());
             }
