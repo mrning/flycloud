@@ -328,7 +328,7 @@ public class SysController {
                 if (!permission.isLeaf()) {
                     getPermissionJsonArray(jsonArray, metaList, json);
                 }
-            } else if (parentJson != null && StringUtils.isNotEmpty(tempPid) && tempPid.equals(parentJson.getString("id"))) {
+            } else if (parentJson != null && StringUtils.isNotEmpty(tempPid) && tempPid.equals(parentJson.getString("uuid"))) {
                 // 类型( 0：一级菜单 1：子菜单 2：按钮 )
                 if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2)) {
                     JSONObject metaJson = parentJson.getJSONObject("meta");
@@ -370,7 +370,7 @@ public class SysController {
         if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2)) {
             return null;
         } else if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
-            json.put("id", permission.getId());
+            json.put("uuid", permission.getUuid());
             if (permission.isRoute()) {
                 json.put("route", "1");// 表示生成路由
             } else {
