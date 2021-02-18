@@ -318,17 +318,18 @@ public class SysController {
             if (permission.getMenuType() == null) {
                 continue;
             }
-            String tempPid = permission.getParentId();
+            String parentId = permission.getParentId();
             JSONObject json = getPermissionJsonObject(permission);
             if (json == null) {
                 continue;
             }
-            if (parentJson == null && StringUtils.isEmpty(tempPid)) {
+            // 如果父级菜单为空
+            if (parentJson == null && StringUtils.isEmpty(parentId)) {
                 jsonArray.add(json);
                 if (!permission.isLeaf()) {
                     getPermissionJsonArray(jsonArray, metaList, json);
                 }
-            } else if (parentJson != null && StringUtils.isNotEmpty(tempPid) && tempPid.equals(parentJson.getString("uuid"))) {
+            } else if (parentJson != null && StringUtils.isNotEmpty(parentId) && parentId.equals(parentJson.getString("uuid"))) {
                 // 类型( 0：一级菜单 1：子菜单 2：按钮 )
                 if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2)) {
                     JSONObject metaJson = parentJson.getJSONObject("meta");
@@ -370,6 +371,10 @@ public class SysController {
         if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2)) {
             return null;
         } else if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
+            // 是否隐藏路由，默认都是显示的
+            if (permission.isHidden()) {
+                return null;
+            }
             json.put("uuid", permission.getUuid());
             if (permission.isRoute()) {
                 json.put("route", "1");// 表示生成路由
@@ -387,10 +392,6 @@ public class SysController {
                 json.put("name", permission.getComponentName());
             } else {
                 json.put("name", UrlIPUtils.urlToRouteName(permission.getUrl()));
-            }
-            // 是否隐藏路由，默认都是显示的
-            if (permission.isHidden()) {
-                json.put("hidden", true);
             }
             json.put("component", permission.getComponent());
 
