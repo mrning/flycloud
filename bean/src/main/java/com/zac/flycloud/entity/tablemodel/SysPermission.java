@@ -112,11 +112,6 @@ public class SysPermission extends BaseEntity {
     private String status;
 
     /**
-     * alwaysShow
-     */
-    private boolean alwaysShow;
-
-    /**
      * 外链菜单打开方式 0/内部打开 1/外部打开
      */
     private boolean internalOrExternal;
@@ -127,7 +122,7 @@ public class SysPermission extends BaseEntity {
 
     public SysPermission(boolean index) {
         if (index) {
-            this.setUuid("9502685863ab87f0ad1134142788a385");
+            this.setUuid("homepage");
             this.name = "首页";
             this.component = "dashboard/Analysis";
             this.componentName = "dashboard-analysis";
@@ -137,7 +132,6 @@ public class SysPermission extends BaseEntity {
             this.sortNo = 0;
             this.ruleFlag = 0;
             this.setDeleted(false);
-            this.alwaysShow = false;
             this.route = true;
             this.keepAlive = true;
             this.leaf = true;

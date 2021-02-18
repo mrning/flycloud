@@ -286,9 +286,9 @@ public class SysController {
         DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
         try {
             List<SysPermission> sysPermissions = sysPermissionService.list();
-            //添加首页路由
+            //至少添加首页路由
             if (!hasIndexPage(sysPermissions)) {
-                SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getName, "首页")).get(0);
+                SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getUuid, "homepage")).get(0);
                 sysPermissions.add(0, indexMenu);
             }
             JSONObject json = new JSONObject();
@@ -391,10 +391,6 @@ public class SysController {
             // 是否隐藏路由，默认都是显示的
             if (permission.isHidden()) {
                 json.put("hidden", true);
-            }
-            // 聚合路由
-            if (permission.isAlwaysShow()) {
-                json.put("alwaysShow", true);
             }
             json.put("component", permission.getComponent());
 
