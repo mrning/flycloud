@@ -23,4 +23,6 @@ public class UserController {
     public DataResponseResult list(){
         return DataResponseResult.success();
     }
+
+
 }
