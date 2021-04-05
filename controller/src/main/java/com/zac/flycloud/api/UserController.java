@@ -1,4 +1,4 @@
-package com.zac.flycloud.restfulcontroller;
+package com.zac.flycloud.api;
 
 import com.zac.flycloud.basebean.DataResponseResult;
 import io.swagger.annotations.Api;

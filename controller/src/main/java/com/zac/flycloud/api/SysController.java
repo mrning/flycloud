@@ -1,11 +1,8 @@
-package com.zac.flycloud.restfulcontroller;
+package com.zac.flycloud.api;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zac.flycloud.entity.tablemodel.SysPermission;
-import com.zac.flycloud.sys.SysPermissionService;
 import com.zac.flycloud.utils.*;
 import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
@@ -22,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
