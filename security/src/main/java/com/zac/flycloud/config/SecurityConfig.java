@@ -1,15 +1,14 @@
 package com.zac.flycloud.config;
 
 
-import com.zac.flycloud.interceptor.filters.AuthenticationFilter;
 import com.zac.flycloud.authentication.CustomAuthenticationProvider;
+import com.zac.flycloud.interceptor.filters.AuthenticationFilter;
 import com.zac.flycloud.interceptor.filters.CustomAuthenticationProcessingFilter;
 import com.zac.flycloud.interceptor.handler.RestAuthenticationEntryPoint;
 import com.zac.flycloud.interceptor.handler.RestfulAccessDeniedHandler;
-import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,14 +24,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Security配置类
  */
 @Configuration
-@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${flycloud.security.ignore.httpUrls}")
+    private String[] ignoreUrls;
 
     @Autowired
     SecurityUserService securityUserService;
-
-    @Autowired
-    SecurityProperties securityProperties;
 
     @Autowired
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
@@ -66,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 定义哪些url请求需要被保护，哪些不被保护
         http.antMatcher("/**").authorizeRequests()
-                .antMatchers(securityProperties.getIgnore().getUrls()).permitAll() // 不限制权限的url列表
+                .antMatchers(ignoreUrls).permitAll() // 不限制权限的url列表
                 .anyRequest()                  // 任何其他请求
                 .authenticated()               // 需要身份认证
                 .and().formLogin()             // 并且使用表单认证的方式
@@ -98,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 设置允许放行的资源
-        web.ignoring().antMatchers(securityProperties.getIgnore().getUrls());
+        web.ignoring().antMatchers(ignoreUrls);
     }
 
     /**

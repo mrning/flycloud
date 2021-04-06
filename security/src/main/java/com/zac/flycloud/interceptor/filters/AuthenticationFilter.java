@@ -1,7 +1,5 @@
 package com.zac.flycloud.interceptor.filters;
 
-import com.zac.flycloud.entity.tablemodel.SysUser;
-import com.zac.flycloud.properties.SecurityProperties;
 import com.zac.flycloud.service.SecurityUserService;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
 import com.zac.flycloud.utils.MultiReadHttpServletResponse;
@@ -41,9 +39,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private SecurityUserService securityUserService;
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    SecurityProperties securityProperties;
 
+    @Value("${flycloud.security.ignore.httpUrls}")
+    private String[] ignoreUrls;
     @Value("${flycloud.security.tokenKey}")
     private String tokenKey;
     @Value("${flycloud.security.sysToken}")
@@ -134,7 +132,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private boolean checkSwagger(String url) {
         boolean match = false;
-        for (String s : securityProperties.getIgnore().getUrls()) {
+        for (String s : ignoreUrls) {
             if (PatternMatchUtils.simpleMatch(s, url)) {
                 match = true;
             }
