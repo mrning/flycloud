@@ -1,5 +1,4 @@
 debug: true
-#trace: true
 server:
   port: 9088
 spring:
@@ -10,7 +9,7 @@ spring:
   output:
     ansi:
       enabled: always
-# mybatis相关配置
+# mybatis代码生成器相关配置
 mybatis:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
