@@ -1,8 +1,8 @@
 package com.zac.flycloud.interceptor.filters;
 
 import com.zac.flycloud.service.SecurityUserService;
-import com.zac.flycloud.utils.MultiReadHttpServletRequest;
-import com.zac.flycloud.utils.MultiReadHttpServletResponse;
+import com.zac.flycloud.utils.MultiReadRequest;
+import com.zac.flycloud.utils.MultiReadResponse;
 import com.zac.flycloud.utils.PasswordUtil;
 import com.zac.flycloud.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -58,8 +58,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(httpServletRequest);
-        MultiReadHttpServletResponse wrappedResponse = new MultiReadHttpServletResponse(httpServletResponse);
+        MultiReadRequest wrappedRequest = new MultiReadRequest(httpServletRequest);
+        MultiReadResponse wrappedResponse = new MultiReadResponse(httpServletResponse);
         StopWatch stopWatch = new StopWatch();
         try {
             stopWatch.start();
@@ -78,7 +78,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private void handToken(FilterChain filterChain, MultiReadHttpServletRequest wrappedRequest, MultiReadHttpServletResponse wrappedResponse) throws IOException, ServletException {
+    private void handToken(FilterChain filterChain, MultiReadRequest wrappedRequest, MultiReadResponse wrappedResponse) throws IOException, ServletException {
         // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
         String token = wrappedRequest.getHeader(REQUEST_HEADER_TOKEN);
         log.debug("后台检查令牌:{}", token);
@@ -99,8 +99,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private String logRequestBody(MultiReadHttpServletRequest request) {
-        MultiReadHttpServletRequest wrapper = request;
+    private String logRequestBody(MultiReadRequest request) {
+        MultiReadRequest wrapper = request;
         if (wrapper != null) {
             try {
                 String bodyJson = wrapper.getBodyJsonStrByJson(request);
@@ -115,8 +115,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private void logResponseBody(MultiReadHttpServletRequest request, MultiReadHttpServletResponse response, long useTime) {
-        MultiReadHttpServletResponse wrapper = response;
+    private void logResponseBody(MultiReadRequest request, MultiReadResponse response, long useTime) {
+        MultiReadResponse wrapper = response;
         if (wrapper != null) {
             byte[] buf = wrapper.getBody();
             if (buf.length > 0) {

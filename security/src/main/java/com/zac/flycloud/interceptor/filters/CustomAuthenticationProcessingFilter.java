@@ -3,7 +3,7 @@ package com.zac.flycloud.interceptor.filters;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.authentication.CustomAuthenticationManager;
 import com.zac.flycloud.tablemodel.SysUser;
-import com.zac.flycloud.utils.MultiReadHttpServletRequest;
+import com.zac.flycloud.utils.MultiReadRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,7 @@ public class CustomAuthenticationProcessingFilter extends AbstractAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(httpServletRequest);
+        MultiReadRequest wrappedRequest = new MultiReadRequest(httpServletRequest);
         // 将前端传递的数据转换成jsonBean数据格式
         SysUser user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), SysUser.class);
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), null);

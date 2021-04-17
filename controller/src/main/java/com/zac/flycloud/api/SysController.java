@@ -61,33 +61,33 @@ public class SysController {
         // 验证码
         String captcha = sysLoginModel.getCaptcha();
 
-        if (captcha == null) {
-            result.error500("验证码无效");
+        // 1. 校验验证码
+        if (StringUtils.isBlank(captcha)) {
+            result.error500("验证码不能为空");
             return result;
         }
-        String lowerCaseCaptcha = captcha.toLowerCase();
-        String realKey = MD5Util.MD5Encode(lowerCaseCaptcha + sysLoginModel.getCheckKey(), "utf-8");
-        Object checkCode = redisUtil.get(realKey);
-        if (checkCode == null || !checkCode.equals(lowerCaseCaptcha)) {
+        String lowerCase = captcha.toLowerCase();
+        Object checkCode = redisUtil.get(MD5Util.MD5Encode(lowerCase + sysLoginModel.getCheckKey(), "utf-8"));
+        if (checkCode == null || !checkCode.equals(lowerCase)) {
             result.error500("验证码错误");
             return result;
         }
 
-        //1. 校验用户是否有效
+        // 2. 校验用户是否有效
         SysUser sysUser = sysUserService.getUserByName(username);
         result = sysUserService.checkUserIsEffective(sysUser);
         if (!result.isSuccess()) {
             return result;
         }
 
-        //2. 校验密码是否正确
+        // 3. 校验密码是否正确
         String sysPassword = sysUser.getPassword();
         if (!PasswordUtil.getPasswordMatch(password, sysPassword)) {
             result.error500("用户名或密码错误");
             return result;
         }
 
-        //用户登录信息
+        // 4. 获取用户登录信息
         try {
             return sysUserService.userInfo(sysUser);
         } catch (Exception e) {
@@ -335,7 +335,7 @@ public class SysController {
      */
     @ApiOperation("获取验证码")
     @GetMapping(value = "/randomImage/{key}")
-    public DataResponseResult<String> randomImage(HttpServletResponse response, @PathVariable String key) {
+    public DataResponseResult<String> randomImage(@PathVariable String key) {
         DataResponseResult<String> res = new DataResponseResult<String>();
         try {
             String code = MD5Util.createCode(4);

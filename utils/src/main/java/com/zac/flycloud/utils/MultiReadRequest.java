@@ -12,11 +12,11 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
+public class MultiReadRequest extends HttpServletRequestWrapper {
 
     private final byte[] body;
 
-    public MultiReadHttpServletRequest(HttpServletRequest request) throws IOException {
+    public MultiReadRequest(HttpServletRequest request) throws IOException {
         super(request);
         body = getBodyString(request).getBytes(StandardCharsets.UTF_8);
     }

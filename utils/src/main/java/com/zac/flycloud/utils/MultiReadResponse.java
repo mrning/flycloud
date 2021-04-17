@@ -19,12 +19,12 @@ import java.io.PrintWriter;
  * @description :
  * @date : 2019/10/12 15:42
  */
-public class MultiReadHttpServletResponse extends HttpServletResponseWrapper {
+public class MultiReadResponse extends HttpServletResponseWrapper {
 
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     private final HttpServletResponse response;
 
-    public MultiReadHttpServletResponse(HttpServletResponse response) {
+    public MultiReadResponse(HttpServletResponse response) {
         super(response);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
