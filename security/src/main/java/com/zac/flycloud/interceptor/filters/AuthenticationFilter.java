@@ -69,6 +69,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         } catch (AuthenticationException e) {
             log.error("AuthenticationException 校验过滤异常：", e);
             SecurityContextHolder.clearContext();
+            throw e;
         } finally {
             stopWatch.stop();
             long usedTimes = stopWatch.getTotalTimeMillis();
