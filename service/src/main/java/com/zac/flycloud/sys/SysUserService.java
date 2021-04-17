@@ -7,6 +7,14 @@ import com.zac.flycloud.tablemodel.SysUser;
 public interface SysUserService<T> extends SysBaseAPI<SysUser> {
 
     /**
+     * 根据用户账号查询用户信息
+     *
+     * @param username
+     * @return
+     */
+    SysUser getUserByName(String username);
+
+    /**
      * 重置密码
      *
      * @param username
@@ -24,9 +32,6 @@ public interface SysUserService<T> extends SysBaseAPI<SysUser> {
      * @return
      */
     DataResponseResult<?> changePassword(SysUser sysUser);
-
-    SysUser getUserByName(String username);
-
 
     /**
      * 根据手机号获取用户名和密码

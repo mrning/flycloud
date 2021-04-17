@@ -7,6 +7,7 @@ import com.zac.flycloud.base.SysBaseApiImpl;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
+import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
@@ -15,9 +16,11 @@ import com.zac.flycloud.mapper.SysUserRoleMapper;
 import com.zac.flycloud.sys.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,16 +36,45 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
+
     @Autowired
     private SysUserDeptMapper sysUserDeptMapper;
+
+    @Autowired
+    private SysDeptService sysDeptService;
+
     @Autowired
     private SysBaseAPI sysBaseAPI;
+
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Value("${flycloud.security.tokenKey}")
     private String tokenKey;
+
+    /**
+     * 根据用户名获取用户对象
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    @Cacheable(cacheNames = CacheConstant.SYS_USERS_CACHE, key = "#username")
+    public SysUser getUserByName(String username) {
+        if (StringUtils.isEmpty(username)) {
+            return null;
+        }
+        SysUser loginUser = new SysUser();
+        SysUser sysUser = sysUserMapper.getUserByName(username);
+        if (sysUser == null) {
+            return null;
+        }
+        BeanUtils.copyProperties(sysUser, loginUser);
+        return loginUser;
+    }
 
     /**
      * 修改密码
@@ -88,16 +120,6 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         return DataResponseResult.success("密码修改成功!");
     }
 
-    /**
-     * 数据库查询用户
-     * @param username
-     * @return
-     */
-    @Override
-    public SysUser getUserByName(String username) {
-        return sysUserMapper.getUserByName(username);
-    }
-
     @Override
     public SysUser getUserByPhone(String phone) {
         return sysUserMapper.getUserByPhone(phone);
@@ -137,7 +159,6 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
      * 用户信息
      *
      * @param sysUser
-     * @param result
      * @return
      */
     public DataResponseResult userInfo(SysUser sysUser) throws Exception {
@@ -151,10 +172,8 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         // 生成token
         String token = PasswordUtil.createToken(username, tokenKey);
         // 设置token缓存有效时间 1个小时
-        redisUtil.set(token, username);
-        redisUtil.expire(token, TOKEN_EXPIRE_TIME);
-        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
-        redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, TOKEN_EXPIRE_TIME);
+        redisUtil.set(token, username, TOKEN_EXPIRE_TIME);
+        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token, TOKEN_EXPIRE_TIME);
 
         // 获取用户部门信息
         JSONObject obj = new JSONObject();

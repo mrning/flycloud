@@ -1,5 +1,6 @@
 package com.zac.flycloud.utils;
 
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.*;
@@ -11,7 +12,6 @@ public class PasswordUtil {
 
     private static final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private static final AsymmetricCrypto algorithm = new AsymmetricCrypto(AsymmetricAlgorithm.RSA);
-    private static final Sign sign = SecureUtil.sign(SignAlgorithm.MD5withRSA);
 
     /**
      * 根据密码明文获取加密后的密码
@@ -41,9 +41,8 @@ public class PasswordUtil {
      * @return
      */
     public static String createToken(String username,String key) {
-        byte[] signByte = sign.sign((username+key).getBytes());
         // 公钥加密
-        byte[] encode = algorithm.encrypt(signByte, KeyType.PublicKey);
+        byte[] encode = algorithm.encrypt(username+key, KeyType.PublicKey);
         return HexUtil.encodeHexStr(encode);
     }
 
@@ -59,7 +58,7 @@ public class PasswordUtil {
         String signData = SpringContextUtils.getBean(RedisUtil.class).get(token) + key;
         // 私钥解密
         byte[] signByte = algorithm.decrypt(HexUtil.decodeHex(token), KeyType.PrivateKey);
-        return sign.verify(signData.getBytes(), signByte);
+        return StringUtils.toEncodedString(signByte, CharsetUtil.CHARSET_UTF_8).equals(signData);
     }
 
     public static void main(String[] args) throws Exception {

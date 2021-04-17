@@ -18,10 +18,4 @@ public interface SysUserDeptMapper extends BaseMapper<SysUserDept>{
 	@Select("select * from sys_dept	where uuid in (select dept_uuid from sys_user_dept where user_uuid = #{userUuid})")
 	List<SysDept> getDeptsByUserUuid(@org.apache.ibatis.annotations.Param("userUuid") String userUuid);
 
-	/**
-	 * 根据用户id查询部门id
-	 * @param userId
-	 * @return
-	 */
-	List<SysUserDept> getUserDeptByUuid(@Param("userId") String userId);
 }

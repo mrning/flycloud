@@ -27,14 +27,6 @@ public interface SysBaseAPI<T> extends IService<T> {
     void addLog(String LogContent, Integer logType, Integer operatetype);
 
     /**
-     * 根据用户账号查询用户信息
-     *
-     * @param username
-     * @return
-     */
-    SysUser getUserByName(String username);
-
-    /**
      * 根据用户id查询用户信息
      *
      * @param id

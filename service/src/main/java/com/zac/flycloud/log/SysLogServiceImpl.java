@@ -2,6 +2,7 @@ package com.zac.flycloud.log;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.base.SysBaseApiImpl;
 import com.zac.flycloud.mapper.SysLogMapper;
 import com.zac.flycloud.tablemodel.SysLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,10 @@ import java.util.Map;
  * @since 2018-12-26
  */
 @Service
-public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
+public class SysLogServiceImpl extends ServiceImpl implements SysLogService {
 
 	@Resource
 	private SysLogMapper sysLogMapper;
-	@Autowired
-	private SysBaseAPI sysBaseAPI;
 	
 	/**
 	 * @功能：清空所有日志记录

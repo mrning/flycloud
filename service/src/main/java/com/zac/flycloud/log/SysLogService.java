@@ -1,6 +1,7 @@
 package com.zac.flycloud.log;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.tablemodel.SysLog;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @Author zac
  * @since 2018-12-26
  */
-public interface SysLogService extends IService<SysLog> {
+public interface SysLogService<T> extends IService<SysLog> {
 
 	/**
 	 * @功能：清空所有日志记录

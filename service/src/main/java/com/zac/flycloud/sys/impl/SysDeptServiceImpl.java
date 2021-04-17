@@ -1,23 +1,30 @@
 package com.zac.flycloud.sys.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zac.flycloud.base.SysBaseApiImpl;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
+import com.zac.flycloud.dao.UserDeptDao;
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.mapper.SysDeptMapper;
-import com.zac.flycloud.mapper.SysUserDeptMapper;
+import com.zac.flycloud.sys.SysDeptService;
+import com.zac.flycloud.sys.SysUserService;
+import com.zac.flycloud.sys.sysutils.FindsDeptsChildrenUtil;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysUserDept;
-import com.zac.flycloud.sys.SysDeptService;
-import com.zac.flycloud.sys.sysutils.FindsDeptsChildrenUtil;
 import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -28,10 +35,13 @@ import java.util.*;
  * @Since 2019-01-22
  */
 @Service
-public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
+public class SysDeptServiceImpl<T> extends SysBaseApiImpl implements SysDeptService {
 
 	@Autowired
-	private SysUserDeptMapper sysUserDeptMapper;
+	private UserDeptDao userDeptDao;
+
+	@Autowired
+	private SysUserService sysUserService;
 	
 	/**
 	 * queryTreeList 对应 queryTreeList 查询所有的部门数据,以树结构形式响应给前端
@@ -63,30 +73,15 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		}
 
 	}
-	
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void deleteBatchWithChildren(List<String> ids) {
-		List<String> idList = new ArrayList<String>();
-		for(String id: ids) {
-			idList.add(id);
-			this.checkChildrenExists(id, idList);
-		}
-		this.removeByIds(idList);
-		
-		//根据部门id删除用户与部门关系
-		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,idList));
-		
-	}
 
 	/**
-	 * 根據部門id獲取子部門列表
+	 * 根据部門id获取子部门
 	 * @param departId
 	 * @return
 	 */
 	@Override
-	public List<String> getSubDepIdsByDepId(String departId) {
-		return this.baseMapper.getSubDepIdsByDepId(departId);
+	public List<SysDept> getSubDepIdsByDepId(String departId) {
+		return list(new LambdaQueryWrapper<SysDept>().eq(SysDept::getParentId, departId));
 	}
 
 	/**
@@ -95,7 +90,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * </p>
 	 */
 	@Override
-	public List<TreeDto> searhBy(String keyWord, String myDeptSearch, String departIds) {
+	public List<TreeDto> searchBy(String keyWord, String myDeptSearch, String departIds) {
 		LambdaQueryWrapper<SysDept> query = new LambdaQueryWrapper<SysDept>();
 		List<TreeDto> newList = new ArrayList<>();
 		//myDeptSearch不为空时为我的部门搜索，只搜索所负责部门
@@ -125,45 +120,42 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean delete(String id) {
-		List<String> idList = new ArrayList<>();
-		idList.add(id);
-		this.checkChildrenExists(id, idList);
-		//清空部门树内存
-		//FindsDeptsChildrenUtil.clearDepartIdModel();
-		boolean ok = this.removeByIds(idList);
-		//根据部门id获取部门角色id
-		List<String> roleIdList = new ArrayList<>();
+	public boolean delete(String... uuids) {
+		List<String> uuidList = new ArrayList<>();
+		uuidList.addAll(Arrays.asList(uuids));
+		// 检查是否存在子部门
+		this.checkChildrenExists(uuids, uuidList);
+
+		boolean ok = this.removeByIds(uuidList);
 		//根据部门id删除用户与部门关系
-		sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,idList));
+		this.remove(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,uuidList));
 		return ok;
 	}
 	
 	/**
-	 * delete 方法调用
-	 * @param id
-	 * @param idList
+	 * delete 删除子部门
+	 * @param uuids
+	 * @param subUuidList
 	 */
-	private void checkChildrenExists(String id, List<String> idList) {	
+	private void checkChildrenExists(String[] uuids, List<String> subUuidList) {
 		LambdaQueryWrapper<SysDept> query = new LambdaQueryWrapper<SysDept>();
-		query.eq(SysDept::getParentId,id);
+		query.in(SysDept::getParentId,uuids);
 		List<SysDept> departList = this.list(query);
-		if(departList != null && departList.size() > 0) {
-			for(SysDept sysDept : departList) {
-				idList.add(sysDept.getUuid());
-				this.checkChildrenExists(sysDept.getUuid(), idList);
-			}
+		if(CollectionUtil.isNotEmpty(departList)) {
+			subUuidList.addAll(departList.stream().map(SysDept::getUuid).collect(Collectors.toList()));
+			// 递归获取子部门的子部门
+			this.checkChildrenExists(subUuidList.toArray(String[]::new), subUuidList);
 		}
 	}
 
 	@Override
 	public List<SysDept> queryUserDeparts(String userUuid) {
-		return baseMapper.queryUserDeparts(userUuid);
+		return userDeptDao.getDeptsByUserUuid(userUuid);
 	}
 
 	@Override
 	public List<SysDept> queryDepartsByUsername(String username) {
-		return baseMapper.queryDepartsByUsername(username);
+		return queryUserDeparts(sysUserService.getUserByName(username).getUuid());
 	}
 
 }

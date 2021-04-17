@@ -91,7 +91,7 @@ public interface CommonConstant {
     /**
      * Token缓存时间：3600秒即一小时
      */
-    int TOKEN_EXPIRE_TIME = 3600;
+    int TOKEN_EXPIRE_TIME = 2 * 3600;
 
 
     /**

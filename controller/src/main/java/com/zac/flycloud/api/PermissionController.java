@@ -43,7 +43,7 @@ public class PermissionController {
             List<SysPermission> sysPermissions = sysPermissionService.list();
             //至少添加首页路由
             if (!hasIndexPage(sysPermissions)) {
-                SysPermission indexMenu = sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getUuid, "homepage")).get(0);
+                SysPermission indexMenu = (SysPermission) sysPermissionService.list(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getUuid, "homepage")).get(0);
                 sysPermissions.add(0, indexMenu);
             }
             JSONObject json = new JSONObject();

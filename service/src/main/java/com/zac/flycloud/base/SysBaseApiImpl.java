@@ -5,22 +5,21 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.utils.RedisUtil;
 import com.zac.flycloud.utils.UrlIPUtils;
 import com.zac.flycloud.utils.SpringContextUtils;
-import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysLog;
 import com.zac.flycloud.tablemodel.SysRole;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.mapper.*;
-import com.zac.flycloud.sys.SysDeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -39,13 +38,11 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
+@Primary
+public class SysBaseApiImpl<M extends BaseMapper<T>, T> extends ServiceImpl implements SysBaseAPI {
 
     @Resource
     protected SysLogMapper sysLogMapper;
-
-    @Autowired
-    private SysUserMapper sysUserMapper;
 
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
@@ -53,11 +50,11 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
     @Resource
     private SysRoleMapper roleMapper;
 
-    @Resource
-    private SysDeptMapper departMapper;
-
     @Autowired
-    protected SysDeptService sysDeptService;
+    private SysUserMapper sysUserMapper;
+
+    @Resource
+    private SysDeptMapper sysDeptMapper;
 
     @Autowired
     protected RedisUtil redisUtil;
@@ -95,7 +92,7 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
             sysLog.setUsername(null);
         }else{
             User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            SysUser sysUser = getUserByName(securityUser.getUsername());
+            SysUser sysUser = sysUserMapper.getUserByName(securityUser.getUsername());
             if (securityUser != null) {
                 sysLog.setUserid(String.valueOf(sysUser.getId()));
                 sysLog.setUsername(sysUser.getRealname());
@@ -107,26 +104,6 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
         sysLogMapper.insert(sysLog);
     }
 
-    /**
-     * 根据用户名获取用户对象
-     *
-     * @param username
-     * @return
-     */
-    @Override
-    @Cacheable(cacheNames = CacheConstant.SYS_USERS_CACHE, key = "#username")
-    public SysUser getUserByName(String username) {
-        if (StringUtils.isEmpty(username)) {
-            return null;
-        }
-        SysUser loginUser = new SysUser();
-        SysUser sysUser = sysUserMapper.getUserByName(username);
-        if (sysUser == null) {
-            return null;
-        }
-        BeanUtils.copyProperties(sysUser, loginUser);
-        return loginUser;
-    }
 
     /**
      * 根据用户id获取用户
@@ -155,7 +132,7 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
 
     @Override
     public List<String> getDepartNamesByUsername(String username) {
-        List<SysDept> list = sysDeptService.queryDepartsByUsername(username);
+        List<SysDept> list = sysDeptMapper.queryDepartsByUsername(username);
         List<String> result = new ArrayList<>(list.size());
         for (SysDept depart : list) {
             result.add(depart.getDepartName());
@@ -166,7 +143,7 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
 
     @Override
     public List<JSONObject> queryAllDepart(Wrapper wrapper) {
-        return JSON.parseArray(JSON.toJSONString(sysDeptService.list(wrapper))).toJavaList(JSONObject.class);
+        return JSON.parseArray(JSON.toJSONString(list(wrapper))).toJavaList(JSONObject.class);
     }
 
     @Override
@@ -203,17 +180,17 @@ public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
 
     @Override
     public String getDepartIdsByOrgCode(String orgCode) {
-        return departMapper.queryDepartIdByOrgCode(orgCode);
+        return sysDeptMapper.queryDepartIdByOrgCode(orgCode);
     }
 
     @Override
     public SysDept getParentDepartId(String departId) {
-        return departMapper.getParentDepartId(departId);
+        return sysDeptMapper.getParentDepartId(departId);
     }
 
     @Override
     public List<SysDept> getAllSysDept() {
-        return departMapper.selectList(new QueryWrapper<SysDept>().eq("del_flag", "0"));
+        return sysDeptMapper.selectList(new QueryWrapper<SysDept>().eq("del_flag", "0"));
     }
 
     @Override

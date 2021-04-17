@@ -14,7 +14,7 @@ import java.util.List;
  * @Author:Steve
  * @Since：   2019-01-22
  */
-public interface SysDeptService extends SysBaseAPI<SysDept>{
+public interface SysDeptService<T> extends SysBaseAPI<SysDept>{
 
     /**
      * 查询所有部门信息,并分节点进行显示
@@ -36,14 +36,14 @@ public interface SysDeptService extends SysBaseAPI<SysDept>{
      * @param keyWord
      * @return
      */
-    List<TreeDto> searhBy(String keyWord,String myDeptSearch,String departIds);
+    List<TreeDto> searchBy(String keyWord, String myDeptSearch, String departIds);
     
     /**
-     * 根据部门id删除并删除其可能存在的子级部门
-     * @param id
+     * 根据一个或多个部门id删除，并删除其可能存在的子级部门
+     * @param uuids
      * @return
      */
-    boolean delete(String id);
+    boolean delete(String... uuids);
     
     /**
      * 根据用户id查询所属部门列表
@@ -60,19 +60,12 @@ public interface SysDeptService extends SysBaseAPI<SysDept>{
      */
     List<SysDept> queryDepartsByUsername(String username);
 
-	 /**
-     * 根据部门id批量删除并删除其可能存在的子级部门
-     * @param ids
-     * @return
-     */
-	void deleteBatchWithChildren(List<String> ids);
-
     /**
      *  根据部门Id查询,当前和下级所有部门IDS
      * @param departId
      * @return
      */
-    List<String> getSubDepIdsByDepId(String departId);
+    List<SysDept> getSubDepIdsByDepId(String departId);
 
     
 }
