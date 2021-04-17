@@ -30,8 +30,8 @@ spring:
       name: admin
       password: 918f239c-3a5c-4d74-b0af-4600e5ae7ddc
       roles: admin
-  profiles:
-    include: common
+  config:
+    import: application-common.yml
 springfox:
   documentation:
     # prod环境不启用swagger

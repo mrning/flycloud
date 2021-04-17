@@ -12,7 +12,7 @@ import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.mapper.SysUserRoleMapper;
 import com.zac.flycloud.sys.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
