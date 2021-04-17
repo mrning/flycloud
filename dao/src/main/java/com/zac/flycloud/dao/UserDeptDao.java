@@ -1,6 +1,6 @@
 package com.zac.flycloud.dao;
 
-import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysDept;
 
 import java.util.List;
 

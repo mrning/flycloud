@@ -2,8 +2,8 @@ package com.zac.flycloud.service;
 
 import com.zac.flycloud.dao.UserDao;
 import com.zac.flycloud.dao.UserRoleDao;
-import com.zac.flycloud.entity.tablemodel.SysRole;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysRole;
+import com.zac.flycloud.tablemodel.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

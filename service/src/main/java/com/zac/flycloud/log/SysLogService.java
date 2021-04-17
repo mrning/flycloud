@@ -1,7 +1,7 @@
 package com.zac.flycloud.log;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.entity.tablemodel.SysLog;
+import com.zac.flycloud.tablemodel.SysLog;
 
 import java.util.Date;
 import java.util.List;

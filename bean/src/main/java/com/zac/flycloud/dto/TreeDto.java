@@ -1,6 +1,6 @@
-package com.zac.flycloud.entity;
+package com.zac.flycloud.dto;
 
-import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysDept;
 import lombok.Data;
 
 import java.io.Serializable;

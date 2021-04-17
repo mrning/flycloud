@@ -1,8 +1,8 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysUserDept;
+import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysUserDept;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.apache.ibatis.annotations.Select;
 

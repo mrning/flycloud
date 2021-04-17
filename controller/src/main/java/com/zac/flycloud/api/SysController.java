@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zac.flycloud.utils.*;
-import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.entity.SysUserLoginVO;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.vos.SysUserLoginVO;
+import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.log.SysLogService;
 import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.SysUserService;
@@ -19,18 +17,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-
-import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
@@ -45,8 +36,6 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 public class SysController {
 
     @Autowired
-    private SysBaseAPI sysBaseAPI;
-    @Autowired
     private SysLogService logService;
     @Autowired
     private RedisUtil redisUtil;
@@ -54,11 +43,6 @@ public class SysController {
     private SysUserService sysUserService;
     @Autowired
     private SysDeptService sysDeptService;
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Value("${flycloud.security.tokenKey}")
-    private String tokenKey;
 
     /**
      * 登录接口
@@ -76,6 +60,7 @@ public class SysController {
         String password = sysLoginModel.getPassword();
         // 验证码
         String captcha = sysLoginModel.getCaptcha();
+
         if (captcha == null) {
             result.error500("验证码无效");
             return result;
@@ -104,13 +89,11 @@ public class SysController {
 
         //用户登录信息
         try {
-            userInfo(sysUser, result);
+            return sysUserService.userInfo(sysUser);
         } catch (Exception e) {
             log.error("登录异常", e);
             result.error500(e.getMessage());
         }
-        // 记录操作日志
-        sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
         return result;
     }
@@ -119,21 +102,20 @@ public class SysController {
      * 退出登录
      *
      * @param request
-     * @param response
      * @return
      */
     @ApiOperation("登出")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public DataResponseResult<Object> logout(HttpServletRequest request, HttpServletResponse response) {
+    public DataResponseResult<Object> logout(HttpServletRequest request) {
         //用户退出逻辑
         String token = request.getHeader("X-Access-Token");
         if (StringUtils.isEmpty(token)) {
             return DataResponseResult.error("退出登录失败！");
         }
         String username = String.valueOf(redisUtil.get(token));
-        SysUser sysUser = sysBaseAPI.getUserByName(username);
+        SysUser sysUser = sysUserService.getUserByName(username);
         if (sysUser != null) {
-            sysBaseAPI.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_1, null);
+            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_1, null);
             log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
             //清空用户登录Token缓存
             redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
@@ -239,7 +221,7 @@ public class SysController {
         result.setResult(true);
         try {
             //通过传入信息查询新的用户信息
-            SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>(sysUser));
+            SysUser user = (SysUser) sysUserService.getOne(new QueryWrapper<>(sysUser));
             if (user != null) {
                 result.setSuccess(false);
                 result.setMessage("用户账号已存在");
@@ -261,7 +243,7 @@ public class SysController {
     @ApiOperation("修改密码")
     @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
     public DataResponseResult<?> changePassword(@RequestBody SysUser sysUser) {
-        SysUser u = this.sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
+        SysUser u =  (SysUser) sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
         if (u == null) {
             return DataResponseResult.error("用户不存在！");
         }
@@ -340,46 +322,10 @@ public class SysController {
             result.setMessage("手机验证码错误");
             return result;
         }
-        // 获取用户信息
-        userInfo(sysUser, result);
-        // 添加日志
-        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
-        return result;
+        return sysUserService.userInfo(sysUser);
     }
 
-
-    /**
-     * 用户信息
-     *
-     * @param sysUser
-     * @param result
-     * @return
-     */
-    private void userInfo(SysUser sysUser, DataResponseResult<JSONObject> result) throws Exception {
-        String username = sysUser.getUsername();
-        // 登录信息记录到security
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // 生成token
-        String token = PasswordUtil.createToken(username, tokenKey);
-        // 设置token缓存有效时间 1个小时
-        redisUtil.set(token, username);
-        redisUtil.expire(token, TOKEN_EXPIRE_TIME);
-        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
-        redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, TOKEN_EXPIRE_TIME);
-
-        // 获取用户部门信息
-        JSONObject obj = new JSONObject();
-        List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
-        obj.put("departs", departs);
-        obj.put("token", token);
-        obj.put("userInfo", sysUser);
-        result.setResult(obj);
-        DataResponseResult.success(result);
-    }
 
     /**
      * 后台生成图形验证码 ：有效
@@ -393,13 +339,12 @@ public class SysController {
         DataResponseResult<String> res = new DataResponseResult<String>();
         try {
             String code = MD5Util.createCode(4);
-
-            log.info("验证码 = " + code);
             String lowerCaseCode = code.toLowerCase();
             String realKey = MD5Util.MD5Encode(lowerCaseCode + key, "utf-8");
             // 验证码5分钟有效
             redisUtil.set(realKey, lowerCaseCode, 60 * 5);
             String base64 = RandImageUtil.generate(code);
+            res.setMessage(code);
             res.setSuccess(true);
             res.setResult(base64);
         } catch (Exception e) {

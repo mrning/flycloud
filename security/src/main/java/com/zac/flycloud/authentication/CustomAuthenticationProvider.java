@@ -1,6 +1,6 @@
 package com.zac.flycloud.authentication;
 
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.service.SecurityUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;

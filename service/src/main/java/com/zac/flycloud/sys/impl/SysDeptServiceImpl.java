@@ -1,15 +1,14 @@
 package com.zac.flycloud.sys.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.entity.TreeDto;
+import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.mapper.SysDeptMapper;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysUserDept;
+import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysUserDept;
 import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.sysutils.FindsDeptsChildrenUtil;
 import io.netty.util.internal.StringUtil;

@@ -2,7 +2,7 @@ package com.zac.flycloud.interceptor.filters;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.authentication.CustomAuthenticationManager;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.MultiReadHttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

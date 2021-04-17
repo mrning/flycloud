@@ -1,10 +1,6 @@
 package com.zac.flycloud.dao;
 
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysRole;
-import com.zac.flycloud.entity.tablemodel.SysUser;
-
-import java.util.List;
+import com.zac.flycloud.tablemodel.SysUser;
 
 public interface UserDao {
 

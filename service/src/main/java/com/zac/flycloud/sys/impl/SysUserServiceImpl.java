@@ -1,12 +1,14 @@
 package com.zac.flycloud.sys.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.base.SysBaseApiImpl;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.mapper.SysUserRoleMapper;
@@ -14,11 +16,20 @@ import com.zac.flycloud.sys.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
+
 @Service("userService")
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> implements SysUserService {
+public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -28,6 +39,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     private SysUserDeptMapper sysUserDeptMapper;
     @Autowired
     private SysBaseAPI sysBaseAPI;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Value("${flycloud.security.tokenKey}")
+    private String tokenKey;
 
     /**
      * 修改密码
@@ -116,6 +131,42 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
             return result;
         }
         return result;
+    }
+
+    /**
+     * 用户信息
+     *
+     * @param sysUser
+     * @param result
+     * @return
+     */
+    public DataResponseResult userInfo(SysUser sysUser) throws Exception {
+        DataResponseResult<JSONObject> result = new DataResponseResult<>();
+        String username = sysUser.getUsername();
+        // 登录信息记录到security
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // 生成token
+        String token = PasswordUtil.createToken(username, tokenKey);
+        // 设置token缓存有效时间 1个小时
+        redisUtil.set(token, username);
+        redisUtil.expire(token, TOKEN_EXPIRE_TIME);
+        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token);
+        redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, TOKEN_EXPIRE_TIME);
+
+        // 获取用户部门信息
+        JSONObject obj = new JSONObject();
+        List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
+        obj.put("departs", departs);
+        obj.put("token", token);
+        obj.put("userInfo", sysUser);
+        result.setResult(obj);
+
+        // 添加日志
+        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+        return DataResponseResult.success(result);
     }
 
 

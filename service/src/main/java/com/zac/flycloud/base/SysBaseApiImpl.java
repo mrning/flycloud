@@ -5,13 +5,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zac.flycloud.utils.RedisUtil;
 import com.zac.flycloud.utils.UrlIPUtils;
 import com.zac.flycloud.utils.SpringContextUtils;
 import com.zac.flycloud.constant.CacheConstant;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysLog;
-import com.zac.flycloud.entity.tablemodel.SysRole;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysLog;
+import com.zac.flycloud.tablemodel.SysRole;
+import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.mapper.*;
 import com.zac.flycloud.sys.SysDeptService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,20 +39,28 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SysBaseApiImpl implements SysBaseAPI {
+public class SysBaseApiImpl extends ServiceImpl implements SysBaseAPI {
 
     @Resource
-    private SysLogMapper sysLogMapper;
+    protected SysLogMapper sysLogMapper;
+
     @Autowired
     private SysUserMapper sysUserMapper;
+
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
-    @Autowired
-    private SysDeptService sysDepartService;
+
     @Resource
     private SysRoleMapper roleMapper;
+
     @Resource
     private SysDeptMapper departMapper;
+
+    @Autowired
+    protected SysDeptService sysDeptService;
+
+    @Autowired
+    protected RedisUtil redisUtil;
 
     /**
      * 添加日志
@@ -145,7 +155,7 @@ public class SysBaseApiImpl implements SysBaseAPI {
 
     @Override
     public List<String> getDepartNamesByUsername(String username) {
-        List<SysDept> list = sysDepartService.queryDepartsByUsername(username);
+        List<SysDept> list = sysDeptService.queryDepartsByUsername(username);
         List<String> result = new ArrayList<>(list.size());
         for (SysDept depart : list) {
             result.add(depart.getDepartName());
@@ -156,7 +166,7 @@ public class SysBaseApiImpl implements SysBaseAPI {
 
     @Override
     public List<JSONObject> queryAllDepart(Wrapper wrapper) {
-        return JSON.parseArray(JSON.toJSONString(sysDepartService.list(wrapper))).toJavaList(JSONObject.class);
+        return JSON.parseArray(JSON.toJSONString(sysDeptService.list(wrapper))).toJavaList(JSONObject.class);
     }
 
     @Override

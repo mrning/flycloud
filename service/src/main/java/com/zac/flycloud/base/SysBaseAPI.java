@@ -2,15 +2,12 @@ package com.zac.flycloud.base;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysRole;
-import com.zac.flycloud.entity.tablemodel.SysUser;
-import org.springframework.web.multipart.MultipartFile;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysRole;
+import com.zac.flycloud.tablemodel.SysUser;
 
-import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description: 底层共通业务API，提供其他独立模块调用
@@ -18,7 +15,7 @@ import java.util.Map;
  * @Date:2019-4-20
  * @Version:V1.0
  */
-public interface SysBaseAPI {
+public interface SysBaseAPI<T> extends IService<T> {
 
     /**
      * 日志添加

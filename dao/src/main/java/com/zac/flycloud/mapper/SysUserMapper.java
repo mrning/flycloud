@@ -1,13 +1,8 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.entity.tablemodel.SysDept;
-import com.zac.flycloud.entity.tablemodel.SysRole;
-import com.zac.flycloud.entity.tablemodel.SysUser;
-import org.apache.ibatis.annotations.Mapper;
+import com.zac.flycloud.tablemodel.SysUser;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 用户mapper

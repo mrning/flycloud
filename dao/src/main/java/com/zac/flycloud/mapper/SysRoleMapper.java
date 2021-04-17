@@ -1,7 +1,7 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.entity.tablemodel.SysRole;
+import com.zac.flycloud.tablemodel.SysRole;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 

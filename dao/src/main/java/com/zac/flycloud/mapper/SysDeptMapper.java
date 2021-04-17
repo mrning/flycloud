@@ -1,7 +1,7 @@
 package com.zac.flycloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysDept;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.data.repository.query.Param;
 

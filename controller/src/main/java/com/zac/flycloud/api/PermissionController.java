@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.entity.tablemodel.SysPermission;
+import com.zac.flycloud.tablemodel.SysPermission;
 import com.zac.flycloud.sys.SysPermissionService;
 import com.zac.flycloud.utils.MD5Util;
 import com.zac.flycloud.utils.UrlIPUtils;

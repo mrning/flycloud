@@ -3,7 +3,7 @@
 <mapper namespace="com.zac.flycloud.mapper.SysUserMapper">
 
     <!-- 根据用户名查询 -->
-    <select id="getUserByName" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+    <select id="getUserByName" resultType="com.zac.flycloud.tablemodel.SysUser">
         select *
         from sys_user
         where username = #{username}
@@ -11,7 +11,7 @@
     </select>
 
     <!-- 根据手机号查询 -->
-    <select id="getUserByPhone" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+    <select id="getUserByPhone" resultType="com.zac.flycloud.tablemodel.SysUser">
         select *
         from sys_user
         where phone = #{phone}
@@ -19,7 +19,7 @@
     </select>
 
     <!-- 根据邮箱查询用户信息 -->
-    <select id="getUserByEmail" resultType="com.zac.flycloud.entity.tablemodel.SysUser">
+    <select id="getUserByEmail" resultType="com.zac.flycloud.tablemodel.SysUser">
         select *
         from sys_user
         where email = #{email}

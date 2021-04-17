@@ -52,25 +52,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     /**
-     * app端接口文档
-     *
-     * @return
-     */
-    @Bean
-    public Docket appDocket() {
-        List<RequestParameter> pars = getGlobalRequestParameters();
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                // 所有以app开头的接口都显示到app接口分组里面
-                .paths(input -> input.startsWith("/app"))
-                .build()
-                .groupName("app接口")
-                .globalRequestParameters(pars)
-                .apiInfo(apiInfo());
-    }
-
-    /**
      * 后台管理页面接口文档
      *
      * @return
@@ -78,14 +59,32 @@ public class SwaggerConfig implements WebMvcConfigurer {
     @Bean
     public Docket backDocket() {
         List<RequestParameter> pars = getGlobalRequestParameters();
-
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 // 所有以api开头的接口都显示到后台管理接口分组里面
                 .paths(input -> input.startsWith("/api"))
                 .build()
-                .groupName("后台管理接口")
+                .groupName("backApi")
+                .globalRequestParameters(pars)
+                .apiInfo(apiInfo());
+    }
+
+    /**
+     * app端接口文档
+     *
+     * @return
+     */
+    @Bean
+    public Docket appDocket() {
+        List<RequestParameter> pars = getGlobalRequestParameters();
+        return new Docket(DocumentationType.OAS_30)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                // 所有以app开头的接口都显示到app接口分组里面
+                .paths(input -> input.startsWith("/app"))
+                .build()
+                .groupName("appApi")
                 .globalRequestParameters(pars)
                 .apiInfo(apiInfo());
     }
@@ -94,7 +93,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
         // 配置公共参数，每个请求里面都会携带
         List<RequestParameter> pars = new ArrayList<>();
         RequestParameterBuilder ticketPar = new RequestParameterBuilder();
-        ticketPar.name(REQUEST_HEADER_TOKEN).description("登录验证token")
+        ticketPar.name(REQUEST_HEADER_TOKEN)
                 .in(ParameterType.HEADER)
                 .accepts(Collections.singleton(MediaType.APPLICATION_JSON))
                 .query(q -> q.style(ParameterStyle.LABEL)

@@ -1,21 +1,10 @@
 package com.zac.flycloud.sys;
 
+import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
-import com.zac.flycloud.entity.tablemodel.SysUser;
+import com.zac.flycloud.tablemodel.SysUser;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-public interface SysUserService extends IService<SysUser>{
+public interface SysUserService<T> extends SysBaseAPI<SysUser> {
 
     /**
      * 重置密码
@@ -57,5 +46,13 @@ public interface SysUserService extends IService<SysUser>{
      * @return
      */
     DataResponseResult checkUserIsEffective(SysUser sysUser);
+
+    /**
+     * 查詢用戶信息
+     * @param sysUser
+     * @return
+     * @throws Exception
+     */
+    DataResponseResult userInfo(SysUser sysUser) throws Exception;
 
 }

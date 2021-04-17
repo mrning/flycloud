@@ -1,4 +1,4 @@
-package com.zac.flycloud.entity.tablemodel;
+package com.zac.flycloud.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zac.flycloud.basebean.BaseEntity;

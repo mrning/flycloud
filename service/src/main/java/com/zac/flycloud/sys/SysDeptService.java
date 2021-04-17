@@ -1,8 +1,8 @@
 package com.zac.flycloud.sys;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.entity.TreeDto;
-import com.zac.flycloud.entity.tablemodel.SysDept;
+import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.dto.TreeDto;
+import com.zac.flycloud.tablemodel.SysDept;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @Author:Steve
  * @Since：   2019-01-22
  */
-public interface SysDeptService extends IService<SysDept>{
+public interface SysDeptService extends SysBaseAPI<SysDept>{
 
     /**
      * 查询所有部门信息,并分节点进行显示

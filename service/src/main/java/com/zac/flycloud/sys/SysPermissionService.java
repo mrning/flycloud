@@ -1,10 +1,8 @@
 package com.zac.flycloud.sys;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.entity.tablemodel.SysPermission;
+import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.tablemodel.SysPermission;
 
-import java.util.List;
-
-public interface SysPermissionService extends IService<SysPermission> {
+public interface SysPermissionService<T> extends SysBaseAPI<SysPermission> {
 
 }
