@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
@@ -30,12 +31,15 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>16</java.version>
+		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
+		<com.alibaba.fastjson.version>1.2.75</com.alibaba.fastjson.version>
 		<mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<mysql.version>8.0.19</mysql.version>
 		<io.springfox.version>3.0.0</io.springfox.version>
 		<hutool.version>5.5.4</hutool.version>
-		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
+		<com.projectlombok.version>1.18.20</com.projectlombok.version>
+
 
 	</properties>
 
@@ -44,10 +48,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-quartz</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.69</version>
+			<version>${com.alibaba.fastjson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -120,7 +120,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-			<version>1.18.20</version>
+			<version>${com.projectlombok.version}</version>
 		</dependency>
 		<!--hutool-->
 		<dependency>
