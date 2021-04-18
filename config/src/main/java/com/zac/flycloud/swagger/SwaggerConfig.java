@@ -4,26 +4,22 @@ package com.zac.flycloud.swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.schema.ScalarType;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-import static com.zac.flycloud.constant.CommonConstant.REQUEST_HEADER_TOKEN;
 
 /**
  * springfox3.0文档地址
@@ -34,8 +30,6 @@ import static com.zac.flycloud.constant.CommonConstant.REQUEST_HEADER_TOKEN;
 @EnableOpenApi
 @ComponentScan(basePackages = {"com.zac.flycloud"})
 public class SwaggerConfig implements WebMvcConfigurer {
-
-    public static final String SWAGGER_TOKEN = "flycloud-88888888-token";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -58,7 +52,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
      */
     @Bean
     public Docket backDocket() {
-        List<RequestParameter> pars = getGlobalRequestParameters();
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -66,7 +61,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .paths(input -> input.startsWith("/api"))
                 .build()
                 .groupName("backApi")
-                .globalRequestParameters(pars)
+                .securityContexts(Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(new SecurityReference("token",authorizationScopes))).build()))
+                .securitySchemes(Collections.singletonList(new ApiKey("token","token","header")))
                 .apiInfo(apiInfo());
     }
 
@@ -77,7 +73,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
      */
     @Bean
     public Docket appDocket() {
-        List<RequestParameter> pars = getGlobalRequestParameters();
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -85,23 +82,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .paths(input -> input.startsWith("/app"))
                 .build()
                 .groupName("appApi")
-                .globalRequestParameters(pars)
+                .securityContexts(Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(new SecurityReference("token",authorizationScopes))).build()))
+                .securitySchemes(Collections.singletonList(new ApiKey("token","token","header")))
                 .apiInfo(apiInfo());
-    }
-
-    private List<RequestParameter> getGlobalRequestParameters() {
-        // 配置公共参数，每个请求里面都会携带
-        List<RequestParameter> pars = new ArrayList<>();
-        RequestParameterBuilder ticketPar = new RequestParameterBuilder();
-        ticketPar.name(REQUEST_HEADER_TOKEN)
-                .in(ParameterType.HEADER)
-                .accepts(Collections.singleton(MediaType.APPLICATION_JSON))
-                .query(q -> q.style(ParameterStyle.LABEL)
-                        .model(m -> m.scalarModel(ScalarType.STRING))
-                        .defaultValue(SWAGGER_TOKEN))
-                .required(true).build();
-        pars.add(ticketPar.build());
-        return pars;
     }
 
     /**

@@ -28,42 +28,42 @@ public interface CommonConstant {
     /**
      * 系统日志类型： 登录
      */
-    int LOG_TYPE_1 = 1;
+    int LOG_TYPE_LOGIN_1 = 1;
 
     /**
      * 系统日志类型： 操作
      */
-    int LOG_TYPE_2 = 2;
+    int LOG_TYPE_OPERATION_2 = 2;
 
     /**
      * 操作日志类型： 查询
      */
-    int OPERATE_TYPE_1 = 1;
+    int OPERATE_TYPE_QUERY_1 = 1;
 
     /**
      * 操作日志类型： 添加
      */
-    int OPERATE_TYPE_2 = 2;
+    int OPERATE_TYPE_ADD_2 = 2;
 
     /**
      * 操作日志类型： 更新
      */
-    int OPERATE_TYPE_3 = 3;
+    int OPERATE_TYPE_UPDATE_3 = 3;
 
     /**
      * 操作日志类型： 删除
      */
-    int OPERATE_TYPE_4 = 4;
+    int OPERATE_TYPE_DELETE_4 = 4;
 
     /**
-     * 操作日志类型： 倒入
+     * 操作日志类型： 导入
      */
-    int OPERATE_TYPE_5 = 5;
+    int OPERATE_TYPE_IMPORT_5 = 5;
 
     /**
      * 操作日志类型： 导出
      */
-    int OPERATE_TYPE_6 = 6;
+    int OPERATE_TYPE_EXPORT_6 = 6;
 
     /**
      * {@code 404 Server Error} (HTTP/1.0 - RFC 1945)
@@ -108,7 +108,7 @@ public interface CommonConstant {
     Integer MENU_TYPE_2 = 2;
 
     /**
-     * 通告对象类型（USER:指定用户，ALL:全体用户）
+     * 公告发送对象类型（USER:指定用户，ALL:全体用户）
      */
     String MSG_TYPE_UESR = "USER";
     String MSG_TYPE_ALL = "ALL";
@@ -176,47 +176,6 @@ public interface CommonConstant {
     String DICT_TEXT_SUFFIX = "_dictText";
 
     /**
-     * 表单设计器主表类型
-     */
-    Integer DESIGN_FORM_TYPE_MAIN = 1;
-
-    /**
-     * 表单设计器子表表类型
-     */
-    Integer DESIGN_FORM_TYPE_SUB = 2;
-
-    /**
-     * 表单设计器URL授权通过
-     */
-    Integer DESIGN_FORM_URL_STATUS_PASSED = 1;
-
-    /**
-     * 表单设计器URL授权未通过
-     */
-    Integer DESIGN_FORM_URL_STATUS_NOT_PASSED = 2;
-
-    /**
-     * 表单设计器新增 Flag
-     */
-    String DESIGN_FORM_URL_TYPE_ADD = "add";
-    /**
-     * 表单设计器修改 Flag
-     */
-    String DESIGN_FORM_URL_TYPE_EDIT = "edit";
-    /**
-     * 表单设计器详情 Flag
-     */
-    String DESIGN_FORM_URL_TYPE_DETAIL = "detail";
-    /**
-     * 表单设计器复用数据 Flag
-     */
-    String DESIGN_FORM_URL_TYPE_REUSE = "reuse";
-    /**
-     * 表单设计器编辑 Flag （已弃用）
-     */
-    String DESIGN_FORM_URL_TYPE_VIEW = "view";
-
-    /**
      * online参数值设置（是：Y, 否：N）
      */
     String ONLINE_PARAM_VAL_IS_TURE = "Y";
@@ -249,38 +208,6 @@ public interface CommonConstant {
     Integer USER_IDENTITY_2 = 2;
 
     /**
-     * sys_user 表 username 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_SYS_USER_USERNAME = "uniq_sys_user_username";
-    /**
-     * sys_user 表 work_no 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_SYS_USER_WORK_NO = "uniq_sys_user_work_no";
-    /**
-     * sys_user 表 phone 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_SYS_USER_PHONE = "uniq_sys_user_phone";
-    /**
-     * sys_user 表 email 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_SYS_USER_EMAIL = "uniq_sys_user_email";
-    /**
-     * sys_quartz_job 表 job_class_name 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_JOB_CLASS_NAME = "uniq_job_class_name";
-    /**
-     * sys_position 表 code 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_CODE = "uniq_code";
-    /**
-     * sys_role 表 code 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_SYS_ROLE_CODE = "uniq_sys_role_role_code";
-    /**
-     * sys_dept 表 code 唯一键索引
-     */
-    String SQL_INDEX_UNIQ_DEPART_ORG_CODE = "uniq_depart_org_code";
-    /**
      * 在线聊天 是否为默认分组
      */
     String IM_DEFAULT_GROUP = "1";
@@ -299,12 +226,6 @@ public interface CommonConstant {
     String IM_SOCKET_TYPE = "chatMessage";
 
     /**
-     * 考勤补卡业务状态 （1：同意  2：不同意）
-     */
-    String SIGN_PATCH_BIZ_STATUS_1 = "1";
-    String SIGN_PATCH_BIZ_STATUS_2 = "2";
-
-    /**
      * 接口url
      */
     Map<String,String> URL_MAPPING_MAP = new HashMap<>();
@@ -319,5 +240,7 @@ public interface CommonConstant {
      * application/x-www-form-urlencoded ： form表单格式
      * application/json ： json格式
      */
-    String REQUEST_HEADERS_CONTENT_TYPE = "application/json";
+    String REQUEST_HEADERS_JSON = "application/json";
+
+    String REQUEST_HEADERS_FORM = "application/x-www-form-urlencoded";
 }

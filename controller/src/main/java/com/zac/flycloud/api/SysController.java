@@ -3,15 +3,16 @@ package com.zac.flycloud.api;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zac.flycloud.utils.*;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.vos.SysUserLoginVO;
-import com.zac.flycloud.tablemodel.SysUser;
-import com.zac.flycloud.log.SysLogService;
-import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.sys.SysUserService;
+import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.utils.MD5Util;
+import com.zac.flycloud.utils.PasswordUtil;
+import com.zac.flycloud.utils.RandImageUtil;
+import com.zac.flycloud.utils.RedisUtil;
+import com.zac.flycloud.vos.SysUserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Date;
 
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
@@ -36,21 +36,17 @@ import java.util.*;
 public class SysController {
 
     @Autowired
-    private SysLogService logService;
-    @Autowired
     private RedisUtil redisUtil;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private SysDeptService sysDeptService;
 
     /**
-     * 登录接口
+     * 用户名密码登录接口
      *
      * @param sysLoginModel
      * @return
      */
-    @ApiOperation("登录接口")
+    @ApiOperation("用户名密码登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public DataResponseResult<Object> login(@RequestBody SysUserLoginVO sysLoginModel) {
         DataResponseResult<Object> result = DataResponseResult.success();
@@ -99,6 +95,37 @@ public class SysController {
     }
 
     /**
+     * 手机号登录接口
+     *
+     * @param jsonObject
+     * @return
+     */
+    @ApiOperation("手机号登录接口")
+    @PostMapping("/phoneLogin")
+    public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
+        String phone = jsonObject.getString("mobile");
+        String smscode = jsonObject.getString("captcha");
+
+        // 校验用户有效性
+        SysUser sysUser = sysUserService.getUserByPhone(phone);
+        DataResponseResult<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        // 验证手机验证码
+        Object code = redisUtil.get(phone);
+        if (!smscode.equals(code)) {
+            result.setMessage("手机验证码错误");
+            return result;
+        }
+
+        result.setResult(sysUserService.userInfo(sysUser));
+
+        return result;
+    }
+
+    /**
      * 退出登录
      *
      * @param request
@@ -115,7 +142,7 @@ public class SysController {
         String username = String.valueOf(redisUtil.get(token));
         SysUser sysUser = sysUserService.getUserByName(username);
         if (sysUser != null) {
-            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_1, null);
+            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
             //清空用户登录Token缓存
             redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
@@ -205,7 +232,6 @@ public class SysController {
         return result;
     }
 
-
     /**
      * 校验用户账号是否唯一<br>
      * 可以校验其他 需要检验什么就传什么。。。
@@ -250,84 +276,6 @@ public class SysController {
         sysUser.setId(u.getId());
         return sysUserService.changePassword(sysUser);
     }
-
-
-    /**
-     * 获取访问量
-     *
-     * @return
-     */
-    @ApiOperation("获取访问量")
-    @GetMapping("loginfo")
-    public DataResponseResult<Object> loginfo() {
-        JSONObject obj = new JSONObject();
-        // 获取一天的开始和结束时间
-        Date dayStart = DateUtils.getTodayStart();
-        Date dayEnd = DateUtils.getTodayEnd();
-        // 获取系统访问记录
-        Long totalVisitCount = logService.findTotalVisitCount();
-        obj.put("totalVisitCount", totalVisitCount);
-        Long todayVisitCount = logService.findTodayVisitCount(dayStart, dayEnd);
-        obj.put("todayVisitCount", todayVisitCount);
-        Long todayIp = logService.findTodayIp(dayStart, dayEnd);
-        obj.put("todayIp", todayIp);
-        return DataResponseResult.success(obj, "获取访问量成功");
-    }
-
-    /**
-     * 获取访问量
-     *
-     * @return
-     */
-    @GetMapping("visitInfo")
-    @ApiOperation("获取最近一周访问数量/ip数量")
-    public DataResponseResult<List<Map<String, Object>>> visitInfo() {
-        DataResponseResult<List<Map<String, Object>>> result = new DataResponseResult<List<Map<String, Object>>>();
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        Date dayEnd = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, -7);
-        Date dayStart = calendar.getTime();
-        List<Map<String, Object>> list = logService.findVisitCount(dayStart, dayEnd);
-        result.setResult(ConverUtil.toLowerCasePageList(list));
-        return result;
-    }
-
-    /**
-     * 手机号登录接口
-     *
-     * @param jsonObject
-     * @return
-     */
-    @ApiOperation("手机号登录接口")
-    @PostMapping("/phoneLogin")
-    public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
-        String phone = jsonObject.getString("mobile");
-        String smscode = jsonObject.getString("captcha");
-
-        // 校验用户有效性
-        SysUser sysUser = sysUserService.getUserByPhone(phone);
-        DataResponseResult<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        // 验证手机验证码
-        Object code = redisUtil.get(phone);
-        if (!smscode.equals(code)) {
-            result.setMessage("手机验证码错误");
-            return result;
-        }
-
-        result.setResult(sysUserService.userInfo(sysUser));
-
-        return result;
-    }
-
 
     /**
      * 后台生成图形验证码 ：有效

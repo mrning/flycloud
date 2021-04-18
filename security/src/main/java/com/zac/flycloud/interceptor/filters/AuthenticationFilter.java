@@ -52,7 +52,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         log.debug("请求头类型： " + httpServletRequest.getContentType());
-        if ((httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_CONTENT_TYPE))
+        if ((httpServletRequest.getContentType() != null && !httpServletRequest.getContentType().contains(REQUEST_HEADERS_JSON))
                 || checkSwagger(httpServletRequest.getRequestURI())) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;

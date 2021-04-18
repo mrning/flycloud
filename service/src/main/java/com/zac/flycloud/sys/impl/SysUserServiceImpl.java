@@ -10,9 +10,7 @@ import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.sys.SysDeptService;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysUser;
-import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.mapper.SysUserMapper;
-import com.zac.flycloud.mapper.SysUserRoleMapper;
 import com.zac.flycloud.sys.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -137,12 +135,12 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         //情况1：根据用户信息查询，该用户不存在
         if (sysUser == null) {
             result.error500("该用户不存在，请注册");
-            sysBaseAPI.addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_1, null);
+            sysBaseAPI.addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             return result;
         }
         //情况2：根据用户信息查询，该用户已停用
         if (sysUser.getDeleted()) {
-            sysBaseAPI.addLog("用户登录失败，用户名:" + sysUser.getUsername() + "已停用！", CommonConstant.LOG_TYPE_1, null);
+            sysBaseAPI.addLog("用户登录失败，用户名:" + sysUser.getUsername() + "已停用！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             result.error500("该用户已停用");
             return result;
         }
@@ -176,7 +174,7 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         obj.put("userInfo", sysUser);
 
         // 添加日志
-        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
         return obj;
     }
 
