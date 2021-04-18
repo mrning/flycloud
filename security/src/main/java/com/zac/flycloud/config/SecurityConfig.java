@@ -88,18 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 配置web资源权限
-     *
-     * @param web
-     * @throws Exception
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // 设置允许放行的资源
-        web.ignoring().antMatchers(ignoreUrls);
-    }
-
-    /**
      * 用于配置UserDetailsService及PasswordEncoder；
      * @param auth
      * @throws Exception

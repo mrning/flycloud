@@ -38,12 +38,6 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
     private SysUserMapper sysUserMapper;
 
     @Autowired
-    private SysUserRoleMapper sysUserRoleMapper;
-
-    @Autowired
-    private SysUserDeptMapper sysUserDeptMapper;
-
-    @Autowired
     private SysDeptService sysDeptService;
 
     @Autowired
@@ -161,8 +155,7 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
      * @param sysUser
      * @return
      */
-    public DataResponseResult userInfo(SysUser sysUser) throws Exception {
-        DataResponseResult<JSONObject> result = new DataResponseResult<>();
+    public JSONObject userInfo(SysUser sysUser) throws Exception {
         String username = sysUser.getUsername();
         // 登录信息记录到security
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -181,11 +174,10 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         obj.put("departs", departs);
         obj.put("token", token);
         obj.put("userInfo", sysUser);
-        result.setResult(obj);
 
         // 添加日志
         sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
-        return DataResponseResult.success(result);
+        return obj;
     }
 
 

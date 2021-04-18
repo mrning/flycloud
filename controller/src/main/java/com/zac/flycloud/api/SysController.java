@@ -52,8 +52,8 @@ public class SysController {
      */
     @ApiOperation("登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public DataResponseResult<JSONObject> login(@RequestBody SysUserLoginVO sysLoginModel) {
-        DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
+    public DataResponseResult<Object> login(@RequestBody SysUserLoginVO sysLoginModel) {
+        DataResponseResult<Object> result = DataResponseResult.success();
         // 用户名
         String username = sysLoginModel.getUsername();
         // 密码
@@ -89,7 +89,7 @@ public class SysController {
 
         // 4. 获取用户登录信息
         try {
-            return sysUserService.userInfo(sysUser);
+            result.setResult(sysUserService.userInfo(sysUser));
         } catch (Exception e) {
             log.error("登录异常", e);
             result.error500(e.getMessage());
@@ -323,14 +323,15 @@ public class SysController {
             return result;
         }
 
-        return sysUserService.userInfo(sysUser);
+        result.setResult(sysUserService.userInfo(sysUser));
+
+        return result;
     }
 
 
     /**
      * 后台生成图形验证码 ：有效
      *
-     * @param response
      * @param key
      */
     @ApiOperation("获取验证码")

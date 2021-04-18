@@ -1,5 +1,6 @@
 package com.zac.flycloud.sys;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.base.SysBaseAPI;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.tablemodel.SysUser;
@@ -58,6 +59,6 @@ public interface SysUserService<T> extends SysBaseAPI<SysUser> {
      * @return
      * @throws Exception
      */
-    DataResponseResult userInfo(SysUser sysUser) throws Exception;
+    JSONObject userInfo(SysUser sysUser) throws Exception;
 
 }
