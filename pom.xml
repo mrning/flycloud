@@ -10,7 +10,7 @@
 		<version>2.4.5</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.zac</groupId>a
+	<groupId>com.zac</groupId>
 	<artifactId>fly-cloud</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fly-cloud</name>
@@ -83,6 +83,13 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
 			<version>${com.alibaba.druid.version}</version>
+		</dependency>
+
+		<!-- tencent cloud-->
+		<dependency>
+			<groupId>com.tencentcloudapi</groupId>
+			<artifactId>scf-java-events</artifactId>
+			<version>0.0.3</version>
 		</dependency>
 
 		<!--mybatis-->
@@ -176,21 +183,18 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                </configuration>
-            </plugin>
         </plugins>
 	</build>
 
 	<repositories>
+		<repository>
+			<id>localRepository</id>
+			<url>file:O:\repository</url>
+		</repository>
 		<repository>
 			<id>jcenter-snapshots</id>
 			<name>jcenter</name>
@@ -208,12 +212,4 @@
 			<url>https://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-
-	<distributionManagement>
-		<repository>
-			<id>localRepository</id>
-			<url>file:O:\repository</url>
-		</repository>
-	</distributionManagement>
-
 </project>
