@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.connection.PoolException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -45,6 +46,12 @@ public class ExceptionHandler {
 	public DataResponseResult<?> handleException(Exception e){
 		log.error(e.getMessage(), e);
 		return DataResponseResult.error("操作失败，"+e.getMessage());
+	}
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(HttpMessageNotReadableException.class)
+	public DataResponseResult<?> handleException(HttpMessageNotReadableException e){
+		log.error(e.getMessage(), e);
+		return DataResponseResult.error("操作失败，参数格式异常无法转换"+e.getMessage());
 	}
 	
 	/**

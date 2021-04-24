@@ -91,7 +91,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         topLevelClass.addImportedType("org.springframework.beans.factory.annotation.*");
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
-        topLevelClass.addImportedType("import io.swagger.annotations.Api");
+        topLevelClass.addImportedType("io.swagger.annotations.Api");
 
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         // javaDoc
@@ -135,10 +135,10 @@ public class ControllerGenPlugin extends PluginAdapter {
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addJavaDocLine("/**\n" +
-                " * AutoCreateFile "+methodName+" \n" +
-                " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
-                " * @author zac\n" +
-                " */");
+                "     * AutoCreateFile "+methodName+"\n" +
+                "     * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
+                "     * @author zac\n" +
+                "     */");
         // 加注解
         method.addAnnotation(ANNOTATION_POSTMAPPING + ("(\"/" + methodName + "\")"));
         // 加返回类型

@@ -43,7 +43,7 @@ import java.util.List;
 public class SysBaseApiImpl<M extends BaseMapper<T>, T> extends ServiceImpl implements SysBaseAPI {
 
     @Resource
-    protected SysLogMapper sysLogMapper;
+    protected SysLogDTOMapper sysLogDTOMapper;
 
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
@@ -102,7 +102,7 @@ public class SysBaseApiImpl<M extends BaseMapper<T>, T> extends ServiceImpl impl
         sysLog.setCreateTime(new Date());
         sysLog.setUuid(UUID.randomUUID().toString());
         //保存系统日志
-        sysLogMapper.insert(sysLog);
+        sysLogDTOMapper.insert(sysLog);
     }
 
 

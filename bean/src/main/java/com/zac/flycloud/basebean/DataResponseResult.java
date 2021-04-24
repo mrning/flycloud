@@ -46,7 +46,7 @@ public class DataResponseResult<T> implements Serializable {
 	 * 时间戳
 	 */
 	@ApiModelProperty(value = "时间戳")
-	private long timestamp = System.currentTimeMillis();
+	private long timestamp = System.currentTimeMillis()/1000;
 
 	public DataResponseResult() {
 		

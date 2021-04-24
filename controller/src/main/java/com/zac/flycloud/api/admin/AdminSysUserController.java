@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021年4月24日星期六
  * @author zac
  */
-@Api(tags = "日志相关")
+@Api(tags = "用户管理")
 @RestController
 @RequestMapping("/api/admin/sysUser")
 @Slf4j
