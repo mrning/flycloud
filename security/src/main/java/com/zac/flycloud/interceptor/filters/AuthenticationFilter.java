@@ -81,22 +81,27 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private void handToken(FilterChain filterChain, MultiReadRequest wrappedRequest, MultiReadResponse wrappedResponse) throws IOException, ServletException {
         // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
         String token = wrappedRequest.getHeader(REQUEST_HEADER_TOKEN);
+        if (StringUtils.isBlank(token)) {
+            throw new BadCredentialsException("请求头中无token，请重新登录！");
+        }
         log.debug("后台检查令牌:{}", token);
+
         if (StringUtils.equals(token, sysToken)) {
-            UserDetails securityUser = securityUserService.loadUserByUsername(swaggerUser);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
-            // 全局注入角色权限信息和登录用户基本信息
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(wrappedRequest, wrappedResponse);
-        } else if (StringUtils.isNotBlank(token) && !PasswordUtil.verifyToken(token, tokenKey)) {
-            UserDetails securityUser = securityUserService.loadUserByUsername(String.valueOf(redisUtil.get(token)));
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
-            // 全局注入角色权限信息和登录用户基本信息
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(wrappedRequest, wrappedResponse);
+            filterChain(filterChain, wrappedRequest, wrappedResponse, swaggerUser);
+        } else if (StringUtils.isNotBlank(token) && PasswordUtil.verifyToken(token, tokenKey)) {
+            filterChain(filterChain, wrappedRequest, wrappedResponse, String.valueOf(redisUtil.get(token)));
         } else {
             throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
         }
+    }
+
+    private void filterChain(FilterChain filterChain, MultiReadRequest wrappedRequest, MultiReadResponse wrappedResponse,
+                             String userName) throws IOException, ServletException {
+        UserDetails securityUser = securityUserService.loadUserByUsername(userName);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+        // 全局注入角色权限信息和登录用户基本信息
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(wrappedRequest, wrappedResponse);
     }
 
     private String logRequestBody(MultiReadRequest request) {

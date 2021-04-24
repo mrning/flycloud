@@ -59,13 +59,7 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        SysUser loginUser = new SysUser();
-        SysUser sysUser = sysUserMapper.getUserByName(username);
-        if (sysUser == null) {
-            return null;
-        }
-        BeanUtils.copyProperties(sysUser, loginUser);
-        return loginUser;
+        return sysUserMapper.getUserByName(username);
     }
 
     /**
@@ -134,8 +128,8 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         DataResponseResult<?> result = new DataResponseResult<Object>();
         //情况1：根据用户信息查询，该用户不存在
         if (sysUser == null) {
-            result.error500("该用户不存在，请注册");
             sysBaseAPI.addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_LOGIN_1, null);
+            result.error500("该用户不存在，请注册");
             return result;
         }
         //情况2：根据用户信息查询，该用户已停用

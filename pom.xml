@@ -85,13 +85,6 @@
 			<version>${com.alibaba.druid.version}</version>
 		</dependency>
 
-		<!-- tencent cloud-->
-		<dependency>
-			<groupId>com.tencentcloudapi</groupId>
-			<artifactId>scf-java-events</artifactId>
-			<version>0.0.3</version>
-		</dependency>
-
 		<!--mybatis-->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
