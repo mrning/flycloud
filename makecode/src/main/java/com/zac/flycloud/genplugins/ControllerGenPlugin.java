@@ -73,6 +73,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         controllerPath = this.properties.getProperty("controllerPath");
         controllerPackage = this.properties.getProperty("controllerPackage");
         controllerPlatform = this.properties.getProperty("controllerPlatform");
+        String desc = this.properties.getProperty("controllerDesc");
         // dto名称
         dtoName = introspectedTable.getFullyQualifiedTable().getDomainObjectName();
         // base文件名
@@ -90,15 +91,17 @@ public class ControllerGenPlugin extends PluginAdapter {
         topLevelClass.addImportedType("org.springframework.beans.factory.annotation.*");
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
+        topLevelClass.addImportedType("import io.swagger.annotations.Api");
 
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         // javaDoc
         topLevelClass.addJavaDocLine("/**\n" +
-                " * AutoCreateFile\n" +
+                " * AutoCreateFile "+desc+" \n" +
                 " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                 " * @author zac\n" +
                 " */");
         // 注解
+        topLevelClass.addAnnotation(ANNOTATION_API + ("(tags = "+"\""+desc+"\")"));
         topLevelClass.addAnnotation(ANNOTATION_RESTCONTROLLER);
         topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING + ("(\"" + API_APP + controllerPlatform + "/" + StringUtils.firstToLowerCase(baseDomainName) + "\")"));
         topLevelClass.addAnnotation(ANNOTATION_SL4J);
@@ -131,6 +134,11 @@ public class ControllerGenPlugin extends PluginAdapter {
         String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
+        method.addJavaDocLine("/**\n" +
+                " * AutoCreateFile "+methodName+" \n" +
+                " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
+                " * @author zac\n" +
+                " */");
         // 加注解
         method.addAnnotation(ANNOTATION_POSTMAPPING + ("(\"/" + methodName + "\")"));
         // 加返回类型

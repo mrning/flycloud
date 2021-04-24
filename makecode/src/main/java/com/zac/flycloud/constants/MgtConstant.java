@@ -20,6 +20,7 @@ public class MgtConstant {
     public static final String EXAMPLE_SUFFIX = "Example";
 
     public static final String ANNOTATION_RESTCONTROLLER = "@RestController";
+    public static final String ANNOTATION_API = "@Api";
     public static final String ANNOTATION_REQUESTMAPPING = "@RequestMapping";
     public static final String ANNOTATION_POSTMAPPING = "@PostMapping";
     public static final String ANNOTATION_SERVICE = "@Service";

@@ -1,7 +1,9 @@
 package com.zac.flycloud.dto;
 
 import com.zac.flycloud.basebean.BaseDTO;
+import lombok.Data;
 
+@Data
 public class SysUserDTO extends BaseDTO {
     /**
      *

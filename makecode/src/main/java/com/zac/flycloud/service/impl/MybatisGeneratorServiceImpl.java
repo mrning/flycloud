@@ -2,7 +2,9 @@ package com.zac.flycloud.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import com.zac.flycloud.service.MybatisGeneratorService;
-import org.mybatis.generator.api.*;
+import org.mybatis.generator.api.MyBatisGenerator;
+import org.mybatis.generator.api.ProgressCallback;
+import org.mybatis.generator.api.VerboseProgressCallback;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
@@ -28,7 +30,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     public static final String API_PACKAGE = ".api.";
 
     @Override
-    public String doDenerator(String tableName, String platform)  {
+    public String doDenerator(String tableName, String desc, String platform)  {
         Configuration config = new Configuration();
 
         // conditional:*这是默认值*,这个模型和下面的hierarchical类似，除了如果那个单独的类将只包含一个字段，将不会生成一个单独的类。
@@ -46,7 +48,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addProperty("tableName",tableName);
 
         // 添加插件
-        addPlugins(context,platform);
+        addPlugins(context,desc,platform);
 
         // 配置jdbc连接
         buildConnection(context);
@@ -76,7 +78,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         return "success";
     }
 
-    private void addPlugins(Context context,String platform) {
+    private void addPlugins(Context context,String desc, String platform) {
         // 添加自定义插件 分页插件
         PluginConfiguration pluginRowBoundsPlugin = new PluginConfiguration();
         pluginRowBoundsPlugin.setConfigurationType("org.mybatis.generator.plugins.RowBoundsPlugin");
@@ -87,6 +89,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         controllerPlugin.addProperty("controllerPath","controller\\"+TARGETPROJECT);
         controllerPlugin.addProperty("controllerPackage",TARGETPACKAGE+API_PACKAGE+platform);
         controllerPlugin.addProperty("controllerPlatform", platform);
+        controllerPlugin.addProperty("controllerDesc", desc);
         context.addPluginConfiguration(controllerPlugin);
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();
