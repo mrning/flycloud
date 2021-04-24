@@ -3,6 +3,7 @@ package com.zac.flycloud.controller;
 import com.zac.flycloud.service.MybatisGeneratorService;
 import io.swagger.annotations.Api;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -11,6 +12,7 @@ import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +33,9 @@ public class MybatisGeneratorController {
 
     @RequestMapping(value = "/doGenerator", method = RequestMethod.POST)
     @ApiOperation("代码生成入口")
-    public String doDenerator(String tableName) {
-        return mybatisGeneratorService.doDenerator(tableName);
+    @ApiImplicitParam(name = "platform", value = "接口平台", allowableValues = "admin,app")
+    public String doDenerator(String tableName, String platform) {
+        return mybatisGeneratorService.doDenerator(tableName, platform);
     }
 }
 

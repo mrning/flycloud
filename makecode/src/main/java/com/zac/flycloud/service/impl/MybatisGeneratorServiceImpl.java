@@ -25,9 +25,10 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private String dbUserName;
     @Value("${spring.datasource.password}")
     private String dbPassword;
+    public static final String API_PACKAGE = ".api.";
 
     @Override
-    public String doDenerator(String tableName)  {
+    public String doDenerator(String tableName, String platform)  {
         Configuration config = new Configuration();
 
         // conditional:*这是默认值*,这个模型和下面的hierarchical类似，除了如果那个单独的类将只包含一个字段，将不会生成一个单独的类。
@@ -45,7 +46,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addProperty("tableName",tableName);
 
         // 添加插件
-        addPlugins(context);
+        addPlugins(context,platform);
 
         // 配置jdbc连接
         buildConnection(context);
@@ -75,7 +76,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         return "success";
     }
 
-    private void addPlugins(Context context) {
+    private void addPlugins(Context context,String platform) {
         // 添加自定义插件 分页插件
         PluginConfiguration pluginRowBoundsPlugin = new PluginConfiguration();
         pluginRowBoundsPlugin.setConfigurationType("org.mybatis.generator.plugins.RowBoundsPlugin");
@@ -84,7 +85,8 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         PluginConfiguration controllerPlugin = new PluginConfiguration();
         controllerPlugin.setConfigurationType(TARGETPACKAGE+".genplugins.ControllerGenPlugin");
         controllerPlugin.addProperty("controllerPath","controller\\"+TARGETPROJECT);
-        controllerPlugin.addProperty("controllerPackage",TARGETPACKAGE+".restfulcontroller");
+        controllerPlugin.addProperty("controllerPackage",TARGETPACKAGE+API_PACKAGE+platform);
+        controllerPlugin.addProperty("controllerPlatform", platform);
         context.addPluginConfiguration(controllerPlugin);
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();

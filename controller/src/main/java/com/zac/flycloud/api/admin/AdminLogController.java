@@ -18,8 +18,8 @@ import java.util.*;
 @Api(tags = "日志相关")
 @Slf4j
 @RestController
-@RequestMapping("/api/sys/log")
-public class SysLogController {
+@RequestMapping("/api/admin/log")
+public class AdminLogController {
 
     @Autowired
     private SysLogService logService;

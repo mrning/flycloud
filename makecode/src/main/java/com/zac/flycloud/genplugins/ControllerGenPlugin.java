@@ -24,6 +24,7 @@ public class ControllerGenPlugin extends PluginAdapter {
 
     private String controllerPath = "";
     private String controllerPackage = "";
+    private String controllerPlatform = "";
     private String firstLowerServiceName = "";
     private String dtoName = "";
     // 要生成api/app的controller注解
@@ -57,6 +58,11 @@ public class ControllerGenPlugin extends PluginAdapter {
             valid = false;
         }
 
+        if (!StringUtility.stringHasValue(this.properties.getProperty("controllerPlatform"))) {
+            warnings.add(Messages.getString("ValidationError.18", "controllerPlatform", "controllerPlatform"));
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -66,36 +72,40 @@ public class ControllerGenPlugin extends PluginAdapter {
         List<GeneratedJavaFile> generatedJavaFiles = new ArrayList<>();
         controllerPath = this.properties.getProperty("controllerPath");
         controllerPackage = this.properties.getProperty("controllerPackage");
+        controllerPlatform = this.properties.getProperty("controllerPlatform");
         // dto名称
         dtoName = introspectedTable.getFullyQualifiedTable().getDomainObjectName();
         // base文件名
-        String baseDomainName = dtoName.replace(DTO_SUFFIX,"");
+        String baseDomainName = dtoName.replace(DTO_SUFFIX, "");
         // service名称
         firstLowerServiceName = StringUtils.firstToLowerCase(baseDomainName)+SERVICE_SUFFIX;
-
-        TopLevelClass topLevelClass = new TopLevelClass(controllerPackage+"."+baseDomainName+CONTROLLER_SUFFIX);
-        topLevelClass.addImportedType(TARGETPACKAGE+".BaseController");
-        topLevelClass.addImportedType(TARGETPACKAGE+".basebean.DataResponseResult");
-        topLevelClass.addImportedType(TARGETPACKAGE_DTO+"."+dtoName);
-        topLevelClass.addImportedType(TARGETPACKAGE_SERVICE+"."+baseDomainName+SERVICE_SUFFIX);
+        // 引入包
+        String className = (controllerPlatform.substring(0, 1).toUpperCase() + controllerPlatform.substring(1)) + baseDomainName + CONTROLLER_SUFFIX;
+        TopLevelClass topLevelClass = new TopLevelClass(controllerPackage + "." + className);
+        topLevelClass.addImportedType(TARGETPACKAGE + ".BaseController");
+        topLevelClass.addImportedType(TARGETPACKAGE + ".basebean.DataResponseResult");
+        topLevelClass.addImportedType(TARGETPACKAGE_DTO + "." + dtoName);
+        topLevelClass.addImportedType(TARGETPACKAGE_SERVICE + "." + baseDomainName + SERVICE_SUFFIX);
         topLevelClass.addImportedType("cn.hutool.db.PageResult");
         topLevelClass.addImportedType("org.springframework.beans.factory.annotation.*");
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
 
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+        // javaDoc
         topLevelClass.addJavaDocLine("/**\n" +
                 " * AutoCreateFile\n" +
-                " * @date "+ LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) +"\n" +
+                " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                 " * @author zac\n" +
                 " */");
+        // 注解
         topLevelClass.addAnnotation(ANNOTATION_RESTCONTROLLER);
-        topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING+("(\""+API_APP+StringUtils.firstToLowerCase(baseDomainName)+"\")"));
+        topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING + ("(\"" + API_APP + controllerPlatform + "/" + StringUtils.firstToLowerCase(baseDomainName) + "\")"));
         topLevelClass.addAnnotation(ANNOTATION_SL4J);
         topLevelClass.setSuperClass("BaseController");
-
+        // 成员变量
         createField(baseDomainName, topLevelClass);
-
+        // 方法
         createMethod("add", topLevelClass);
         createMethod("del", topLevelClass);
         createMethod("update", topLevelClass);
@@ -110,8 +120,8 @@ public class ControllerGenPlugin extends PluginAdapter {
     }
 
     private void createField(String baseDomainName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(TARGETPACKAGE_SERVICE+"."+ baseDomainName+SERVICE_SUFFIX);
-        Field field = new Field(firstLowerServiceName,new FullyQualifiedJavaType(baseDomainName +SERVICE_SUFFIX));
+        topLevelClass.addImportedType(TARGETPACKAGE_SERVICE + "." + baseDomainName + SERVICE_SUFFIX);
+        Field field = new Field(firstLowerServiceName, new FullyQualifiedJavaType(baseDomainName + SERVICE_SUFFIX));
         field.addAnnotation(ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
         topLevelClass.addField(field);
@@ -122,22 +132,22 @@ public class ControllerGenPlugin extends PluginAdapter {
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         // 加注解
-        method.addAnnotation(ANNOTATION_POSTMAPPING+("(\"/"+ methodName +"\")"));
+        method.addAnnotation(ANNOTATION_POSTMAPPING + ("(\"/" + methodName + "\")"));
         // 加返回类型
-        if(methodName.contains("queryPage")){
-            method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<PageResult<"+dtoName+">>"));
-            topLevelClass.addImportedType(TARGETPACKAGE_DTO+"."+dtoName);
-        }else{
+        if (methodName.contains("queryPage")) {
+            method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<PageResult<" + dtoName + ">>"));
+            topLevelClass.addImportedType(TARGETPACKAGE_DTO + "." + dtoName);
+        } else {
             method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<Integer>"));
         }
         // 加参数
         method.addParameter(new Parameter(
-                new FullyQualifiedJavaType(TARGETPACKAGE_DTO+"."+dtoName),
+                new FullyQualifiedJavaType(TARGETPACKAGE_DTO + "." + dtoName),
                 firstLowerDtoName,
                 ANNOTATION_REQUESTBODY));
         // 加内容
-        method.addBodyLine("return DataResponseResult.success("+
-                firstLowerServiceName+"."+methodName+"("+firstLowerDtoName+"));");
+        method.addBodyLine("return DataResponseResult.success(" +
+                firstLowerServiceName + "." + methodName + "(" + firstLowerDtoName + "));");
         topLevelClass.addMethod(method);
     }
 }
