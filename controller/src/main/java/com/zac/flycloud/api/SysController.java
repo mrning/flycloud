@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
+
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
  *
@@ -135,23 +137,23 @@ public class SysController {
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public DataResponseResult<Object> logout(HttpServletRequest request) {
         //用户退出逻辑
-        String token = request.getHeader("X-Access-Token");
+        String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
-            return DataResponseResult.error("退出登录失败！");
+            return DataResponseResult.error("token为空，退出登录失败！");
         }
         String username = String.valueOf(redisUtil.get(token));
         SysUser sysUser = sysUserService.getUserByName(username);
         if (sysUser != null) {
-            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
-            log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
             //清空用户登录Token缓存
+            redisUtil.del(token);
             redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
             //清空用户的缓存信息（包括部门信息），例如sys:cache:user::<username>
             redisUtil.del(String.format("%s::%s", CacheConstant.SYS_USERS_CACHE, sysUser.getUsername()));
-            return DataResponseResult.success("退出登录成功！");
-        } else {
-            return DataResponseResult.error("Token无效!");
+
+            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
+            log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
         }
+        return DataResponseResult.success("退出登录成功！");
     }
 
     /**

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,7 @@ public class SysBaseApiImpl<M extends BaseMapper<T>, T> extends ServiceImpl impl
         }
 
         //获取登录用户信息
-        if(null == SecurityContextHolder.getContext().getAuthentication()){
+        if(null == SecurityContextHolder.getContext().getAuthentication() || SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
             sysLog.setUserid(null);
             sysLog.setUsername(null);
         }else{
