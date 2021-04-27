@@ -162,7 +162,7 @@ public interface SysLogDTOMapper extends BaseMapper<SysLog> {
      *
      * @return Long
      */
-    @Select({"select count(1) from sys_log where log_type = 1 and create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}"})
+    @Select({"select count(1) from sys_log where log_type = 1 and create_time >= #{dayStart} and create_time < #{dayEnd}"})
     Long findTodayVisitCount(@Param("dayStart") Date dayStart, @Param("dayEnd") Date dayEnd);
 
     /**
@@ -170,7 +170,7 @@ public interface SysLogDTOMapper extends BaseMapper<SysLog> {
      *
      * @return Long
      */
-    @Select({"select count(distinct(ip)) from sys_log where log_type = 1 and create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}"})
+    @Select({"select count(distinct(ip)) from sys_log where log_type = 1 and create_time >= #{dayStart} and create_time < #{dayEnd}"})
     Long findTodayIp(@Param("dayStart") Date dayStart, @Param("dayEnd") Date dayEnd);
 
     /**
@@ -184,7 +184,7 @@ public interface SysLogDTOMapper extends BaseMapper<SysLog> {
             "        \t   ,DATE_FORMAT(create_time, '%Y-%m-%d') as tian\n" +
             "        \t   ,DATE_FORMAT(create_time, '%m-%d') as type\n" +
             "        \t   from sys_log \n" +
-            "         where log_type = 1 and create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}\n" +
+            "         where log_type = 1 and create_time >= #{dayStart} and create_time < #{dayEnd}\n" +
             "         group by tian,type\n" +
             "         order by tian asc"})
     List<Map<String,Object>> findVisitCount(@Param("dayStart") Date dayStart, @Param("dayEnd") Date dayEnd, @Param("dbType") String dbType);

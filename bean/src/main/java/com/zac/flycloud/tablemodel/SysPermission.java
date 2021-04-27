@@ -1,6 +1,7 @@
 package com.zac.flycloud.tablemodel;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.zac.flycloud.basebean.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@TableName(value = "sys_permission", autoResultMap = true)
 public class SysPermission extends BaseEntity {
 
     /**
