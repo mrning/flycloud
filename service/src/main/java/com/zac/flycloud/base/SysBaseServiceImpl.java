@@ -41,7 +41,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Primary
-public class SysBaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements SysBaseService<T> {
+public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements SysBaseService<T> {
 
     @Resource
     protected SysLogDTOMapper sysLogDTOMapper;
