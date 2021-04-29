@@ -1,12 +1,13 @@
 package com.zac.flycloud.mapper;
 
 import com.zac.flycloud.dto.SysLogDTO;
+import com.zac.flycloud.dto.example.SysLogDTOExample;
 import com.zac.flycloud.dto.example.SysLogDTOExample.Criteria;
 import com.zac.flycloud.dto.example.SysLogDTOExample.Criterion;
-import com.zac.flycloud.dto.example.SysLogDTOExample;
+import org.apache.ibatis.jdbc.SQL;
+
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.jdbc.SQL;
 
 public class SysLogDTOSqlProvider {
     /**
