@@ -1,6 +1,6 @@
 package com.zac.flycloud.sys;
 
-import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.tablemodel.SysDept;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @Author:Steve
  * @Since：   2019-01-22
  */
-public interface SysDeptService<T> extends SysBaseAPI<SysDept>{
+public interface SysDeptService extends SysBaseService<SysDept> {
 
     /**
      * 查询所有部门信息,并分节点进行显示

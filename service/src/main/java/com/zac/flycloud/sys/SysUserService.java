@@ -1,11 +1,11 @@
 package com.zac.flycloud.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.base.SysBaseAPI;
+import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.tablemodel.SysUser;
 
-public interface SysUserService<T> extends SysBaseAPI<SysUser> {
+public interface SysUserService extends SysBaseService<SysUser> {
 
     /**
      * 根据用户账号查询用户信息

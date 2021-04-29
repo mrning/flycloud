@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zac.flycloud.basebean.BaseEntity;
 import com.zac.flycloud.utils.RedisUtil;
 import com.zac.flycloud.utils.UrlIPUtils;
 import com.zac.flycloud.utils.SpringContextUtils;
@@ -40,7 +41,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Primary
-public class SysBaseApiImpl<M extends BaseMapper<T>, T> extends ServiceImpl implements SysBaseAPI {
+public class SysBaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements SysBaseService<T> {
 
     @Resource
     protected SysLogDTOMapper sysLogDTOMapper;

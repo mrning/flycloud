@@ -15,7 +15,7 @@ import java.util.List;
  * @Date:2019-4-20
  * @Version:V1.0
  */
-public interface SysBaseAPI<T> extends IService<T> {
+public interface SysBaseService<T> extends IService<T> {
 
     /**
      * 日志添加

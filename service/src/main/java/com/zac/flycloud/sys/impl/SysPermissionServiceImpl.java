@@ -1,14 +1,12 @@
 package com.zac.flycloud.sys.impl;
 
-import com.zac.flycloud.base.SysBaseApiImpl;
+import com.zac.flycloud.base.SysBaseServiceImpl;
 import com.zac.flycloud.mapper.SysPermissionMapper;
 import com.zac.flycloud.sys.SysPermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zac.flycloud.tablemodel.SysPermission;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 @Service
-public class SysPermissionServiceImpl extends SysBaseApiImpl implements SysPermissionService {
+public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 
 }

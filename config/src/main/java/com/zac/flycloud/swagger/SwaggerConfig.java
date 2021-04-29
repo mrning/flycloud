@@ -1,9 +1,11 @@
 package com.zac.flycloud.swagger;
 
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -56,7 +58,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
         authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 所有以api开头的接口都显示到后台管理接口分组里面
                 .paths(input -> input.startsWith("/api"))
                 .build()
@@ -77,7 +80,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
         authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 所有以app开头的接口都显示到app接口分组里面
                 .paths(input -> input.startsWith("/app"))
                 .build()

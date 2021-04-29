@@ -2,8 +2,8 @@ package com.zac.flycloud.sys.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zac.flycloud.base.SysBaseAPI;
-import com.zac.flycloud.base.SysBaseApiImpl;
+import com.zac.flycloud.base.SysBaseService;
+import com.zac.flycloud.base.SysBaseServiceImpl;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
@@ -14,7 +14,6 @@ import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.sys.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -30,16 +29,13 @@ import java.util.List;
 import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 
 @Service("userService")
-public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService {
+public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper,SysUser> implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
 
     @Autowired
     private SysDeptService sysDeptService;
-
-    @Autowired
-    private SysBaseAPI sysBaseAPI;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -128,13 +124,13 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         DataResponseResult<?> result = new DataResponseResult<Object>();
         //情况1：根据用户信息查询，该用户不存在
         if (sysUser == null) {
-            sysBaseAPI.addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_LOGIN_1, null);
+            addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             result.error500("该用户不存在，请注册");
             return result;
         }
         //情况2：根据用户信息查询，该用户已停用
         if (sysUser.getDeleted()) {
-            sysBaseAPI.addLog("用户登录失败，用户名:" + sysUser.getUsername() + "已停用！", CommonConstant.LOG_TYPE_LOGIN_1, null);
+            addLog("用户登录失败，用户名:" + sysUser.getUsername() + "已停用！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             result.error500("该用户已停用");
             return result;
         }
@@ -168,7 +164,7 @@ public class SysUserServiceImpl extends SysBaseApiImpl implements SysUserService
         obj.put("userInfo", sysUser);
 
         // 添加日志
-        sysBaseAPI.addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
+        addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
         return obj;
     }
 

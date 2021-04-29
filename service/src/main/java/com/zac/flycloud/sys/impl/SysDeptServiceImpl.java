@@ -2,8 +2,7 @@ package com.zac.flycloud.sys.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.base.SysBaseApiImpl;
+import com.zac.flycloud.base.SysBaseServiceImpl;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.dao.UserDeptDao;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
  * @Since 2019-01-22
  */
 @Service
-public class SysDeptServiceImpl<T> extends SysBaseApiImpl implements SysDeptService {
+public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper,SysDept> implements SysDeptService {
 
 	@Autowired
 	private UserDeptDao userDeptDao;
@@ -127,8 +126,8 @@ public class SysDeptServiceImpl<T> extends SysBaseApiImpl implements SysDeptServ
 		this.checkChildrenExists(uuids, uuidList);
 
 		boolean ok = this.removeByIds(uuidList);
-		//根据部门id删除用户与部门关系
-		this.remove(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,uuidList));
+		//根据部门id删除用户与部门关系 TODO 处理部门下用户关联关系
+//		this.userDeptDao.remove(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,uuidList));
 		return ok;
 	}
 	
