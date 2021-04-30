@@ -1,4 +1,4 @@
-package com.zac.flycloud.sys;
+package com.zac.flycloud.service;
 
 import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.tablemodel.SysPermission;

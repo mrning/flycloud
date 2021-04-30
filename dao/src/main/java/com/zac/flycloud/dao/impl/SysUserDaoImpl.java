@@ -1,5 +1,6 @@
 package com.zac.flycloud.dao.impl;
 
+import cn.hutool.db.Page;
 import com.zac.flycloud.dao.SysUserDao;
 import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.dto.example.SysUserDTOExample;
@@ -35,7 +36,7 @@ public class SysUserDaoImpl implements SysUserDao {
         return sysUserMapper.updateByExampleSelective(sysUserDTO,sysUserDTOExample);
     }
 
-    public List<SysUserDTO> queryPage(SysUserDTO sysUserDTO, cn.hutool.db.Page page) {
+    public List<SysUserDTO> queryPage(SysUserDTO sysUserDTO, Page page) {
         SysUserDTOExample sysUserDTOExample = new SysUserDTOExample();
         return sysUserMapper.selectByExampleWithRowbounds(sysUserDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }

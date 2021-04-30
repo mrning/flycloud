@@ -23,6 +23,7 @@ public class MgtConstant {
     public static final String ANNOTATION_API = "@Api";
     public static final String ANNOTATION_REQUESTMAPPING = "@RequestMapping";
     public static final String ANNOTATION_POSTMAPPING = "@PostMapping";
+    public static final String ANNOTATION_APIOPERATION = "@ApiOperation";
     public static final String ANNOTATION_SERVICE = "@Service";
     public static final String ANNOTATION_SL4J = "@Slf4j";
     public static final String ANNOTATION_AUTOWIRED = "@Autowired";

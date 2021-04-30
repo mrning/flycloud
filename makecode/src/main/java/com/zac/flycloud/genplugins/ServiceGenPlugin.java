@@ -67,35 +67,44 @@ public class ServiceGenPlugin extends PluginAdapter {
     private GeneratedJavaFile buildServiceFile(String baseDomainName,String fullFileName) {
 
         if(fullFileName.contains(IMPL_SUFFIX)){
-            TopLevelClass genClass = new TopLevelClass(fullFileName);
-            genClass.setVisibility(JavaVisibility.PUBLIC);
-            genClass.addJavaDocLine("/**\n" +
+            TopLevelClass topLevelClass = new TopLevelClass(fullFileName);
+            topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+            topLevelClass.addJavaDocLine("/**\n" +
                     " * AutoCreateFile\n" +
                     " * @date "+ LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) +"\n" +
                     " * @author zac\n" +
                     " */");
-            genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
-            genClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+SERVICE_SUFFIX));
-            genClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE_DTO+"."+dtoName));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+SERVICE_SUFFIX));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+SERVICE_SUFFIX));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE_DTO+"."+dtoName));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE+".base.SysBaseServiceImpl"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE_MAPPER+"."+baseDomainName+MAPPER_SUFFIX));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE+".tablemodel."+baseDomainName));
 
 
-            genClass.addAnnotation(ANNOTATION_SL4J);
-            genClass.addAnnotation(ANNOTATION_SERVICE);
-            genClass.addSuperInterface(new FullyQualifiedJavaType(baseDomainName+SERVICE_SUFFIX));
 
-            createField(baseDomainName,genClass);
-            createMethod("add", genClass);
-            createMethod("del", genClass);
-            createMethod("update", genClass);
-            createMethod("queryPage", genClass);
+            topLevelClass.addAnnotation(ANNOTATION_SL4J);
+            topLevelClass.addAnnotation(ANNOTATION_SERVICE);
+            // 继承类
+            topLevelClass.setSuperClass("SysBaseServiceImpl<"+ baseDomainName +"Mapper, "+ baseDomainName +">");
+            // 实现类
+            topLevelClass.addSuperInterface(new FullyQualifiedJavaType(baseDomainName+SERVICE_SUFFIX));
 
-            return new GeneratedJavaFile(genClass, servicePath, new DefaultJavaFormatter());
+
+            createField(baseDomainName,topLevelClass);
+            createMethod("add", topLevelClass);
+            createMethod("del", topLevelClass);
+            createMethod("update", topLevelClass);
+            createMethod("queryPage", topLevelClass);
+
+            return new GeneratedJavaFile(topLevelClass, servicePath, new DefaultJavaFormatter());
         }else{
             Interface genInterface = new Interface(fullFileName);
             genInterface.setVisibility(JavaVisibility.PUBLIC);
@@ -106,6 +115,10 @@ public class ServiceGenPlugin extends PluginAdapter {
                     " */");
             genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
             genInterface.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE_DTO+"."+dtoName));
+            genInterface.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE+".base.SysBaseService"));
+            genInterface.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE+".tablemodel."+baseDomainName));
+            // 继承类
+            genInterface.addSuperInterface(new FullyQualifiedJavaType("SysBaseService<"+ baseDomainName +">"));
 
             createMethod("add", genInterface);
             createMethod("del", genInterface);

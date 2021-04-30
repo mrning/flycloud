@@ -1,4 +1,4 @@
-package com.zac.flycloud.sys.sysutils;
+package com.zac.flycloud.sysutils;
 
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.tablemodel.SysDept;

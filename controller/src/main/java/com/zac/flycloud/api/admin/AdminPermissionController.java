@@ -1,4 +1,4 @@
-package com.zac.flycloud.api;
+package com.zac.flycloud.api.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.tablemodel.SysPermission;
-import com.zac.flycloud.sys.SysPermissionService;
+import com.zac.flycloud.service.SysPermissionService;
 import com.zac.flycloud.utils.MD5Util;
 import com.zac.flycloud.utils.UrlIPUtils;
 import io.swagger.annotations.Api;
@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/permission")
 @Slf4j
-public class PermissionController {
+public class AdminPermissionController {
 
     @Autowired
     private SysPermissionService sysPermissionService;

@@ -1,20 +1,27 @@
-package com.zac.flycloud.sys;
+package com.zac.flycloud.service;
 
+import cn.hutool.db.PageResult;
 import com.zac.flycloud.base.SysBaseService;
+import com.zac.flycloud.dto.SysDeptDTO;
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.tablemodel.SysDept;
 
 import java.util.List;
 
 /**
- * <p>
- * 部门表 服务实现类
- * <p>
- * 
- * @Author:Steve
- * @Since：   2019-01-22
+ * AutoCreateFile
+ * @date 2021年4月30日星期五
+ * @author zac
  */
 public interface SysDeptService extends SysBaseService<SysDept> {
+    Integer add(SysDeptDTO sysDeptDTO);
+
+    Integer del(SysDeptDTO sysDeptDTO);
+
+    Integer update(SysDeptDTO sysDeptDTO);
+
+    PageResult<SysDeptDTO> queryPage(SysDeptDTO sysDeptDTO);
+
 
     /**
      * 查询所有部门信息,并分节点进行显示
@@ -30,21 +37,21 @@ public interface SysDeptService extends SysBaseService<SysDept> {
      */
     Boolean updateDepartDataById(SysDept sysDepart,String username);
 
-    
+
     /**
      * 根据关键字搜索相关的部门数据
      * @param keyWord
      * @return
      */
     List<TreeDto> searchBy(String keyWord, String myDeptSearch, String departIds);
-    
+
     /**
      * 根据一个或多个部门id删除，并删除其可能存在的子级部门
      * @param uuids
      * @return
      */
     boolean delete(String... uuids);
-    
+
     /**
      * 根据用户id查询所属部门列表
      * @param userId
@@ -66,6 +73,4 @@ public interface SysDeptService extends SysBaseService<SysDept> {
      * @return
      */
     List<SysDept> getSubDepIdsByDepId(String departId);
-
-    
 }
