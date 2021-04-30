@@ -13,10 +13,12 @@ import com.zac.flycloud.dao.UserDeptDao;
 import com.zac.flycloud.dto.SysDeptDTO;
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.mapper.SysDeptMapper;
+import com.zac.flycloud.mapper.SysUserDeptMapper;
 import com.zac.flycloud.service.SysDeptService;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.sysutils.FindsDeptsChildrenUtil;
 import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysUserDept;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
@@ -44,6 +46,9 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
 
     @Autowired
     private UserDeptDao userDeptDao;
+
+    @Autowired
+    private SysUserDeptMapper sysUserDeptMapper;
 
     @Autowired
     private SysUserService sysUserService;
@@ -152,8 +157,8 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         this.checkChildrenExists(uuids, uuidList);
 
         boolean ok = this.removeByIds(uuidList);
-        //根据部门id删除用户与部门关系 TODO 处理部门下用户关联关系
-//		this.userDeptDao.remove(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,uuidList));
+        //根据部门id删除用户与部门关系
+        sysUserDeptMapper.delete(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptUuid,uuidList));
         return ok;
     }
 

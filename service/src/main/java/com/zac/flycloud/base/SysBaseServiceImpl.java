@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.basebean.BaseEntity;
+import com.zac.flycloud.dto.SysLogDTO;
 import com.zac.flycloud.utils.RedisUtil;
 import com.zac.flycloud.utils.UrlIPUtils;
 import com.zac.flycloud.utils.SpringContextUtils;
@@ -70,11 +71,11 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
      */
     @Override
     public void addLog(String LogContent, Integer logType, Integer operatetype) {
-        SysLog sysLog = new SysLog();
+        SysLogDTO sysLogDTO = new SysLogDTO();
         //注解上的描述,操作日志内容
-        sysLog.setLogContent(LogContent);
-        sysLog.setLogType(logType);
-        sysLog.setOperateType(operatetype);
+        sysLogDTO.setLogContent(LogContent);
+        sysLogDTO.setLogType(logType);
+        sysLogDTO.setOperateType(operatetype);
 
         //请求的方法名
         //请求的参数
@@ -83,27 +84,27 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
             //获取request
             HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
             //设置IP地址
-            sysLog.setIp(UrlIPUtils.getIpAddr(request));
+            sysLogDTO.setIp(UrlIPUtils.getIpAddr(request));
         } catch (Exception e) {
-            sysLog.setIp("127.0.0.1");
+            sysLogDTO.setIp("127.0.0.1");
         }
 
         //获取登录用户信息
         if(null == SecurityContextHolder.getContext().getAuthentication() || SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
-            sysLog.setUserid(null);
-            sysLog.setUsername(null);
+            sysLogDTO.setUserid(null);
+            sysLogDTO.setUsername(null);
         }else{
             User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             SysUser sysUser = sysUserMapper.getUserByName(securityUser.getUsername());
             if (securityUser != null) {
-                sysLog.setUserid(String.valueOf(sysUser.getId()));
-                sysLog.setUsername(sysUser.getRealname());
+                sysLogDTO.setUserid(String.valueOf(sysUser.getId()));
+                sysLogDTO.setUsername(sysUser.getRealname());
             }
         }
-        sysLog.setCreateTime(new Date());
-        sysLog.setUuid(UUID.randomUUID().toString());
+        sysLogDTO.setCreateTime(new Date());
+        sysLogDTO.setUuid(UUID.randomUUID().toString());
         //保存系统日志
-        sysLogDTOMapper.insert(sysLog);
+        sysLogDTOMapper.insert(sysLogDTO);
     }
 
 
