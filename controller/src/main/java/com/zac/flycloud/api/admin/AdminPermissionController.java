@@ -65,11 +65,11 @@ public class AdminPermissionController {
      * 获取菜单JSON数组
      *
      * @param jsonArray
-     * @param metaList
+     * @param sysPermissions
      * @param parentJson
      */
-    private void getPermissionJsonArray(JSONArray jsonArray, List<SysPermission> metaList, JSONObject parentJson) {
-        for (SysPermission permission : metaList) {
+    private void getPermissionJsonArray(JSONArray jsonArray, List<SysPermission> sysPermissions, JSONObject parentJson) {
+        for (SysPermission permission : sysPermissions) {
             if (permission.getMenuType() == null) {
                 continue;
             }
@@ -82,7 +82,7 @@ public class AdminPermissionController {
             if (parentJson == null && StringUtils.isEmpty(parentId)) {
                 jsonArray.add(json);
                 if (!permission.isLeaf()) {
-                    getPermissionJsonArray(jsonArray, metaList, json);
+                    getPermissionJsonArray(jsonArray, sysPermissions, json);
                 }
             } else if (parentJson != null && StringUtils.isNotEmpty(parentId) && parentId.equals(parentJson.getString("uuid"))) {
                 // 类型( 0：一级菜单 1：子菜单 2：按钮 )
@@ -106,7 +106,7 @@ public class AdminPermissionController {
                     }
 
                     if (!permission.isLeaf()) {
-                        getPermissionJsonArray(jsonArray, metaList, json);
+                        getPermissionJsonArray(jsonArray, sysPermissions, json);
                     }
                 }
             }
@@ -187,7 +187,7 @@ public class AdminPermissionController {
     public boolean hasIndexPage(List<SysPermission> metaList) {
         boolean hasIndexMenu = false;
         for (SysPermission sysPermission : metaList) {
-            if ("首页".equals(sysPermission.getName())) {
+            if ("homepage".equals(sysPermission.getUuid())) {
                 hasIndexMenu = true;
                 break;
             }
