@@ -1,4 +1,4 @@
-package com.zac.flycloud.api;
+package com.zac.flycloud.api.sys;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
-import com.zac.flycloud.sys.SysUserService;
+import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.MD5Util;
 import com.zac.flycloud.utils.PasswordUtil;
@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-
-import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
@@ -249,7 +247,7 @@ public class SysController {
         result.setResult(true);
         try {
             //通过传入信息查询新的用户信息
-            SysUser user = (SysUser) sysUserService.getOne(new QueryWrapper<>(sysUser));
+            SysUser user = sysUserService.getOne(new QueryWrapper<>(sysUser));
             if (user != null) {
                 result.setSuccess(false);
                 result.setMessage("用户账号已存在");
@@ -271,7 +269,7 @@ public class SysController {
     @ApiOperation("修改密码")
     @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
     public DataResponseResult<?> changePassword(@RequestBody SysUser sysUser) {
-        SysUser u =  (SysUser) sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
+        SysUser u = sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
         if (u == null) {
             return DataResponseResult.error("用户不存在！");
         }

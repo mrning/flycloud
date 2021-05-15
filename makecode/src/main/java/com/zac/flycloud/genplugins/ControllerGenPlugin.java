@@ -79,7 +79,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         // base文件名
         String baseDomainName = dtoName.replace(DTO_SUFFIX, "");
         // service名称
-        firstLowerServiceName = StringUtils.firstToLowerCase(baseDomainName)+SERVICE_SUFFIX;
+        firstLowerServiceName = StringUtils.firstToLowerCase(baseDomainName) + SERVICE_SUFFIX;
         // 引入包
         String className = (controllerPlatform.substring(0, 1).toUpperCase() + controllerPlatform.substring(1)) + baseDomainName + CONTROLLER_SUFFIX;
         TopLevelClass topLevelClass = new TopLevelClass(controllerPackage + "." + className);
@@ -92,16 +92,17 @@ public class ControllerGenPlugin extends PluginAdapter {
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
         topLevelClass.addImportedType("io.swagger.annotations.Api");
+        topLevelClass.addImportedType("io.swagger.annotations.ApiOperation");
 
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         // javaDoc
         topLevelClass.addJavaDocLine("/**\n" +
-                " * AutoCreateFile "+desc+" \n" +
+                " * AutoCreateFile " + desc + " \n" +
                 " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                 " * @author zac\n" +
                 " */");
         // 注解
-        topLevelClass.addAnnotation(ANNOTATION_API + ("(tags = "+"\""+desc+"\")"));
+        topLevelClass.addAnnotation(ANNOTATION_API + ("(tags = " + "\"" + desc + "\")"));
         topLevelClass.addAnnotation(ANNOTATION_RESTCONTROLLER);
         topLevelClass.addAnnotation(ANNOTATION_REQUESTMAPPING + ("(\"" + API_APP + controllerPlatform + "/" + StringUtils.firstToLowerCase(baseDomainName) + "\")"));
         topLevelClass.addAnnotation(ANNOTATION_SL4J);
@@ -135,12 +136,15 @@ public class ControllerGenPlugin extends PluginAdapter {
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addJavaDocLine("/**\n" +
-                "     * AutoCreateFile "+methodName+"\n" +
+                "     * AutoCreateFile " + methodName + "\n" +
                 "     * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                 "     * @author zac\n" +
                 "     */");
         // 加注解
         method.addAnnotation(ANNOTATION_POSTMAPPING + ("(\"/" + methodName + "\")"));
+        method.addAnnotation(ANNOTATION_APIOPERATION + ("(\"" + (methodName.equals("add") ? "新增" :
+                methodName.equals("del") ? "删除" : methodName.equals("update") ? "更新" : methodName.equals("queryPage") ? "分页查询" : methodName)
+                + "\")"));
         // 加返回类型
         if (methodName.contains("queryPage")) {
             method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<PageResult<" + dtoName + ">>"));

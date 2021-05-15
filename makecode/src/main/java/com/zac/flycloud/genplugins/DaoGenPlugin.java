@@ -72,9 +72,10 @@ public class DaoGenPlugin extends PluginAdapter {
                     " * @author zac\n" +
                     " */");
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository;"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.session.RowBounds;"));
+            genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
+            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.session.RowBounds"));
             genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
+            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
             genClass.addImportedType(FullyQualifiedJavaType.getNewListInstance());
             genClass.addImportedType(new FullyQualifiedJavaType(daoPackage+"."+baseDomainName+DAO_SUFFIX));
             genClass.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE_EXAMPLE+"."+dtoName+EXAMPLE_SUFFIX));
@@ -130,7 +131,7 @@ public class DaoGenPlugin extends PluginAdapter {
         switch (methodName){
             case "queryPage":
                 method.addParameter(1,new Parameter(
-                        new FullyQualifiedJavaType("cn.hutool.db.Page"),
+                        new FullyQualifiedJavaType("Page"),
                         "page"));
                 method.setReturnType(new FullyQualifiedJavaType("List<"+dtoName+">"));
                 compilationUnit.addImportedType(new FullyQualifiedJavaType(TARGETPACKAGE+".dto."+dtoName));

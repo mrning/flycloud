@@ -1,4 +1,4 @@
-package com.zac.flycloud.api;
+package com.zac.flycloud.api.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.tablemodel.SysPermission;
-import com.zac.flycloud.sys.SysPermissionService;
+import com.zac.flycloud.service.SysPermissionService;
 import com.zac.flycloud.utils.MD5Util;
 import com.zac.flycloud.utils.UrlIPUtils;
 import io.swagger.annotations.Api;
@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/permission")
 @Slf4j
-public class PermissionController {
+public class AdminPermissionController {
 
     @Autowired
     private SysPermissionService sysPermissionService;
@@ -65,11 +65,11 @@ public class PermissionController {
      * 获取菜单JSON数组
      *
      * @param jsonArray
-     * @param metaList
+     * @param sysPermissions
      * @param parentJson
      */
-    private void getPermissionJsonArray(JSONArray jsonArray, List<SysPermission> metaList, JSONObject parentJson) {
-        for (SysPermission permission : metaList) {
+    private void getPermissionJsonArray(JSONArray jsonArray, List<SysPermission> sysPermissions, JSONObject parentJson) {
+        for (SysPermission permission : sysPermissions) {
             if (permission.getMenuType() == null) {
                 continue;
             }
@@ -82,7 +82,7 @@ public class PermissionController {
             if (parentJson == null && StringUtils.isEmpty(parentId)) {
                 jsonArray.add(json);
                 if (!permission.isLeaf()) {
-                    getPermissionJsonArray(jsonArray, metaList, json);
+                    getPermissionJsonArray(jsonArray, sysPermissions, json);
                 }
             } else if (parentJson != null && StringUtils.isNotEmpty(parentId) && parentId.equals(parentJson.getString("uuid"))) {
                 // 类型( 0：一级菜单 1：子菜单 2：按钮 )
@@ -106,7 +106,7 @@ public class PermissionController {
                     }
 
                     if (!permission.isLeaf()) {
-                        getPermissionJsonArray(jsonArray, metaList, json);
+                        getPermissionJsonArray(jsonArray, sysPermissions, json);
                     }
                 }
             }
@@ -187,7 +187,7 @@ public class PermissionController {
     public boolean hasIndexPage(List<SysPermission> metaList) {
         boolean hasIndexMenu = false;
         for (SysPermission sysPermission : metaList) {
-            if ("首页".equals(sysPermission.getName())) {
+            if ("homepage".equals(sysPermission.getUuid())) {
                 hasIndexMenu = true;
                 break;
             }
