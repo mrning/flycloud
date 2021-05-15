@@ -36,7 +36,7 @@
 		<mysql.version>8.0.19</mysql.version>
 		<io.springfox.version>3.0.0</io.springfox.version>
 		<hutool.version>5.5.4</hutool.version>
-		<lombok.version>1.18.14</lombok.version>
+		<lombok.version>1.18.20</lombok.version>
 		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
 		<com.alibaba.fastjson.version>1.2.69</com.alibaba.fastjson.version>
 
@@ -202,8 +202,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>14</source>
-                    <target>14</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
