@@ -56,3 +56,11 @@ flycloud:
     cluster-name: elasticsearch
     cluster-nodes: 127.0.0.1:9200
     check-enabled: false
+    # OSS_ALI_CLIENT / OSS_TENCENT_CLIENT
+  uploadClient: OSS_ALI_CLIENT
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    accessKey: ??
+    secretKey: ??
+    bucketName: flycloudos
+    staticDomain: https://static.flycloud.com
