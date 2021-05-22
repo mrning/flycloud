@@ -82,7 +82,7 @@ public interface CommonConstant {
     /**
      * 访问权限认证未通过 510
      */
-    Integer SC_JEECG_NO_AUTHZ = 510;
+    Integer SC_NO_AUTH = 510;
 
     /**
      * 登录用户Token令牌缓存KEY前缀

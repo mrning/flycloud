@@ -21,7 +21,9 @@ import java.util.*;
 @Slf4j
 @Component
 public class ElasticsearchTemplate {
-    /** es服务地址 */
+    /**
+     * es服务地址
+     */
     private String baseUrl;
     private final String FORMAT_JSON = "format=json";
 
@@ -29,7 +31,7 @@ public class ElasticsearchTemplate {
     public static final int ES_MAX_SIZE = 10000;
 
     public ElasticsearchTemplate(@Value("${flycloud.elasticsearch.cluster-nodes}") String baseUrl, @Value("${flycloud.elasticsearch.check-enabled}") boolean checkEnabled) {
-        log.debug("JeecgElasticsearchTemplate BaseURL：" + baseUrl);
+        log.debug("ElasticsearchTemplate BaseURL：" + baseUrl);
         if (StringUtils.isNotEmpty(baseUrl)) {
             this.baseUrl = baseUrl;
             // 验证配置的ES地址是否有效
@@ -306,9 +308,9 @@ public class ElasticsearchTemplate {
                     emptyKeys.add(key);
                 }
                 //2、剔除上传控件值(会导致ES同步失败，报异常failed to parse field [ge_pic] of type [text] )
-                if (StringUtils.isNotEmpty(value) && value.indexOf("[{")!=-1) {
+                if (StringUtils.isNotEmpty(value) && value.indexOf("[{") != -1) {
                     emptyKeys.add(key);
-                    log.info("-------剔除上传控件字段------------key: "+ key);
+                    log.info("-------剔除上传控件字段------------key: " + key);
                 }
             }
             for (String key : emptyKeys) {
