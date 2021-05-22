@@ -4,23 +4,25 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zac.flycloud.base.upload.UploadFileService;
-import com.zac.flycloud.base.upload.UploadFileServiceFactory;
+import com.zac.flycloud.base.upload.impl.AliOssServiceImpl;
+import com.zac.flycloud.base.upload.impl.TencentServiceImpl;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
+import com.zac.flycloud.enums.UploadClientEnum;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysUser;
-import com.zac.flycloud.utils.MD5Util;
-import com.zac.flycloud.utils.PasswordUtil;
-import com.zac.flycloud.utils.RandImageUtil;
-import com.zac.flycloud.utils.RedisUtil;
+import com.zac.flycloud.utils.*;
 import com.zac.flycloud.vos.SysUserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationContextFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -45,6 +47,9 @@ public class SysController {
     private RedisUtil redisUtil;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private UploadFileService uploadFileService;
+
     @Value("${flycloud.uploadClient}")
     private String uploadClient;
 
@@ -314,20 +319,27 @@ public class SysController {
     /**
      * 文件上传统一方法
      *
-     * @param request
-     * @param response
      * @return
      */
     @PostMapping(value = "/upload")
-    public DataResponseResult<String> upload(HttpServletRequest request, HttpServletResponse response) {
+    public DataResponseResult<String> upload(MultipartHttpServletRequest multipartRequest, String savePath) {
         DataResponseResult<String> result = new DataResponseResult<>();
         try {
-            // 文件路径
-            String savePath = request.getParameter("savePath");
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             // 获取上传文件对象
             MultipartFile file = multipartRequest.getFile("file");
-            JSONObject upload = UploadFileServiceFactory.getUploadService(uploadClient).upload(file, savePath, null);
+
+            UploadClientEnum clientEnum = UploadClientEnum.valueOf(uploadClient);
+            switch (clientEnum) {
+                case OSS_ALI_CLIENT:
+                    uploadFileService = SpringContextUtils.getBean(AliOssServiceImpl.class);
+                    break;
+                case OSS_TENCENT_CLIENT:
+                    uploadFileService = SpringContextUtils.getBean(TencentServiceImpl.class);
+                    break;
+            }
+
+            JSONObject upload = uploadFileService.upload(file, savePath, null);
+
             result.setResult(upload.toJSONString());
         } catch (Exception e) {
             log.error("文件上传异常", e);

@@ -11,4 +11,5 @@ public interface UploadFileService {
     JSONObject upload(MultipartFile file, String fileDir, String customBucket);
 
     Object initOSS(String endpoint, String accessKeyId, String accessKeySecret);
+
 }
