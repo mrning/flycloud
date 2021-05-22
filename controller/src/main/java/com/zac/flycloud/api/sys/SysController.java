@@ -3,24 +3,32 @@ package com.zac.flycloud.api.sys;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zac.flycloud.base.upload.UploadFileService;
+import com.zac.flycloud.base.upload.impl.AliOssServiceImpl;
+import com.zac.flycloud.base.upload.impl.TencentServiceImpl;
 import com.zac.flycloud.basebean.DataResponseResult;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
+import com.zac.flycloud.enums.UploadClientEnum;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysUser;
-import com.zac.flycloud.utils.MD5Util;
-import com.zac.flycloud.utils.PasswordUtil;
-import com.zac.flycloud.utils.RandImageUtil;
-import com.zac.flycloud.utils.RedisUtil;
+import com.zac.flycloud.utils.*;
 import com.zac.flycloud.vos.SysUserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationContextFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -39,6 +47,11 @@ public class SysController {
     private RedisUtil redisUtil;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private UploadFileService uploadFileService;
+
+    @Value("${flycloud.uploadClient}")
+    private String uploadClient;
 
     /**
      * 用户名密码登录接口
@@ -47,7 +60,7 @@ public class SysController {
      * @return
      */
     @ApiOperation("用户名密码登录接口")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     public DataResponseResult<Object> login(@RequestBody SysUserLoginVO sysLoginModel) {
         DataResponseResult<Object> result = DataResponseResult.success();
         // 用户名
@@ -132,7 +145,7 @@ public class SysController {
      * @return
      */
     @ApiOperation("登出")
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @PostMapping(value = "/logout")
     public DataResponseResult<Object> logout(HttpServletRequest request) {
         //用户退出逻辑
         String token = request.getHeader("token");
@@ -240,7 +253,7 @@ public class SysController {
      * @return
      */
     @ApiOperation("校验账户唯一")
-    @RequestMapping(value = "/checkOnlyUser", method = RequestMethod.GET)
+    @GetMapping(value = "/checkOnlyUser")
     public DataResponseResult<Boolean> checkOnlyUser(SysUser sysUser) {
         DataResponseResult<Boolean> result = new DataResponseResult<>();
         //如果此参数为false则程序发生异常
@@ -267,7 +280,7 @@ public class SysController {
      * 修改密码
      */
     @ApiOperation("修改密码")
-    @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
+    @PutMapping(value = "/changePassword")
     public DataResponseResult<?> changePassword(@RequestBody SysUser sysUser) {
         SysUser u = sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
         if (u == null) {
@@ -303,4 +316,35 @@ public class SysController {
         return res;
     }
 
+    /**
+     * 文件上传统一方法
+     *
+     * @return
+     */
+    @PostMapping(value = "/upload")
+    public DataResponseResult<String> upload(MultipartHttpServletRequest multipartRequest, String savePath) {
+        DataResponseResult<String> result = new DataResponseResult<>();
+        try {
+            // 获取上传文件对象
+            MultipartFile file = multipartRequest.getFile("file");
+
+            UploadClientEnum clientEnum = UploadClientEnum.valueOf(uploadClient);
+            switch (clientEnum) {
+                case OSS_ALI_CLIENT:
+                    uploadFileService = SpringContextUtils.getBean(AliOssServiceImpl.class);
+                    break;
+                case OSS_TENCENT_CLIENT:
+                    uploadFileService = SpringContextUtils.getBean(TencentServiceImpl.class);
+                    break;
+            }
+
+            JSONObject upload = uploadFileService.upload(file, savePath, null);
+
+            result.setResult(upload.toJSONString());
+        } catch (Exception e) {
+            log.error("文件上传异常", e);
+            result.error500("文件上传异常, " + e.getMessage());
+        }
+        return result;
+    }
 }

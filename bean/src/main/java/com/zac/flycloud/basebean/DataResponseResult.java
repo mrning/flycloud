@@ -119,6 +119,6 @@ public class DataResponseResult<T> implements Serializable {
 	 * 无权限访问返回结果
 	 */
 	public static DataResponseResult<Object> noauth(String msg) {
-		return error(CommonConstant.SC_JEECG_NO_AUTHZ, msg);
+		return error(CommonConstant.SC_NO_AUTH, msg);
 	}
 }

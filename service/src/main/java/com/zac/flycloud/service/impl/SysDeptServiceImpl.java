@@ -174,7 +174,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         if(CollectionUtil.isNotEmpty(departList)) {
             subUuidList.addAll(departList.stream().map(SysDept::getUuid).collect(Collectors.toList()));
             // 递归获取子部门的子部门
-            this.checkChildrenExists(subUuidList.toArray(String[]::new), subUuidList);
+            this.checkChildrenExists(subUuidList.toArray(new String[]{}), subUuidList);
         }
     }
 
