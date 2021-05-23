@@ -26,22 +26,25 @@
 		<module>start</module>
 		<module>utils</module>
         <module>makecode</module>
-    </modules>
+		<module>task</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>8</java.version>
-		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
 		<com.alibaba.fastjson.version>1.2.75</com.alibaba.fastjson.version>
+		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
+		<aliyun.oss.version>3.6.0</aliyun.oss.version>
+
 		<mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<mysql.version>8.0.19</mysql.version>
+
 		<io.springfox.version>3.0.0</io.springfox.version>
 		<hutool.version>5.5.4</hutool.version>
 		<com.projectlombok.version>1.18.20</com.projectlombok.version>
-		<com.alibaba.druid.version>1.1.22</com.alibaba.druid.version>
-		<com.alibaba.fastjson.version>1.2.69</com.alibaba.fastjson.version>
-		<aliyun.oss.version>3.6.0</aliyun.oss.version>
+		<xxl-job.version>2.3.0</xxl-job.version>
+
 
 	</properties>
 
@@ -134,6 +137,12 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>${hutool.version}</version>
+		</dependency>
+		<!--xxl-job-->
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>${xxl-job.version}</version>
 		</dependency>
 
 		<!-- Swagger API文档 -->

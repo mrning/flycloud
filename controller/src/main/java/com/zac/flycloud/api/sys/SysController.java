@@ -43,12 +43,12 @@ import java.util.Date;
 @Slf4j
 public class SysController {
 
+    private UploadFileService uploadFileService;
+
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private UploadFileService uploadFileService;
 
     @Value("${flycloud.uploadClient}")
     private String uploadClient;
