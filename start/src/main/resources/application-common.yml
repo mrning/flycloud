@@ -1,7 +1,9 @@
-debug: false
+debug: true
 server:
   port: 9088
 spring:
+  application:
+    name: fly-cloud
   devtools:
     livereload:
       #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
@@ -9,6 +11,12 @@ spring:
   output:
     ansi:
       enabled: always
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: localhost:8848
+        namespace: fly-cloud-namespaces
 # mybatis代码生成器相关配置
 mybatis:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
