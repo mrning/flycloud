@@ -1,7 +1,7 @@
 package com.zac.flycloud;
 
 import com.alibaba.fastjson.JSON;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.vos.SysUserLoginVO;
 import com.zac.flycloud.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -36,15 +36,15 @@ public class BaseController {
             // 业务异常
             if (ex instanceof BusinessException) {
                 BusinessException be = (BusinessException) ex;
-                response.getWriter().write(JSON.toJSONString(DataResponseResult.error(be.getCode(), be.getMessage())));
+                response.getWriter().write(JSON.toJSONString(Result.error(be.getCode(), be.getMessage())));
                 return null;
             }
             // 无权限异常
             if (ex instanceof AuthenticationException) {
-                response.getWriter().write(JSON.toJSONString(DataResponseResult.error("权限异常")));
+                response.getWriter().write(JSON.toJSONString(Result.error("权限异常")));
                 return null;
             }
-            response.getWriter().write(JSON.toJSONString(DataResponseResult.error(ex.getMessage() == null ? "系统繁忙" : ex.getMessage())));
+            response.getWriter().write(JSON.toJSONString(Result.error(ex.getMessage() == null ? "系统繁忙" : ex.getMessage())));
             return null;
         } catch (Exception e) {
             log.error(e.getMessage(), e);

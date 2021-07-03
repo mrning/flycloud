@@ -3,7 +3,7 @@ package com.zac.flycloud.api.admin;
 import cn.hutool.db.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.BaseController;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysLogDTO;
 import com.zac.flycloud.service.SysLogService;
 import com.zac.flycloud.utils.ConverUtil;
@@ -35,8 +35,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/add")
-    public DataResponseResult<Integer> add(@RequestBody SysLogDTO sysLogDTO) {
-        return DataResponseResult.success(sysLogService.add(sysLogDTO));
+    public Result<Integer> add(@RequestBody SysLogDTO sysLogDTO) {
+        return Result.success(sysLogService.add(sysLogDTO));
     }
 
     /**
@@ -45,8 +45,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/del")
-    public DataResponseResult<Integer> del(@RequestBody SysLogDTO sysLogDTO) {
-        return DataResponseResult.success(sysLogService.del(sysLogDTO));
+    public Result<Integer> del(@RequestBody SysLogDTO sysLogDTO) {
+        return Result.success(sysLogService.del(sysLogDTO));
     }
 
     /**
@@ -55,8 +55,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/update")
-    public DataResponseResult<Integer> update(@RequestBody SysLogDTO sysLogDTO) {
-        return DataResponseResult.success(sysLogService.update(sysLogDTO));
+    public Result<Integer> update(@RequestBody SysLogDTO sysLogDTO) {
+        return Result.success(sysLogService.update(sysLogDTO));
     }
 
     /**
@@ -65,8 +65,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/queryPage")
-    public DataResponseResult<PageResult<SysLogDTO>> queryPage(@RequestBody SysLogDTO sysLogDTO) {
-        return DataResponseResult.success(sysLogService.queryPage(sysLogDTO));
+    public Result<PageResult<SysLogDTO>> queryPage(@RequestBody SysLogDTO sysLogDTO) {
+        return Result.success(sysLogService.queryPage(sysLogDTO));
     }
 
     /**
@@ -76,7 +76,7 @@ public class AdminSysLogController extends BaseController {
      */
     @ApiOperation("获取全部/当天访问量/ip数")
     @GetMapping("loginfo")
-    public DataResponseResult<Object> loginfo() {
+    public Result<Object> loginfo() {
         JSONObject obj = new JSONObject();
         // 获取一天的开始和结束时间
         Date dayStart = DateUtils.getTodayStart();
@@ -88,7 +88,7 @@ public class AdminSysLogController extends BaseController {
         obj.put("todayVisitCount", todayVisitCount);
         Long todayIp = sysLogService.findTodayIp(dayStart, dayEnd);
         obj.put("todayIp", todayIp);
-        return DataResponseResult.success(obj, "获取访问量成功");
+        return Result.success(obj, "获取访问量成功");
     }
 
     /**
@@ -98,8 +98,8 @@ public class AdminSysLogController extends BaseController {
      */
     @GetMapping("visitInfo")
     @ApiOperation("获取最近一周访问数量/ip数量")
-    public DataResponseResult<List<Map<String, Object>>> visitInfo() {
-        DataResponseResult<List<Map<String, Object>>> result = new DataResponseResult<List<Map<String, Object>>>();
+    public Result<List<Map<String, Object>>> visitInfo() {
+        Result<List<Map<String, Object>>> result = new Result<List<Map<String, Object>>>();
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);

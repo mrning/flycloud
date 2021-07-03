@@ -6,7 +6,7 @@ import cn.hutool.db.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.base.SysBaseServiceImpl;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.dao.SysUserDao;
@@ -17,6 +17,7 @@ import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.PasswordUtil;
+import com.zac.flycloud.vos.RegisRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
@@ -102,23 +104,23 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      */
     @Override
     @CacheEvict(value = {CacheConstant.SYS_USERS_CACHE}, allEntries = true)
-    public DataResponseResult<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword) {
+    public Result<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword) {
         SysUser user = sysUserMapper.getUserByName(username);
         String passwordEncode = PasswordUtil.getPasswordEncode(oldpassword);
         if (!user.getPassword().equals(passwordEncode)) {
-            return DataResponseResult.error("旧密码输入错误!");
+            return Result.error("旧密码输入错误!");
         }
         if (StringUtils.isEmpty(newpassword)) {
-            return DataResponseResult.error("新密码不允许为空!");
+            return Result.error("新密码不允许为空!");
         }
         if (!newpassword.equals(confirmpassword)) {
-            return DataResponseResult.error("两次输入密码不一致!");
+            return Result.error("两次输入密码不一致!");
         }
         String password = PasswordUtil.getPasswordEncode(newpassword);
         SysUser sysUser = new SysUser();
         sysUser.setPassword(password);
         this.sysUserMapper.update(sysUser, new LambdaQueryWrapper<SysUser>().eq(SysUser::getId, user.getUuid()));
-        return DataResponseResult.success("密码重置成功!");
+        return Result.success("密码重置成功!");
     }
 
     /**
@@ -128,12 +130,12 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      */
     @Override
     @CacheEvict(value = {CacheConstant.SYS_USERS_CACHE}, allEntries = true)
-    public DataResponseResult<?> changePassword(SysUser sysUser) {
+    public Result<?> changePassword(SysUser sysUser) {
         String password = sysUser.getPassword();
         String passwordEncode = PasswordUtil.getPasswordEncode(password);
         sysUser.setPassword(passwordEncode);
         this.sysUserMapper.updateById(sysUser);
-        return DataResponseResult.success("密码修改成功!");
+        return Result.success("密码修改成功!");
     }
 
     @Override
@@ -154,8 +156,8 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      * @return
      */
     @Override
-    public DataResponseResult<?> checkUserIsEffective(SysUser sysUser) {
-        DataResponseResult<?> result = new DataResponseResult<Object>();
+    public Result<?> checkUserIsEffective(SysUser sysUser) {
+        Result<?> result = new Result<Object>();
         //情况1：根据用户信息查询，该用户不存在
         if (sysUser == null) {
             addLog("用户登录失败，用户不存在！", CommonConstant.LOG_TYPE_LOGIN_1, null);
@@ -177,6 +179,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      * @param sysUser
      * @return
      */
+    @Override
     public JSONObject userInfo(SysUser sysUser) throws Exception {
         String username = sysUser.getUsername();
         // 登录信息记录到security
@@ -200,5 +203,22 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         // 添加日志
         addLog("用户名: " + sysUser.getUsername() + ",登录成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
         return obj;
+    }
+
+    @Override
+    public boolean regis(RegisRequestVO regisRequestVO) {
+        try {
+            SysUserDTO sysUserDTO = new SysUserDTO();
+            sysUserDTO.setCreateTime(new Date());// 设置创建时间
+            sysUserDTO.setUsername(regisRequestVO.getUsername());
+            sysUserDTO.setRealname(regisRequestVO.getUsername());
+            sysUserDTO.setPassword(PasswordUtil.getPasswordEncode(regisRequestVO.getPassword()));
+            sysUserDTO.setMail(regisRequestVO.getEmail());
+            sysUserDTO.setPhone(regisRequestVO.getPhone());
+            return add(sysUserDTO) > 0;
+        } catch (Exception e) {
+            log.error("注册异常",e);
+        }
+        return false;
     }
 }

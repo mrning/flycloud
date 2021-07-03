@@ -1,5 +1,7 @@
 package com.zac.flycloud.basebean;
 
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.IdUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +14,7 @@ public class BaseDTO {
 
     private Long id;
 
-    private String uuid;
+    private String uuid = IdUtil.simpleUUID();
 
     /**
      * 创建人

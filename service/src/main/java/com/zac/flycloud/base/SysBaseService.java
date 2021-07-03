@@ -1,9 +1,11 @@
 package com.zac.flycloud.base;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysPermission;
 import com.zac.flycloud.tablemodel.SysRole;
 import com.zac.flycloud.tablemodel.SysUser;
 

@@ -2,7 +2,7 @@ package com.zac.flycloud.api.admin;
 
 import cn.hutool.db.PageResult;
 import com.zac.flycloud.BaseController;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysDeptDTO;
 import com.zac.flycloud.service.SysDeptService;
 import io.swagger.annotations.Api;
@@ -31,8 +31,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public DataResponseResult<Integer> add(@RequestBody SysDeptDTO sysDeptDTO) {
-        return DataResponseResult.success(sysDeptService.add(sysDeptDTO));
+    public Result<Integer> add(@RequestBody SysDeptDTO sysDeptDTO) {
+        return Result.success(sysDeptService.add(sysDeptDTO));
     }
 
     /**
@@ -42,8 +42,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/del")
     @ApiOperation("删除")
-    public DataResponseResult<Integer> del(@RequestBody SysDeptDTO sysDeptDTO) {
-        return DataResponseResult.success(sysDeptService.del(sysDeptDTO));
+    public Result<Integer> del(@RequestBody SysDeptDTO sysDeptDTO) {
+        return Result.success(sysDeptService.del(sysDeptDTO));
     }
 
     /**
@@ -53,8 +53,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public DataResponseResult<Integer> update(@RequestBody SysDeptDTO sysDeptDTO) {
-        return DataResponseResult.success(sysDeptService.update(sysDeptDTO));
+    public Result<Integer> update(@RequestBody SysDeptDTO sysDeptDTO) {
+        return Result.success(sysDeptService.update(sysDeptDTO));
     }
 
     /**
@@ -64,7 +64,7 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public DataResponseResult<PageResult<SysDeptDTO>> queryPage(@RequestBody SysDeptDTO sysDeptDTO) {
-        return DataResponseResult.success(sysDeptService.queryPage(sysDeptDTO));
+    public Result<PageResult<SysDeptDTO>> queryPage(@RequestBody SysDeptDTO sysDeptDTO) {
+        return Result.success(sysDeptService.queryPage(sysDeptDTO));
     }
 }

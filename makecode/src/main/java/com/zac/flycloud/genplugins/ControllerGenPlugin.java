@@ -84,7 +84,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         String className = (controllerPlatform.substring(0, 1).toUpperCase() + controllerPlatform.substring(1)) + baseDomainName + CONTROLLER_SUFFIX;
         TopLevelClass topLevelClass = new TopLevelClass(controllerPackage + "." + className);
         topLevelClass.addImportedType(TARGETPACKAGE + ".BaseController");
-        topLevelClass.addImportedType(TARGETPACKAGE + ".basebean.DataResponseResult");
+        topLevelClass.addImportedType(TARGETPACKAGE + ".basebean.Result");
         topLevelClass.addImportedType(TARGETPACKAGE_DTO + "." + dtoName);
         topLevelClass.addImportedType(TARGETPACKAGE_SERVICE + "." + baseDomainName + SERVICE_SUFFIX);
         topLevelClass.addImportedType("cn.hutool.db.PageResult");
@@ -147,10 +147,10 @@ public class ControllerGenPlugin extends PluginAdapter {
                 + "\")"));
         // 加返回类型
         if (methodName.contains("queryPage")) {
-            method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<PageResult<" + dtoName + ">>"));
+            method.setReturnType(new FullyQualifiedJavaType("Result<PageResult<" + dtoName + ">>"));
             topLevelClass.addImportedType(TARGETPACKAGE_DTO + "." + dtoName);
         } else {
-            method.setReturnType(new FullyQualifiedJavaType("DataResponseResult<Integer>"));
+            method.setReturnType(new FullyQualifiedJavaType("Result<Integer>"));
         }
         // 加参数
         method.addParameter(new Parameter(
@@ -158,7 +158,7 @@ public class ControllerGenPlugin extends PluginAdapter {
                 firstLowerDtoName,
                 ANNOTATION_REQUESTBODY));
         // 加内容
-        method.addBodyLine("return DataResponseResult.success(" +
+        method.addBodyLine("return Result.success(" +
                 firstLowerServiceName + "." + methodName + "(" + firstLowerDtoName + "));");
         topLevelClass.addMethod(method);
     }

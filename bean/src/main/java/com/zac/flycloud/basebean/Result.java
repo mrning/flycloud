@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel(value="接口返回对象", description="接口返回对象")
-public class DataResponseResult<T> implements Serializable {
+public class Result<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,40 +48,48 @@ public class DataResponseResult<T> implements Serializable {
 	@ApiModelProperty(value = "时间戳")
 	private long timestamp = System.currentTimeMillis()/1000;
 
-	public DataResponseResult() {
-		
+	private enum ResEnum {
+		SUCCESS("SUCCESS","成功"),
+		FAIL("FAIL","失败");
+
+		private final String code;
+		private final String message;
+
+		ResEnum(String code, String message) {
+			this.code = code;
+			this.message = message;
+		}
 	}
-	
-	
-	public static DataResponseResult<Object> success() {
-		DataResponseResult<Object> r = new DataResponseResult<Object>();
+
+	public static Result<Object> success() {
+		Result<Object> r = new Result<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setResult("success");
-		r.setMessage("成功");
+		r.setResult(ResEnum.SUCCESS.code);
+		r.setMessage(ResEnum.SUCCESS.message);
 		return r;
 	}
 	
-	public static DataResponseResult<Object> success(String msg) {
-		DataResponseResult<Object> r = new DataResponseResult<Object>();
+	public static Result<Object> success(String msg) {
+		Result<Object> r = new Result<Object>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setResult("success");
+		r.setResult(ResEnum.SUCCESS.code);
 		r.setMessage(msg);
 		return r;
 	}
 
-	public static<T> DataResponseResult<T> success(T data) {
-		DataResponseResult<T> r = new DataResponseResult<T>();
+	public static<T> Result<T> success(T data) {
+		Result<T> r = new Result<T>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
 		r.setResult(data);
-		r.setMessage("成功");
+		r.setMessage(ResEnum.SUCCESS.message);
 		return r;
 	}
 
-	public static<T> DataResponseResult<T> success(T data, String message) {
-		DataResponseResult<T> r = new DataResponseResult<T>();
+	public static<T> Result<T> success(T data, String message) {
+		Result<T> r = new Result<T>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
 		r.setResult(data);
@@ -89,27 +97,31 @@ public class DataResponseResult<T> implements Serializable {
 		return r;
 	}
 
+	public static Result<String> success(ResEnum resEnum) {
+		return success(resEnum.code,resEnum.message);
+	}
+
 	
-	public static DataResponseResult<Object> error(String msg) {
+	public static Result<Object> error(String msg) {
 		return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500, msg);
 	}
 	
-	public static DataResponseResult<Object> error(int code, String msg) {
-		DataResponseResult<Object> r = new DataResponseResult<Object>();
+	public static Result<Object> error(int code, String msg) {
+		Result<Object> r = new Result<Object>();
 		r.setCode(code);
 		r.setMessage(msg);
 		r.setSuccess(false);
 		return r;
 	}
 
-	public DataResponseResult<T> error500(String message) {
+	public Result<T> error500(String message) {
 		this.message = message;
 		this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
 		this.success = false;
 		return this;
 	}
 
-	public DataResponseResult<T> error404(String message) {
+	public Result<T> error404(String message) {
 		this.message = message;
 		this.code = CommonConstant.SC_RESOURCE_NOTFOUND_ERROR_404;
 		this.success = false;
@@ -118,7 +130,7 @@ public class DataResponseResult<T> implements Serializable {
 	/**
 	 * 无权限访问返回结果
 	 */
-	public static DataResponseResult<Object> noauth(String msg) {
+	public static Result<Object> noauth(String msg) {
 		return error(CommonConstant.SC_NO_AUTH, msg);
 	}
 }

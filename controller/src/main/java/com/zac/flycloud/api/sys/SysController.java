@@ -6,30 +6,27 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zac.flycloud.base.upload.UploadFileService;
 import com.zac.flycloud.base.upload.impl.AliOssServiceImpl;
 import com.zac.flycloud.base.upload.impl.TencentServiceImpl;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.constant.CacheConstant;
 import com.zac.flycloud.constant.CommonConstant;
 import com.zac.flycloud.enums.UploadClientEnum;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.*;
+import com.zac.flycloud.vos.RegisRequestVO;
 import com.zac.flycloud.vos.SysUserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationContextFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 /**
  * 系统相关接口  登录/登出/注册/重置密码等
@@ -61,8 +58,8 @@ public class SysController {
      */
     @ApiOperation("用户名密码登录接口")
     @PostMapping(value = "/login")
-    public DataResponseResult<Object> login(@RequestBody SysUserLoginVO sysLoginModel) {
-        DataResponseResult<Object> result = DataResponseResult.success();
+    public Result<Object> login(@RequestBody SysUserLoginVO sysLoginModel) {
+        Result<Object> result = Result.success();
         // 用户名
         String username = sysLoginModel.getUsername();
         // 密码
@@ -115,13 +112,13 @@ public class SysController {
      */
     @ApiOperation("手机号登录接口")
     @PostMapping("/phoneLogin")
-    public DataResponseResult<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
+    public Result<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
         String phone = jsonObject.getString("mobile");
         String smscode = jsonObject.getString("captcha");
 
         // 校验用户有效性
         SysUser sysUser = sysUserService.getUserByPhone(phone);
-        DataResponseResult<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
+        Result<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
         if (!result.isSuccess()) {
             return result;
         }
@@ -146,11 +143,11 @@ public class SysController {
      */
     @ApiOperation("登出")
     @PostMapping(value = "/logout")
-    public DataResponseResult<Object> logout(HttpServletRequest request) {
+    public Result<Object> logout(HttpServletRequest request) {
         //用户退出逻辑
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
-            return DataResponseResult.error("token为空，退出登录失败！");
+            return Result.error("token为空，退出登录失败！");
         }
         String username = String.valueOf(redisUtil.get(token));
         SysUser sysUser = sysUserService.getUserByName(username);
@@ -164,85 +161,35 @@ public class SysController {
             sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
             log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
         }
-        return DataResponseResult.success("退出登录成功！");
+        return Result.success("退出登录成功！");
     }
 
     /**
      * 用户注册接口
      *
-     * @param jsonObject
-     * @param user
+     * @param regisRequestVO
      * @return
      */
     @ApiOperation("注册")
     @PostMapping("/register")
-    public DataResponseResult<JSONObject> userRegister(@RequestBody JSONObject jsonObject, SysUser user) {
-        DataResponseResult<JSONObject> result = new DataResponseResult<JSONObject>();
-        // 手机号
-        String phone = jsonObject.getString("phone");
-        // 用户输入的短信验证码
-        String smscode = jsonObject.getString("smscode");
-        // 后台实际发送的短信验证码
-        Object code = redisUtil.get(phone);
-        // 用户名
-        String username = jsonObject.getString("username");
-        // 密码
-        String password = jsonObject.getString("password");
-        // 邮箱
-        String email = jsonObject.getString("email");
-
-        //未设置用户名
-        if (StringUtils.isBlank(username)) {
-            result.setMessage("用户名不能为空");
-            result.setSuccess(false);
-            return result;
+    public Result userRegister(@RequestBody RegisRequestVO regisRequestVO) {
+        Assert.notNull(regisRequestVO.getUsername(), "用户名不能为空");
+        Assert.notNull(regisRequestVO.getPassword(), "密码不能为空");
+        Assert.isTrue(null == sysUserService.getUserByName(regisRequestVO.getUsername()), "用户名已注册");
+        // 校验验证码
+        if (StringUtils.isNotBlank(regisRequestVO.getSmscode())) {
+            // 后台实际发送的短信验证码
+            Object code = redisUtil.get(regisRequestVO.getPhone());
+            Assert.isTrue(regisRequestVO.getSmscode().equals(code), "手机验证码错误");
         }
-        //未设置密码
-        if (StringUtils.isBlank(password)) {
-            result.setMessage("密码不能为空");
-            result.setSuccess(false);
-            return result;
+        // 校验邮箱
+        if (StringUtils.isNotBlank(regisRequestVO.getEmail())) {
+            Assert.isTrue(null == sysUserService.getUserByEmail(regisRequestVO.getEmail()), "邮箱已被注册");
         }
-        SysUser sysUser1 = sysUserService.getUserByName(username);
-        if (sysUser1 != null) {
-            result.setMessage("用户名已注册");
-            result.setSuccess(false);
-            return result;
+        if (sysUserService.regis(regisRequestVO)) {
+            return Result.success("注册成功");
         }
-        SysUser sysUser2 = sysUserService.getUserByPhone(phone);
-        if (sysUser2 != null) {
-            result.setMessage("该手机号已注册");
-            result.setSuccess(false);
-            return result;
-        }
-        if (!smscode.equals(code)) {
-            result.setMessage("手机验证码错误");
-            result.setSuccess(false);
-            return result;
-        }
-        //校验邮箱
-        if (StringUtils.isNotBlank(email)) {
-            SysUser sysUser3 = sysUserService.getUserByEmail(email);
-            if (sysUser3 != null) {
-                result.setMessage("邮箱已被注册");
-                result.setSuccess(false);
-                return result;
-            }
-        }
-
-        try {
-            user.setCreateTime(new Date());// 设置创建时间
-            String passwordEncode = PasswordUtil.getPasswordEncode(password);
-            user.setUsername(username);
-            user.setRealname(username);
-            user.setPassword(passwordEncode);
-            user.setMail(email);
-            user.setPhone(phone);
-            DataResponseResult.success("注册成功");
-        } catch (Exception e) {
-            result.error500("注册失败");
-        }
-        return result;
+        return Result.error("注册失败");
     }
 
     /**
@@ -254,8 +201,8 @@ public class SysController {
      */
     @ApiOperation("校验账户唯一")
     @GetMapping(value = "/checkOnlyUser")
-    public DataResponseResult<Boolean> checkOnlyUser(SysUser sysUser) {
-        DataResponseResult<Boolean> result = new DataResponseResult<>();
+    public Result<Boolean> checkOnlyUser(SysUser sysUser) {
+        Result<Boolean> result = new Result<>();
         //如果此参数为false则程序发生异常
         result.setResult(true);
         try {
@@ -281,10 +228,10 @@ public class SysController {
      */
     @ApiOperation("修改密码")
     @PutMapping(value = "/changePassword")
-    public DataResponseResult<?> changePassword(@RequestBody SysUser sysUser) {
+    public Result<?> changePassword(@RequestBody SysUser sysUser) {
         SysUser u = sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
         if (u == null) {
-            return DataResponseResult.error("用户不存在！");
+            return Result.error("用户不存在！");
         }
         sysUser.setId(u.getId());
         return sysUserService.changePassword(sysUser);
@@ -297,8 +244,8 @@ public class SysController {
      */
     @ApiOperation("获取验证码")
     @GetMapping(value = "/randomImage/{key}")
-    public DataResponseResult<String> randomImage(@PathVariable String key) {
-        DataResponseResult<String> res = new DataResponseResult<String>();
+    public Result<String> randomImage(@PathVariable String key) {
+        Result<String> res = new Result<String>();
         try {
             String code = MD5Util.createCode(4);
             String lowerCaseCode = code.toLowerCase();
@@ -322,8 +269,8 @@ public class SysController {
      * @return
      */
     @PostMapping(value = "/upload")
-    public DataResponseResult<String> upload(MultipartHttpServletRequest multipartRequest, String savePath) {
-        DataResponseResult<String> result = new DataResponseResult<>();
+    public Result<String> upload(MultipartHttpServletRequest multipartRequest, String savePath) {
+        Result<String> result = new Result<>();
         try {
             // 获取上传文件对象
             MultipartFile file = multipartRequest.getFile("file");

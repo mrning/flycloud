@@ -1,7 +1,7 @@
 package com.zac.flycloud.interceptor.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.slf4j.Logger;
@@ -32,6 +32,6 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
         String token = PasswordUtil.createToken(((SysUser)authentication.getPrincipal()).getUsername(),tokenKey);
 
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.success("登录成功",token)));
+        response.getWriter().write(JSONObject.toJSONString(Result.success("登录成功",token)));
     }
 }

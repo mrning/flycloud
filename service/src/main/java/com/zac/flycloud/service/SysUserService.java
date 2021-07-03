@@ -3,9 +3,10 @@ package com.zac.flycloud.service;
 import cn.hutool.db.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.base.SysBaseService;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.tablemodel.SysUser;
+import com.zac.flycloud.vos.RegisRequestVO;
 
 /**
  * AutoCreateFile
@@ -38,7 +39,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @param confirmpassword
      * @return
      */
-    DataResponseResult<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword);
+    Result<?> resetPassword(String username, String oldpassword, String newpassword, String confirmpassword);
 
     /**
      * 修改密码
@@ -46,7 +47,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @param sysUser
      * @return
      */
-    DataResponseResult<?> changePassword(SysUser sysUser);
+    Result<?> changePassword(SysUser sysUser);
 
     /**
      * 根据手机号获取用户名和密码
@@ -65,7 +66,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @param sysUser
      * @return
      */
-    DataResponseResult checkUserIsEffective(SysUser sysUser);
+    Result checkUserIsEffective(SysUser sysUser);
 
     /**
      * 查詢用戶信息
@@ -74,4 +75,9 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @throws Exception
      */
     JSONObject userInfo(SysUser sysUser) throws Exception;
+
+    /**
+     * regis
+     */
+    boolean regis(RegisRequestVO regisRequestVO);
 }

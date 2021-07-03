@@ -1,7 +1,7 @@
 package com.zac.flycloud.interceptor.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -28,6 +28,6 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(DataResponseResult.error("尚未登录，请先登录: " + authException.getMessage())));
+        response.getWriter().write(JSONObject.toJSONString(Result.error("尚未登录，请先登录: " + authException.getMessage())));
     }
 }

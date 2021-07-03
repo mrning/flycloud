@@ -2,7 +2,7 @@ package com.zac.flycloud.api.admin;
 
 import cn.hutool.db.PageResult;
 import com.zac.flycloud.BaseController;
-import com.zac.flycloud.basebean.DataResponseResult;
+import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysRoleDTO;
 import com.zac.flycloud.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -31,8 +31,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public DataResponseResult<Integer> add(@RequestBody SysRoleDTO sysRoleDTO) {
-        return DataResponseResult.success(sysRoleService.add(sysRoleDTO));
+    public Result<Integer> add(@RequestBody SysRoleDTO sysRoleDTO) {
+        return Result.success(sysRoleService.add(sysRoleDTO));
     }
 
     /**
@@ -42,8 +42,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/del")
     @ApiOperation("删除")
-    public DataResponseResult<Integer> del(@RequestBody SysRoleDTO sysRoleDTO) {
-        return DataResponseResult.success(sysRoleService.del(sysRoleDTO));
+    public Result<Integer> del(@RequestBody SysRoleDTO sysRoleDTO) {
+        return Result.success(sysRoleService.del(sysRoleDTO));
     }
 
     /**
@@ -53,8 +53,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public DataResponseResult<Integer> update(@RequestBody SysRoleDTO sysRoleDTO) {
-        return DataResponseResult.success(sysRoleService.update(sysRoleDTO));
+    public Result<Integer> update(@RequestBody SysRoleDTO sysRoleDTO) {
+        return Result.success(sysRoleService.update(sysRoleDTO));
     }
 
     /**
@@ -64,7 +64,7 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public DataResponseResult<PageResult<SysRoleDTO>> queryPage(@RequestBody SysRoleDTO sysRoleDTO) {
-        return DataResponseResult.success(sysRoleService.queryPage(sysRoleDTO));
+    public Result<PageResult<SysRoleDTO>> queryPage(@RequestBody SysRoleDTO sysRoleDTO) {
+        return Result.success(sysRoleService.queryPage(sysRoleDTO));
     }
 }
