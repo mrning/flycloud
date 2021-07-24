@@ -64,7 +64,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     }
 
     public Integer del(SysUserDTO sysUserDTO) {
-        Assert.isTrue(BeanUtil.isEmpty(sysUserDTO),"不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysUserDTO),"不能全部属性为空，会删除全表数据");
         return sysUserDao.del(sysUserDTO);
     }
 

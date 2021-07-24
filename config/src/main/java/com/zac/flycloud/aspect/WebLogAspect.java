@@ -38,7 +38,7 @@ import java.util.Map;
 public class WebLogAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
 
-    @Pointcut("execution(public * com.zac.flycloud.*.*(..))")
+    @Pointcut("execution(public * com.zac.flycloud.api.*.*(..))")
     public void webLog() {
     }
 
