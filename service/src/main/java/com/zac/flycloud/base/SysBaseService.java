@@ -42,7 +42,7 @@ public interface SysBaseService<T> extends IService<T> {
      * @param username
      * @return
      */
-    List<String> getRolesByUsername(String username);
+    List<SysRole> getRolesByUsername(String username);
 
     /**
      * 通过用户账号查询部门 name

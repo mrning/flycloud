@@ -13,8 +13,10 @@ import com.zac.flycloud.dao.SysUserDao;
 import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.mapper.SysUserMapper;
 import com.zac.flycloud.service.SysDeptService;
+import com.zac.flycloud.service.SysRoleService;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.tablemodel.SysRole;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.PasswordUtil;
 import com.zac.flycloud.vos.RegisRequestVO;
@@ -46,6 +48,9 @@ import static com.zac.flycloud.constant.CommonConstant.TOKEN_EXPIRE_TIME;
 public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
     @Autowired
     private SysUserDao sysUserDao;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -196,7 +201,9 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         // 获取用户部门信息
         JSONObject obj = new JSONObject();
         List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
+        List<SysRole> roles =  sysRoleService.getRolesByUsername(sysUser.getUsername());
         obj.put("departs", departs);
+        obj.put("roles", roles);
         obj.put("token", token);
         obj.put("userInfo", sysUser);
 

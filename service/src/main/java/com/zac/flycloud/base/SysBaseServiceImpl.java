@@ -129,7 +129,7 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
     }
 
     @Override
-    public List<String> getRolesByUsername(String username) {
+    public List<SysRole> getRolesByUsername(String username) {
         return sysUserRoleMapper.getRoleByUserName(username);
     }
 
