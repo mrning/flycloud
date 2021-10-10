@@ -1,10 +1,11 @@
 package com.zac.flycloud.api.admin;
 
-import cn.hutool.db.PageResult;
 import com.zac.flycloud.BaseController;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.service.SysUserService;
+import com.zac.flycloud.vos.UserRequestVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,7 @@ public class AdminSysUserController extends BaseController {
      */
     @ApiOperation("分页查询")
     @PostMapping("/queryPage")
-    public Result<PageResult<SysUserDTO>> queryPage(@RequestBody SysUserDTO sysUserDTO) {
-        return Result.success(sysUserService.queryPage(sysUserDTO));
+    public Result<PageResult<SysUserDTO>> queryPage(@RequestBody UserRequestVO userRequestVO) {
+        return Result.success(sysUserService.queryPage(userRequestVO));
     }
 }

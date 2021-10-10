@@ -2,13 +2,14 @@ package com.zac.flycloud.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.base.SysBaseServiceImpl;
 import com.zac.flycloud.dao.SysRoleDao;
 import com.zac.flycloud.dto.SysRoleDTO;
 import com.zac.flycloud.mapper.SysRoleMapper;
 import com.zac.flycloud.service.SysRoleService;
 import com.zac.flycloud.tablemodel.SysRole;
+import com.zac.flycloud.vos.RoleRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,10 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
         return sysRoleDao.update(sysRoleDTO);
     }
 
-    public PageResult<SysRoleDTO> queryPage(SysRoleDTO sysRoleDTO) {
+    public PageResult<SysRoleDTO> queryPage(RoleRequestVO roleRequestVO) {
         PageResult<SysRoleDTO> pageResult = new PageResult<>();
-        pageResult.addAll(sysRoleDao.queryPage(sysRoleDTO,new Page(sysRoleDTO.getPageNumber(),sysRoleDTO.getPageSize())));
-        pageResult.setTotal(sysRoleDao.queryPageCount(sysRoleDTO).intValue());
+        pageResult.setDataList(sysRoleDao.queryPage(roleRequestVO,new Page(roleRequestVO.getPageNumber(),roleRequestVO.getPageSize())));
+        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequestVO).intValue());
         return pageResult;
     }
 }

@@ -3,7 +3,7 @@ package com.zac.flycloud.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.db.Page;
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.base.SysBaseServiceImpl;
 import com.zac.flycloud.constant.CacheConstant;
@@ -19,6 +19,7 @@ import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.sysutils.FindsDeptsChildrenUtil;
 import com.zac.flycloud.tablemodel.SysDept;
 import com.zac.flycloud.tablemodel.SysUserDept;
+import com.zac.flycloud.vos.DeptRequestVO;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
@@ -66,10 +67,10 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         return sysDeptDao.update(sysDeptDTO);
     }
 
-    public PageResult<SysDeptDTO> queryPage(SysDeptDTO sysDeptDTO) {
+    public PageResult<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO) {
         PageResult<SysDeptDTO> pageResult = new PageResult<>();
-        pageResult.addAll(sysDeptDao.queryPage(sysDeptDTO,new Page(sysDeptDTO.getPageNumber(),sysDeptDTO.getPageSize())));
-        pageResult.setTotal(sysDeptDao.queryPageCount(sysDeptDTO).intValue());
+        pageResult.setDataList(sysDeptDao.queryPage(deptRequestVO,new Page(deptRequestVO.getPageNumber(),deptRequestVO.getPageSize())));
+        pageResult.setTotal(sysDeptDao.queryPageCount(deptRequestVO).intValue());
         return pageResult;
     }
 

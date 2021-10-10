@@ -6,6 +6,8 @@ import com.zac.flycloud.dto.SysUserRoleDTO;
 import com.zac.flycloud.dto.example.SysUserRoleDTOExample;
 import com.zac.flycloud.mapper.SysUserRoleDTOMapper;
 import java.util.List;
+
+import com.zac.flycloud.vos.UserRoleRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
@@ -36,12 +38,12 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
         return sysUserRoleMapper.updateByExampleSelective(sysUserRoleDTO,sysUserRoleDTOExample);
     }
 
-    public List<SysUserRoleDTO> queryPage(SysUserRoleDTO sysUserRoleDTO, Page page) {
+    public List<SysUserRoleDTO> queryPage(UserRoleRequestVO userRoleRequestVO, Page page) {
         SysUserRoleDTOExample sysUserRoleDTOExample = new SysUserRoleDTOExample();
         return sysUserRoleMapper.selectByExampleWithRowbounds(sysUserRoleDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysUserRoleDTO sysUserRoleDTO) {
+    public Long queryPageCount(UserRoleRequestVO userRoleRequestVO) {
         SysUserRoleDTOExample sysUserRoleDTOExample = new SysUserRoleDTOExample();
         return sysUserRoleMapper.countByExample(sysUserRoleDTOExample);
     }

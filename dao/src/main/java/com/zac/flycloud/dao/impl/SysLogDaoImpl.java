@@ -5,6 +5,8 @@ import com.zac.flycloud.dto.SysLogDTO;
 import com.zac.flycloud.dto.example.SysLogDTOExample;
 import com.zac.flycloud.mapper.SysLogDTOMapper;
 import java.util.List;
+
+import com.zac.flycloud.vos.SysLogRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
@@ -35,12 +37,12 @@ public class SysLogDaoImpl implements SysLogDao {
         return sysLogMapper.updateByExampleSelective(sysLogDTO,sysLogDTOExample);
     }
 
-    public List<SysLogDTO> queryPage(SysLogDTO sysLogDTO, cn.hutool.db.Page page) {
+    public List<SysLogDTO> queryPage(SysLogRequestVO sysLogRequestVO, cn.hutool.db.Page page) {
         SysLogDTOExample sysLogDTOExample = new SysLogDTOExample();
         return sysLogMapper.selectByExampleWithRowbounds(sysLogDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysLogDTO sysLogDTO) {
+    public Long queryPageCount(SysLogRequestVO sysLogRequestVO) {
         SysLogDTOExample sysLogDTOExample = new SysLogDTOExample();
         return sysLogMapper.countByExample(sysLogDTOExample);
     }

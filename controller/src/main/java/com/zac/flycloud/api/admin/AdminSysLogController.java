@@ -1,6 +1,6 @@
 package com.zac.flycloud.api.admin;
 
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.BaseController;
 import com.zac.flycloud.basebean.Result;
@@ -8,6 +8,7 @@ import com.zac.flycloud.dto.SysLogDTO;
 import com.zac.flycloud.service.SysLogService;
 import com.zac.flycloud.utils.ConverUtil;
 import com.zac.flycloud.utils.DateUtils;
+import com.zac.flycloud.vos.SysLogRequestVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -65,8 +66,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/queryPage")
-    public Result<PageResult<SysLogDTO>> queryPage(@RequestBody SysLogDTO sysLogDTO) {
-        return Result.success(sysLogService.queryPage(sysLogDTO));
+    public Result<PageResult<SysLogDTO>> queryPage(@RequestBody SysLogRequestVO sysLogRequestVO) {
+        return Result.success(sysLogService.queryPage(sysLogRequestVO));
     }
 
     /**

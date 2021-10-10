@@ -1,12 +1,13 @@
 package com.zac.flycloud.service;
 
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.basebean.Result;
 import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.vos.RegisRequestVO;
+import com.zac.flycloud.vos.UserRequestVO;
 
 /**
  * AutoCreateFile
@@ -20,7 +21,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
 
     Integer update(SysUserDTO sysUserDTO);
 
-    PageResult<SysUserDTO> queryPage(SysUserDTO sysUserDTO);
+    PageResult<SysUserDTO> queryPage(UserRequestVO userRequestVO);
 
     /**
      * 根据用户账号查询用户信息

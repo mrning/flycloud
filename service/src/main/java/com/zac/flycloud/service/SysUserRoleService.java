@@ -1,9 +1,10 @@
 package com.zac.flycloud.service;
 
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.dto.SysUserRoleDTO;
 import com.zac.flycloud.tablemodel.SysUserRole;
+import com.zac.flycloud.vos.UserRoleRequestVO;
 
 /**
  * AutoCreateFile
@@ -17,5 +18,5 @@ public interface SysUserRoleService extends SysBaseService<SysUserRole> {
 
     Integer update(SysUserRoleDTO sysUserRoleDTO);
 
-    PageResult<SysUserRoleDTO> queryPage(SysUserRoleDTO sysUserRoleDTO);
+    PageResult<SysUserRoleDTO> queryPage(UserRoleRequestVO userRoleRequestVO);
 }

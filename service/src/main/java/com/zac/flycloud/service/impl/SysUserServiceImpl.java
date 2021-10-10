@@ -2,7 +2,7 @@ package com.zac.flycloud.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.base.SysBaseServiceImpl;
@@ -20,6 +20,7 @@ import com.zac.flycloud.tablemodel.SysRole;
 import com.zac.flycloud.tablemodel.SysUser;
 import com.zac.flycloud.utils.PasswordUtil;
 import com.zac.flycloud.vos.RegisRequestVO;
+import com.zac.flycloud.vos.UserRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +78,10 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.update(sysUserDTO);
     }
 
-    public PageResult<SysUserDTO> queryPage(SysUserDTO sysUserDTO) {
+    public PageResult<SysUserDTO> queryPage(UserRequestVO userRequestVO) {
         PageResult<SysUserDTO> pageResult = new PageResult<>();
-        pageResult.addAll(sysUserDao.queryPage(sysUserDTO,new Page(sysUserDTO.getPageNumber(),sysUserDTO.getPageSize())));
-        pageResult.setTotal(sysUserDao.queryPageCount(sysUserDTO).intValue());
+        pageResult.setDataList(sysUserDao.queryPage(userRequestVO,new Page(userRequestVO.getPageNumber(),userRequestVO.getPageSize())));
+        pageResult.setTotal(sysUserDao.queryPageCount(userRequestVO).intValue());
         return pageResult;
     }
 

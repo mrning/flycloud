@@ -149,7 +149,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         if(methodName.contains("queryPage")){
             method.setReturnType(new FullyQualifiedJavaType("PageResult<"+dtoName+">"));
             method.addBodyLine("PageResult<"+dtoName+"> pageResult = new PageResult<>();");
-            method.addBodyLine("pageResult.addAll("+firstLowerDaoName+"."+methodName+"("+
+            method.addBodyLine("pageResult.setDataList("+firstLowerDaoName+"."+methodName+"("+
                     firstLowerDtoName+",new Page("+firstLowerDtoName+".getPageNumber(),"+firstLowerDtoName+".getPageSize())));");
             method.addBodyLine("pageResult.setTotal("+firstLowerDaoName+"."+methodName+"Count("+firstLowerDtoName+").intValue());");
             method.addBodyLine("return pageResult;");

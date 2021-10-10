@@ -6,6 +6,8 @@ import com.zac.flycloud.dto.SysUserDeptDTO;
 import com.zac.flycloud.dto.example.SysUserDeptDTOExample;
 import com.zac.flycloud.mapper.SysUserDeptDTOMapper;
 import java.util.List;
+
+import com.zac.flycloud.vos.UserDeptRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
@@ -36,12 +38,12 @@ public class SysUserDeptDaoImpl implements SysUserDeptDao {
         return sysUserDeptMapper.updateByExampleSelective(sysUserDeptDTO,sysUserDeptDTOExample);
     }
 
-    public List<SysUserDeptDTO> queryPage(SysUserDeptDTO sysUserDeptDTO, Page page) {
+    public List<SysUserDeptDTO> queryPage(UserDeptRequestVO userDeptRequestVO, Page page) {
         SysUserDeptDTOExample sysUserDeptDTOExample = new SysUserDeptDTOExample();
         return sysUserDeptMapper.selectByExampleWithRowbounds(sysUserDeptDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysUserDeptDTO sysUserDeptDTO) {
+    public Long queryPageCount(UserDeptRequestVO userDeptRequestVO) {
         SysUserDeptDTOExample sysUserDeptDTOExample = new SysUserDeptDTOExample();
         return sysUserDeptMapper.countByExample(sysUserDeptDTOExample);
     }

@@ -7,12 +7,16 @@ import com.zac.flycloud.dto.SysUserDTO;
 import com.zac.flycloud.dto.example.SysUserDTOExample;
 import com.zac.flycloud.mapper.SysUserDTOMapper;
 import java.util.List;
+
+import com.zac.flycloud.vos.UserRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 
 /**
  * AutoCreateFile
@@ -46,12 +50,16 @@ public class SysUserDaoImpl implements SysUserDao {
         return sysUserMapper.updateByExampleSelective(sysUserDTO,sysUserDTOExample);
     }
 
-    public List<SysUserDTO> queryPage(SysUserDTO sysUserDTO, Page page) {
+    public List<SysUserDTO> queryPage(UserRequestVO userRequestVO, Page page) {
+        SysUserDTO sysUserDTO = new SysUserDTO();
+        sysUserDTO.setUuid(userRequestVO.getUserUuid());
         SysUserDTOExample sysUserDTOExample = buildWhereParam(sysUserDTO);
         return sysUserMapper.selectByExampleWithRowbounds(sysUserDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysUserDTO sysUserDTO) {
+    public Long queryPageCount(UserRequestVO userRequestVO) {
+        SysUserDTO sysUserDTO = new SysUserDTO();
+        sysUserDTO.setUuid(userRequestVO.getUserUuid());
         SysUserDTOExample sysUserDTOExample = buildWhereParam(sysUserDTO);
         return sysUserMapper.countByExample(sysUserDTOExample);
     }

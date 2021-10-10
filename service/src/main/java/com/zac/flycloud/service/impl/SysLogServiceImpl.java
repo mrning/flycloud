@@ -2,11 +2,12 @@ package com.zac.flycloud.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.dao.SysLogDao;
 import com.zac.flycloud.dto.SysLogDTO;
 import com.zac.flycloud.mapper.SysLogDTOMapper;
 import com.zac.flycloud.service.SysLogService;
+import com.zac.flycloud.vos.SysLogRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
@@ -45,10 +46,10 @@ public class SysLogServiceImpl implements SysLogService {
         return sysLogDao.update(sysLogDTO);
     }
 
-    public PageResult<SysLogDTO> queryPage(SysLogDTO sysLogDTO) {
+    public PageResult<SysLogDTO> queryPage(SysLogRequestVO sysLogRequestVO) {
         PageResult<SysLogDTO> pageResult = new PageResult<>();
-        pageResult.addAll(sysLogDao.queryPage(sysLogDTO, new Page(sysLogDTO.getPageNumber(), sysLogDTO.getPageSize())));
-        pageResult.setTotal(sysLogDao.queryPageCount(sysLogDTO).intValue());
+        pageResult.setDataList(sysLogDao.queryPage(sysLogRequestVO, new Page(sysLogRequestVO.getPageNumber(), sysLogRequestVO.getPageSize())));
+        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequestVO).intValue());
         return pageResult;
     }
 

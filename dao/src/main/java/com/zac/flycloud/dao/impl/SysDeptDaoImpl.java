@@ -6,6 +6,8 @@ import com.zac.flycloud.dto.SysDeptDTO;
 import com.zac.flycloud.dto.example.SysDeptDTOExample;
 import com.zac.flycloud.mapper.SysDeptDTOMapper;
 import java.util.List;
+
+import com.zac.flycloud.vos.DeptRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
@@ -36,12 +38,12 @@ public class SysDeptDaoImpl implements SysDeptDao {
         return sysDeptMapper.updateByExampleSelective(sysDeptDTO,sysDeptDTOExample);
     }
 
-    public List<SysDeptDTO> queryPage(SysDeptDTO sysDeptDTO, Page page) {
+    public List<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO, Page page) {
         SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
         return sysDeptMapper.selectByExampleWithRowbounds(sysDeptDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysDeptDTO sysDeptDTO) {
+    public Long queryPageCount(DeptRequestVO deptRequestVO) {
         SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
         return sysDeptMapper.countByExample(sysDeptDTOExample);
     }

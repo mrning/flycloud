@@ -1,7 +1,8 @@
 package com.zac.flycloud.service;
 
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.dto.SysLogDTO;
+import com.zac.flycloud.vos.SysLogRequestVO;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface SysLogService {
 
     Integer update(SysLogDTO sysLogDTO);
 
-    PageResult<SysLogDTO> queryPage(SysLogDTO sysLogDTO);
+    PageResult<SysLogDTO> queryPage(SysLogRequestVO sysLogRequestVO);
 
     /**
      * @功能：清空所有日志记录

@@ -45,14 +45,4 @@ public class BaseDTO {
      * 是否删除，0未删除，1已删除
      */
     private Boolean deleted;
-
-    /**
-     * 当前页数，从0开始
-     */
-    private int pageNumber = 0;
-
-    /**
-     * 每页条数
-     */
-    private int pageSize = 10;
 }

@@ -1,10 +1,11 @@
 package com.zac.flycloud.service;
 
-import cn.hutool.db.PageResult;
+import com.zac.flycloud.basebean.PageResult;
 import com.zac.flycloud.base.SysBaseService;
 import com.zac.flycloud.dto.SysDeptDTO;
 import com.zac.flycloud.dto.TreeDto;
 import com.zac.flycloud.tablemodel.SysDept;
+import com.zac.flycloud.vos.DeptRequestVO;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface SysDeptService extends SysBaseService<SysDept> {
 
     Integer update(SysDeptDTO sysDeptDTO);
 
-    PageResult<SysDeptDTO> queryPage(SysDeptDTO sysDeptDTO);
+    PageResult<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO);
 
 
     /**

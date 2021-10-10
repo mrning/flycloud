@@ -2,6 +2,8 @@ package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
 import com.zac.flycloud.dto.SysLogDTO;
+import com.zac.flycloud.vos.SysLogRequestVO;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public interface SysLogDao {
 
     Integer update(SysLogDTO sysLogDTO);
 
-    List<SysLogDTO> queryPage(SysLogDTO sysLogDTO, Page page);
+    List<SysLogDTO> queryPage(SysLogRequestVO sysLogRequestVO, Page page);
 
-    Long queryPageCount(SysLogDTO sysLogDTO);
+    Long queryPageCount(SysLogRequestVO sysLogRequestVO);
 }
