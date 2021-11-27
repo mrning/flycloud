@@ -29,7 +29,7 @@ public class FlyCloudApplication {
         String port = env.getProperty("server.port");
         log.info("\n----------------------------------------------------------\n\t" +
                 "Application FlyCloud is running! Requests URLs:\n\t" +
-                "Swagger文档: \thttp://" + ip + ":" + port + "/swagger-ui/index.html\n" +
+                "Swagger文档: http://" + ip + ":" + port + "/swagger-ui/index.html\n" +
                 "----------------------------------------------------------");
     }
 
