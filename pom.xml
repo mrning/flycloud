@@ -14,6 +14,19 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>fly-cloud</name>
     <description>飞云平台</description>
+
+    <modules>
+        <module>config</module>
+        <module>bean</module>
+        <module>controller</module>
+        <module>dao</module>
+        <module>security</module>
+        <module>service</module>
+        <module>utils</module>
+        <module>makecode</module>
+        <module>task</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
