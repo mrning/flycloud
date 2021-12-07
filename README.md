@@ -4,8 +4,8 @@
 飞云平台
 
 #### 软件架构
-- Jdk14 [下载地址](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
-- SpringBoot 2.2.6
+- Jdk17 [下载地址](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
+- SpringBoot 2.6.0
 - Spring-security
 - Mybatis + Mybatis-plus
 - Mysql8
@@ -13,7 +13,7 @@
 - Redis
 
 #### 安装教程
-- 安装jdk14
+- 安装jdk17
 - 安装mysql8 并启动
 - 安装redis 并启动
 - 安装elasticsearch 并启动 [安装地址](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.1.msi)
@@ -36,8 +36,7 @@
     
 
 #### 相关技术文档
-
-- [Jdk14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
+- [Jdk17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 - [Springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 - [Springboot-security](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security)
 - [Mybatis-spring](http://mybatis.org/spring/zh/)

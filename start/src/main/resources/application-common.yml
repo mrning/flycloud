@@ -16,6 +16,8 @@ spring:
         enabled: true
         server-addr: localhost:8848
         namespace: fly-cloud-namespaces
+  main:
+    allow-circular-references: true
 # mybatis代码生成器相关配置
 mybatis:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
