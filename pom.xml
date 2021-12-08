@@ -25,6 +25,7 @@
         <module>utils</module>
         <module>makecode</module>
         <module>task</module>
+        <module>start</module>
     </modules>
 
     <properties>
