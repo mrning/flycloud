@@ -30,6 +30,12 @@ spring:
       name: admin
       password: 918f239c-3a5c-4d74-b0af-4600e5ae7ddc
       roles: admin
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: localhost:8848
+        namespace: fly-cloud-namespaces
   config:
     import: application-common.yml
 xxl:
