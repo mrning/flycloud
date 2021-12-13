@@ -3,6 +3,7 @@ package com.zac.flycloud.dao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zac.flycloud.bean.tablemodel.SysUser;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 用户mapper
@@ -15,6 +16,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param username
      * @return
      */
+    @Select("select * from sys_user where username = #{username} and deleted = 0")
     SysUser getUserByName(@Param("username") String username);
 
     /**
@@ -22,6 +24,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param phone
      * @return
      */
+    @Select("select * from sys_user where phone = #{phone} and deleted = 0")
     SysUser getUserByPhone(@Param("phone") String phone);
 
     /**
@@ -29,6 +32,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param email
      * @return
      */
+    @Select("select * from sys_user where email = #{email} and deleted = 0")
     SysUser getUserByEmail(@Param("email") String email);
 
 }

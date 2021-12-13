@@ -18,13 +18,8 @@ public class StartRunner implements CommandLineRunner {
     @Value("${server.port}")
     private Integer port;
 
-    @Autowired
-    private SysMysqlCreateTableService sysMysqlCreateTableService;
-
     @Override
     public void run(String... args) throws Exception {
         log.info("项目启动完成，swagger地址为：http://" + InetAddress.getLocalHost().getHostAddress() + ":" + port + "/swagger-ui/index.html");
-        log.info("开始自动检查是否需要创建表 || 更新表");
-        sysMysqlCreateTableService.createMysqlTable();
     }
 }
