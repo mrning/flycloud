@@ -1,7 +1,9 @@
 package com.zac.flycloud.bean.dto;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.zac.flycloud.bean.basebean.BaseDTO;
 
+@TableName("sys_log")
 public class SysLogDTO extends BaseDTO {
     /**
      *
