@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class PasswordUtil {
 
     private static final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    private static final AsymmetricCrypto algorithm = new AsymmetricCrypto(AsymmetricAlgorithm.RSA);
 
     /**
      * 根据密码明文获取加密后的密码
@@ -42,7 +41,7 @@ public class PasswordUtil {
      */
     public static String createToken(String username,String key) {
         // 公钥加密
-        byte[] encode = algorithm.encrypt(username+key, KeyType.PublicKey);
+        byte[] encode = SecureUtil.aes().encrypt(username+key);
         return HexUtil.encodeHexStr(encode);
     }
 
@@ -57,7 +56,7 @@ public class PasswordUtil {
         }
         String signData = SpringContextUtils.getBean(RedisUtil.class).get(token) + key;
         // 私钥解密
-        byte[] signByte = algorithm.decrypt(HexUtil.decodeHex(token), KeyType.PrivateKey);
+        byte[] signByte = SecureUtil.aes().decrypt(HexUtil.decodeHex(token));
         return StringUtils.toEncodedString(signByte, CharsetUtil.CHARSET_UTF_8).equals(signData);
     }
 
