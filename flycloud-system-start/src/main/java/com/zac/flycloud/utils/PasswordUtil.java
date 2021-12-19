@@ -1,12 +1,15 @@
 package com.zac.flycloud.utils;
 
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.HashUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.nio.charset.StandardCharsets;
 
 public class PasswordUtil {
 
@@ -41,7 +44,7 @@ public class PasswordUtil {
      */
     public static String createToken(String username,String key) {
         // 公钥加密
-        byte[] encode = SecureUtil.aes().encrypt(username+key);
+        byte[] encode = (username+key).getBytes(StandardCharsets.UTF_8);
         return HexUtil.encodeHexStr(encode);
     }
 
@@ -56,7 +59,7 @@ public class PasswordUtil {
         }
         String signData = SpringContextUtils.getBean(RedisUtil.class).get(token) + key;
         // 私钥解密
-        byte[] signByte = SecureUtil.aes().decrypt(HexUtil.decodeHex(token));
+        byte[] signByte = HexUtil.decodeHex(token);
         return StringUtils.toEncodedString(signByte, CharsetUtil.CHARSET_UTF_8).equals(signData);
     }
 
