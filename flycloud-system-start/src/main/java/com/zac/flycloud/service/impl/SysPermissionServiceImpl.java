@@ -16,11 +16,53 @@ import java.util.List;
 @Service
 public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 
+    /**
+     * 获取权限JSON数组
+     *
+     * @param allList
+     */
+    @Override
+    public JSONArray getAllAuthJsonArray(List<SysPermission> allList) {
+        JSONArray jsonArray = new JSONArray();
+        JSONObject json = null;
+        for (SysPermission permission : allList) {
+            json = new JSONObject();
+            json.put("action", permission.getPerms());
+            json.put("status", permission.getStatus());
+            json.put("type", permission.getPermsType());
+            json.put("describe", permission.getName());
+            jsonArray.add(json);
+        }
+        return jsonArray;
+    }
+
+    /**
+     * 获取权限JSON数组
+     *
+     * @param metaList
+     */
+    @Override
+    public JSONArray getAuthJsonArray(List<SysPermission> metaList) {
+        JSONArray jsonArray = new JSONArray();
+        for (SysPermission permission : metaList) {
+            if (permission.getMenuType() == null) {
+                continue;
+            }
+            JSONObject json = null;
+            if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_2) && CommonConstant.STATUS_1.equals(permission.getStatus())) {
+                json = new JSONObject();
+                json.put("action", permission.getPerms());
+                json.put("type", permission.getPermsType());
+                json.put("describe", permission.getName());
+                jsonArray.add(json);
+            }
+        }
+        return jsonArray;
+    }
 
     /**
      * 获取菜单JSON数组
      *
-     * @param jsonArray
      * @param sysPermissions
      * @param parentJson
      */

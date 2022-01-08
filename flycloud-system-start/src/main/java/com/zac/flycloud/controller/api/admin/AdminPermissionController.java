@@ -43,11 +43,13 @@ public class AdminPermissionController {
                 sysPermissions.add(0, indexMenu);
             }
             JSONObject json = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
+            JSONArray menuArray = new JSONArray();
             sysPermissions.sort(Comparator.comparingInt(SysPermission::getSortNo));
-            sysPermissionService.getPermissionJsonArray(jsonArray, sysPermissions, null);
+            sysPermissionService.getPermissionJsonArray(menuArray, sysPermissions, null);
             //路由菜单
-            json.put("menu", jsonArray);
+            json.put("menu", menuArray);
+            json.put("auth", sysPermissionService.getAuthJsonArray(sysPermissions));
+            json.put("allAuth", sysPermissionService.getAllAuthJsonArray(sysPermissions));
             result.setResult(json);
             result.setMessage("查询成功");
         } catch (Exception e) {
