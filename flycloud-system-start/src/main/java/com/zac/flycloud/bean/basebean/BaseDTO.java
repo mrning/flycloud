@@ -1,7 +1,7 @@
 package com.zac.flycloud.bean.basebean;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,5 +44,6 @@ public class BaseDTO {
     /**
      * 是否删除，0未删除，1已删除
      */
+    @TableLogic
     private Boolean deleted;
 }

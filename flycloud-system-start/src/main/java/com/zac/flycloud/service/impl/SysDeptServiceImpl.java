@@ -8,6 +8,7 @@ import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.constant.CacheConstant;
 import com.zac.flycloud.bean.constant.CommonConstant;
 import com.zac.flycloud.bean.dto.SysDeptDTO;
+import com.zac.flycloud.bean.dto.SysRoleDTO;
 import com.zac.flycloud.bean.dto.TreeDto;
 import com.zac.flycloud.bean.tablemodel.SysDept;
 import com.zac.flycloud.bean.tablemodel.SysUserDept;
@@ -71,6 +72,11 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         pageResult.setDataList(sysDeptDao.queryPage(deptRequestVO,new Page(deptRequestVO.getPageNumber(),deptRequestVO.getPageSize())));
         pageResult.setTotal(sysDeptDao.queryPageCount(deptRequestVO).intValue());
         return pageResult;
+    }
+
+    @Override
+    public List<SysDeptDTO> queryAll() {
+        return sysDeptDao.queryAll();
     }
 
     /**

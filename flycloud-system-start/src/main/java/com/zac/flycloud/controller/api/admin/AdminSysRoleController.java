@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * AutoCreateFile 角色管理 
  * @date 2021年4月30日星期五
@@ -67,5 +69,16 @@ public class AdminSysRoleController extends BaseController {
     @ApiOperation("分页查询")
     public Result<PageResult<SysRoleDTO>> queryPage(@RequestBody RoleRequestVO roleRequestVO) {
         return Result.success(sysRoleService.queryPage(roleRequestVO));
+    }
+
+    /**
+     * 查询全部角色
+     * @date 2021年4月30日星期五
+     * @author zac
+     */
+    @PostMapping("/queryAll")
+    @ApiOperation("查询全部")
+    public Result<List<SysRoleDTO>> queryAll() {
+        return Result.success(sysRoleService.queryAll());
     }
 }

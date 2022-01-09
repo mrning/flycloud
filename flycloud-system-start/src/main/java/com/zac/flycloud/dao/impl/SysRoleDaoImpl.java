@@ -1,6 +1,7 @@
 package com.zac.flycloud.dao.impl;
 
 import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zac.flycloud.bean.dto.SysRoleDTO;
 import com.zac.flycloud.bean.dto.example.SysRoleDTOExample;
 import com.zac.flycloud.bean.vos.RoleRequestVO;
@@ -46,5 +47,10 @@ public class SysRoleDaoImpl implements SysRoleDao {
     public Long queryPageCount(RoleRequestVO roleRequestVO) {
         SysRoleDTOExample sysRoleDTOExample = new SysRoleDTOExample();
         return sysRoleMapper.countByExample(sysRoleDTOExample);
+    }
+
+    @Override
+    public List<SysRoleDTO> queryAll() {
+        return sysRoleMapper.selectList(Wrappers.emptyWrapper());
     }
 }

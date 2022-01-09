@@ -2,6 +2,7 @@ package com.zac.flycloud.controller.api.admin;
 
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysDeptDTO;
+import com.zac.flycloud.bean.dto.SysRoleDTO;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysDeptService;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * AutoCreateFile 部门管理 
@@ -67,5 +70,16 @@ public class AdminSysDeptController extends BaseController {
     @ApiOperation("分页查询")
     public Result<PageResult<SysDeptDTO>> queryPage(@RequestBody DeptRequestVO deptRequestVO) {
         return Result.success(sysDeptService.queryPage(deptRequestVO));
+    }
+
+    /**
+     * 查询全部部门
+     * @date 2021年4月30日星期五
+     * @author zac
+     */
+    @PostMapping("/queryAll")
+    @ApiOperation("查询全部")
+    public Result<List<SysDeptDTO>> queryAll() {
+        return Result.success(sysDeptService.queryAll());
     }
 }

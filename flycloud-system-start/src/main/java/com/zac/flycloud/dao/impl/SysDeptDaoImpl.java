@@ -1,6 +1,8 @@
 package com.zac.flycloud.dao.impl;
 
 import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zac.flycloud.bean.dto.SysRoleDTO;
 import com.zac.flycloud.dao.SysDeptDao;
 import com.zac.flycloud.bean.dto.SysDeptDTO;
 import com.zac.flycloud.bean.dto.example.SysDeptDTOExample;
@@ -46,5 +48,10 @@ public class SysDeptDaoImpl implements SysDeptDao {
     public Long queryPageCount(DeptRequestVO deptRequestVO) {
         SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
         return sysDeptMapper.countByExample(sysDeptDTOExample);
+    }
+
+    @Override
+    public List<SysDeptDTO> queryAll() {
+        return sysDeptMapper.selectList(Wrappers.emptyWrapper());
     }
 }

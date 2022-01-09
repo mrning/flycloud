@@ -20,5 +20,7 @@ public interface SysRoleDao {
 
     List<SysRoleDTO> queryPage(RoleRequestVO roleRequestVO, Page page);
 
+    List<SysRoleDTO> queryAll();
+
     Long queryPageCount(RoleRequestVO roleRequestVO);
 }

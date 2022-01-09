@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 /**
  * AutoCreateFile
  * @date 2021年4月30日星期五
@@ -43,5 +45,10 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
         pageResult.setDataList(sysRoleDao.queryPage(roleRequestVO,new Page(roleRequestVO.getPageNumber(),roleRequestVO.getPageSize())));
         pageResult.setTotal(sysRoleDao.queryPageCount(roleRequestVO).intValue());
         return pageResult;
+    }
+
+    @Override
+    public List<SysRoleDTO> queryAll() {
+        return sysRoleDao.queryAll();
     }
 }
