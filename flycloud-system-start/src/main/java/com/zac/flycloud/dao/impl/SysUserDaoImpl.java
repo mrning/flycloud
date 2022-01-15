@@ -38,7 +38,7 @@ public class SysUserDaoImpl implements SysUserDao {
         sysUserDTO.setDeleted(true);
         sysUserDTO.setUpdateTime(DateUtil.date());
         sysUserDTO.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        return sysUserMapper.deleteByExample(s);
+        return sysUserMapper.updateByExample(sysUserDTO,s);
     }
 
     public Integer update(SysUserDTO sysUserDTO) {
