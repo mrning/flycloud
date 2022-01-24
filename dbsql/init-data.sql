@@ -22,6 +22,20 @@ INSERT INTO `flycloud`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `descript
 VALUES ('5159cde220114246b045e574adceafe9', '4f1765520d6346f9bd9c79e2479e5b12', '研发部', NULL, NULL, NULL,
         NULL, NULL, '1', 0, 'flycloud', now(), 'flycloud', now());
 
+INSERT INTO `flycloud`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
+                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
+                                   `create_time`,
+                                   `update_user`, `update_time`)
+VALUES ('5159cde220114246b045e574adceafe8', '4f1765520d6346f9bd9c79e2479e5b12', '财务部', NULL, NULL, NULL,
+        NULL, NULL, '1', 0, 'flycloud', now(), 'flycloud', now());
+
+INSERT INTO `flycloud`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
+                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
+                                   `create_time`,
+                                   `update_user`, `update_time`)
+VALUES ('5159cde220114246b045e574adceafe7', '4f1765520d6346f9bd9c79e2479e5b12', '人事部', NULL, NULL, NULL,
+        NULL, NULL, '1', 0, 'flycloud', now(), 'flycloud', now());
+
 -- 初始化角色
 INSERT INTO `flycloud`.`sys_role` (`uuid`, `role_name`, `role_code`, `description`, `create_user`, `create_time`,
                                    `update_user`, `update_time`)
