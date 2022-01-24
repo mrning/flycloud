@@ -7,19 +7,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.constant.CacheConstant;
 import com.zac.flycloud.bean.constant.CommonConstant;
-import com.zac.flycloud.bean.dto.SysDeptDTO;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
+import com.zac.flycloud.bean.dto.SysDept;
+import com.zac.flycloud.bean.dto.SysUserDept;
 import com.zac.flycloud.bean.dto.TreeDto;
-import com.zac.flycloud.bean.tablemodel.SysDept;
-import com.zac.flycloud.bean.tablemodel.SysUserDept;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
 import com.zac.flycloud.dao.SysDeptDao;
-import com.zac.flycloud.dao.UserDeptDao;
+import com.zac.flycloud.dao.SysUserDeptDao;
 import com.zac.flycloud.dao.mapper.SysDeptMapper;
 import com.zac.flycloud.dao.mapper.SysUserDeptMapper;
-import com.zac.flycloud.utils.FindsDeptsChildrenUtil;
 import com.zac.flycloud.service.SysDeptService;
 import com.zac.flycloud.service.SysUserService;
+import com.zac.flycloud.utils.FindsDeptsChildrenUtil;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     private SysDeptDao sysDeptDao;
 
     @Autowired
-    private UserDeptDao userDeptDao;
+    private SysUserDeptDao sysUserDeptDao;
 
     @Autowired
     private SysUserDeptMapper sysUserDeptMapper;
@@ -54,28 +52,28 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     @Autowired
     private SysUserService sysUserService;
 
-    public Integer add(SysDeptDTO sysDeptDTO) {
-        return sysDeptDao.add(sysDeptDTO);
+    public Integer add(SysDept sysDept) {
+        return sysDeptDao.add(sysDept);
     }
 
-    public Integer del(SysDeptDTO sysDeptDTO) {
-        Assert.isTrue(BeanUtil.isEmpty(sysDeptDTO),"不能全部属性为空，会删除全表数据");
-        return sysDeptDao.del(sysDeptDTO);
+    public Integer del(SysDept sysDept) {
+        Assert.isTrue(BeanUtil.isEmpty(sysDept),"不能全部属性为空，会删除全表数据");
+        return sysDeptDao.del(sysDept);
     }
 
-    public Integer update(SysDeptDTO sysDeptDTO) {
-        return sysDeptDao.update(sysDeptDTO);
+    public Integer update(SysDept sysDept) {
+        return sysDeptDao.update(sysDept);
     }
 
-    public PageResult<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO) {
-        PageResult<SysDeptDTO> pageResult = new PageResult<>();
+    public PageResult<SysDept> queryPage(DeptRequestVO deptRequestVO) {
+        PageResult<SysDept> pageResult = new PageResult<>();
         pageResult.setDataList(sysDeptDao.queryPage(deptRequestVO,new Page(deptRequestVO.getPageNumber(),deptRequestVO.getPageSize())));
         pageResult.setTotal(sysDeptDao.queryPageCount(deptRequestVO).intValue());
         return pageResult;
     }
 
     @Override
-    public List<SysDeptDTO> queryAll() {
+    public List<SysDept> queryAll() {
         return sysDeptDao.queryAll();
     }
 
@@ -186,7 +184,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
 
     @Override
     public List<SysDept> queryUserDeparts(String userUuid) {
-        return userDeptDao.getDeptsByUserUuid(userUuid);
+        return sysUserDeptDao.getDeptsByUserUuid(userUuid);
     }
 
     @Override

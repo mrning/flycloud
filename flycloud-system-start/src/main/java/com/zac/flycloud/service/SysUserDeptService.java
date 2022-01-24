@@ -1,9 +1,7 @@
 package com.zac.flycloud.service;
 
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.service.SysBaseService;
-import com.zac.flycloud.bean.dto.SysUserDeptDTO;
-import com.zac.flycloud.bean.tablemodel.SysUserDept;
+import com.zac.flycloud.bean.dto.SysUserDept;
 import com.zac.flycloud.bean.vos.UserDeptRequestVO;
 
 /**
@@ -12,11 +10,11 @@ import com.zac.flycloud.bean.vos.UserDeptRequestVO;
  * @author zac
  */
 public interface SysUserDeptService extends SysBaseService<SysUserDept> {
-    Integer add(SysUserDeptDTO sysUserDeptDTO);
+    Integer add(SysUserDept sysUserDept);
 
-    Integer del(SysUserDeptDTO sysUserDeptDTO);
+    Integer del(SysUserDept sysUserDept);
 
-    Integer update(SysUserDeptDTO sysUserDeptDTO);
+    Integer update(SysUserDept sysUserDept);
 
-    PageResult<SysUserDeptDTO> queryPage(UserDeptRequestVO userDeptRequestVO);
+    PageResult<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO);
 }

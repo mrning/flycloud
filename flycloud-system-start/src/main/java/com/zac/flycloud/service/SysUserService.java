@@ -1,11 +1,9 @@
 package com.zac.flycloud.service;
 
-import com.zac.flycloud.bean.basebean.PageResult;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.service.SysBaseService;
+import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
-import com.zac.flycloud.bean.dto.SysUserDTO;
-import com.zac.flycloud.bean.tablemodel.SysUser;
+import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.bean.vos.RegisRequestVO;
 import com.zac.flycloud.bean.vos.UserRequestVO;
 
@@ -15,13 +13,13 @@ import com.zac.flycloud.bean.vos.UserRequestVO;
  * @author zac
  */
 public interface SysUserService extends SysBaseService<SysUser> {
-    Integer add(SysUserDTO sysUserDTO);
+    Integer add(SysUser sysUser);
 
-    Integer del(SysUserDTO sysUserDTO);
+    Integer del(SysUser sysUser);
 
-    Integer update(SysUserDTO sysUserDTO);
+    Integer update(SysUser sysUser);
 
-    PageResult<SysUserDTO> queryPage(UserRequestVO userRequestVO);
+    PageResult<SysUser> queryPage(UserRequestVO userRequestVO);
 
     /**
      * 根据用户账号查询用户信息

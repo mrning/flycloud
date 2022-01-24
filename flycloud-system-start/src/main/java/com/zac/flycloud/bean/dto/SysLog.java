@@ -1,4 +1,4 @@
-package com.zac.flycloud.bean.tablemodel;
+package com.zac.flycloud.bean.dto;
 
 import com.zac.flycloud.bean.basebean.BaseEntity;
 import lombok.Data;

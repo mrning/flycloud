@@ -2,15 +2,18 @@ package com.zac.flycloud.controller.api.admin;
 
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
+import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.vos.RoleRequestVO;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -34,8 +37,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public Result<Integer> add(@RequestBody SysRoleDTO sysRoleDTO) {
-        return Result.success(sysRoleService.add(sysRoleDTO));
+    public Result<Integer> add(@RequestBody SysRole sysRole) {
+        return Result.success(sysRoleService.add(sysRole));
     }
 
     /**
@@ -45,8 +48,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/del")
     @ApiOperation("删除")
-    public Result<Integer> del(@RequestBody SysRoleDTO sysRoleDTO) {
-        return Result.success(sysRoleService.del(sysRoleDTO));
+    public Result<Integer> del(@RequestBody SysRole sysRole) {
+        return Result.success(sysRoleService.del(sysRole));
     }
 
     /**
@@ -56,8 +59,8 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public Result<Integer> update(@RequestBody SysRoleDTO sysRoleDTO) {
-        return Result.success(sysRoleService.update(sysRoleDTO));
+    public Result<Integer> update(@RequestBody SysRole sysRole) {
+        return Result.success(sysRoleService.update(sysRole));
     }
 
     /**
@@ -67,7 +70,7 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysRoleDTO>> queryPage(@RequestBody RoleRequestVO roleRequestVO) {
+    public Result<PageResult<SysRole>> queryPage(@RequestBody RoleRequestVO roleRequestVO) {
         return Result.success(sysRoleService.queryPage(roleRequestVO));
     }
 
@@ -78,7 +81,7 @@ public class AdminSysRoleController extends BaseController {
      */
     @PostMapping("/queryAll")
     @ApiOperation("查询全部")
-    public Result<List<SysRoleDTO>> queryAll() {
+    public Result<List<SysRole>> queryAll() {
         return Result.success(sysRoleService.queryAll());
     }
 }

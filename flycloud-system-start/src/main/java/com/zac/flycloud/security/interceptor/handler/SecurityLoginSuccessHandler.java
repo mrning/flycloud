@@ -2,7 +2,7 @@ package com.zac.flycloud.security.interceptor.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.bean.basebean.Result;
-import com.zac.flycloud.bean.tablemodel.SysUser;
+import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.utils.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

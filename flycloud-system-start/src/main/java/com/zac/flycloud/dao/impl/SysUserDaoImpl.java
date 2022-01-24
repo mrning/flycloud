@@ -2,19 +2,19 @@ package com.zac.flycloud.dao.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.db.Page;
-import com.zac.flycloud.dao.SysUserDao;
-import com.zac.flycloud.bean.dto.SysUserDTO;
-import com.zac.flycloud.bean.dto.example.SysUserDTOExample;
-import com.zac.flycloud.dao.mapper.SysUserDTOMapper;
-import java.util.List;
-
+import com.zac.flycloud.bean.dto.SysUser;
+import com.zac.flycloud.bean.dto.example.SysUserExample;
 import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.dao.SysUserDao;
+import com.zac.flycloud.dao.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * AutoCreateFile
@@ -24,50 +24,56 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 public class SysUserDaoImpl implements SysUserDao {
+    
     @Autowired
-    private SysUserDTOMapper sysUserMapper;
+    private SysUserMapper sysUserMapper;
 
-    public Integer add(SysUserDTO sysUserDTO) {
-        sysUserDTO.setCreateTime(DateUtil.date());
-        sysUserDTO.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        return sysUserMapper.insertSelective(sysUserDTO);
+    public Integer add(SysUser sysUser) {
+        sysUser.setCreateTime(DateUtil.date());
+        sysUser.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        return sysUserMapper.insertSelective(sysUser);
     }
 
-    public Integer del(SysUserDTO sysUserDTO) {
-        SysUserDTOExample s = buildWhereParam(sysUserDTO);
-        sysUserDTO.setDeleted(true);
-        sysUserDTO.setUpdateTime(DateUtil.date());
-        sysUserDTO.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        return sysUserMapper.updateByExample(sysUserDTO,s);
+    public Integer del(SysUser sysUser) {
+        SysUserExample s = buildWhereParam(sysUser);
+        sysUser.setDeleted(true);
+        sysUser.setUpdateTime(DateUtil.date());
+        sysUser.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        return sysUserMapper.updateByExample(sysUser,s);
     }
 
-    public Integer update(SysUserDTO sysUserDTO) {
-        SysUserDTOExample sysUserDTOExample = buildWhereParam(sysUserDTO);
-        sysUserDTO.setUpdateTime(DateUtil.date());
-        sysUserDTO.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        return sysUserMapper.updateByExampleSelective(sysUserDTO,sysUserDTOExample);
+    public Integer update(SysUser sysUser) {
+        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        sysUser.setUpdateTime(DateUtil.date());
+        sysUser.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        return sysUserMapper.updateByExampleSelective(sysUser, sysUserExample);
     }
 
-    public List<SysUserDTO> queryPage(UserRequestVO userRequestVO, Page page) {
-        SysUserDTO sysUserDTO = new SysUserDTO();
-        sysUserDTO.setUuid(userRequestVO.getUserUuid());
-        SysUserDTOExample sysUserDTOExample = buildWhereParam(sysUserDTO);
-        return sysUserMapper.selectByExampleWithRowbounds(sysUserDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+    public List<SysUser> queryPage(UserRequestVO userRequestVO, Page page) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUuid(userRequestVO.getUserUuid());
+        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        return sysUserMapper.selectByExampleWithRowbounds(sysUserExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
     public Long queryPageCount(UserRequestVO userRequestVO) {
-        SysUserDTO sysUserDTO = new SysUserDTO();
-        sysUserDTO.setUuid(userRequestVO.getUserUuid());
-        SysUserDTOExample sysUserDTOExample = buildWhereParam(sysUserDTO);
-        return sysUserMapper.countByExample(sysUserDTOExample);
+        SysUser sysUser = new SysUser();
+        sysUser.setUuid(userRequestVO.getUserUuid());
+        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        return sysUserMapper.countByExample(sysUserExample);
     }
 
-    private SysUserDTOExample buildWhereParam(SysUserDTO sysUserDTO) {
-        SysUserDTOExample sysUserDTOExample = new SysUserDTOExample();
-        SysUserDTOExample.Criteria criteria = sysUserDTOExample.createCriteria();
-        if(StringUtils.isNotBlank(sysUserDTO.getUuid())){
-            criteria.andUuidEqualTo(sysUserDTO.getUuid());
+    private SysUserExample buildWhereParam(SysUser sysUser) {
+        SysUserExample sysUserExample = new SysUserExample();
+        SysUserExample.Criteria criteria = sysUserExample.createCriteria();
+        if(StringUtils.isNotBlank(sysUser.getUuid())){
+            criteria.andUuidEqualTo(sysUser.getUuid());
         }
-        return sysUserDTOExample;
+        return sysUserExample;
+    }
+
+    @Override
+    public SysUser getUserByName(String username) {
+        return sysUserMapper.getUserByName(username);
     }
 }

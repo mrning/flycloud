@@ -1,9 +1,9 @@
 package com.zac.flycloud.dao.mapper.provider;
 
-import com.zac.flycloud.bean.dto.SysUserRoleDTO;
-import com.zac.flycloud.bean.dto.example.SysUserRoleDTOExample.Criteria;
-import com.zac.flycloud.bean.dto.example.SysUserRoleDTOExample.Criterion;
-import com.zac.flycloud.bean.dto.example.SysUserRoleDTOExample;
+import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
+import com.zac.flycloud.bean.dto.example.SysUserRoleExample.Criteria;
+import com.zac.flycloud.bean.dto.example.SysUserRoleExample.Criterion;
+import com.zac.flycloud.bean.dto.example.SysUserRoleExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
@@ -15,7 +15,7 @@ public class SysUserRoleDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:30:35 CST 2021
      */
-    public String countByExample(SysUserRoleDTOExample example) {
+    public String countByExample(SysUserRoleExample example) {
         SQL sql = new SQL();
         sql.SELECT("count(*)").FROM("sys_user_role");
         applyWhere(sql, example, false);
@@ -28,7 +28,7 @@ public class SysUserRoleDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:30:35 CST 2021
      */
-    public String deleteByExample(SysUserRoleDTOExample example) {
+    public String deleteByExample(SysUserRoleExample example) {
         SQL sql = new SQL();
         sql.DELETE_FROM("sys_user_role");
         applyWhere(sql, example, false);
@@ -86,7 +86,7 @@ public class SysUserRoleDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:30:35 CST 2021
      */
-    public String selectByExample(SysUserRoleDTOExample example) {
+    public String selectByExample(SysUserRoleExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("uuid");
@@ -118,7 +118,7 @@ public class SysUserRoleDTOSqlProvider {
      */
     public String updateByExampleSelective(Map<String, Object> parameter) {
         SysUserRoleDTO record = (SysUserRoleDTO) parameter.get("record");
-        SysUserRoleDTOExample example = (SysUserRoleDTOExample) parameter.get("example");
+        SysUserRoleExample example = (SysUserRoleExample) parameter.get("example");
         
         SQL sql = new SQL();
         sql.UPDATE("sys_user_role");
@@ -178,7 +178,7 @@ public class SysUserRoleDTOSqlProvider {
         sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         sql.SET("deleted = #{record.deleted,jdbcType=BIT}");
         
-        SysUserRoleDTOExample example = (SysUserRoleDTOExample) parameter.get("example");
+        SysUserRoleExample example = (SysUserRoleExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -189,7 +189,7 @@ public class SysUserRoleDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:30:35 CST 2021
      */
-    protected void applyWhere(SQL sql, SysUserRoleDTOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, SysUserRoleExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

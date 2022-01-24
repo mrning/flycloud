@@ -11,7 +11,7 @@ import com.zac.flycloud.bean.constant.CacheConstant;
 import com.zac.flycloud.bean.constant.CommonConstant;
 import com.zac.flycloud.bean.enums.UploadClientEnum;
 import com.zac.flycloud.service.SysUserService;
-import com.zac.flycloud.bean.tablemodel.SysUser;
+import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.utils.*;
 import com.zac.flycloud.bean.vos.RegisRequestVO;
 import com.zac.flycloud.bean.vos.SysUserLoginVO;

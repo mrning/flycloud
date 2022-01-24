@@ -1,7 +1,7 @@
 package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
-import com.zac.flycloud.bean.dto.SysUserRoleDTO;
+import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
 import com.zac.flycloud.bean.vos.UserRoleRequestVO;
 
 import java.util.List;

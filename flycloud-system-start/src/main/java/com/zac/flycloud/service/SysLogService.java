@@ -2,7 +2,7 @@ package com.zac.flycloud.service;
 
 
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.bean.dto.SysLogDTO;
+import com.zac.flycloud.bean.dto.SysLog;
 import com.zac.flycloud.bean.vos.SysLogRequestVO;
 
 import java.util.Date;
@@ -16,13 +16,13 @@ import java.util.Map;
  * @date 2021年4月24日星期六
  */
 public interface SysLogService {
-    Integer add(SysLogDTO sysLogDTO);
+    Integer add(SysLog sysLog);
 
-    Integer del(SysLogDTO sysLogDTO);
+    Integer del(SysLog sysLog);
 
-    Integer update(SysLogDTO sysLogDTO);
+    Integer update(SysLog sysLog);
 
-    PageResult<SysLogDTO> queryPage(SysLogRequestVO sysLogRequestVO);
+    PageResult<SysLog> queryPage(SysLogRequestVO sysLogRequestVO);
 
     /**
      * @功能：清空所有日志记录

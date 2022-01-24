@@ -8,10 +8,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zac.flycloud.bean.basebean.BaseEntity;
-import com.zac.flycloud.bean.dto.SysLogDTO;
-import com.zac.flycloud.bean.tablemodel.SysDept;
-import com.zac.flycloud.bean.tablemodel.SysRole;
-import com.zac.flycloud.bean.tablemodel.SysUser;
+import com.zac.flycloud.bean.dto.SysDept;
+import com.zac.flycloud.bean.dto.SysLog;
+import com.zac.flycloud.bean.dto.SysRole;
+import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.dao.mapper.*;
 import com.zac.flycloud.service.SysBaseService;
 import com.zac.flycloud.utils.RedisUtil;
@@ -45,7 +45,7 @@ import java.util.List;
 public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements SysBaseService<T> {
 
     @Resource
-    protected SysLogDTOMapper sysLogDTOMapper;
+    protected SysLogMapper sysLogMapper;
 
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
@@ -71,11 +71,11 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
      */
     @Override
     public void addLog(String LogContent, Integer logType, Integer operatetype) {
-        SysLogDTO sysLogDTO = new SysLogDTO();
+        SysLog sysLog = new SysLog();
         //注解上的描述,操作日志内容
-        sysLogDTO.setLogContent(LogContent);
-        sysLogDTO.setLogType(logType);
-        sysLogDTO.setOperateType(operatetype);
+        sysLog.setLogContent(LogContent);
+        sysLog.setLogType(logType);
+        sysLog.setOperateType(operatetype);
 
         //请求的方法名
         //请求的参数
@@ -84,27 +84,27 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
             //获取request
             HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
             //设置IP地址
-            sysLogDTO.setIp(UrlIPUtils.getIpAddr(request));
+            sysLog.setIp(UrlIPUtils.getIpAddr(request));
         } catch (Exception e) {
-            sysLogDTO.setIp("127.0.0.1");
+            sysLog.setIp("127.0.0.1");
         }
 
         //获取登录用户信息
         if(null == SecurityContextHolder.getContext().getAuthentication() || SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
-            sysLogDTO.setUserid(null);
-            sysLogDTO.setUsername(null);
+            sysLog.setUserid(null);
+            sysLog.setUsername(null);
         }else{
             User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             SysUser sysUser = sysUserMapper.getUserByName(securityUser.getUsername());
             if (securityUser != null) {
-                sysLogDTO.setUserid(String.valueOf(sysUser.getId()));
-                sysLogDTO.setUsername(sysUser.getRealname());
+                sysLog.setUserid(String.valueOf(sysUser.getId()));
+                sysLog.setUsername(sysUser.getRealname());
             }
         }
-        sysLogDTO.setCreateTime(new Date());
-        sysLogDTO.setUuid(UUID.randomUUID().toString());
+        sysLog.setCreateTime(new Date());
+        sysLog.setUuid(UUID.randomUUID().toString());
         //保存系统日志
-        sysLogDTOMapper.insert(sysLogDTO);
+        sysLogMapper.insert(sysLog);
     }
 
 

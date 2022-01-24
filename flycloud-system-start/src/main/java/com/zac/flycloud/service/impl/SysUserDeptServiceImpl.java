@@ -3,15 +3,13 @@ package com.zac.flycloud.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.service.impl.SysBaseServiceImpl;
+import com.zac.flycloud.bean.dto.SysUserDept;
+import com.zac.flycloud.bean.vos.UserDeptRequestVO;
 import com.zac.flycloud.dao.SysUserDeptDao;
-import com.zac.flycloud.bean.dto.SysUserDeptDTO;
 import com.zac.flycloud.dao.mapper.SysUserDeptMapper;
 import com.zac.flycloud.service.SysUserDeptService;
-import com.zac.flycloud.bean.tablemodel.SysUserDept;
-import com.zac.flycloud.bean.vos.UserDeptRequestVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -26,21 +24,21 @@ public class SysUserDeptServiceImpl extends SysBaseServiceImpl<SysUserDeptMapper
     @Autowired
     private SysUserDeptDao sysUserDeptDao;
 
-    public Integer add(SysUserDeptDTO sysUserDeptDTO) {
-        return sysUserDeptDao.add(sysUserDeptDTO);
+    public Integer add(SysUserDept sysUserDept) {
+        return sysUserDeptDao.add(sysUserDept);
     }
 
-    public Integer del(SysUserDeptDTO sysUserDeptDTO) {
-        Assert.isTrue(BeanUtil.isEmpty(sysUserDeptDTO),"不能全部属性为空，会删除全表数据");
-        return sysUserDeptDao.del(sysUserDeptDTO);
+    public Integer del(SysUserDept sysUserDept) {
+        Assert.isTrue(BeanUtil.isEmpty(sysUserDept),"不能全部属性为空，会删除全表数据");
+        return sysUserDeptDao.del(sysUserDept);
     }
 
-    public Integer update(SysUserDeptDTO sysUserDeptDTO) {
-        return sysUserDeptDao.update(sysUserDeptDTO);
+    public Integer update(SysUserDept sysUserDept) {
+        return sysUserDeptDao.update(sysUserDept);
     }
 
-    public PageResult<SysUserDeptDTO> queryPage(UserDeptRequestVO userDeptRequestVO) {
-        PageResult<SysUserDeptDTO> pageResult = new PageResult<>();
+    public PageResult<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO) {
+        PageResult<SysUserDept> pageResult = new PageResult<>();
         pageResult.setDataList(sysUserDeptDao.queryPage(userDeptRequestVO,new Page(userDeptRequestVO.getPageNumber(),userDeptRequestVO.getPageSize())));
         pageResult.setTotal(sysUserDeptDao.queryPageCount(userDeptRequestVO).intValue());
         return pageResult;

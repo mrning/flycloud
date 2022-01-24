@@ -2,14 +2,14 @@ package com.zac.flycloud.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
-import com.zac.flycloud.bean.dto.example.SysRoleDTOExample;
+import com.zac.flycloud.bean.dto.SysRole;
+import com.zac.flycloud.bean.dto.example.SysRoleExample;
 import com.zac.flycloud.bean.vos.RoleRequestVO;
 import com.zac.flycloud.dao.SysRoleDao;
-import com.zac.flycloud.dao.mapper.SysRoleDTOMapper;
+import com.zac.flycloud.dao.mapper.SysRoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,35 +22,36 @@ import java.util.List;
 @Repository
 @Slf4j
 public class SysRoleDaoImpl implements SysRoleDao {
+    
     @Autowired
-    private SysRoleDTOMapper sysRoleMapper;
+    private SysRoleMapper sysRoleMapper;
 
-    public Integer add(SysRoleDTO sysRoleDTO) {
-        return sysRoleMapper.insertSelective(sysRoleDTO);
+    public Integer add(SysRole sysRole) {
+        return sysRoleMapper.insertSelective(sysRole);
     }
 
-    public Integer del(SysRoleDTO sysRoleDTO) {
-        SysRoleDTOExample sysRoleDTOExample = new SysRoleDTOExample();
-        return sysRoleMapper.deleteByExample(sysRoleDTOExample);
+    public Integer del(SysRole sysRole) {
+        SysRoleExample sysRoleExample = new SysRoleExample();
+        return sysRoleMapper.deleteByExample(sysRoleExample);
     }
 
-    public Integer update(SysRoleDTO sysRoleDTO) {
-        SysRoleDTOExample sysRoleDTOExample = new SysRoleDTOExample();
-        return sysRoleMapper.updateByExampleSelective(sysRoleDTO,sysRoleDTOExample);
+    public Integer update(SysRole sysRole) {
+        SysRoleExample sysRoleExample = new SysRoleExample();
+        return sysRoleMapper.updateByExampleSelective(sysRole, sysRoleExample);
     }
 
-    public List<SysRoleDTO> queryPage(RoleRequestVO roleRequestVO, Page page) {
-        SysRoleDTOExample sysRoleDTOExample = new SysRoleDTOExample();
-        return sysRoleMapper.selectByExampleWithRowbounds(sysRoleDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+    public List<SysRole> queryPage(RoleRequestVO roleRequestVO, Page page) {
+        SysRoleExample sysRoleExample = new SysRoleExample();
+        return sysRoleMapper.selectByExampleWithRowbounds(sysRoleExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
     public Long queryPageCount(RoleRequestVO roleRequestVO) {
-        SysRoleDTOExample sysRoleDTOExample = new SysRoleDTOExample();
-        return sysRoleMapper.countByExample(sysRoleDTOExample);
+        SysRoleExample sysRoleExample = new SysRoleExample();
+        return sysRoleMapper.countByExample(sysRoleExample);
     }
 
     @Override
-    public List<SysRoleDTO> queryAll() {
+    public List<SysRole> queryAll() {
         return sysRoleMapper.selectList(Wrappers.emptyWrapper());
     }
 }

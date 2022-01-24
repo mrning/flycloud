@@ -1,7 +1,7 @@
 package com.zac.flycloud.dao;
 
 
-import com.zac.flycloud.bean.tablemodel.SysRole;
+import com.zac.flycloud.bean.dto.SysRole;
 
 import java.util.List;
 

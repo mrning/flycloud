@@ -1,9 +1,9 @@
 package com.zac.flycloud.dao.mapper.provider;
 
-import com.zac.flycloud.bean.dto.SysUserDeptDTO;
-import com.zac.flycloud.bean.dto.example.SysUserDeptDTOExample.Criteria;
-import com.zac.flycloud.bean.dto.example.SysUserDeptDTOExample.Criterion;
-import com.zac.flycloud.bean.dto.example.SysUserDeptDTOExample;
+import com.zac.flycloud.bean.tablemodel.SysUserDeptDTO;
+import com.zac.flycloud.bean.dto.example.SysUserDeptExample.Criteria;
+import com.zac.flycloud.bean.dto.example.SysUserDeptExample.Criterion;
+import com.zac.flycloud.bean.dto.example.SysUserDeptExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
@@ -15,7 +15,7 @@ public class SysUserDeptDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:29:25 CST 2021
      */
-    public String countByExample(SysUserDeptDTOExample example) {
+    public String countByExample(SysUserDeptExample example) {
         SQL sql = new SQL();
         sql.SELECT("count(*)").FROM("sys_user_dept");
         applyWhere(sql, example, false);
@@ -28,7 +28,7 @@ public class SysUserDeptDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:29:25 CST 2021
      */
-    public String deleteByExample(SysUserDeptDTOExample example) {
+    public String deleteByExample(SysUserDeptExample example) {
         SQL sql = new SQL();
         sql.DELETE_FROM("sys_user_dept");
         applyWhere(sql, example, false);
@@ -86,7 +86,7 @@ public class SysUserDeptDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:29:25 CST 2021
      */
-    public String selectByExample(SysUserDeptDTOExample example) {
+    public String selectByExample(SysUserDeptExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("uuid");
@@ -118,7 +118,7 @@ public class SysUserDeptDTOSqlProvider {
      */
     public String updateByExampleSelective(Map<String, Object> parameter) {
         SysUserDeptDTO record = (SysUserDeptDTO) parameter.get("record");
-        SysUserDeptDTOExample example = (SysUserDeptDTOExample) parameter.get("example");
+        SysUserDeptExample example = (SysUserDeptExample) parameter.get("example");
         
         SQL sql = new SQL();
         sql.UPDATE("sys_user_dept");
@@ -178,7 +178,7 @@ public class SysUserDeptDTOSqlProvider {
         sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         sql.SET("deleted = #{record.deleted,jdbcType=BIT}");
         
-        SysUserDeptDTOExample example = (SysUserDeptDTOExample) parameter.get("example");
+        SysUserDeptExample example = (SysUserDeptExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -189,7 +189,7 @@ public class SysUserDeptDTOSqlProvider {
      *
      * @mbg.generated Fri Apr 30 23:29:25 CST 2021
      */
-    protected void applyWhere(SQL sql, SysUserDeptDTOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, SysUserDeptExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

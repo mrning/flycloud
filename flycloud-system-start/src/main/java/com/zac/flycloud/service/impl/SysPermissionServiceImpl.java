@@ -3,7 +3,7 @@ package com.zac.flycloud.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.bean.constant.CommonConstant;
-import com.zac.flycloud.bean.tablemodel.SysPermission;
+import com.zac.flycloud.bean.dto.SysPermission;
 import com.zac.flycloud.dao.mapper.SysPermissionMapper;
 import com.zac.flycloud.service.SysPermissionService;
 import com.zac.flycloud.utils.MD5Util;

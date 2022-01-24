@@ -1,10 +1,8 @@
 package com.zac.flycloud.service;
 
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.bean.dto.SysDeptDTO;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
+import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.TreeDto;
-import com.zac.flycloud.bean.tablemodel.SysDept;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
 
 import java.util.List;
@@ -15,15 +13,15 @@ import java.util.List;
  * @author zac
  */
 public interface SysDeptService extends SysBaseService<SysDept> {
-    Integer add(SysDeptDTO sysDeptDTO);
+    Integer add(SysDept SysDept);
 
-    Integer del(SysDeptDTO sysDeptDTO);
+    Integer del(SysDept SysDept);
 
-    Integer update(SysDeptDTO sysDeptDTO);
+    Integer update(SysDept SysDept);
 
-    PageResult<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO);
+    PageResult<SysDept> queryPage(DeptRequestVO deptRequestVO);
 
-    List<SysDeptDTO> queryAll();
+    List<SysDept> queryAll();
 
     /**
      * 查询所有部门信息,并分节点进行显示

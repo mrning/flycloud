@@ -1,24 +1,24 @@
 package com.zac.flycloud.dao;
 
+
 import cn.hutool.db.Page;
-import com.zac.flycloud.bean.dto.SysUserDeptDTO;
+import com.zac.flycloud.bean.dto.SysDept;
+import com.zac.flycloud.bean.dto.SysUserDept;
 import com.zac.flycloud.bean.vos.UserDeptRequestVO;
 
 import java.util.List;
 
-/**
- * AutoCreateFile
- * @date 2021年4月30日星期五
- * @author zac
- */
 public interface SysUserDeptDao {
-    Integer add(SysUserDeptDTO sysUserDeptDTO);
 
-    Integer del(SysUserDeptDTO sysUserDeptDTO);
+    List<SysDept> getDeptsByUserUuid(String userUuid);
 
-    Integer update(SysUserDeptDTO sysUserDeptDTO);
+    Integer add(SysUserDept sysUserDept);
 
-    List<SysUserDeptDTO> queryPage(UserDeptRequestVO userDeptRequestVO, Page page);
+    Integer del(SysUserDept sysUserDept);
+
+    Integer update(SysUserDept sysUserDept);
+
+    List<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO, Page page);
 
     Long queryPageCount(UserDeptRequestVO userDeptRequestVO);
 }

@@ -3,7 +3,7 @@ package com.zac.flycloud.controller.api.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
-import com.zac.flycloud.bean.dto.SysLogDTO;
+import com.zac.flycloud.bean.dto.SysLog;
 import com.zac.flycloud.bean.vos.SysLogRequestVO;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysLogService;
@@ -12,7 +12,7 @@ import com.zac.flycloud.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -36,8 +36,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/add")
-    public Result<Integer> add(@RequestBody SysLogDTO sysLogDTO) {
-        return Result.success(sysLogService.add(sysLogDTO));
+    public Result<Integer> add(@RequestBody SysLog sysLog) {
+        return Result.success(sysLogService.add(sysLog));
     }
 
     /**
@@ -46,8 +46,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/del")
-    public Result<Integer> del(@RequestBody SysLogDTO sysLogDTO) {
-        return Result.success(sysLogService.del(sysLogDTO));
+    public Result<Integer> del(@RequestBody SysLog sysLog) {
+        return Result.success(sysLogService.del(sysLog));
     }
 
     /**
@@ -56,8 +56,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/update")
-    public Result<Integer> update(@RequestBody SysLogDTO sysLogDTO) {
-        return Result.success(sysLogService.update(sysLogDTO));
+    public Result<Integer> update(@RequestBody SysLog sysLog) {
+        return Result.success(sysLogService.update(sysLog));
     }
 
     /**
@@ -66,7 +66,7 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/queryPage")
-    public Result<PageResult<SysLogDTO>> queryPage(@RequestBody SysLogRequestVO sysLogRequestVO) {
+    public Result<PageResult<SysLog>> queryPage(@RequestBody SysLogRequestVO sysLogRequestVO) {
         return Result.success(sysLogService.queryPage(sysLogRequestVO));
     }
 

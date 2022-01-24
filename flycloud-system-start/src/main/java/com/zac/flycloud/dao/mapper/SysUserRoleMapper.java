@@ -1,8 +1,8 @@
 package com.zac.flycloud.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.flycloud.bean.tablemodel.SysRole;
-import com.zac.flycloud.bean.tablemodel.SysUserRole;
+import com.zac.flycloud.bean.dto.SysRole;
+import com.zac.flycloud.bean.dto.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,7 +1,7 @@
 package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
+import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.vos.RoleRequestVO;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
  * @author zac
  */
 public interface SysRoleDao {
-    Integer add(SysRoleDTO sysRoleDTO);
+    Integer add(SysRole sysRole);
 
-    Integer del(SysRoleDTO sysRoleDTO);
+    Integer del(SysRole sysRole);
 
-    Integer update(SysRoleDTO sysRoleDTO);
+    Integer update(SysRole sysRole);
 
-    List<SysRoleDTO> queryPage(RoleRequestVO roleRequestVO, Page page);
+    List<SysRole> queryPage(RoleRequestVO roleRequestVO, Page page);
 
-    List<SysRoleDTO> queryAll();
+    List<SysRole> queryAll();
 
     Long queryPageCount(RoleRequestVO roleRequestVO);
 }

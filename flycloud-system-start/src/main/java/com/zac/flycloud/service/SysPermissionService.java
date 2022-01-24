@@ -2,7 +2,7 @@ package com.zac.flycloud.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.bean.tablemodel.SysPermission;
+import com.zac.flycloud.bean.dto.SysPermission;
 
 import java.util.List;
 

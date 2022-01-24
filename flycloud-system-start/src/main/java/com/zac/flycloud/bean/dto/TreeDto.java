@@ -1,6 +1,6 @@
 package com.zac.flycloud.bean.dto;
 
-import com.zac.flycloud.bean.tablemodel.SysDept;
+import com.zac.flycloud.bean.tablemodel.SysDeptDTO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -45,15 +45,15 @@ public class TreeDto implements Serializable {
 
 	/**
 	 * 构建部门树
-	 * @param sysDeptDto
+	 * @param sysDept
 	 */
-	public TreeDto(SysDept sysDeptDto) {
-		this.key = sysDeptDto.getId();
-		this.parentId = sysDeptDto.getParentId();
-		this.title = sysDeptDto.getDepartName();
-		this.slotTitle =  sysDeptDto.getDepartName();
-		this.value = sysDeptDto.getId();
-		this.label = sysDeptDto.getDepartName();
+	public TreeDto(SysDept sysDept) {
+		this.key = sysDept.getId();
+		this.parentId = sysDept.getParentId();
+		this.title = sysDept.getDepartName();
+		this.slotTitle =  sysDept.getDepartName();
+		this.value = sysDept.getId();
+		this.label = sysDept.getDepartName();
 	}
 
 	public TreeDto(Long key, String parentId, String slotTitle, Integer ruleFlag, boolean isLeaf) {

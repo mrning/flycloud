@@ -1,4 +1,4 @@
-package com.zac.flycloud.bean.tablemodel;
+package com.zac.flycloud.bean.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

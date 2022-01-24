@@ -3,9 +3,9 @@ package com.zac.flycloud.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.flycloud.bean.tablemodel.SysDept;
-import com.zac.flycloud.bean.tablemodel.SysRole;
-import com.zac.flycloud.bean.tablemodel.SysUser;
+import com.zac.flycloud.bean.dto.SysDept;
+import com.zac.flycloud.bean.dto.SysRole;
+import com.zac.flycloud.bean.dto.SysUser;
 
 import java.util.List;
 

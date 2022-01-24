@@ -1,9 +1,9 @@
 package com.zac.flycloud.security.service;
 
-import com.zac.flycloud.dao.UserDao;
+import com.zac.flycloud.bean.dto.SysRole;
+import com.zac.flycloud.bean.dto.SysUser;
+import com.zac.flycloud.dao.SysUserDao;
 import com.zac.flycloud.dao.UserRoleDao;
-import com.zac.flycloud.bean.tablemodel.SysRole;
-import com.zac.flycloud.bean.tablemodel.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +21,7 @@ import java.util.List;
 public class SecurityUserService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private SysUserDao userDao;
     @Autowired
     private UserRoleDao userRoleDao;
 

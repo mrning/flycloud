@@ -2,18 +2,17 @@ package com.zac.flycloud.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
-import com.zac.flycloud.dao.SysDeptDao;
-import com.zac.flycloud.bean.dto.SysDeptDTO;
-import com.zac.flycloud.bean.dto.example.SysDeptDTOExample;
-import com.zac.flycloud.dao.mapper.SysDeptDTOMapper;
-import java.util.List;
-
+import com.zac.flycloud.bean.dto.SysDept;
+import com.zac.flycloud.bean.dto.example.SysDeptExample;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
+import com.zac.flycloud.dao.SysDeptDao;
+import com.zac.flycloud.dao.mapper.SysDeptMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * AutoCreateFile
@@ -24,34 +23,34 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 public class SysDeptDaoImpl implements SysDeptDao {
     @Autowired
-    private SysDeptDTOMapper sysDeptMapper;
+    private SysDeptMapper sysDeptMapper;
 
-    public Integer add(SysDeptDTO sysDeptDTO) {
-        return sysDeptMapper.insertSelective(sysDeptDTO);
+    public Integer add(SysDept sysDept) {
+        return sysDeptMapper.insertSelective(sysDept);
     }
 
-    public Integer del(SysDeptDTO sysDeptDTO) {
-        SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
-        return sysDeptMapper.deleteByExample(sysDeptDTOExample);
+    public Integer del(SysDept sysDept) {
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        return sysDeptMapper.deleteByExample(sysDeptExample);
     }
 
-    public Integer update(SysDeptDTO sysDeptDTO) {
-        SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
-        return sysDeptMapper.updateByExampleSelective(sysDeptDTO,sysDeptDTOExample);
+    public Integer update(SysDept sysDept) {
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        return sysDeptMapper.updateByExampleSelective(sysDept, sysDeptExample);
     }
 
-    public List<SysDeptDTO> queryPage(DeptRequestVO deptRequestVO, Page page) {
-        SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
-        return sysDeptMapper.selectByExampleWithRowbounds(sysDeptDTOExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+    public List<SysDept> queryPage(DeptRequestVO deptRequestVO, Page page) {
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        return sysDeptMapper.selectByExampleWithRowbounds(sysDeptExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
     public Long queryPageCount(DeptRequestVO deptRequestVO) {
-        SysDeptDTOExample sysDeptDTOExample = new SysDeptDTOExample();
-        return sysDeptMapper.countByExample(sysDeptDTOExample);
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        return sysDeptMapper.countByExample(sysDeptExample);
     }
 
     @Override
-    public List<SysDeptDTO> queryAll() {
+    public List<SysDept> queryAll() {
         return sysDeptMapper.selectList(Wrappers.emptyWrapper());
     }
 }

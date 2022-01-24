@@ -1,6 +1,6 @@
 package com.zac.flycloud.dao.impl;
 
-import com.zac.flycloud.bean.tablemodel.SysRole;
+import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.dao.UserRoleDao;
 import com.zac.flycloud.dao.mapper.SysUserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;

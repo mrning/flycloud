@@ -1,8 +1,7 @@
 package com.zac.flycloud.controller.api.admin;
 
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.bean.dto.SysDeptDTO;
-import com.zac.flycloud.bean.dto.SysRoleDTO;
+import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysDeptService;
@@ -35,8 +34,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public Result<Integer> add(@RequestBody SysDeptDTO sysDeptDTO) {
-        return Result.success(sysDeptService.add(sysDeptDTO));
+    public Result<Integer> add(@RequestBody SysDept sysDept) {
+        return Result.success(sysDeptService.add(sysDept));
     }
 
     /**
@@ -46,8 +45,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/del")
     @ApiOperation("删除")
-    public Result<Integer> del(@RequestBody SysDeptDTO sysDeptDTO) {
-        return Result.success(sysDeptService.del(sysDeptDTO));
+    public Result<Integer> del(@RequestBody SysDept sysDept) {
+        return Result.success(sysDeptService.del(sysDept));
     }
 
     /**
@@ -57,8 +56,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public Result<Integer> update(@RequestBody SysDeptDTO sysDeptDTO) {
-        return Result.success(sysDeptService.update(sysDeptDTO));
+    public Result<Integer> update(@RequestBody SysDept sysDept) {
+        return Result.success(sysDeptService.update(sysDept));
     }
 
     /**
@@ -68,7 +67,7 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysDeptDTO>> queryPage(@RequestBody DeptRequestVO deptRequestVO) {
+    public Result<PageResult<SysDept>> queryPage(@RequestBody DeptRequestVO deptRequestVO) {
         return Result.success(sysDeptService.queryPage(deptRequestVO));
     }
 
@@ -79,7 +78,7 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/queryAll")
     @ApiOperation("查询全部")
-    public Result<List<SysDeptDTO>> queryAll() {
+    public Result<List<SysDept>> queryAll() {
         return Result.success(sysDeptService.queryAll());
     }
 }

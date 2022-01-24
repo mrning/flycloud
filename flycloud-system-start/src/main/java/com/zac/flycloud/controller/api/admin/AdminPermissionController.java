@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.flycloud.bean.basebean.Result;
-import com.zac.flycloud.bean.tablemodel.SysPermission;
+import com.zac.flycloud.bean.dto.SysPermission;
 import com.zac.flycloud.service.SysPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
