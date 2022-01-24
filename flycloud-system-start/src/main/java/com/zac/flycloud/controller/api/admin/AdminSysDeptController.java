@@ -1,15 +1,15 @@
 package com.zac.flycloud.controller.api.admin;
 
 import com.zac.flycloud.bean.basebean.PageResult;
+import com.zac.flycloud.bean.basebean.Result;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.vos.DeptRequestVO;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysDeptService;
-import com.zac.flycloud.bean.basebean.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -80,5 +80,11 @@ public class AdminSysDeptController extends BaseController {
     @ApiOperation("查询全部")
     public Result<List<SysDept>> queryAll() {
         return Result.success(sysDeptService.queryAll());
+    }
+
+    @GetMapping("/queryByUserUuid")
+    @ApiOperation("根据用户uuid查询用户部门列表")
+    public Result<List<SysDept>> queryByUserUuid(@RequestParam String userUuid){
+        return Result.success(sysDeptService.queryUserDeparts(userUuid));
     }
 }

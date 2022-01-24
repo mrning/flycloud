@@ -1,6 +1,7 @@
 package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
+import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
 import com.zac.flycloud.bean.vos.UserRoleRequestVO;
 
@@ -21,4 +22,6 @@ public interface SysUserRoleDao {
     List<SysUserRoleDTO> queryPage(UserRoleRequestVO userRoleRequestVO, Page page);
 
     Long queryPageCount(UserRoleRequestVO userRoleRequestVO);
+
+    List<SysRole> queryUserRoles(String userUuid);
 }

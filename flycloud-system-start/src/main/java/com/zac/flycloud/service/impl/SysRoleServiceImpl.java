@@ -6,6 +6,7 @@ import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.vos.RoleRequestVO;
 import com.zac.flycloud.dao.SysRoleDao;
+import com.zac.flycloud.dao.SysUserRoleDao;
 import com.zac.flycloud.dao.mapper.SysRoleMapper;
 import com.zac.flycloud.service.SysRoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ import java.util.List;
 public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
     @Autowired
     private SysRoleDao sysRoleDao;
+    @Autowired
+    private SysUserRoleDao sysUserRoleDao;
 
     public Integer add(SysRole sysRole) {
         return sysRoleDao.add(sysRole);
@@ -49,5 +52,10 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
     @Override
     public List<SysRole> queryAll() {
         return sysRoleDao.queryAll();
+    }
+
+    @Override
+    public List<SysRole> queryUserRoles(String userUuid) {
+        return sysUserRoleDao.queryUserRoles(userUuid);
     }
 }

@@ -21,4 +21,7 @@ public interface SysRoleService extends SysBaseService<SysRole> {
     PageResult<SysRole> queryPage(RoleRequestVO roleRequestVO);
 
     List<SysRole> queryAll();
+
+    List<SysRole> queryUserRoles(String userUuid);
+
 }

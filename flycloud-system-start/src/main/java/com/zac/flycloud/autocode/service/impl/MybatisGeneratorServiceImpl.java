@@ -2,6 +2,7 @@ package com.zac.flycloud.autocode.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import com.zac.flycloud.autocode.service.MybatisGeneratorService;
+import com.zac.flycloud.bean.vos.MybatisGeneratorRequest;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.api.VerboseProgressCallback;
@@ -30,7 +31,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     public static final String API_PACKAGE = ".api.";
 
     @Override
-    public String doDenerator(String tableName, String desc, String platform)  {
+    public String doDenerator(MybatisGeneratorRequest mybatisGeneratorRequest)  {
         Configuration config = new Configuration();
 
         // conditional:*这是默认值*,这个模型和下面的hierarchical类似，除了如果那个单独的类将只包含一个字段，将不会生成一个单独的类。
@@ -45,10 +46,11 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addProperty("autoDelimitKeywords","true");
         context.addProperty("beginningDelimiter","`");
         context.addProperty("endingDelimiter","`");
-        context.addProperty("tableName",tableName);
+        context.addProperty("tableName",mybatisGeneratorRequest.getTableName());
+        context.addProperty("dataBaseName",mybatisGeneratorRequest.getDataBaseName());
 
         // 添加插件
-        addPlugins(context,desc,platform);
+        addPlugins(context,mybatisGeneratorRequest.getDesc(),mybatisGeneratorRequest.getPlatform().getValue());
 
         // 配置jdbc连接
         buildConnection(context);
@@ -128,15 +130,9 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         tableConfiguration.setTableName(context.getProperty("tableName"));
         GeneratedKey generatedKey = new GeneratedKey("id","JDBC",true,"post");
         tableConfiguration.setGeneratedKey(generatedKey);
-        // 生成的domain增加DTO后缀
-        DomainObjectRenamingRule domainObjectRenamingRule = new DomainObjectRenamingRule();
-        domainObjectRenamingRule.setSearchString("$");
-        domainObjectRenamingRule.setReplaceString("DTO");
-        tableConfiguration.setDomainObjectRenamingRule(domainObjectRenamingRule);
-
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
         // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
-        tableConfiguration.setCatalog("flycloud");
+        tableConfiguration.setCatalog(context.getProperty("dataBaseName"));
         tableConfiguration.addProperty("ignoreQualifiersAtRuntime","true");
         context.addTableConfiguration(tableConfiguration);
     }

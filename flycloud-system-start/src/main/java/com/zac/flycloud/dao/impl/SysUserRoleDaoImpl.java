@@ -1,17 +1,18 @@
 package com.zac.flycloud.dao.impl;
 
 import cn.hutool.db.Page;
-import com.zac.flycloud.dao.SysUserRoleDao;
-import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
+import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.dto.example.SysUserRoleExample;
-import com.zac.flycloud.dao.mapper.SysUserRoleDTOMapper;
-import java.util.List;
-
+import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
 import com.zac.flycloud.bean.vos.UserRoleRequestVO;
+import com.zac.flycloud.dao.SysUserRoleDao;
+import com.zac.flycloud.dao.mapper.SysUserRoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * AutoCreateFile
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 public class SysUserRoleDaoImpl implements SysUserRoleDao {
     @Autowired
-    private SysUserRoleDTOMapper sysUserRoleMapper;
+    private SysUserRoleMapper sysUserRoleMapper;
 
     public Integer add(SysUserRoleDTO sysUserRoleDTO) {
         return sysUserRoleMapper.insertSelective(sysUserRoleDTO);
@@ -46,5 +47,10 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
     public Long queryPageCount(UserRoleRequestVO userRoleRequestVO) {
         SysUserRoleExample sysUserRoleExample = new SysUserRoleExample();
         return sysUserRoleMapper.countByExample(sysUserRoleExample);
+    }
+
+    @Override
+    public List<SysRole> queryUserRoles(String userUuid) {
+        return sysUserRoleMapper.getRolesByUserUuid(userUuid);
     }
 }

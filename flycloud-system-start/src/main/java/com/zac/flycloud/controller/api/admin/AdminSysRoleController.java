@@ -10,10 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -83,5 +80,11 @@ public class AdminSysRoleController extends BaseController {
     @ApiOperation("查询全部")
     public Result<List<SysRole>> queryAll() {
         return Result.success(sysRoleService.queryAll());
+    }
+
+    @GetMapping("/queryByUserUuid")
+    @ApiOperation("根据用户uuid查询用户角色列表")
+    public Result<List<SysRole>> queryByUserUuid(@RequestParam String userUuid){
+        return Result.success(sysRoleService.queryUserRoles(userUuid));
     }
 }
