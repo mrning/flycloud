@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zac.flycloud.dao.actable.mapper.CreateMysqlTablesMapper">
+<mapper namespace="com.zac.flycloud.start.dao.actable.mapper.CreateMysqlTablesMapper">
     <!-- 抽取出来的公共部分 -->
     <sql id="commonSql">
         `${fields.fieldName}` ${fields.fieldType}
     </sql>
     <!-- 创建表的 -->
-    <select id="createTable" parameterType="com.zac.flycloud.dao.actable.table.TableSql">
+    <select id="createTable" parameterType="com.zac.flycloud.start.dao.actable.table.TableSql">
         create table `${name}`(
         <foreach collection="columnSqls" item="fields" separator=",">
             <include refid="commonSql"></include>
@@ -29,7 +29,7 @@
     </select>
 
     <!-- 增加字段 -->
-    <select id="addTableField" parameterType="com.zac.flycloud.dao.actable.table.TableSql">
+    <select id="addTableField" parameterType="com.zac.flycloud.start.dao.actable.table.TableSql">
         <foreach collection="columnSqls" index="key" item="fields" separator=";" close=";">
             alter table `${name}` add
             <include refid="commonSql"></include>

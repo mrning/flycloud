@@ -17,6 +17,7 @@
 
     <modules>
         <module>flycloud-system-start</module>
+        <module>flycloud-system-gateway/flycloud-system-gateway</module>
     </modules>
 
     <properties>
