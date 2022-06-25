@@ -37,7 +37,7 @@ spring:
         server-addr: localhost:8848
         namespace: fly-cloud-namespaces
   config:
-    import: application-common.yml
+    import: ../../../../flycloud-system-gateway/src/main/resources/application-common.yml
 springfox:
   documentation:
     # prod环境不启用swagger

@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.35.131.180:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/flycloud?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
     username: root
-    password: Mysql417298...
+    password: mysql417298...
     hikari:
       #最小空闲链接数量
       minimum-idle: 5
@@ -28,21 +28,21 @@ spring:
   security:
     user:
       name: admin
-      password: 918f239c-3a5c-4d74-b0af-4600e5ae7ddc
+      password: 918f239c-3a5c-4d74-b0af-4600e5ae7dd1
       roles: admin
   cloud:
     nacos:
       discovery:
         enabled: true
-        server-addr: 101.35.131.180:8848
+        server-addr: localhost:8848
         namespace: fly-cloud-namespaces
   config:
-    import: ../../../../flycloud-system-gateway/src/main/resources/application-common.yml
+    import: application-common.yml
 xxl:
   job:
     admin:
       # 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
-      address: http://101.35.131.180:8000/xxl-job-admin
+      address: http://127.0.0.1:8080/xxl-job-admin
     executor:
       appname: fly-cloud-executor
       # 执行器端口号，单机部署多个执行器时，注意要配置不同执行器端口；

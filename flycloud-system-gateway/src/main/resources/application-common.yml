@@ -1,12 +1,12 @@
 server:
-  port: 8900
+  port: 8901
 spring:
   application:
-    name: flycloud-system-start
+    name: flycloud-system-gateway
   devtools:
     livereload:
       #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
-      port: 35730
+      port: 35731
   output:
     ansi:
       enabled: always
@@ -18,7 +18,7 @@ mybatis:
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
   mapper-locations: classpath*:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.zac.flycloud.start.bean.tablemodel
+  typeAliasesPackage: com.zac.flycloud.gateway.bean.tablemodel
   configuration:
     # 设置下划线和驼峰转换
     map-underscore-to-camel-case: true
@@ -52,11 +52,6 @@ flycloud:
     tokenKey: 644b18e4eade56810e649357597aa3b0
     sysToken: flycloud-88888888-token
     swaggerUser: flycloud
-  actable:
-    # 需要自动建表的包名
-    pack: com.zac.flycloud.start.bean.tablemodel
-    primarykey: id
-    tableAuto: update
     # ElasticSearch 6设置
   elasticsearch:
     cluster-name: elasticsearch
