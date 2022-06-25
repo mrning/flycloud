@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysUserDept;
-import com.zac.flycloud.bean.vos.UserDeptRequestVO;
+import com.zac.flycloud.bean.vos.request.UserDeptRequest;
 import com.zac.flycloud.dao.SysUserDeptDao;
 import com.zac.flycloud.dao.mapper.SysUserDeptMapper;
 import com.zac.flycloud.service.SysUserDeptService;
@@ -37,10 +37,10 @@ public class SysUserDeptServiceImpl extends SysBaseServiceImpl<SysUserDeptMapper
         return sysUserDeptDao.update(sysUserDept);
     }
 
-    public PageResult<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO) {
+    public PageResult<SysUserDept> queryPage(UserDeptRequest userDeptRequest) {
         PageResult<SysUserDept> pageResult = new PageResult<>();
-        pageResult.setDataList(sysUserDeptDao.queryPage(userDeptRequestVO,new Page(userDeptRequestVO.getPageNumber(),userDeptRequestVO.getPageSize())));
-        pageResult.setTotal(sysUserDeptDao.queryPageCount(userDeptRequestVO).intValue());
+        pageResult.setDataList(sysUserDeptDao.queryPage(userDeptRequest,new Page(userDeptRequest.getPageNumber(), userDeptRequest.getPageSize())));
+        pageResult.setTotal(sysUserDeptDao.queryPageCount(userDeptRequest).intValue());
         return pageResult;
     }
 }

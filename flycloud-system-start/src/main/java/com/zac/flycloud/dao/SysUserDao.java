@@ -2,7 +2,7 @@ package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.dto.SysUser;
-import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.bean.vos.request.UserRequest;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public interface SysUserDao{
 
     Integer update(SysUser sysUser);
 
-    List<SysUser> queryPage(UserRequestVO userRequestVO, Page page);
+    List<SysUser> queryPage(UserRequest userRequest, Page page);
 
-    Long queryPageCount(UserRequestVO userRequestVO);
+    Long queryPageCount(UserRequest userRequest);
 
     SysUser getUserByName(String username);
 }

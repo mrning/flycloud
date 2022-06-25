@@ -2,7 +2,7 @@ package com.zac.flycloud.dao;
 
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.dto.SysLog;
-import com.zac.flycloud.bean.vos.SysLogRequestVO;
+import com.zac.flycloud.bean.vos.request.SysLogRequest;
 
 import java.util.Date;
 import java.util.List;
@@ -21,9 +21,9 @@ public interface SysLogDao {
 
     Integer update(SysLog sysLog);
 
-    List<SysLog> queryPage(SysLogRequestVO sysLogRequestVO, Page page);
+    List<SysLog> queryPage(SysLogRequest sysLogRequest, Page page);
 
-    Long queryPageCount(SysLogRequestVO sysLogRequestVO);
+    Long queryPageCount(SysLogRequest sysLogRequest);
 
     /**
      * @功能：清空所有日志记录

@@ -4,7 +4,7 @@ import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.example.SysDeptExample;
-import com.zac.flycloud.bean.vos.DeptRequestVO;
+import com.zac.flycloud.bean.vos.request.DeptRequest;
 import com.zac.flycloud.dao.SysDeptDao;
 import com.zac.flycloud.dao.mapper.SysDeptMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,12 +39,12 @@ public class SysDeptDaoImpl implements SysDeptDao {
         return sysDeptMapper.updateByExampleSelective(sysDept, sysDeptExample);
     }
 
-    public List<SysDept> queryPage(DeptRequestVO deptRequestVO, Page page) {
+    public List<SysDept> queryPage(DeptRequest deptRequest, Page page) {
         SysDeptExample sysDeptExample = new SysDeptExample();
         return sysDeptMapper.selectByExampleWithRowbounds(sysDeptExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(DeptRequestVO deptRequestVO) {
+    public Long queryPageCount(DeptRequest deptRequest) {
         SysDeptExample sysDeptExample = new SysDeptExample();
         return sysDeptMapper.countByExample(sysDeptExample);
     }

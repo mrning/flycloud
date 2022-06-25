@@ -4,7 +4,7 @@ import cn.hutool.db.Page;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.SysUserDept;
 import com.zac.flycloud.bean.dto.example.SysUserDeptExample;
-import com.zac.flycloud.bean.vos.UserDeptRequestVO;
+import com.zac.flycloud.bean.vos.request.UserDeptRequest;
 import com.zac.flycloud.dao.SysUserDeptDao;
 import com.zac.flycloud.dao.mapper.SysUserDeptMapper;
 import org.apache.ibatis.session.RowBounds;
@@ -33,12 +33,12 @@ public class SysUserDeptDaoImpl implements SysUserDeptDao {
         return sysUserDeptMapper.updateByExampleSelective(sysUserDept, sysUserDeptExample);
     }
 
-    public List<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO, Page page) {
+    public List<SysUserDept> queryPage(UserDeptRequest userDeptRequest, Page page) {
         SysUserDeptExample sysUserDeptExample = new SysUserDeptExample();
         return sysUserDeptMapper.selectByExampleWithRowbounds(sysUserDeptExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(UserDeptRequestVO userDeptRequestVO) {
+    public Long queryPageCount(UserDeptRequest userDeptRequest) {
         SysUserDeptExample sysUserDeptExample = new SysUserDeptExample();
         return sysUserDeptMapper.countByExample(sysUserDeptExample);
     }

@@ -4,7 +4,7 @@ package com.zac.flycloud.dao;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.SysUserDept;
-import com.zac.flycloud.bean.vos.UserDeptRequestVO;
+import com.zac.flycloud.bean.vos.request.UserDeptRequest;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface SysUserDeptDao {
 
     Integer update(SysUserDept sysUserDept);
 
-    List<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO, Page page);
+    List<SysUserDept> queryPage(UserDeptRequest userDeptRequest, Page page);
 
-    Long queryPageCount(UserDeptRequestVO userDeptRequestVO);
+    Long queryPageCount(UserDeptRequest userDeptRequest);
 }

@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.bean.dto.example.SysUserExample;
-import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.bean.vos.request.UserRequest;
 import com.zac.flycloud.dao.SysUserDao;
 import com.zac.flycloud.dao.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -49,16 +49,16 @@ public class SysUserDaoImpl implements SysUserDao {
         return sysUserMapper.updateByExampleSelective(sysUser, sysUserExample);
     }
 
-    public List<SysUser> queryPage(UserRequestVO userRequestVO, Page page) {
+    public List<SysUser> queryPage(UserRequest userRequest, Page page) {
         SysUser sysUser = new SysUser();
-        sysUser.setUuid(userRequestVO.getUserUuid());
+        sysUser.setUuid(userRequest.getUserUuid());
         SysUserExample sysUserExample = buildWhereParam(sysUser);
         return sysUserMapper.selectByExampleWithRowbounds(sysUserExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(UserRequestVO userRequestVO) {
+    public Long queryPageCount(UserRequest userRequest) {
         SysUser sysUser = new SysUser();
-        sysUser.setUuid(userRequestVO.getUserUuid());
+        sysUser.setUuid(userRequest.getUserUuid());
         SysUserExample sysUserExample = buildWhereParam(sysUser);
         return sysUserMapper.countByExample(sysUserExample);
     }

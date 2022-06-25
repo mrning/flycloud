@@ -2,7 +2,7 @@ package com.zac.flycloud.service;
 
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysUserDept;
-import com.zac.flycloud.bean.vos.UserDeptRequestVO;
+import com.zac.flycloud.bean.vos.request.UserDeptRequest;
 
 /**
  * AutoCreateFile
@@ -16,5 +16,5 @@ public interface SysUserDeptService extends SysBaseService<SysUserDept> {
 
     Integer update(SysUserDept sysUserDept);
 
-    PageResult<SysUserDept> queryPage(UserDeptRequestVO userDeptRequestVO);
+    PageResult<SysUserDept> queryPage(UserDeptRequest userDeptRequest);
 }

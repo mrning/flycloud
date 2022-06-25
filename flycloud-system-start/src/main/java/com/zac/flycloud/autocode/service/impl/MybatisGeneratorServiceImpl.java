@@ -2,7 +2,7 @@ package com.zac.flycloud.autocode.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import com.zac.flycloud.autocode.service.MybatisGeneratorService;
-import com.zac.flycloud.bean.vos.MybatisGeneratorRequest;
+import com.zac.flycloud.bean.vos.request.MybatisGeneratorRequest;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.api.VerboseProgressCallback;

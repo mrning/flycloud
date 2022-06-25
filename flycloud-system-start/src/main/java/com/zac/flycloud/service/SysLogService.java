@@ -3,7 +3,7 @@ package com.zac.flycloud.service;
 
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysLog;
-import com.zac.flycloud.bean.vos.SysLogRequestVO;
+import com.zac.flycloud.bean.vos.request.SysLogRequest;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +22,7 @@ public interface SysLogService {
 
     Integer update(SysLog sysLog);
 
-    PageResult<SysLog> queryPage(SysLogRequestVO sysLogRequestVO);
+    PageResult<SysLog> queryPage(SysLogRequest sysLogRequest);
 
     /**
      * @功能：清空所有日志记录

@@ -1,4 +1,4 @@
-package com.zac.flycloud.bean.vos;
+package com.zac.flycloud.bean.vos.request;
 
 import com.zac.flycloud.bean.enums.PlatformEnum;
 import lombok.Data;

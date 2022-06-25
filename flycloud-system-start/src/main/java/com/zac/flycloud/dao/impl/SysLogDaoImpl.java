@@ -2,7 +2,7 @@ package com.zac.flycloud.dao.impl;
 
 import com.zac.flycloud.bean.dto.SysLog;
 import com.zac.flycloud.bean.dto.example.SysLogExample;
-import com.zac.flycloud.bean.vos.SysLogRequestVO;
+import com.zac.flycloud.bean.vos.request.SysLogRequest;
 import com.zac.flycloud.dao.SysLogDao;
 import com.zac.flycloud.dao.mapper.SysLogMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,12 +39,12 @@ public class SysLogDaoImpl implements SysLogDao {
         return sysLogMapper.updateByExampleSelective(sysLog, sysLogExample);
     }
 
-    public List<SysLog> queryPage(SysLogRequestVO sysLogRequestVO, cn.hutool.db.Page page) {
+    public List<SysLog> queryPage(SysLogRequest sysLogRequest, cn.hutool.db.Page page) {
         SysLogExample sysLogExample = new SysLogExample();
         return sysLogMapper.selectByExampleWithRowbounds(sysLogExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(SysLogRequestVO sysLogRequestVO) {
+    public Long queryPageCount(SysLogRequest sysLogRequest) {
         SysLogExample sysLogExample = new SysLogExample();
         return sysLogMapper.countByExample(sysLogExample);
     }

@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
 import com.zac.flycloud.bean.dto.SysUser;
-import com.zac.flycloud.bean.vos.RegisRequestVO;
-import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.bean.vos.request.RegisRequest;
+import com.zac.flycloud.bean.vos.request.UserRequest;
 
 /**
  * AutoCreateFile
@@ -19,7 +19,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
 
     Integer update(SysUser sysUser);
 
-    PageResult<SysUser> queryPage(UserRequestVO userRequestVO);
+    PageResult<SysUser> queryPage(UserRequest userRequest);
 
     /**
      * 根据用户账号查询用户信息
@@ -78,5 +78,5 @@ public interface SysUserService extends SysBaseService<SysUser> {
     /**
      * regis
      */
-    boolean regis(RegisRequestVO regisRequestVO);
+    boolean regis(RegisRequest regisRequest);
 }

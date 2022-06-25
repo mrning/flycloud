@@ -13,7 +13,7 @@ import com.zac.flycloud.bean.enums.UploadClientEnum;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.bean.dto.SysUser;
 import com.zac.flycloud.utils.*;
-import com.zac.flycloud.bean.vos.RegisRequestVO;
+import com.zac.flycloud.bean.vos.request.RegisRequest;
 import com.zac.flycloud.bean.vos.SysUserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -167,26 +167,26 @@ public class SysController {
     /**
      * 用户注册接口
      *
-     * @param regisRequestVO
+     * @param regisRequest
      * @return
      */
     @ApiOperation("注册")
     @PostMapping("/register")
-    public Result userRegister(@RequestBody RegisRequestVO regisRequestVO) {
-        Assert.notNull(regisRequestVO.getUsername(), "用户名不能为空");
-        Assert.notNull(regisRequestVO.getPassword(), "密码不能为空");
-        Assert.isTrue(null == sysUserService.getUserByName(regisRequestVO.getUsername()), "用户名已注册");
+    public Result userRegister(@RequestBody RegisRequest regisRequest) {
+        Assert.notNull(regisRequest.getUsername(), "用户名不能为空");
+        Assert.notNull(regisRequest.getPassword(), "密码不能为空");
+        Assert.isTrue(null == sysUserService.getUserByName(regisRequest.getUsername()), "用户名已注册");
         // 校验验证码
-        if (StringUtils.isNotBlank(regisRequestVO.getSmscode())) {
+        if (StringUtils.isNotBlank(regisRequest.getSmscode())) {
             // 后台实际发送的短信验证码
-            Object code = redisUtil.get(regisRequestVO.getPhone());
-            Assert.isTrue(regisRequestVO.getSmscode().equals(code), "手机验证码错误");
+            Object code = redisUtil.get(regisRequest.getPhone());
+            Assert.isTrue(regisRequest.getSmscode().equals(code), "手机验证码错误");
         }
         // 校验邮箱
-        if (StringUtils.isNotBlank(regisRequestVO.getEmail())) {
-            Assert.isTrue(null == sysUserService.getUserByEmail(regisRequestVO.getEmail()), "邮箱已被注册");
+        if (StringUtils.isNotBlank(regisRequest.getEmail())) {
+            Assert.isTrue(null == sysUserService.getUserByEmail(regisRequest.getEmail()), "邮箱已被注册");
         }
-        if (sysUserService.regis(regisRequestVO)) {
+        if (sysUserService.regis(regisRequest)) {
             return Result.success("注册成功");
         }
         return Result.error("注册失败");

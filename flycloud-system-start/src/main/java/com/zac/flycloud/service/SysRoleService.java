@@ -2,7 +2,7 @@ package com.zac.flycloud.service;
 
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysRole;
-import com.zac.flycloud.bean.vos.RoleRequestVO;
+import com.zac.flycloud.bean.vos.request.RoleRequest;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface SysRoleService extends SysBaseService<SysRole> {
 
     Integer update(SysRole sysRole);
 
-    PageResult<SysRole> queryPage(RoleRequestVO roleRequestVO);
+    PageResult<SysRole> queryPage(RoleRequest roleRequest);
 
     List<SysRole> queryAll();
 

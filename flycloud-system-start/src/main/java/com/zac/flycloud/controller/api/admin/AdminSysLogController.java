@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
 import com.zac.flycloud.bean.dto.SysLog;
-import com.zac.flycloud.bean.vos.SysLogRequestVO;
+import com.zac.flycloud.bean.vos.request.SysLogRequest;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysLogService;
 import com.zac.flycloud.utils.ConverUtil;
@@ -66,8 +66,8 @@ public class AdminSysLogController extends BaseController {
      * @author zac
      */
     @PostMapping("/queryPage")
-    public Result<PageResult<SysLog>> queryPage(@RequestBody SysLogRequestVO sysLogRequestVO) {
-        return Result.success(sysLogService.queryPage(sysLogRequestVO));
+    public Result<PageResult<SysLog>> queryPage(@RequestBody SysLogRequest sysLogRequest) {
+        return Result.success(sysLogService.queryPage(sysLogRequest));
     }
 
     /**

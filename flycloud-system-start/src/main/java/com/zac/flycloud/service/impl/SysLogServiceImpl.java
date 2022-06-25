@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysLog;
-import com.zac.flycloud.bean.vos.SysLogRequestVO;
+import com.zac.flycloud.bean.vos.request.SysLogRequest;
 import com.zac.flycloud.dao.SysLogDao;
 import com.zac.flycloud.service.SysLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +41,10 @@ public class SysLogServiceImpl implements SysLogService {
         return sysLogDao.update(SysLog);
     }
 
-    public PageResult<SysLog> queryPage(SysLogRequestVO sysLogRequestVO) {
+    public PageResult<SysLog> queryPage(SysLogRequest sysLogRequest) {
         PageResult<SysLog> pageResult = new PageResult<>();
-        pageResult.setDataList(sysLogDao.queryPage(sysLogRequestVO, new Page(sysLogRequestVO.getPageNumber(), sysLogRequestVO.getPageSize())));
-        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequestVO).intValue());
+        pageResult.setDataList(sysLogDao.queryPage(sysLogRequest, new Page(sysLogRequest.getPageNumber(), sysLogRequest.getPageSize())));
+        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequest).intValue());
         return pageResult;
     }
 

@@ -11,8 +11,8 @@ import com.zac.flycloud.bean.constant.CommonConstant;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.dto.SysUser;
-import com.zac.flycloud.bean.vos.RegisRequestVO;
-import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.bean.vos.request.RegisRequest;
+import com.zac.flycloud.bean.vos.request.UserRequest;
 import com.zac.flycloud.dao.SysUserDao;
 import com.zac.flycloud.dao.mapper.SysUserMapper;
 import com.zac.flycloud.service.SysDeptService;
@@ -76,10 +76,10 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.update(sysUser);
     }
 
-    public PageResult<SysUser> queryPage(UserRequestVO userRequestVO) {
+    public PageResult<SysUser> queryPage(UserRequest userRequest) {
         PageResult<SysUser> pageResult = new PageResult<>();
-        pageResult.setDataList(sysUserDao.queryPage(userRequestVO,new Page(userRequestVO.getPageNumber(),userRequestVO.getPageSize())));
-        pageResult.setTotal(sysUserDao.queryPageCount(userRequestVO).intValue());
+        pageResult.setDataList(sysUserDao.queryPage(userRequest,new Page(userRequest.getPageNumber(), userRequest.getPageSize())));
+        pageResult.setTotal(sysUserDao.queryPageCount(userRequest).intValue());
         return pageResult;
     }
 
@@ -212,15 +212,15 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     }
 
     @Override
-    public boolean regis(RegisRequestVO regisRequestVO) {
+    public boolean regis(RegisRequest regisRequest) {
         try {
             SysUser sysUser = new SysUser();
             sysUser.setCreateTime(new Date());// 设置创建时间
-            sysUser.setUsername(regisRequestVO.getUsername());
-            sysUser.setRealname(regisRequestVO.getUsername());
-            sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequestVO.getPassword()));
-            sysUser.setMail(regisRequestVO.getEmail());
-            sysUser.setPhone(regisRequestVO.getPhone());
+            sysUser.setUsername(regisRequest.getUsername());
+            sysUser.setRealname(regisRequest.getUsername());
+            sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequest.getPassword()));
+            sysUser.setMail(regisRequest.getEmail());
+            sysUser.setPhone(regisRequest.getPhone());
             return add(sysUser) > 0;
         } catch (Exception e) {
             log.error("注册异常",e);

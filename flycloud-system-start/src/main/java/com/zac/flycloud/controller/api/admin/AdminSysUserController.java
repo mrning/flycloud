@@ -3,8 +3,11 @@ package com.zac.flycloud.controller.api.admin;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
 import com.zac.flycloud.bean.dto.SysUser;
-import com.zac.flycloud.bean.vos.UserRequestVO;
+import com.zac.flycloud.bean.vos.request.UserRequest;
+import com.zac.flycloud.bean.vos.request.UserRoleRequest;
+import com.zac.flycloud.bean.vos.response.SysUserRoleResponse;
 import com.zac.flycloud.controller.BaseController;
+import com.zac.flycloud.service.SysUserRoleService;
 import com.zac.flycloud.service.SysUserService;
 import com.zac.flycloud.utils.PasswordUtil;
 import io.swagger.annotations.Api;
@@ -29,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminSysUserController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     /**
      * AutoCreateFile add
@@ -71,7 +76,20 @@ public class AdminSysUserController extends BaseController {
      */
     @ApiOperation("分页查询")
     @PostMapping("/queryPage")
-    public Result<PageResult<SysUser>> queryPage(@RequestBody UserRequestVO userRequestVO) {
-        return Result.success(sysUserService.queryPage(userRequestVO));
+    public Result<PageResult<SysUser>> queryPage(@RequestBody UserRequest userRequest) {
+        return Result.success(sysUserService.queryPage(userRequest));
     }
+
+    /**
+     * 根据角色id分页查询用户列表
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @ApiOperation("根据角色id分页查询用户列表")
+    @PostMapping("/userRoleList")
+    public Result<PageResult<SysUserRoleResponse>> queryUserRolePage(@RequestBody UserRoleRequest userRoleRequest) {
+        return Result.success(sysUserRoleService.queryPage(userRoleRequest));
+    }
+
+
 }

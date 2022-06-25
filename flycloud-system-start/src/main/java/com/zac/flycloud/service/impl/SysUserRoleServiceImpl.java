@@ -3,16 +3,21 @@ package com.zac.flycloud.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.basebean.PageResult;
-import com.zac.flycloud.dao.SysUserRoleDao;
+import com.zac.flycloud.bean.dto.SysUserRole;
 import com.zac.flycloud.bean.tablemodel.SysUserRoleDTO;
+import com.zac.flycloud.bean.vos.request.UserRoleRequest;
+import com.zac.flycloud.bean.vos.response.SysUserRoleResponse;
+import com.zac.flycloud.dao.SysRoleDao;
+import com.zac.flycloud.dao.SysUserDao;
+import com.zac.flycloud.dao.SysUserRoleDao;
 import com.zac.flycloud.dao.mapper.SysUserRoleMapper;
 import com.zac.flycloud.service.SysUserRoleService;
-import com.zac.flycloud.bean.dto.SysUserRole;
-import com.zac.flycloud.bean.vos.UserRoleRequestVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.stream.Collectors;
 
 /**
  * AutoCreateFile
@@ -24,6 +29,10 @@ import org.springframework.util.Assert;
 public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
     @Autowired
     private SysUserRoleDao sysUserRoleDao;
+    @Autowired
+    private SysUserDao sysUserDao;
+    @Autowired
+    private SysRoleDao sysRoleDao;
 
     public Integer add(SysUserRoleDTO sysUserRoleDTO) {
         return sysUserRoleDao.add(sysUserRoleDTO);
@@ -38,10 +47,13 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
         return sysUserRoleDao.update(sysUserRoleDTO);
     }
 
-    public PageResult<SysUserRoleDTO> queryPage(UserRoleRequestVO userRoleRequestVO) {
-        PageResult<SysUserRoleDTO> pageResult = new PageResult<>();
-        pageResult.setDataList(sysUserRoleDao.queryPage(userRoleRequestVO,new Page(userRoleRequestVO.getPageNumber(),userRoleRequestVO.getPageSize())));
-        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequestVO).intValue());
+    public PageResult<SysUserRoleResponse> queryPage(UserRoleRequest userRoleRequest) {
+        PageResult<SysUserRoleResponse> pageResult = new PageResult<>();
+        pageResult.setDataList(sysUserRoleDao.queryPage(userRoleRequest,new Page(userRoleRequest.getPageNumber(), userRoleRequest.getPageSize()))
+                .stream().map(sysUserRoleDTO -> {
+                    sysUserDao.
+                }).collect(Collectors.toList()));
+        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest).intValue());
         return pageResult;
     }
 }

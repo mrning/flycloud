@@ -4,7 +4,7 @@ import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zac.flycloud.bean.dto.SysRole;
 import com.zac.flycloud.bean.dto.example.SysRoleExample;
-import com.zac.flycloud.bean.vos.RoleRequestVO;
+import com.zac.flycloud.bean.vos.request.RoleRequest;
 import com.zac.flycloud.dao.SysRoleDao;
 import com.zac.flycloud.dao.mapper.SysRoleMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +40,12 @@ public class SysRoleDaoImpl implements SysRoleDao {
         return sysRoleMapper.updateByExampleSelective(sysRole, sysRoleExample);
     }
 
-    public List<SysRole> queryPage(RoleRequestVO roleRequestVO, Page page) {
+    public List<SysRole> queryPage(RoleRequest roleRequest, Page page) {
         SysRoleExample sysRoleExample = new SysRoleExample();
         return sysRoleMapper.selectByExampleWithRowbounds(sysRoleExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
-    public Long queryPageCount(RoleRequestVO roleRequestVO) {
+    public Long queryPageCount(RoleRequest roleRequest) {
         SysRoleExample sysRoleExample = new SysRoleExample();
         return sysRoleMapper.countByExample(sysRoleExample);
     }

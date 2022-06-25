@@ -3,7 +3,7 @@ package com.zac.flycloud.service;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysDept;
 import com.zac.flycloud.bean.dto.TreeDto;
-import com.zac.flycloud.bean.vos.DeptRequestVO;
+import com.zac.flycloud.bean.vos.request.DeptRequest;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface SysDeptService extends SysBaseService<SysDept> {
 
     Integer update(SysDept SysDept);
 
-    PageResult<SysDept> queryPage(DeptRequestVO deptRequestVO);
+    PageResult<SysDept> queryPage(DeptRequest deptRequest);
 
     List<SysDept> queryAll();
 

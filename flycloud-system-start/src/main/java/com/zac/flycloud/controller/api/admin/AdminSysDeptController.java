@@ -3,7 +3,7 @@ package com.zac.flycloud.controller.api.admin;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.basebean.Result;
 import com.zac.flycloud.bean.dto.SysDept;
-import com.zac.flycloud.bean.vos.DeptRequestVO;
+import com.zac.flycloud.bean.vos.request.DeptRequest;
 import com.zac.flycloud.controller.BaseController;
 import com.zac.flycloud.service.SysDeptService;
 import io.swagger.annotations.Api;
@@ -67,8 +67,8 @@ public class AdminSysDeptController extends BaseController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysDept>> queryPage(@RequestBody DeptRequestVO deptRequestVO) {
-        return Result.success(sysDeptService.queryPage(deptRequestVO));
+    public Result<PageResult<SysDept>> queryPage(@RequestBody DeptRequest deptRequest) {
+        return Result.success(sysDeptService.queryPage(deptRequest));
     }
 
     /**

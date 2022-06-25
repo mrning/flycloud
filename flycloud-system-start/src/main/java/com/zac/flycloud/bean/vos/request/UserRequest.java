@@ -1,10 +1,10 @@
-package com.zac.flycloud.bean.vos;
+package com.zac.flycloud.bean.vos.request;
 
 import cn.hutool.db.Page;
 import lombok.Data;
 
 @Data
-public class UserRequestVO extends Page {
+public class UserRequest extends Page {
     private String userUuid;
     private String username;
     private String mail;

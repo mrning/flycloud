@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.zac.flycloud.bean.basebean.PageResult;
 import com.zac.flycloud.bean.dto.SysRole;
-import com.zac.flycloud.bean.vos.RoleRequestVO;
+import com.zac.flycloud.bean.vos.request.RoleRequest;
 import com.zac.flycloud.dao.SysRoleDao;
 import com.zac.flycloud.dao.SysUserRoleDao;
 import com.zac.flycloud.dao.mapper.SysRoleMapper;
@@ -42,10 +42,10 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
         return sysRoleDao.update(sysRole);
     }
 
-    public PageResult<SysRole> queryPage(RoleRequestVO roleRequestVO) {
+    public PageResult<SysRole> queryPage(RoleRequest roleRequest) {
         PageResult<SysRole> pageResult = new PageResult<>();
-        pageResult.setDataList(sysRoleDao.queryPage(roleRequestVO,new Page(roleRequestVO.getPageNumber(),roleRequestVO.getPageSize())));
-        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequestVO).intValue());
+        pageResult.setDataList(sysRoleDao.queryPage(roleRequest,new Page(roleRequest.getPageNumber(), roleRequest.getPageSize())));
+        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest).intValue());
         return pageResult;
     }
 
