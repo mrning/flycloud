@@ -12,7 +12,6 @@ import com.zac.flycloud.start.bean.entity.SysDept;
 import com.zac.flycloud.start.bean.entity.SysLog;
 import com.zac.flycloud.start.bean.entity.SysRole;
 import com.zac.flycloud.start.bean.entity.SysUser;
-import com.zac.flycloud.dao.mapper.*;
 import com.zac.flycloud.start.service.SysBaseService;
 import com.zac.flycloud.start.dao.mapper.*;
 import com.zac.flycloud.start.utils.RedisUtil;
