@@ -3,6 +3,6 @@ spring:
   profiles:
     active: dev
   application:
-    name: flycloud-gateway
+    name: flycloud-start
 server:
-  port: 8000
+  port: 8001

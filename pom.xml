@@ -11,18 +11,22 @@
     </parent>
     <groupId>com.zac</groupId>
     <artifactId>fly-cloud</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${flycloud-version}</version>
     <name>fly-cloud</name>
     <description>飞云平台</description>
 
     <modules>
-        <module>flycloud-system-start</module>
+        <module>flycloud-system-autocode</module>
         <module>flycloud-system-gateway</module>
+        <module>flycloud-common</module>
+        <module>flycloud-admin</module>
+        <module>flycloud-app-user</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
+        <flycloud-version>0.0.1-SNAPSHOT</flycloud-version>
 
         <com.alibaba.fastjson.version>1.2.75</com.alibaba.fastjson.version>
         <com.alibaba.druid.version>1.2.5</com.alibaba.druid.version>
