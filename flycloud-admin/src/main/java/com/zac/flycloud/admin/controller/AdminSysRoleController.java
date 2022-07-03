@@ -3,7 +3,6 @@ package com.zac.flycloud.admin.controller;
 import com.zac.flycloud.admin.beans.entity.SysRole;
 import com.zac.flycloud.admin.beans.vos.request.RoleRequest;
 import com.zac.flycloud.admin.service.SysRoleService;
-import com.zac.flycloud.common.BaseController;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
 import io.swagger.annotations.Api;

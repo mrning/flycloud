@@ -3,7 +3,6 @@ package com.zac.flycloud.admin.controller;
 import com.zac.flycloud.admin.beans.entity.SysDept;
 import com.zac.flycloud.admin.beans.vos.request.DeptRequest;
 import com.zac.flycloud.admin.service.SysDeptService;
-import com.zac.flycloud.common.BaseController;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
 import io.swagger.annotations.Api;
@@ -23,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/sysDept")
 @Slf4j
-public class AdminSysDeptController extends BaseController {
+public class AdminSysDeptController {
     @Autowired
     private SysDeptService sysDeptService;
 

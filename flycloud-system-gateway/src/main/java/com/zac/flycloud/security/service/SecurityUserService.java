@@ -2,8 +2,8 @@ package com.zac.flycloud.security.service;
 
 import com.zac.flycloud.security.bean.SysRole;
 import com.zac.flycloud.security.bean.SysUser;
-import com.zac.flycloud.security.dao.SysUserDao;
 import com.zac.flycloud.security.dao.SysUserRoleDao;
+import com.zac.flycloud.security.dao.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,14 +21,15 @@ import java.util.List;
 public class SecurityUserService implements UserDetailsService {
 
     @Autowired
-    private SysUserDao userDao;
+    private SysUserMapper sysUserMapper;
+
     @Autowired
     private SysUserRoleDao sysUserRoleDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 根据用户名查询用户
-        SysUser user = userDao.getUserByName(username);
+        SysUser user = sysUserMapper.getUserByName(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         } else {

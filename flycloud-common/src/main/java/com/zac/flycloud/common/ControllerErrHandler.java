@@ -7,13 +7,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.connection.PoolException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.NoHandlerFoundException;
-
-import java.util.StringJoiner;
 
 /**
  * 异常处理器
@@ -24,12 +20,6 @@ import java.util.StringJoiner;
 @RestControllerAdvice
 @Slf4j
 public class ControllerErrHandler {
-
-	@ExceptionHandler(NoHandlerFoundException.class)
-	public Result<?> handlerNoFoundException(Exception e) {
-		log.error(e.getMessage(), e);
-		return Result.error(404, "路径不存在，请检查路径是否正确");
-	}
 
 	@ExceptionHandler(DuplicateKeyException.class)
 	public Result<?> handleDuplicateKeyException(DuplicateKeyException e){
@@ -53,30 +43,6 @@ public class ControllerErrHandler {
 	public Result<?> handleException(HttpMessageNotReadableException e){
 		log.error(e.getMessage(), e);
 		return Result.error("操作失败，参数格式异常无法转换"+e.getMessage());
-	}
-	
-	/**
-	 * @Author zac
-	 * @param
-	 * @return
-	 */
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public Result<?> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
-		StringBuffer sb = new StringBuffer();
-		sb.append("不支持");
-		sb.append(e.getMethod());
-		sb.append("请求方法，");
-		String [] methods = e.getSupportedMethods();
-		if(methods!=null){
-			sb.append("支持以下");
-			StringJoiner joiner = new StringJoiner("、");
-			for(String str:methods){
-				joiner.add(str);
-			}
-			sb.append(joiner);
-		}
-		log.error(sb.toString(), e);
-		return Result.error(405,sb.toString());
 	}
 	
 	 /** 

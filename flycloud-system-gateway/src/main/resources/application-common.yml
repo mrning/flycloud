@@ -1,8 +1,4 @@
-server:
-  port: 8901
 spring:
-  application:
-    name: flycloud-system-gateway
   devtools:
     livereload:
       #指定热加载端口，防止多个springboot项目同时启动热部署的话造成端口占用
@@ -12,6 +8,19 @@ spring:
       enabled: always
   main:
     allow-circular-references: true
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: localhost:8848
+        namespace: fly-cloud-namespaces
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    ssl: false
+    timeout: 3000
 # mybatis代码生成器相关配置
 mybatis:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
@@ -65,3 +74,20 @@ flycloud:
     secretKey: ??
     bucketName: flycloudos
     staticDomain: https://static.flycloud.com
+
+# Ribbon 配置
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 10000
+  SocketTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+# Feign 配置
+feign:
+  httpclient:
+    enabled: true
+  okhttp:
+    enabled: false
+  sentinel:  # 开启feign对sentinel的支持
+    enabled: false

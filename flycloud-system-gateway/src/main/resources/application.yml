@@ -6,3 +6,4 @@ spring:
     name: flycloud-gateway
 server:
   port: 8000
+debug: on

@@ -6,7 +6,6 @@ import com.zac.flycloud.admin.beans.vos.request.UserRoleRequest;
 import com.zac.flycloud.admin.beans.vos.response.SysUserRoleResponse;
 import com.zac.flycloud.admin.service.SysUserRoleService;
 import com.zac.flycloud.admin.service.SysUserService;
-import com.zac.flycloud.common.BaseController;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
 import com.zac.flycloud.common.utils.PasswordUtil;

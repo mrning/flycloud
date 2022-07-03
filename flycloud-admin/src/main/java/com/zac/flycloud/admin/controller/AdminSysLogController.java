@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.admin.beans.entity.SysLog;
 import com.zac.flycloud.admin.beans.vos.request.SysLogRequest;
 import com.zac.flycloud.admin.service.SysLogService;
-import com.zac.flycloud.common.BaseController;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
 import com.zac.flycloud.common.utils.ConverUtil;

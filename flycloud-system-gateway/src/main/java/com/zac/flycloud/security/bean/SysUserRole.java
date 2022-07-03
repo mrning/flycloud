@@ -30,13 +30,5 @@ public class SysUserRole extends BaseEntity {
      */
     private String roleUuid;
 
-    public SysUserRole() {
-    }
-
-    public SysUserRole(String userUuid, String roleUuid) {
-        this.userUuid = userUuid;
-        this.roleUuid = roleUuid;
-    }
-
 
 }

@@ -18,24 +18,54 @@ spring:
       #链接超时时间
       connection-timeout: 30000
       connection-test-query: SELECT 1
-  redis:
-    database: 0
-    host: localhost
-    port: 6379
-    password:
-    ssl: false
-    timeout: 3000
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用服务发现
+          lower-case-service-id: true
+      routes:
+        - id: 代码生成
+          uri: lb://flycloud-system-autocode
+          predicates:
+            - Path=/api-autocode/**
+          filters:
+            - StripPrefix=1
+        - id: 管理后台
+          uri: lb://flycloud-admin
+          predicates:
+            - Path=/api-admin/**
+          filters:
+            - StripPrefix=1
+#        - id: 订单服务
+#          uri: lb://mall-order
+#          predicates:
+#            - Path=/mall-order/**
+#          filters:
+#            - StripPrefix=1
+#        - id: 商品服务
+#          uri: lb://mall-goods
+#          predicates:
+#            - Path=/mall-goods/**
+#          filters:
+#            - StripPrefix=1
+#        - id: 用户服务
+#          uri: lb://mall-user
+#          predicates:
+#            - Path=/mall-user/**
+#          filters:
+#            - StripPrefix=1
+#        - id: 营销服务
+#          uri: lb://mall-marketing
+#          predicates:
+#            - Path=/mall-marketing/**
+#          filters:
+#            - StripPrefix=1
   security:
     user:
       name: admin
       password: 918f239c-3a5c-4d74-b0af-4600e5ae7dd1
       roles: admin
-  cloud:
-    nacos:
-      discovery:
-        enabled: true
-        server-addr: localhost:8848
-        namespace: fly-cloud-namespaces
   config:
     import: application-common.yml
 xxl:
