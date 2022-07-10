@@ -11,10 +11,10 @@ import com.zac.flycloud.admin.service.SysUserService;
 import com.zac.flycloud.admin.service.UploadFileService;
 import com.zac.flycloud.admin.service.impl.ossImpl.AliOssServiceImpl;
 import com.zac.flycloud.admin.service.impl.ossImpl.TencentServiceImpl;
+import com.zac.flycloud.common.base.utils.*;
 import com.zac.flycloud.common.basebeans.Result;
 import com.zac.flycloud.common.constants.CommonConstant;
 import com.zac.flycloud.common.enums.UploadClientEnum;
-import com.zac.flycloud.common.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "系统相关")
 @RestController
-@RequestMapping("/api/sys")
+@RequestMapping("/admin/sys")
 @Slf4j
 public class AdminSysController {
 

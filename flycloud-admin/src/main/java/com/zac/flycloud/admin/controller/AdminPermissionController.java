@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(tags = "权限相关")
 @RestController
-@RequestMapping("/api/permission")
+@RequestMapping("/admin/permission")
 @Slf4j
 public class AdminPermissionController {
 

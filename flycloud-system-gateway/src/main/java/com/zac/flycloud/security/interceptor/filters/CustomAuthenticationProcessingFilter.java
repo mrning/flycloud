@@ -1,7 +1,7 @@
 package com.zac.flycloud.security.interceptor.filters;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.flycloud.common.utils.MultiReadRequest;
+import com.zac.flycloud.common.base.utils.MultiReadRequest;
 import com.zac.flycloud.security.authentication.CustomAuthenticationManager;
 import com.zac.flycloud.security.bean.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +31,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-public class CustomAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+public class CustomAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter implements WebFilter {
 
     public CustomAuthenticationProcessingFilter(CustomAuthenticationManager customAuthenticationManager, AuthenticationSuccessHandler securityLoginSuccessHandler, AuthenticationFailureHandler securityLoginFailHandler) {
         super(new AntPathRequestMatcher("/sys/login", "POST"));
@@ -45,5 +49,11 @@ public class CustomAuthenticationProcessingFilter extends AbstractAuthentication
         SysUser user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), SysUser.class);
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), null);
         return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        log.info("exchange = {},chain = {}",exchange,chain);
+        return null;
     }
 }

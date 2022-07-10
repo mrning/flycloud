@@ -16,4 +16,12 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>common-base</artifactId>
+            <version>${flycloud.common.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

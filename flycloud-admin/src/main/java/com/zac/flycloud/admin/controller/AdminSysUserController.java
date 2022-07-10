@@ -6,9 +6,9 @@ import com.zac.flycloud.admin.beans.vos.request.UserRoleRequest;
 import com.zac.flycloud.admin.beans.vos.response.SysUserRoleResponse;
 import com.zac.flycloud.admin.service.SysUserRoleService;
 import com.zac.flycloud.admin.service.SysUserService;
+import com.zac.flycloud.common.base.utils.PasswordUtil;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
-import com.zac.flycloud.common.utils.PasswordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping("/api/admin/sysUser")
+@RequestMapping("/admin/sysUser")
 @Slf4j
-public class AdminSysUserController extends BaseController {
+public class AdminSysUserController {
     @Autowired
     private SysUserService sysUserService;
     @Autowired

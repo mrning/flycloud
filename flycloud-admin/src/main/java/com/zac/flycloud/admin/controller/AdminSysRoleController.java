@@ -20,9 +20,9 @@ import java.util.List;
  */
 @Api(tags = "角色管理")
 @RestController
-@RequestMapping("/api/admin/sysRole")
+@RequestMapping("/admin/sysRole")
 @Slf4j
-public class AdminSysRoleController extends BaseController {
+public class AdminSysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 

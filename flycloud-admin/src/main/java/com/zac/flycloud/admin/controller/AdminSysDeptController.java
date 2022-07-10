@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = "部门管理")
 @RestController
-@RequestMapping("/api/admin/sysDept")
+@RequestMapping("/admin/sysDept")
 @Slf4j
 public class AdminSysDeptController {
     @Autowired

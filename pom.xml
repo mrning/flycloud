@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.zac</groupId>
     <artifactId>fly-cloud</artifactId>
-    <version>${flycloud-version}</version>
+    <version>${flycloud.version}</version>
     <name>fly-cloud</name>
     <description>飞云平台</description>
 
@@ -26,10 +26,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <flycloud-version>0.0.1-SNAPSHOT</flycloud-version>
+        <flycloud.version>0.0.1-SNAPSHOT</flycloud.version>
+        <flycloud.common.version>0.0.1-SNAPSHOT</flycloud.common.version>
 
-        <com.alibaba.fastjson.version>1.2.75</com.alibaba.fastjson.version>
-        <com.alibaba.druid.version>1.2.5</com.alibaba.druid.version>
+        <com.alibaba.fastjson.version>2.0.7</com.alibaba.fastjson.version>
+        <com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
         <com.alibaba.cloud.version>2021.1</com.alibaba.cloud.version>
         <aliyun.oss.version>3.6.0</aliyun.oss.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
@@ -38,9 +39,10 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <mysql.version>8.0.19</mysql.version>
 
-        <hutool.version>5.7.17</hutool.version>
-        <com.projectlombok.version>1.18.20</com.projectlombok.version>
-        <xxl-job.version>2.3.0</xxl-job.version>
+        <hutool.version>5.8.3</hutool.version>
+        <com.projectlombok.version>1.18.24</com.projectlombok.version>
+        <xxl-job.version>2.3.1</xxl-job.version>
+        <spring-fox.version>3.0.0</spring-fox.version>
 
 
     </properties>
@@ -140,6 +142,12 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job.version}</version>
+        </dependency>
         <!--test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -166,6 +174,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${spring-fox.version}</version>
         </dependency>
     </dependencies>
 

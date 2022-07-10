@@ -3,6 +3,6 @@ spring:
   profiles:
     active: dev
   application:
-    name: flycloud-start
+    name: flycloud-system-autocode
 server:
-  port: 8001
+  port: 8999

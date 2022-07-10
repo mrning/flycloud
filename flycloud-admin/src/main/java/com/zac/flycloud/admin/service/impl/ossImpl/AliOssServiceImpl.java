@@ -8,7 +8,7 @@ import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.PutObjectResult;
 import com.zac.flycloud.admin.config.OssConfiguration;
 import com.zac.flycloud.admin.service.UploadFileService;
-import com.zac.flycloud.common.utils.FileUtil;
+import com.zac.flycloud.common.base.utils.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

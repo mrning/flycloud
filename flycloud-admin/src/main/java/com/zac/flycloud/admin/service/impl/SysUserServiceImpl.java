@@ -15,10 +15,10 @@ import com.zac.flycloud.admin.dao.mapper.SysUserMapper;
 import com.zac.flycloud.admin.service.SysDeptService;
 import com.zac.flycloud.admin.service.SysRoleService;
 import com.zac.flycloud.admin.service.SysUserService;
+import com.zac.flycloud.common.base.utils.PasswordUtil;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
 import com.zac.flycloud.common.constants.CommonConstant;
-import com.zac.flycloud.common.utils.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -56,7 +56,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     private SysDeptService sysDeptService;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private ReactiveUserDetailsService reactiveUserDetailsService;
 
     @Value("${flycloud.security.tokenKey}")
     private String tokenKey;
@@ -185,7 +185,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     public JSONObject userInfo(SysUser sysUser) throws Exception {
         String username = sysUser.getUsername();
         // 登录信息记录到security
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = reactiveUserDetailsService.findByUsername(username).block();
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

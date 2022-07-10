@@ -1,7 +1,6 @@
 package com.zac.flycloud.security.bean;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zac.flycloud.common.basebeans.BaseEntity;
 import lombok.Data;
 
 
@@ -10,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_user")
-public class SysUser extends BaseEntity {
+public class SysUser extends com.zac.flycloud.common.basebeans.BaseEntity {
 
 
     /**

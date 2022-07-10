@@ -5,4 +5,4 @@ spring:
   application:
     name: flycloud-admin
 server:
-  port: 8002
+  port: 8001

@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.admin.beans.entity.SysPermission;
 import com.zac.flycloud.admin.dao.mapper.SysPermissionMapper;
 import com.zac.flycloud.admin.service.SysPermissionService;
+import com.zac.flycloud.common.base.utils.MD5Util;
+import com.zac.flycloud.common.base.utils.UrlIPUtils;
 import com.zac.flycloud.common.constants.CommonConstant;
-import com.zac.flycloud.common.utils.MD5Util;
-import com.zac.flycloud.common.utils.UrlIPUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

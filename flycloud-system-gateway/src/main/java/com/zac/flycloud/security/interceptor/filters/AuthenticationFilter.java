@@ -1,10 +1,10 @@
 package com.zac.flycloud.security.interceptor.filters;
 
+import com.zac.flycloud.common.base.utils.MultiReadRequest;
+import com.zac.flycloud.common.base.utils.MultiReadResponse;
+import com.zac.flycloud.common.base.utils.PasswordUtil;
+import com.zac.flycloud.common.base.utils.RedisUtil;
 import com.zac.flycloud.common.constants.CommonConstant;
-import com.zac.flycloud.common.utils.MultiReadRequest;
-import com.zac.flycloud.common.utils.MultiReadResponse;
-import com.zac.flycloud.common.utils.PasswordUtil;
-import com.zac.flycloud.common.utils.RedisUtil;
 import com.zac.flycloud.security.service.SecurityUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,7 +36,7 @@ import java.io.UnsupportedEncodingException;
  */
 @Slf4j
 @Component
-public class AuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationFilter extends OncePerRequestFilter implements WebFilter {
 
     @Autowired
     private SecurityUserService securityUserService;
@@ -47,6 +51,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private String sysToken;
     @Value("${flycloud.security.swaggerUser}")
     private String swaggerUser;
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        return null;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -96,7 +105,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private void filterChain(FilterChain filterChain, MultiReadRequest wrappedRequest, MultiReadResponse wrappedResponse,
                              String userName) throws IOException, ServletException {
-        UserDetails securityUser = securityUserService.loadUserByUsername(userName);
+        UserDetails securityUser = securityUserService.findByUsername(userName).block();
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
         // 全局注入角色权限信息和登录用户基本信息
         SecurityContextHolder.getContext().setAuthentication(authentication);

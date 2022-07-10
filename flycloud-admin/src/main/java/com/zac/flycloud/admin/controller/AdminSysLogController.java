@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.zac.flycloud.admin.beans.entity.SysLog;
 import com.zac.flycloud.admin.beans.vos.request.SysLogRequest;
 import com.zac.flycloud.admin.service.SysLogService;
+import com.zac.flycloud.common.base.utils.ConverUtil;
+import com.zac.flycloud.common.base.utils.DateUtils;
 import com.zac.flycloud.common.basebeans.PageResult;
 import com.zac.flycloud.common.basebeans.Result;
-import com.zac.flycloud.common.utils.ConverUtil;
-import com.zac.flycloud.common.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +23,9 @@ import java.util.*;
  */
 @Api(tags = "日志相关")
 @RestController
-@RequestMapping("/api/admin/sysLog")
+@RequestMapping("/admin/sysLog")
 @Slf4j
-public class AdminSysLogController extends BaseController {
+public class AdminSysLogController {
     @Autowired
     private SysLogService sysLogService;
 

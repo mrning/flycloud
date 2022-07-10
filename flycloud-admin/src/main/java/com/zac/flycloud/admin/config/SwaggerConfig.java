@@ -25,7 +25,7 @@ import java.util.Collections;
  */
 @Configuration //必须存在
 @EnableOpenApi
-@ComponentScan(basePackages = {"com.zac.flycloud"})
+@ComponentScan(basePackages = {"com.zac.flycloud.admin.controller"})
 public class SwaggerConfig {
 
     /**
@@ -42,31 +42,9 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 所有以api开头的接口都显示到后台管理接口分组里面
-                .paths(input -> input.startsWith("/api"))
+                .paths(input -> input.startsWith("/admin"))
                 .build()
-                .groupName("backApi")
-                .securityContexts(Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(new SecurityReference("token",authorizationScopes))).build()))
-                .securitySchemes(Collections.singletonList(new ApiKey("token","token","header")))
-                .apiInfo(apiInfo());
-    }
-
-    /**
-     * app端接口文档
-     *
-     * @return
-     */
-    @Bean
-    public Docket appDocket() {
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
-        return new Docket(DocumentationType.OAS_30)
-                .select()
-                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                // 所有以app开头的接口都显示到app接口分组里面
-                .paths(input -> input.startsWith("/app"))
-                .build()
-                .groupName("appApi")
+                .groupName("管理后台接口")
                 .securityContexts(Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(new SecurityReference("token",authorizationScopes))).build()))
                 .securitySchemes(Collections.singletonList(new ApiKey("token","token","header")))
                 .apiInfo(apiInfo());

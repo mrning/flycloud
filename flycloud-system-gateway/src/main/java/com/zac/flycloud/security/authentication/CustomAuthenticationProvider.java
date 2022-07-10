@@ -1,6 +1,6 @@
 package com.zac.flycloud.security.authentication;
 
-import com.zac.flycloud.common.utils.PasswordUtil;
+import com.zac.flycloud.common.base.utils.PasswordUtil;
 import com.zac.flycloud.security.bean.SysUser;
 import com.zac.flycloud.security.service.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userName = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        UserDetails userDetails = securityUserService.loadUserByUsername(userName);
-
+        UserDetails userDetails = securityUserService.findByUsername(userName).block();
+        assert userDetails != null;
         SysUser userInfo = new SysUser();
         userInfo.setUsername(userDetails.getUsername());
         userInfo.setPassword(userDetails.getPassword());

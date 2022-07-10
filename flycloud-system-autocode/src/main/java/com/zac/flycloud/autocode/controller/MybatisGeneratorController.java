@@ -1,9 +1,9 @@
 package com.zac.flycloud.autocode.controller;
 
-import com.zac.flycloud.common.enums.PlatformEnum;
-import com.zac.flycloud.autocode.service.MybatisGeneratorService;
 import com.zac.flycloud.autocode.bean.MybatisGeneratorRequest;
+import com.zac.flycloud.autocode.service.MybatisGeneratorService;
 import com.zac.flycloud.autocode.service.SysMysqlCreateTableService;
+import com.zac.flycloud.common.enums.PlatformEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
