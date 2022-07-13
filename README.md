@@ -19,8 +19,9 @@
 - 安装elasticsearch 并启动 [安装地址](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.1.msi)
 - 搜索 application.yml 修改数据库配置
 - 执行dbsql文件夹下的create-db.sql中的建库语句
-- 启动ZacBootApplication类中的main方法
-- 数据库中执行 dbsql文件夹下的init-data.sql中的初始化语句
+- 启动AutoCodeApplication类中的main方法,日志输出swagger地址
+- swagger中调用接口【Mybatis自动生成代码】-【根据实体类创建或更新表结构】
+- 执行dbsql文件夹下的init-data.sql中的初始化语句
 
 #### 使用说明
  ##### 开发规范

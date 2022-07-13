@@ -10,24 +10,24 @@
         <version>2.6.1</version>
     </parent>
     <groupId>com.zac</groupId>
-    <artifactId>fly-cloud</artifactId>
-    <version>${flycloud.version}</version>
-    <name>fly-cloud</name>
+    <artifactId>zacboot</artifactId>
+    <version>${zacboot.version}</version>
+    <name>zacboot</name>
     <description>飞云平台</description>
 
     <modules>
-        <module>flycloud-system-autocode</module>
-        <module>flycloud-system-gateway</module>
-        <module>flycloud-common</module>
-        <module>flycloud-admin</module>
-        <module>flycloud-app-user</module>
+        <module>zacboot-system-autocode</module>
+        <module>zacboot-system-gateway</module>
+        <module>zacboot-common</module>
+        <module>zacboot-admin</module>
+        <module>zacboot-app-user</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <flycloud.version>0.0.1-SNAPSHOT</flycloud.version>
-        <flycloud.common.version>0.0.1-SNAPSHOT</flycloud.common.version>
+        <zacboot.version>0.0.1-SNAPSHOT</zacboot.version>
+        <zacboot.common.version>0.0.1-SNAPSHOT</zacboot.common.version>
 
         <com.alibaba.fastjson.version>2.0.7</com.alibaba.fastjson.version>
         <com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
