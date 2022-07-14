@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>common-base</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${zacboot.common.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

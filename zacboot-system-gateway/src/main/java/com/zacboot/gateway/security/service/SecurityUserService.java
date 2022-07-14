@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,13 +26,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SecurityUserService implements ReactiveUserDetailsService {
 
-    @Autowired
+    @Resource
     private SysUserMapper sysUserMapper;
 
     @Autowired
     private SysUserRoleDao sysUserRoleDao;
-
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
@@ -48,6 +47,8 @@ public class SecurityUserService implements ReactiveUserDetailsService {
             } else {
                 log.error("SecurityUserService #loadUserByUsername 用户未关联角色，username = " + username);
             }
+
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
             UserDetails userDetails = User.builder()
                     .username(username)

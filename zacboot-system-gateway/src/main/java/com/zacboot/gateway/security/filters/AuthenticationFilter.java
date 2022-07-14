@@ -1,4 +1,4 @@
-package com.zacboot.gateway.security.interceptor.filters;
+package com.zacboot.gateway.security.filters;
 
 import com.zacboot.common.base.utils.MultiReadRequest;
 import com.zacboot.common.base.utils.MultiReadResponse;
@@ -54,7 +54,7 @@ public class AuthenticationFilter extends OncePerRequestFilter implements WebFil
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        return null;
+        return Mono.empty();
     }
 
     @Override

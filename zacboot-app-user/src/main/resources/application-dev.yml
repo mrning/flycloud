@@ -35,7 +35,6 @@ spring:
       discovery:
         enabled: true
         server-addr: localhost:8848
-        namespace: fly-cloud-namespaces
   config:
     import: application-common.yml
 xxl:

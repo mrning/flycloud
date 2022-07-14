@@ -9,11 +9,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.zacboot"})
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableWebFlux
-@MapperScan(basePackages = {"com.zacboot.security.dao.mapper",
+@MapperScan(basePackages = {"com.zacboot.gateway.security.dao.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class GatewayApplication {
 
