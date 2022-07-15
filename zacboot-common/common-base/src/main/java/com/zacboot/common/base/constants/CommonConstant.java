@@ -8,7 +8,7 @@ public interface CommonConstant {
     /**
      * 正常状态
      */
-    Integer STATUS_NORMAL = 0;
+    Integer STATUS_OK = 0;
 
     /**
      * 禁用状态
@@ -206,24 +206,6 @@ public interface CommonConstant {
      */
     Integer USER_IDENTITY_1 = 1;
     Integer USER_IDENTITY_2 = 2;
-
-    /**
-     * 在线聊天 是否为默认分组
-     */
-    String IM_DEFAULT_GROUP = "1";
-    /**
-     * 在线聊天 图片文件保存路径
-     */
-    String IM_UPLOAD_CUSTOM_PATH = "imfile";
-    /**
-     * 在线聊天 用户状态
-     */
-    String IM_STATUS_ONLINE = "online";
-
-    /**
-     * 在线聊天 SOCKET消息类型
-     */
-    String IM_SOCKET_TYPE = "chatMessage";
 
     /**
      * 接口url

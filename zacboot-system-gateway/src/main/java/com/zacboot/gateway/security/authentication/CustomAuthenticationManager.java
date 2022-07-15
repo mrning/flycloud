@@ -31,7 +31,6 @@ public class CustomAuthenticationManager extends UserDetailsRepositoryReactiveAu
      */
     @Override
     protected Mono<UserDetails> retrieveUser(String username) {
-        log.info("CustomAuthenticationManager retrieveUser ^^^^^^^^^^^^^^");
         return securityUserService.findByUsername(username);
     }
 

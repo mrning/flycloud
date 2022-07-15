@@ -5,4 +5,4 @@ spring:
   application:
     name: zacboot-app-user
 server:
-  port: 8002
+  port: 8020

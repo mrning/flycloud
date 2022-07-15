@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -57,6 +54,8 @@ public class SecurityUserService implements ReactiveUserDetailsService {
                     .roles(roles.stream().map(SysRole::getRoleCode).collect(Collectors.toList()).toArray(new String[]{}))
                     .build();
 
+            MapReactiveUserDetailsService mapReactiveUserDetailsService = new MapReactiveUserDetailsService(userDetails);
+            mapReactiveUserDetailsService.findByUsername(username);
             return Mono.just(User.withUserDetails(userDetails).build());
         }
     }
