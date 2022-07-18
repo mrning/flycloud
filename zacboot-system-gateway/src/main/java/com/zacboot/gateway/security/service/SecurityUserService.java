@@ -8,15 +8,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service("securityUserService")
@@ -40,22 +41,17 @@ public class SecurityUserService implements ReactiveUserDetailsService {
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             List<SysRole> roles = sysUserRoleDao.getRolesByUserUuid(user.getUuid());
             if (!roles.isEmpty()) {
-                roles.stream().forEach(sysRole -> authorities.add(new SimpleGrantedAuthority(sysRole.getRoleCode())));
+                roles.forEach(sysRole -> authorities.add(new SimpleGrantedAuthority(sysRole.getRoleCode())));
             } else {
                 log.error("SecurityUserService #loadUserByUsername 用户未关联角色，username = " + username);
             }
 
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
             UserDetails userDetails = User.builder()
                     .username(username)
                     .password(user.getPassword())
-                    .passwordEncoder(bCryptPasswordEncoder::encode)
-                    .roles(roles.stream().map(SysRole::getRoleCode).collect(Collectors.toList()).toArray(new String[]{}))
+                    .roles(roles.stream().map(SysRole::getRoleCode).toList().toArray(new String[]{}))
                     .build();
 
-            MapReactiveUserDetailsService mapReactiveUserDetailsService = new MapReactiveUserDetailsService(userDetails);
-            mapReactiveUserDetailsService.findByUsername(username);
             return Mono.just(User.withUserDetails(userDetails).build());
         }
     }

@@ -3,7 +3,7 @@ INSERT INTO `zacboot`.`sys_user`
 (`uuid`, `username`, `password`, `realname`, `avatar`, `nickname`, `mail`, `phone`, `create_user`, `create_time`,
  `update_user`, `update_time`, `deleted`)
 VALUES ('e9ca23d68d884d4ebb19d07889727dae', 'zacboot',
-        '{bcrypt}$2a$10$grZy5ptreZCG.LAg2TK0y.DWZ99UqdfRVWqmBw0Od8S8mXzxRUOne', '管理员',
+        '$2a$10$VZ0DkrPjMFScvPyz4wVpneazIGN4rfK57OY0baiQ.m1FF5t9JcRpG', '管理员',
         'http://minio.jeecg.com/otatest/temp/lgo33_1583397323099.png',
         '管理员', 'zacboot@163.com', '18611111111', 'A01', now(), 'A01', now(), false);
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +23,10 @@ public class CustomAuthenticationManager extends UserDetailsRepositoryReactiveAu
 
     public CustomAuthenticationManager(ReactiveUserDetailsService userDetailsService) {
         super(userDetailsService);
+        this.setPasswordEncoder(new BCryptPasswordEncoder());
     }
+
+
 
     /**
      * 如果验证成功，则返回authentication。如果无法确定身份验证，则返回一个空的Mono。如果认证失败，返回Mono错误。

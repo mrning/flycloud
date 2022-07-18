@@ -1,10 +1,8 @@
 package com.zacboot.gateway.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.nimbusds.jose.JWSObject;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.common.base.utils.PasswordUtil;
-import com.zacboot.gateway.security.bean.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.WebFilterChainServerAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -32,13 +31,13 @@ public class SecurityLoginSuccessHandler extends WebFilterChainServerAuthenticat
     @Override
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         log.info("SecurityLoginSuccessHandler  登录成功。");
-        String token = PasswordUtil.createToken(((SysUser)authentication.getPrincipal()).getUsername(),tokenKey);
+        String token = PasswordUtil.createToken(((User)authentication.getPrincipal()).getUsername(),tokenKey);
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add( "Content-Type","application/json; charset=UTF-8");
         response.getHeaders().add(HttpHeaders.AUTHORIZATION, token);
         return response.writeWith(Mono.just(response.bufferFactory().wrap(
-                JSONObject.toJSONString(Result.success("登录成功",token)).getBytes(StandardCharsets.UTF_8))));
+                JSONObject.toJSONString(Result.success(token,"登录成功")).getBytes(StandardCharsets.UTF_8))));
     }
 }
