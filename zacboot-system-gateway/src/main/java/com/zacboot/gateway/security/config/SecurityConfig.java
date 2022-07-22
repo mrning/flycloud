@@ -1,7 +1,8 @@
 package com.zacboot.gateway.security.config;
 
 
-import com.zacboot.gateway.security.authentication.CustomAuthenticationManager;
+import com.zacboot.gateway.security.handler.AccessDeniedHandler;
+import com.zacboot.gateway.security.handler.AuthManagerHandler;
 import com.zacboot.gateway.security.authentication.CustomerAuthenticationEntryPoint;
 import com.zacboot.gateway.security.filters.AuthenticationFilter;
 import com.zacboot.gateway.security.handler.SecurityLoginFailHandler;
@@ -14,10 +15,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -39,19 +44,28 @@ public class SecurityConfig {
     private String[] postIgnoreUrls;
 
     @Autowired
+    private ReactiveUserDetailsService userDetailService;
+
+    @Autowired
     private SecurityLoginSuccessHandler securityLoginSuccessHandler;
 
     @Autowired
     private SecurityLoginFailHandler securityLoginFailHandler;
 
     @Autowired
-    private CustomAuthenticationManager customAuthenticationManager;
+    private AuthManagerHandler authManagerHandler;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private CustomerAuthenticationEntryPoint customerAuthenticationEntryPoint;
 
     @Autowired
     private AuthenticationFilter authenticationFilter;
+
+    @Autowired
+    private JwtSecurityContextRepository jwtSecurityContextRepository;
 
     /**
      * app请求 安全配置
@@ -65,7 +79,6 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/api-app/app/sys/login")
                         .authenticationEntryPoint(customerAuthenticationEntryPoint)
-                        .authenticationManager(customAuthenticationManager)
                         .authenticationSuccessHandler(securityLoginSuccessHandler)
                         .authenticationFailureHandler(securityLoginFailHandler))
                 .authorizeExchange((exchanges) -> exchanges
@@ -91,15 +104,18 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, getIgnoreUrls).permitAll()
                         .pathMatchers(HttpMethod.POST, postIgnoreUrls).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                        .pathMatchers("/**").access(authManagerHandler)
                         .anyExchange().authenticated())
-                .formLogin((formLogin) -> formLogin
-                        .loginPage("/api-admin/admin/sys/login")
-                        .authenticationEntryPoint(customerAuthenticationEntryPoint)
-                        .authenticationManager(customAuthenticationManager) //登录认证管理
-                        .authenticationSuccessHandler(securityLoginSuccessHandler)  // 认证成功处理
-                        .authenticationFailureHandler(securityLoginFailHandler).and().csrf().disable()    // 认证失败处理
-                );
-        http.addFilterAt(authenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+                .addFilterAfter(authenticationFilter, SecurityWebFiltersOrder.FIRST)
+                .securityContextRepository(jwtSecurityContextRepository)
+                .formLogin()
+                .loginPage("/api-admin/admin/sys/login")
+                .authenticationSuccessHandler(securityLoginSuccessHandler)  // 认证成功处理
+                .authenticationFailureHandler(securityLoginFailHandler)     // 认证失败处理
+                .authenticationEntryPoint(customerAuthenticationEntryPoint)
+                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and().csrf().disable();
+
         return http.build();
     }
 
@@ -108,4 +124,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public ReactiveAuthenticationManager authenticationManager() {
+        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailService);
+        authenticationManager.setPasswordEncoder(passwordEncoder());
+        return authenticationManager;
+    }
 }

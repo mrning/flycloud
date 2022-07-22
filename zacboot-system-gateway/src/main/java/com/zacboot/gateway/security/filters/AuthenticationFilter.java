@@ -17,16 +17,19 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.util.StopWatch;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -36,8 +39,11 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -45,7 +51,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Slf4j
 @Component
-public class AuthenticationFilter implements GlobalFilter, Ordered, WebFilter {
+public class AuthenticationFilter implements Ordered, WebFilter {
 
     @Value("${zacboot.security.tokenKey:''}")
     private String tokenKey;
@@ -56,26 +62,6 @@ public class AuthenticationFilter implements GlobalFilter, Ordered, WebFilter {
     private SecurityUserService securityUserService;
     @Autowired
     private RedisUtil redisUtil;
-
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        if (StrUtil.isEmpty(token)) {
-            return chain.filter(exchange);
-        }
-        try {
-            //从token中解析用户信息并设置到Header中去
-            String realToken = token.replace("Bearer ", "");
-            JWSObject jwsObject = JWSObject.parse(realToken);
-            String userStr = jwsObject.getPayload().toString();
-            log.info("AuthGlobalFilter.filter() user:{}",userStr);
-            ServerHttpRequest request = exchange.getRequest().mutate().header("user", userStr).build();
-            exchange = exchange.mutate().request(request).build();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return chain.filter(exchange);
-    }
 
     @Override
     public int getOrder() {
@@ -107,10 +93,19 @@ public class AuthenticationFilter implements GlobalFilter, Ordered, WebFilter {
         return Mono.empty();
     }
     private void handToken(WebFilterChain filterChain, ServerHttpRequest request, ServerWebExchange exchange){
-        if (new AntPathMatcher(AntPathMatcher.DEFAULT_PATH_SEPARATOR).match(postIgnoreUrls[0],request.getPath().value())){
-            filterChain.filter(exchange);
+        URI uri = request.getURI();
+        PathMatcher pathMatcher = new AntPathMatcher();
+        //白名单路径直接放行
+        List<String> ignoreUrls = Arrays.stream(postIgnoreUrls).toList();
+        for (String ignoreUrl : ignoreUrls) {
+            if (pathMatcher.match(ignoreUrl, uri.getPath())) {
+                return;
+            }
         }
-
+        //对应跨域的预检请求直接放行
+        if(request.getMethod()== HttpMethod.OPTIONS){
+            return;
+        }
         // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
         String token = request.getHeaders().getFirst(CommonConstant.REQUEST_HEADER_TOKEN);
         if (StringUtils.isBlank(token)) {
