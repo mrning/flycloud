@@ -3,14 +3,16 @@ package com.zacboot.common.base.utils;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HexUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
 
 public class PasswordUtil {
 
-    private static final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private static final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**
      * 根据密码明文获取加密后的密码

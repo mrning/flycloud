@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StopWatch;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,6 +49,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered, WebFilter {
 
     @Value("${zacboot.security.tokenKey:''}")
     private String tokenKey;
+    @Value("${zacboot.security.ignore.postHttpUrls:''}")
+    private String[] postIgnoreUrls;
 
     @Autowired
     private SecurityUserService securityUserService;
@@ -100,6 +107,10 @@ public class AuthenticationFilter implements GlobalFilter, Ordered, WebFilter {
         return Mono.empty();
     }
     private void handToken(WebFilterChain filterChain, ServerHttpRequest request, ServerWebExchange exchange){
+        if (new AntPathMatcher(AntPathMatcher.DEFAULT_PATH_SEPARATOR).match(postIgnoreUrls[0],request.getPath().value())){
+            filterChain.filter(exchange);
+        }
+
         // 前后端分离情况下，前端登录后将token放到请求头中，每次请求带入
         String token = request.getHeaders().getFirst(CommonConstant.REQUEST_HEADER_TOKEN);
         if (StringUtils.isBlank(token)) {

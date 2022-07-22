@@ -183,25 +183,13 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      */
     @Override
     public JSONObject userInfo(SysUser sysUser) throws Exception {
-        String username = sysUser.getUsername();
-        // 登录信息记录到security
-        UserDetails userDetails = reactiveUserDetailsService.findByUsername(username).block();
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // 生成token
-        String token = PasswordUtil.createToken(username, tokenKey);
-        // 设置token缓存有效时间 1个小时
-        redisUtil.set(token, username, CommonConstant.TOKEN_EXPIRE_TIME);
-        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN + token, token, CommonConstant.TOKEN_EXPIRE_TIME);
-
         // 获取用户部门信息
         JSONObject obj = new JSONObject();
         List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
         List<SysRole> roles =  sysRoleService.getRolesByUsername(sysUser.getUsername());
         obj.put("departs", departs);
         obj.put("roles", roles);
-        obj.put("token", token);
+        obj.put("token", redisUtil.get(sysUser.getUsername()));
         obj.put("userInfo", sysUser);
 
         // 添加日志
