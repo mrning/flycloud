@@ -3,30 +3,24 @@ package com.zacboot.gateway.security.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.Data;
-import org.bouncycastle.jcajce.BCFKSLoadStoreParameter;
-import org.bouncycastle.jcajce.provider.asymmetric.rsa.BCRSAPrivateKey;
-import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
 
 @Data
-@Component
 public class JwtTool {
-    private String key = "com.bxc";
-    private long overtime = 1000 * 60 * 60;
+    private static long overtime = 1000 * 60 * 60;
 
-    public String CreateToken(String userid, String username, List<String> roles) {
+    public static String createToken(String userid, String username, SecretKey key, List<String> roles) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         JwtBuilder builder = Jwts.builder()
                 .setId(userid)
                 .setSubject(username)
                 .setIssuedAt(now)
-                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
+                .signWith(key)
                 .claim("roles", roles);
         if (overtime > 0) {
             builder.setExpiration(new Date(nowMillis + overtime));
@@ -34,7 +28,7 @@ public class JwtTool {
         return builder.compact();
     }
 
-    public boolean VerityToken(String token) {
+    public static boolean verityToken(String token, SecretKey key) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(key)
@@ -49,7 +43,7 @@ public class JwtTool {
         return false;
     }
 
-    public String getUserid(String token) {
+    public String getUserid(String token, SecretKey key) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(key)
@@ -64,7 +58,7 @@ public class JwtTool {
         return null;
     }
 
-    public String getUserName(String token) {
+    public static String getUserName(String token, SecretKey key) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(key)
@@ -79,7 +73,7 @@ public class JwtTool {
         return null;
     }
 
-    public List<String> getUserRoles(String token) {
+    public static List<String> getUserRoles(String token, SecretKey key) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(key)
@@ -94,7 +88,7 @@ public class JwtTool {
         return null;
     }
 
-    public String getClaims(String token, String param) {
+    public String getClaims(String token, String param, SecretKey key) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(key)

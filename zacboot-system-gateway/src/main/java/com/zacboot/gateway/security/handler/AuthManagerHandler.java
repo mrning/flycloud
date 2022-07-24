@@ -1,5 +1,9 @@
 package com.zacboot.gateway.security.handler;
 
+import com.zacboot.gateway.security.bean.SysRole;
+import com.zacboot.gateway.security.bean.SysUser;
+import com.zacboot.gateway.security.dao.SysUserRoleDao;
+import com.zacboot.gateway.security.dao.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -10,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,41 +24,36 @@ import java.util.stream.Collectors;
 @Component
 public class AuthManagerHandler implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    @Autowired
-    MeunMapper meunMapper;
+    @Resource
+    private SysUserMapper sysUserMapper;
 
     @Autowired
-    RoleMapper roleMapper;
+    private SysUserRoleDao sysUserRoleDao;
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext object) {
         ServerHttpRequest request = object.getExchange().getRequest();
-        String requestUrl = request.getPath().pathWithinApplication().value();
-        List<MeunEntity> list = meunMapper.selectList(null);
-        List<String> roles = new ArrayList<>();
-        list.forEach(m -> {
-            if (antPathMatcher.match(m.getPattern(), requestUrl)) {
-                List<String> allRoleByMenuId = roleMapper.getAllRoleByMenuId(m.getId())
-                        .stream()
-                        .map(r -> r.getRole())
-                        .collect(Collectors.toList());
-                roles.addAll(allRoleByMenuId);
-            }
-        });
+        SysUser sysUser = sysUserMapper.getUserByName("zacboot");
+        List<String> roles = sysUserRoleDao.getRolesByUserUuid(sysUser.getUuid()).stream().map(SysRole::getUuid).collect(Collectors.toList());
+
         if (roles.isEmpty()) {
             return Mono.just(new AuthorizationDecision(false));
         }
         return authentication
                 .filter(a -> a.isAuthenticated())
-                .flatMapIterable(a -> a.getAuthorities())
-                .map(g -> g.getAuthority())
+                .flatMapIterable(a -> {
+                    System.out.println(a);
+                    return a.getAuthorities();
+                })
+                .map(g -> {
+                    System.out.println(g);
+                    return g.getAuthority();
+                })
                 .any(c -> {
-                    if (roles.contains(String.valueOf(c))) {
-                        return true;
-                    }
-                    return false;
+                    System.out.println(c);
+                    return roles.contains(String.valueOf(c));
                 })
                 .map(hasAuthority -> new AuthorizationDecision(hasAuthority))
                 .defaultIfEmpty(new AuthorizationDecision(false));
@@ -62,7 +61,7 @@ public class AuthManagerHandler implements ReactiveAuthorizationManager<Authoriz
 
     @Override
     public Mono<Void> verify(Mono<Authentication> authentication, AuthorizationContext object) {
-        return null;
+        return Mono.empty();
     }
 }
 

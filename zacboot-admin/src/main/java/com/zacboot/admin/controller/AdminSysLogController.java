@@ -23,7 +23,7 @@ import java.util.*;
  */
 @Api(tags = "日志相关")
 @RestController
-@RequestMapping("/admin/sysLog")
+@RequestMapping("/sysLog")
 @Slf4j
 public class AdminSysLogController {
     @Autowired

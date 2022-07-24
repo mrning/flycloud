@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = "角色管理")
 @RestController
-@RequestMapping("/admin/sysRole")
+@RequestMapping("/sysRole")
 @Slf4j
 public class AdminSysRoleController {
     @Autowired

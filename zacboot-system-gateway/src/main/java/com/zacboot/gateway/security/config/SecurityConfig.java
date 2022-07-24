@@ -1,10 +1,10 @@
 package com.zacboot.gateway.security.config;
 
 
-import com.zacboot.gateway.security.handler.AccessDeniedHandler;
-import com.zacboot.gateway.security.handler.AuthManagerHandler;
 import com.zacboot.gateway.security.authentication.CustomerAuthenticationEntryPoint;
 import com.zacboot.gateway.security.filters.AuthenticationFilter;
+import com.zacboot.gateway.security.handler.AccessDeniedHandler;
+import com.zacboot.gateway.security.handler.AuthManagerHandler;
 import com.zacboot.gateway.security.handler.SecurityLoginFailHandler;
 import com.zacboot.gateway.security.handler.SecurityLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -77,7 +76,7 @@ public class SecurityConfig {
     SecurityWebFilterChain apiHttpSecurity(ServerHttpSecurity http) {
         http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api-app/**"))
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/api-app/app/sys/login")
+                        .loginPage("/api-app/sys/login")
                         .authenticationEntryPoint(customerAuthenticationEntryPoint)
                         .authenticationSuccessHandler(securityLoginSuccessHandler)
                         .authenticationFailureHandler(securityLoginFailHandler))
@@ -106,10 +105,10 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/**").access(authManagerHandler)
                         .anyExchange().authenticated())
-                .addFilterAfter(authenticationFilter, SecurityWebFiltersOrder.FIRST)
+                .addFilterAfter(authenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .securityContextRepository(jwtSecurityContextRepository)
                 .formLogin()
-                .loginPage("/api-admin/admin/sys/login")
+                .loginPage("/api-admin/sys/login")
                 .authenticationSuccessHandler(securityLoginSuccessHandler)  // 认证成功处理
                 .authenticationFailureHandler(securityLoginFailHandler)     // 认证失败处理
                 .authenticationEntryPoint(customerAuthenticationEntryPoint)

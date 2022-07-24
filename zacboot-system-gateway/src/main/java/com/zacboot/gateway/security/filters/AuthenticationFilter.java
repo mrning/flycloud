@@ -1,29 +1,21 @@
 package com.zacboot.gateway.security.filters;
 
-import cn.hutool.core.util.StrUtil;
-import com.nimbusds.jose.JWSObject;
 import com.zacboot.common.base.basebeans.exceptions.BusinessException;
 import com.zacboot.common.base.constants.CommonConstant;
-import com.zacboot.common.base.utils.PasswordUtil;
 import com.zacboot.common.base.utils.RedisUtil;
 import com.zacboot.gateway.security.service.SecurityUserService;
+import com.zacboot.gateway.security.utils.JwtTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,14 +26,11 @@ import org.springframework.util.StopWatch;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.crypto.SecretKey;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -71,14 +60,14 @@ public class AuthenticationFilter implements Ordered, WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest serverHttpRequest = exchange.getRequest();
-        log.debug("请求头： {}", serverHttpRequest.getHeaders());
+        log.debug("[{}]-- 请求头： {}", serverHttpRequest.getPath().value(), serverHttpRequest.getHeaders());
 
         StopWatch stopWatch = new StopWatch();
         try {
             stopWatch.start();
             // 记录请求的消息体
             logRequestBody(serverHttpRequest);
-            handToken(chain, serverHttpRequest, exchange);
+            handToken(serverHttpRequest);
         } catch (AuthenticationException e) {
             log.error("AuthenticationException 校验过滤异常：", e);
             SecurityContextHolder.clearContext();
@@ -86,13 +75,13 @@ public class AuthenticationFilter implements Ordered, WebFilter {
         } finally {
             stopWatch.stop();
             long usedTimes = stopWatch.getTotalTimeMillis();
-            // 记录响应的消息体
-            logResponseBody(serverHttpRequest, exchange.getResponse(), usedTimes);
+            log.info("[{}]-- 请求耗时:{}ms",serverHttpRequest.getPath().value(), usedTimes);
+            chain.filter(exchange);
         }
 
         return Mono.empty();
     }
-    private void handToken(WebFilterChain filterChain, ServerHttpRequest request, ServerWebExchange exchange){
+    private void handToken(ServerHttpRequest request){
         URI uri = request.getURI();
         PathMatcher pathMatcher = new AntPathMatcher();
         //白名单路径直接放行
@@ -113,12 +102,12 @@ public class AuthenticationFilter implements Ordered, WebFilter {
         }
         log.debug("后台检查令牌:{}", token);
 
-        if (StringUtils.isNotBlank(token) && PasswordUtil.verifyToken(token, tokenKey)) {
-            UserDetails securityUser = securityUserService.findByUsername(String.valueOf(redisUtil.get(token))).block();
+        SecretKey key = (SecretKey)redisUtil.hget(CommonConstant.PREFIX_USER_TOKEN,token);
+        if (StringUtils.isNotBlank(token) && JwtTool.verityToken(token, key)) {
+            UserDetails securityUser = securityUserService.findByUsername(JwtTool.getUserName(token,key)).block();
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
             // 全局注入角色权限信息和登录用户基本信息
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.filter(exchange);
         } else {
             throw new BadCredentialsException("TOKEN无效或已过期，请重新登录！");
         }
@@ -143,20 +132,6 @@ public class AuthenticationFilter implements Ordered, WebFilter {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private void logResponseBody(ServerHttpRequest request, ServerHttpResponse response, long useTime) {
-        log.info("`{}`  耗时:{}ms  返回状态码: {}",CommonConstant.URL_MAPPING_MAP.get(request.getPath().value()), useTime, response.getStatusCode().value());
-//        byte[] buf = response.getStatusCode().value();
-//        if (buf.length > 0) {
-//            String payload;
-//            try {
-//                payload = new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
-//            } catch (UnsupportedEncodingException ex) {
-//                payload = "[unknown]";
-//            }
-//            log.info("`{}`  耗时:{}ms  返回的参数: {}", CommonConstant.URL_MAPPING_MAP.get(request.getRequestURI()), useTime, payload);
-//        }
     }
 
 }

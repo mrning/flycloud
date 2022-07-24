@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "系统相关")
 @RestController
-@RequestMapping("/admin/sys")
+@RequestMapping("/sys")
 @Slf4j
 public class AdminSysController {
 
