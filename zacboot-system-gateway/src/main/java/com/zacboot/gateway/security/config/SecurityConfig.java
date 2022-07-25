@@ -33,14 +33,10 @@ import org.springframework.security.web.server.util.matcher.PathPatternParserSer
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${zacboot.security.ignore.getHttpUrls:''}")
-    private String[] getIgnoreUrls;
-
-    @Value("${zacboot.security.ignore.postHttpUrls:''}")
-    private String[] postIgnoreUrls;
+    @Value("${zacboot.security.ignore.httpUrls:''}")
+    private String[] ignoreUrls;
 
     @Autowired
     private ReactiveUserDetailsService userDetailService;
@@ -81,8 +77,7 @@ public class SecurityConfig {
                         .authenticationSuccessHandler(securityLoginSuccessHandler)
                         .authenticationFailureHandler(securityLoginFailHandler))
                 .authorizeExchange((exchanges) -> exchanges
-                        .pathMatchers(HttpMethod.GET, getIgnoreUrls).permitAll()
-                        .pathMatchers(HttpMethod.POST, postIgnoreUrls).permitAll()
+                        .pathMatchers(ignoreUrls).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyExchange().authenticated()
                 ).csrf().disable();
@@ -100,8 +95,7 @@ public class SecurityConfig {
     SecurityWebFilterChain adminHttpSecurity(ServerHttpSecurity http) {
         http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api-admin/**"))
                 .authorizeExchange((authorize) -> authorize
-                        .pathMatchers(HttpMethod.GET, getIgnoreUrls).permitAll()
-                        .pathMatchers(HttpMethod.POST, postIgnoreUrls).permitAll()
+                        .pathMatchers(ignoreUrls).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/**").access(authManagerHandler)
                         .anyExchange().authenticated())

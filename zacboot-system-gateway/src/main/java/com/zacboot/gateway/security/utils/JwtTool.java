@@ -1,106 +1,66 @@
 package com.zacboot.gateway.security.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
+import com.zacboot.common.base.constants.CommonConstant;
+import com.zacboot.common.base.utils.RedisUtil;
+import com.zacboot.common.base.utils.SpringContextUtils;
 import lombok.Data;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.Map;
 
 @Data
 public class JwtTool {
     private static long overtime = 1000 * 60 * 60;
 
-    public static String createToken(String userid, String username, SecretKey key, List<String> roles) {
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-        JwtBuilder builder = Jwts.builder()
-                .setId(userid)
-                .setSubject(username)
-                .setIssuedAt(now)
-                .signWith(key)
-                .claim("roles", roles);
-        if (overtime > 0) {
-            builder.setExpiration(new Date(nowMillis + overtime));
+    public static String createToken(Map<String, Object> jsonObject) {
+        // 创建头部对象
+        try {
+            SecureRandom random = new SecureRandom();
+            byte[] sharedSecret = new byte[32];
+            random.nextBytes(sharedSecret);
+
+            RedisUtil redisUtil = SpringContextUtils.getApplicationContext().getBean(RedisUtil.class);
+            JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.HS256).type(JOSEObjectType.JWT).build();
+            Payload payload = new Payload(jsonObject);
+            JWSSigner jwsSigner = new MACSigner(sharedSecret);
+            JWSObject jwsObject = new JWSObject(jwsHeader,payload);
+            jwsObject.sign(jwsSigner);
+            String token = jwsObject.serialize();
+            redisUtil.hset(CommonConstant.PREFIX_USER_TOKEN,token,sharedSecret);
+
+            return token;
+        } catch (JOSEException e) {
+            throw new RuntimeException(e);
         }
-        return builder.compact();
     }
 
-    public static boolean verityToken(String token, SecretKey key) {
+    public static boolean verityToken(String token) {
         try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-            if (claims != null) {
-                return true;
-            }
+            RedisUtil redisUtil = SpringContextUtils.getApplicationContext().getBean(RedisUtil.class);
+            byte[] sharedSecret = (byte[]) redisUtil.hget(CommonConstant.PREFIX_USER_TOKEN,token);
+            JWSObject jwsObject = JWSObject.parse(token);
+
+            JWSVerifier verifier = new MACVerifier(sharedSecret);
+            return jwsObject.verify(verifier);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public String getUserid(String token, SecretKey key) {
+    public static Object getPayLoadByKey(String token,String payLoadKey) {
         try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-            if (claims != null) {
-                return claims.getId();
+            if(verityToken(token)){
+                JWSObject jwsObject = JWSObject.parse(token);
+                return jwsObject.getPayload().toJSONObject().get(payLoadKey);
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
-    }
-
-    public static String getUserName(String token, SecretKey key) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-            if (claims != null) {
-                return claims.getSubject();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static List<String> getUserRoles(String token, SecretKey key) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-            if (claims != null) {
-                return (List<String>) claims.get("roles");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String getClaims(String token, String param, SecretKey key) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-            if (claims != null) {
-                return claims.get(param).toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+       return null;
     }
 }
 

@@ -1,6 +1,7 @@
 package com.zacboot.gateway.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nimbusds.jose.JWSAlgorithm;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.utils.RedisUtil;
@@ -9,9 +10,8 @@ import com.zacboot.gateway.security.bean.SysUser;
 import com.zacboot.gateway.security.dao.SysUserRoleDao;
 import com.zacboot.gateway.security.dao.mapper.SysUserMapper;
 import com.zacboot.gateway.security.utils.JwtTool;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jcajce.BCFKSLoadStoreParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -25,9 +25,11 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.zacboot.common.base.constants.CommonConstant.REQUEST_HEADER_TOKEN;
+import static com.zacboot.common.base.constants.CommonConstant.*;
 
 /**
  * 通过认证登录成功处理
@@ -35,9 +37,6 @@ import static com.zacboot.common.base.constants.CommonConstant.REQUEST_HEADER_TO
 @Slf4j
 @Component("securityLoginSuccessHandler")
 public class SecurityLoginSuccessHandler extends WebFilterChainServerAuthenticationSuccessHandler {
-
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Resource
     private SysUserMapper sysUserMapper;
@@ -51,10 +50,11 @@ public class SecurityLoginSuccessHandler extends WebFilterChainServerAuthenticat
         String userName = ((User)authentication.getPrincipal()).getUsername();
         SysUser sysUser = sysUserMapper.getUserByName(userName);
 
-        SecretKey key  = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String token = JwtTool.createToken(sysUser.getUuid(),userName, key,
-                sysUserRoleDao.getRolesByUserUuid(sysUser.getUuid()).stream().map(SysRole::getRoleCode).collect(Collectors.toList()));
-        redisUtil.hset(CommonConstant.PREFIX_USER_TOKEN,token,key);
+        Map<String,Object> payload = new HashMap<>();
+        payload.put(JWT_PAYLOAD_USERUUID,sysUser.getUuid());
+        payload.put(JWT_PAYLOAD_USERNAME,userName);
+        payload.put(JWT_PAYLOAD_ROLES,sysUserRoleDao.getRolesByUserUuid(sysUser.getUuid()).stream().map(SysRole::getRoleCode).collect(Collectors.toList()));
+        String token = JwtTool.createToken(payload);
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         response.setStatusCode(HttpStatus.OK);

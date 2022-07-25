@@ -42,10 +42,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class AuthenticationFilter implements Ordered, WebFilter {
 
-    @Value("${zacboot.security.tokenKey:''}")
-    private String tokenKey;
-    @Value("${zacboot.security.ignore.postHttpUrls:''}")
-    private String[] postIgnoreUrls;
+    @Value("${zacboot.security.ignore.httpUrls:''}")
+    private String[] ignoreHttpUrls;
 
     @Autowired
     private SecurityUserService securityUserService;
@@ -85,7 +83,7 @@ public class AuthenticationFilter implements Ordered, WebFilter {
         URI uri = request.getURI();
         PathMatcher pathMatcher = new AntPathMatcher();
         //白名单路径直接放行
-        List<String> ignoreUrls = Arrays.stream(postIgnoreUrls).toList();
+        List<String> ignoreUrls = Arrays.stream(ignoreHttpUrls).toList();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
                 return;

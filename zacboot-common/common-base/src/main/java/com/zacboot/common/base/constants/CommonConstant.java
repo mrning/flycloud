@@ -216,6 +216,9 @@ public interface CommonConstant {
      * 请求头 - token
      */
     String REQUEST_HEADER_TOKEN = "token";
+    String JWT_PAYLOAD_USERUUID = "useruuid";
+    String JWT_PAYLOAD_USERNAME = "username";
+    String JWT_PAYLOAD_ROLES = "roles";
 
     /**
      * 请求头类型：
