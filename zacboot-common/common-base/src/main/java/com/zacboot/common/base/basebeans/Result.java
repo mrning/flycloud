@@ -42,7 +42,9 @@ public class Result<T> implements Serializable {
 
 	private enum ResEnum {
 		SUCCESS("SUCCESS","成功"),
-		FAIL("FAIL","失败");
+		FAIL("FAIL","失败"),
+		UNAUTHORIZED("401", "暂未登录或token已经过期"),
+		FORBIDDEN("403", "没有相关权限");
 
 		private final String code;
 		private final String message;
@@ -105,6 +107,14 @@ public class Result<T> implements Serializable {
 		r.setSuccess(false);
 		return r;
 	}
+	public static<T> Result<T> error(int code, String msg,T data) {
+		Result<T> r = new Result<T>();
+		r.setCode(code);
+		r.setMessage(msg);
+		r.setSuccess(false);
+		r.setResult(data);
+		return r;
+	}
 
 	public Result<T> error500(String message) {
 		this.message = message;
@@ -124,5 +134,12 @@ public class Result<T> implements Serializable {
 	 */
 	public static Result<Object> noauth(String msg) {
 		return error(CommonConstant.SC_NO_AUTH, msg);
+	}
+
+	/**
+	 * 未登录返回结果
+	 */
+	public static <T> Result<T> unauthorized(T data,String msg) {
+		return error(CommonConstant.UNAUTHORIZED, msg, data);
 	}
 }

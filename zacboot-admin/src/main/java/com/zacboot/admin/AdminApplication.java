@@ -17,7 +17,6 @@ import java.net.UnknownHostException;
 @SpringBootApplication(scanBasePackages = {"com.zacboot"})
 @EnableDiscoveryClient
 @EnableFeignClients
-@EnableWebFlux
 @MapperScan(basePackages = {"com.zacboot.admin.dao.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class AdminApplication {

@@ -37,10 +37,12 @@ mybatis-plus:
 zacboot:
   security:
     ignore:
-      httpUrls:
+      adminUrls:
         /css/**, /images/**, /img/**, /js/**,
-        /swagger-ui.html, /swagger-ui/**, /swagger-resources, /swagger-resources/**, /v2/api-docs, /v3/api-docs,
-        /webjars/**,/api-admin/sys/**, /api-app/sys/**, /api/mybatisGenerator/**
+        /swagger-ui/**, /swagger-resources, /swagger-resources/**, /v3/api-docs,/webjars/**,
+        /api-admin/sys/**, /api/mybatisGenerator/**
+      appUrls:
+        /api-app/sys/**
     tokenKey: 644b18e4eade56810e649357597aa3b0
   actable:
     # 需要自动建表的包名

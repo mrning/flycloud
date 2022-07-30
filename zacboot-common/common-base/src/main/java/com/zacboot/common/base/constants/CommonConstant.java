@@ -84,6 +84,8 @@ public interface CommonConstant {
      */
     Integer SC_NO_AUTH = 510;
 
+    Integer UNAUTHORIZED = 401;
+
     /**
      * 登录用户Token令牌缓存KEY前缀
      */
@@ -219,6 +221,44 @@ public interface CommonConstant {
     String JWT_PAYLOAD_USERUUID = "useruuid";
     String JWT_PAYLOAD_USERNAME = "username";
     String JWT_PAYLOAD_ROLES = "roles";
+    /**
+     * JWT存储权限前缀
+     */
+    String AUTHORITY_PREFIX = "ROLE_";
+
+    /**
+     * JWT存储权限属性
+     */
+    String AUTHORITY_CLAIM_NAME = "authorities";
+    /**
+     * JWT令牌前缀
+     */
+    String JWT_TOKEN_PREFIX = "Bearer ";
+
+    /**
+     * 后台管理client_id
+     */
+    String ADMIN_CLIENT_ID = "admin-web";
+
+    /**
+     * 前台商城client_id
+     */
+    String PORTAL_CLIENT_ID = "app";
+
+    /**
+     * 后台管理接口路径匹配
+     */
+    String ADMIN_URL_PATTERN = "/api-admin/**";
+
+    /**
+     * Redis缓存权限规则key
+     */
+    String RESOURCE_ROLES_MAP_KEY = "auth:resourceRolesMap";
+
+    /**
+     * 用户信息Http请求头
+     */
+    String USER_TOKEN_HEADER = "user";
 
     /**
      * 请求头类型：

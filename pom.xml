@@ -11,13 +11,15 @@
     </parent>
     <groupId>com.zac</groupId>
     <artifactId>zacboot</artifactId>
-    <version>${zacboot.version}</version>
+    <version>0.0.1</version>
     <name>zacboot</name>
     <description>飞云平台</description>
 
     <modules>
         <module>zacboot-system-autocode</module>
         <module>zacboot-system-gateway</module>
+        <module>zacboot-system-auth</module>
+        <module>zacboot-system-monitor</module>
         <module>zacboot-common</module>
         <module>zacboot-admin</module>
         <module>zacboot-app-user</module>
@@ -26,11 +28,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <zacboot.version>0.0.1-SNAPSHOT</zacboot.version>
-        <zacboot.common.version>0.0.1-SNAPSHOT</zacboot.common.version>
+        <zacboot.version>0.0.1</zacboot.version>
+        <zacboot.common.version>0.0.1</zacboot.common.version>
 
-        <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-fox.version>3.0.0</spring-fox.version>
+        <admin-starter-server.version>2.7.0</admin-starter-server.version>
+        <spring-cloud-starter-oauth2.version>2.2.5.RELEASE</spring-cloud-starter-oauth2.version>
 
         <com.alibaba.fastjson.version>2.0.7</com.alibaba.fastjson.version>
         <com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
@@ -45,8 +49,6 @@
         <com.projectlombok.version>1.18.24</com.projectlombok.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <nimbusds-jwt.version>9.20</nimbusds-jwt.version>
-
-
 
     </properties>
 
@@ -63,6 +65,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!--集成SpringBoot Admin监控-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <version>${admin-starter-server.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -147,6 +155,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbusds-jwt.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
             <version>${xxl-job.version}</version>
@@ -209,18 +223,6 @@
 
 	<build>
 		<plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -41,8 +41,6 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                // 所有以api开头的接口都显示到后台管理接口分组里面
-                .paths(input -> input.startsWith("/admin"))
                 .build()
                 .groupName("管理后台接口")
                 .securityContexts(Collections.singletonList(SecurityContext.builder().securityReferences(Collections.singletonList(new SecurityReference("token",authorizationScopes))).build()))

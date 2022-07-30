@@ -5,11 +5,12 @@
     <parent>
         <artifactId>zacboot-common</artifactId>
         <groupId>com.zac</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-job</artifactId>
+    <version>0.0.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
-            <version>2.3.1</version>
+            <version>${xxl-job.version}</version>
         </dependency>
     </dependencies>
 
