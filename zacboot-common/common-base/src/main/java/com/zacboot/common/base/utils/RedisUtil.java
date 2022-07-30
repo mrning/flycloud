@@ -84,6 +84,10 @@ public class RedisUtil {
 		}
 	}
 
+	public Long del(List<String> keys) {
+		return redisTemplate.delete(keys);
+	}
+
 	// ============================String=============================
 	/**
 	 * 普通缓存获取

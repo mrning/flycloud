@@ -16,6 +16,5 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix="zacboot.security.ignore")
 public class IgnoreUrlsConfig {
-    private List<String> adminUrls;
-    private List<String> appUrls;
+    private List<String> urls;
 }

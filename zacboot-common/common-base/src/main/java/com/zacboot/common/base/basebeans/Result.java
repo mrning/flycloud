@@ -96,10 +96,13 @@ public class Result<T> implements Serializable {
 	}
 
 	
+	public static Result<Object> error() {
+		return error(ResEnum.FAIL.message);
+	}
 	public static Result<Object> error(String msg) {
 		return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500, msg);
 	}
-	
+
 	public static Result<Object> error(int code, String msg) {
 		Result<Object> r = new Result<Object>();
 		r.setCode(code);

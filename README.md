@@ -2,6 +2,7 @@
 
 #### 介绍
 飞云平台
+https://gitee.com/macrozheng/mall-tiny
 
 #### 软件架构
 - Jdk17 [下载地址](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
