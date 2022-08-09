@@ -243,8 +243,8 @@ public class AdminSysController {
      * @param key
      */
     @ApiOperation("获取验证码")
-    @GetMapping(value = "/randomImage/{key}")
-    public Result<String> randomImage(@PathVariable String key) {
+    @GetMapping(value = "/randomImage")
+    public Result<String> randomImage(@RequestParam String key) {
         Result<String> res = new Result<String>();
         try {
             String code = MD5Util.createCode(4);

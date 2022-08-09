@@ -37,7 +37,7 @@ spring:
           lower-case-service-id: true #使用小写service-id
       routes: #配置路由路径
         - id: zacboot-auth
-          uri: lb://zacboot-system-auth
+          uri: lb://zacboot-system-sso
           predicates:
             - Path=/api-auth/**
           filters:

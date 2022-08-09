@@ -18,7 +18,7 @@
     <modules>
         <module>zacboot-system-autocode</module>
         <module>zacboot-system-gateway</module>
-        <module>zacboot-system-auth</module>
+        <module>zacboot-system-sso</module>
         <module>zacboot-system-monitor</module>
         <module>zacboot-common</module>
         <module>zacboot-admin</module>
