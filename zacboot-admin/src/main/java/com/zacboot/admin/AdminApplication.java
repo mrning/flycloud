@@ -16,7 +16,7 @@ import java.net.UnknownHostException;
 @Slf4j
 @SpringBootApplication(scanBasePackages = {"com.zacboot"})
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.zacboot.admin.feign")
 @MapperScan(basePackages = {"com.zacboot.admin.dao.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class AdminApplication {

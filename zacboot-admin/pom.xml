@@ -23,6 +23,11 @@
             <version>${zacboot.common.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.zac</groupId>
+            <artifactId>zacboot-system-sso</artifactId>
+            <version>${zacboot.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-spring-webflux</artifactId>
             <version>${spring-fox.version}</version>

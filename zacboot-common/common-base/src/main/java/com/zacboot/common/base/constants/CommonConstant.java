@@ -243,12 +243,17 @@ public interface CommonConstant {
     /**
      * 前台商城client_id
      */
-    String PORTAL_CLIENT_ID = "app";
+    String APP_CLIENT_ID = "app";
 
     /**
      * 后台管理接口路径匹配
      */
     String ADMIN_URL_PATTERN = "/api-admin/**";
+
+    /**
+     * app接口路径匹配
+     */
+    String APP_URL_PATTERN = "/api-app/**";
 
     /**
      * Redis缓存权限规则key

@@ -73,7 +73,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @return
      * @throws Exception
      */
-    JSONObject userInfo(SysUser sysUser) throws Exception;
+    JSONObject userInfo(SysUser sysUser);
 
     /**
      * regis

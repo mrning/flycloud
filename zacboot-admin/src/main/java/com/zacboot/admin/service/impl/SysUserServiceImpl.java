@@ -12,23 +12,23 @@ import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.dao.mapper.SysUserMapper;
+import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.admin.service.SysUserService;
-import com.zacboot.common.base.utils.PasswordUtil;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.common.base.constants.CommonConstant;
+import com.zacboot.common.base.utils.PasswordUtil;
+import com.zacboot.system.sso.dto.UmsAdminLoginParam;
+import com.zacboot.system.sso.service.UmsAdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -56,10 +56,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     private SysDeptService sysDeptService;
 
     @Autowired
-    private ReactiveUserDetailsService reactiveUserDetailsService;
-
-    @Value("${zacboot.security.tokenKey}")
-    private String tokenKey;
+    private SsoServiceFeign ssoServiceFeign;
 
     public Integer add(SysUser sysUser) {
         return sysUserDao.add(sysUser);
@@ -182,14 +179,14 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
      * @return
      */
     @Override
-    public JSONObject userInfo(SysUser sysUser) throws Exception {
+    public JSONObject userInfo(SysUser sysUser) {
         // 获取用户部门信息
         JSONObject obj = new JSONObject();
         List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
         List<SysRole> roles =  sysRoleService.getRolesByUsername(sysUser.getUsername());
         obj.put("departs", departs);
         obj.put("roles", roles);
-        obj.put("token", redisUtil.get(sysUser.getUsername()));
+        obj.put("token", ssoServiceFeign.login(new UmsAdminLoginParam(sysUser.getUsername(),sysUser.getPassword())));
         obj.put("userInfo", sysUser);
 
         // 添加日志

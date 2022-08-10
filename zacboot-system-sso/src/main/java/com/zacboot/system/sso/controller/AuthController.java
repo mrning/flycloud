@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @Api(tags = "AuthController", description = "认证中心登录认证")
-@RequestMapping("/oauth")
+@RequestMapping("/sso")
 public class AuthController {
 
     @Value("${jwt.tokenHeader}")
