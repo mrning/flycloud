@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig extends BaseSwaggerConfig {
+public class SsoSwaggerConfig extends BaseSwaggerConfig {
 
     @Override
     public SwaggerProperties swaggerProperties() {

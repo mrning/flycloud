@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysRole;
@@ -20,15 +21,11 @@ import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.utils.PasswordUtil;
-import com.zacboot.system.sso.dto.UmsAdminLoginParam;
-import com.zacboot.system.sso.service.UmsAdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -186,7 +183,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         List<SysRole> roles =  sysRoleService.getRolesByUsername(sysUser.getUsername());
         obj.put("departs", departs);
         obj.put("roles", roles);
-        obj.put("token", ssoServiceFeign.login(new UmsAdminLoginParam(sysUser.getUsername(),sysUser.getPassword())));
+        obj.put("token", ssoServiceFeign.login(new SsoLoginRequest(sysUser.getUsername(),sysUser.getPassword())));
         obj.put("userInfo", sysUser);
 
         // 添加日志

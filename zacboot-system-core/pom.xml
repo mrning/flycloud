@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zacboot-admin</artifactId>
+    <artifactId>zacboot-system-core</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,19 +18,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.zac</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${zacboot.common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zac</groupId>
-            <artifactId>zacboot-system-core</artifactId>
-            <version>${zacboot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-webflux</artifactId>
-            <version>${spring-fox.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 

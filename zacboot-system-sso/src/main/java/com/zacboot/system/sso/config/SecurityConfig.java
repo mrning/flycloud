@@ -40,17 +40,14 @@ public class SecurityConfig {
 
     @Bean
     public DynamicSecurityService dynamicSecurityService() {
-        return new DynamicSecurityService() {
-            @Override
-            public Map<String, ConfigAttribute> loadDataSource() {
+        return ()-> {
                 Map<String, ConfigAttribute> map = new ConcurrentHashMap<>();
                 List<UmsResource> resourceList = resourceService.list();
                 for (UmsResource resource : resourceList) {
                     map.put(resource.getUrl(), new org.springframework.security.access.SecurityConfig(resource.getId() + ":" + resource.getName()));
                 }
                 return map;
-            }
-        };
+            };
     }
 
     @Bean

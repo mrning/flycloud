@@ -2,6 +2,7 @@ package com.zacboot.system.sso.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.system.sso.domain.UmsAdmin;
 import com.zacboot.system.sso.domain.UmsRole;
@@ -56,8 +57,8 @@ public class AuthController {
     @ApiOperation(value = "登录以后返回token")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Result login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam) {
-        String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
+    public Result login(@Validated @RequestBody SsoLoginRequest ssoLoginRequest) {
+        String token = adminService.login(ssoLoginRequest.getUsername(), ssoLoginRequest.getPassword());
         if (token == null) {
             return Result.error("用户名或密码错误");
         }

@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.zacboot.system")
-@MapperScan(basePackages = {"com.zacboot.system.auth.mapper",
+@MapperScan(basePackages = {"com.zacboot.system.sso.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class SsoApplication {
 

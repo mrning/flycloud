@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zacboot.system.sso.domain.*;
 import com.zacboot.system.sso.dto.UmsAdminParam;
 import com.zacboot.system.sso.dto.UpdateAdminPasswordParam;
-import com.zacboot.system.sso.mapper.UmsAdminLoginLogMapper;
 import com.zacboot.system.sso.mapper.UmsAdminMapper;
 import com.zacboot.system.sso.mapper.UmsResourceMapper;
 import com.zacboot.system.sso.mapper.UmsRoleMapper;
@@ -50,8 +49,6 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UmsAdminLoginLogMapper loginLogMapper;
     @Autowired
     private UmsAdminRoleRelationService adminRoleRelationService;
     @Autowired
@@ -125,7 +122,6 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         loginLog.setIp(request.getRemoteAddr());
-        loginLogMapper.insert(loginLog);
     }
 
     /**
