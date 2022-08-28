@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zacboot.system.sso.domain.UmsAdmin;
+import com.zacboot.system.sso.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author macro
  * @since 2020-08-21
  */
-public interface UmsAdminMapper extends BaseMapper<UmsAdmin> {
+public interface UmsAdminMapper extends BaseMapper<SysUser> {
 
     /**
      * 获取资源相关用户ID列表

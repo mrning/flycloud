@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("ums_admin")
+@TableName("sys_user")
 @ApiModel(value="UmsAdmin对象", description="后台用户表")
 public class UmsAdmin implements Serializable {
 

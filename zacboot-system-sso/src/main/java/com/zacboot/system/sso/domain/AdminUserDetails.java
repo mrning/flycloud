@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
  * Created by macro on 2018/4/26.
  */
 public class AdminUserDetails implements UserDetails {
-    private UmsAdmin umsAdmin;
-    private List<UmsResource> resourceList;
-    public AdminUserDetails(UmsAdmin umsAdmin, List<UmsResource> resourceList) {
-        this.umsAdmin = umsAdmin;
+    private final SysUser sysUser;
+    private final List<UmsResource> resourceList;
+    public AdminUserDetails(SysUser sysUser, List<UmsResource> resourceList) {
+        this.sysUser = sysUser;
         this.resourceList = resourceList;
     }
 
@@ -30,12 +30,12 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return umsAdmin.getPassword();
+        return sysUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return umsAdmin.getUsername();
+        return sysUser.getUsername();
     }
 
     @Override
@@ -55,6 +55,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return umsAdmin.getStatus().equals(1);
+        return sysUser.getDeleted();
     }
 }

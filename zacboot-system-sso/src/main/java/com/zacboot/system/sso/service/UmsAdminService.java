@@ -2,7 +2,7 @@ package com.zacboot.system.sso.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zacboot.system.sso.domain.UmsAdmin;
+import com.zacboot.system.sso.domain.SysUser;
 import com.zacboot.system.sso.domain.UmsResource;
 import com.zacboot.system.sso.domain.UmsRole;
 import com.zacboot.system.sso.dto.UmsAdminParam;
@@ -11,21 +11,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by macro on 2019/10/18.
  */
-public interface UmsAdminService extends IService<UmsAdmin> {
+public interface UmsAdminService extends IService<SysUser> {
 
     /**
      * 根据用户名获取后台管理员
      */
-    UmsAdmin getAdminByUsername(String username);
+    Optional<SysUser> getAdminByUsername(String username);
 
     /**
      * 注册功能
      */
-    UmsAdmin register(UmsAdminParam umsAdminParam);
+    SysUser register(UmsAdminParam umsAdminParam);
 
     /**
      * 登录功能
@@ -44,12 +45,12 @@ public interface UmsAdminService extends IService<UmsAdmin> {
     /**
      * 根据用户名或昵称分页查询用户
      */
-    Page<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum);
+    Page<SysUser> list(String keyword, Integer pageSize, Integer pageNum);
 
     /**
      * 修改指定用户信息
      */
-    boolean update(Long id, UmsAdmin admin);
+    boolean update(Long id, SysUser admin);
 
     /**
      * 删除指定用户

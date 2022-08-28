@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.zacboot.system.sso.feign")
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.zacboot.system")
 @MapperScan(basePackages = {"com.zacboot.system.sso.mapper",

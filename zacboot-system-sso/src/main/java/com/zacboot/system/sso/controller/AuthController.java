@@ -4,9 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.system.sso.domain.UmsAdmin;
+import com.zacboot.system.sso.domain.SysUser;
 import com.zacboot.system.sso.domain.UmsRole;
-import com.zacboot.system.sso.dto.UmsAdminLoginParam;
 import com.zacboot.system.sso.dto.UmsAdminParam;
 import com.zacboot.system.sso.dto.UpdateAdminPasswordParam;
 import com.zacboot.system.sso.service.UmsAdminService;
@@ -46,8 +45,8 @@ public class AuthController {
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public Result<UmsAdmin> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
-        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+    public Result<SysUser> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
+        SysUser umsAdmin = adminService.register(umsAdminParam);
         if (umsAdmin == null) {
             return Result.error(-1,"用户不存在",null);
         }
@@ -55,17 +54,9 @@ public class AuthController {
     }
 
     @ApiOperation(value = "登录以后返回token")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public Result login(@Validated @RequestBody SsoLoginRequest ssoLoginRequest) {
-        String token = adminService.login(ssoLoginRequest.getUsername(), ssoLoginRequest.getPassword());
-        if (token == null) {
-            return Result.error("用户名或密码错误");
-        }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-        tokenMap.put("tokenHead", tokenHead);
-        return Result.success(tokenMap);
+    @PostMapping(value = "/login")
+    public String login(@Validated @RequestBody SsoLoginRequest ssoLoginRequest) {
+        return adminService.login(ssoLoginRequest.getUsername(), ssoLoginRequest.getPassword());
     }
 
     @ApiOperation(value = "刷新token")
@@ -91,11 +82,11 @@ public class AuthController {
             return Result.unauthorized(null,"登录信息为空");
         }
         String username = principal.getName();
-        UmsAdmin umsAdmin = adminService.getAdminByUsername(username);
+        SysUser umsAdmin = adminService.getAdminByUsername(username).orElseThrow();
         Map<String, Object> data = new HashMap<>();
         data.put("username", umsAdmin.getUsername());
         data.put("menus", roleService.getMenuList(umsAdmin.getId()));
-        data.put("icon", umsAdmin.getIcon());
+        data.put("icon", umsAdmin.getAvatar());
         List<UmsRole> roleList = adminService.getRoleList(umsAdmin.getId());
         if(CollUtil.isNotEmpty(roleList)){
             List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
@@ -114,25 +105,25 @@ public class AuthController {
     @ApiOperation("根据用户名或姓名分页获取用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Result<Page<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public Result<Page<SysUser>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<UmsAdmin> adminList = adminService.list(keyword, pageSize, pageNum);
+        Page<SysUser> adminList = adminService.list(keyword, pageSize, pageNum);
         return Result.success(adminList);
     }
 
     @ApiOperation("获取指定用户信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Result<UmsAdmin> getItem(@PathVariable Long id) {
-        UmsAdmin admin = adminService.getById(id);
+    public Result<SysUser> getItem(@PathVariable Long id) {
+        SysUser admin = adminService.getById(id);
         return Result.success(admin);
     }
 
     @ApiOperation("修改指定用户信息")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Result update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
+    public Result update(@PathVariable Long id, @RequestBody SysUser admin) {
         boolean success = adminService.update(id, admin);
         if (success) {
             return Result.success();
@@ -172,9 +163,9 @@ public class AuthController {
     @ApiOperation("修改帐号状态")
     @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateStatus(@PathVariable Long id,@RequestParam(value = "status") Integer status) {
-        UmsAdmin umsAdmin = new UmsAdmin();
-        umsAdmin.setStatus(status);
+    public Result updateStatus(@PathVariable Long id,@RequestParam(value = "status") Boolean status) {
+        SysUser umsAdmin = new SysUser();
+        umsAdmin.setDeleted(status);
         boolean success = adminService.update(id,umsAdmin);
         if (success) {
             return Result.success();

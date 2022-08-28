@@ -13,7 +13,7 @@ import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.dao.mapper.SysUserMapper;
-import com.zacboot.admin.feign.SsoServiceFeign;
+import com.zacboot.admin.feign.reactive.SsoServiceFeign;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.admin.service.SysUserService;
@@ -181,9 +181,10 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         JSONObject obj = new JSONObject();
         List<SysDept> departs = sysDeptService.queryUserDeparts(sysUser.getUuid());
         List<SysRole> roles =  sysRoleService.getRolesByUsername(sysUser.getUsername());
+        String token = ssoServiceFeign.login(new SsoLoginRequest(sysUser.getUsername(),sysUser.getPassword()));
         obj.put("departs", departs);
         obj.put("roles", roles);
-        obj.put("token", ssoServiceFeign.login(new SsoLoginRequest(sysUser.getUsername(),sysUser.getPassword())));
+        obj.put("token", token);
         obj.put("userInfo", sysUser);
 
         // 添加日志

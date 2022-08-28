@@ -3,7 +3,7 @@ package com.zacboot.system.sso.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zacboot.common.base.utils.RedisUtil;
-import com.zacboot.system.sso.domain.UmsAdmin;
+import com.zacboot.system.sso.domain.SysUser;
 import com.zacboot.system.sso.domain.UmsAdminRoleRelation;
 import com.zacboot.system.sso.domain.UmsResource;
 import com.zacboot.system.sso.mapper.UmsAdminMapper;
@@ -45,7 +45,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
 
     @Override
     public void delAdmin(Long adminId) {
-        UmsAdmin admin = adminService.getById(adminId);
+        SysUser admin = adminService.getById(adminId);
         if (admin != null) {
             String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
             redisUtil.del(key);
@@ -93,13 +93,13 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     }
 
     @Override
-    public UmsAdmin getAdmin(String username) {
+    public SysUser getAdmin(String username) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username;
-        return (UmsAdmin) redisUtil.get(key);
+        return (SysUser) redisUtil.get(key);
     }
 
     @Override
-    public void setAdmin(UmsAdmin admin) {
+    public void setAdmin(SysUser admin) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
         redisUtil.set(key, admin, REDIS_EXPIRE);
     }

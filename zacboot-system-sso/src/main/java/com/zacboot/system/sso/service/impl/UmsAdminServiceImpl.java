@@ -1,6 +1,7 @@
 package com.zacboot.system.sso.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -37,13 +38,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 后台管理员管理Service实现类
  * Created by macro on 2018/4/26.
  */
 @Service
-public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> implements UmsAdminService {
+public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -57,30 +59,30 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
     private UmsResourceMapper resourceMapper;
 
     @Override
-    public UmsAdmin getAdminByUsername(String username) {
-        UmsAdmin admin = getCacheService().getAdmin(username);
-        if(admin!=null) return  admin;
-        QueryWrapper<UmsAdmin> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(UmsAdmin::getUsername,username);
-        List<UmsAdmin> adminList = list(wrapper);
+    public Optional<SysUser> getAdminByUsername(String username) {
+        SysUser admin = getCacheService().getAdmin(username);
+        if(admin!=null) return  Optional.of(admin);
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getUsername,username);
+        List<SysUser> adminList = list(wrapper);
         if (adminList != null && adminList.size() > 0) {
             admin = adminList.get(0);
             getCacheService().setAdmin(admin);
-            return admin;
+            return Optional.of(admin);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public UmsAdmin register(UmsAdminParam umsAdminParam) {
-        UmsAdmin umsAdmin = new UmsAdmin();
+    public SysUser register(UmsAdminParam umsAdminParam) {
+        SysUser umsAdmin = new SysUser();
         BeanUtils.copyProperties(umsAdminParam, umsAdmin);
         umsAdmin.setCreateTime(new Date());
-        umsAdmin.setStatus(1);
+        umsAdmin.setDeleted(Boolean.FALSE);
         //查询是否有相同用户名的用户
-        QueryWrapper<UmsAdmin> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(UmsAdmin::getUsername,umsAdmin.getUsername());
-        List<UmsAdmin> umsAdminList = list(wrapper);
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getUsername,umsAdmin.getUsername());
+        List<SysUser> umsAdminList = list(wrapper);
         if (umsAdminList.size() > 0) {
             return null;
         }
@@ -114,10 +116,10 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
      * @param username 用户名
      */
     private void insertLoginLog(String username) {
-        UmsAdmin admin = getAdminByUsername(username);
-        if(admin==null) return;
+        Optional<SysUser> admin = getAdminByUsername(username);
+        if(!admin.isPresent()) return;
         UmsAdminLoginLog loginLog = new UmsAdminLoginLog();
-        loginLog.setAdminId(admin.getId());
+        loginLog.setAdminId(admin.orElseThrow().getId());
         loginLog.setCreateTime(new Date());
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -128,10 +130,10 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
      * 根据用户名修改登录时间
      */
     private void updateLoginTimeByUsername(String username) {
-        UmsAdmin record = new UmsAdmin();
-        record.setLoginTime(new Date());
-        QueryWrapper<UmsAdmin> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(UmsAdmin::getUsername,username);
+        SysUser record = new SysUser();
+        record.setUpdateTime(new Date());
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getUsername,username);
         update(record,wrapper);
     }
 
@@ -141,21 +143,21 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
     }
 
     @Override
-    public Page<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum) {
-        Page<UmsAdmin> page = new Page<>(pageNum,pageSize);
-        QueryWrapper<UmsAdmin> wrapper = new QueryWrapper<>();
-        LambdaQueryWrapper<UmsAdmin> lambda = wrapper.lambda();
+    public Page<SysUser> list(String keyword, Integer pageSize, Integer pageNum) {
+        Page<SysUser> page = new Page<>(pageNum,pageSize);
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> lambda = wrapper.lambda();
         if(StrUtil.isNotEmpty(keyword)){
-            lambda.like(UmsAdmin::getUsername,keyword);
-            lambda.or().like(UmsAdmin::getNickName,keyword);
+            lambda.like(SysUser::getUsername,keyword);
+            lambda.or().like(SysUser::getNickname,keyword);
         }
         return page(page,wrapper);
     }
 
     @Override
-    public boolean update(Long id, UmsAdmin admin) {
+    public boolean update(Long id, SysUser admin) {
         admin.setId(id);
-        UmsAdmin rawAdmin = getById(id);
+        SysUser rawAdmin = getById(id);
         if(rawAdmin.getPassword().equals(admin.getPassword())){
             //与原加密密码相同的不需要修改
             admin.setPassword(null);
@@ -227,13 +229,13 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
                 ||StrUtil.isEmpty(param.getNewPassword())){
             return -1;
         }
-        QueryWrapper<UmsAdmin> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(UmsAdmin::getUsername,param.getUsername());
-        List<UmsAdmin> adminList = list(wrapper);
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getUsername,param.getUsername());
+        List<SysUser> adminList = list(wrapper);
         if(CollUtil.isEmpty(adminList)){
             return -2;
         }
-        UmsAdmin umsAdmin = adminList.get(0);
+        SysUser umsAdmin = adminList.get(0);
         if(!passwordEncoder.matches(param.getOldPassword(),umsAdmin.getPassword())){
             return -3;
         }
@@ -246,12 +248,13 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
     @Override
     public UserDetails loadUserByUsername(String username){
         //获取用户信息
-        UmsAdmin admin = getAdminByUsername(username);
-        if (admin != null) {
-            List<UmsResource> resourceList = getResourceList(admin.getId());
-            return new AdminUserDetails(admin,resourceList);
-        }
-        throw new UsernameNotFoundException("用户名或密码错误");
+        SysUser admin = getAdminByUsername(username).orElseThrow(() -> new UsernameNotFoundException("用户名或密码错误"));
+        return new AdminUserDetails(admin, ListUtil.empty());
+//        if (admin != null) {
+//            List<UmsResource> resourceList = getResourceList(admin.getId());
+//            return new AdminUserDetails(admin,resourceList);
+//        }
+
     }
 
     @Override

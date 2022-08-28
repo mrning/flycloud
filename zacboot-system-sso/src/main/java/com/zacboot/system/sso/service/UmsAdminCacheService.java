@@ -1,8 +1,7 @@
 package com.zacboot.system.sso.service;
 
 
-
-import com.zacboot.system.sso.domain.UmsAdmin;
+import com.zacboot.system.sso.domain.SysUser;
 import com.zacboot.system.sso.domain.UmsResource;
 
 import java.util.List;
@@ -40,12 +39,12 @@ public interface UmsAdminCacheService {
     /**
      * 获取缓存后台用户信息
      */
-    UmsAdmin getAdmin(String username);
+    SysUser getAdmin(String username);
 
     /**
      * 设置缓存后台用户信息
      */
-    void setAdmin(UmsAdmin admin);
+    void setAdmin(SysUser admin);
 
     /**
      * 获取缓存后台用户资源列表

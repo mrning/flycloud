@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserDetailsService {
         String clientId = request.getParameter("client_id");
         UserDto userDto;
         if(CommonConstant.ADMIN_CLIENT_ID.equals(clientId)){
+            
             userDto = adminService.loadUserByUsername(username);
         }else{
             userDto = memberService.loadUserByUsername(username);
