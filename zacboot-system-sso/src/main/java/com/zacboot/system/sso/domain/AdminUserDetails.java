@@ -4,28 +4,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- * SpringSecurity需要的用户详情
- * Created by macro on 2018/4/26.
- */
 public class AdminUserDetails implements UserDetails {
     private final SysUser sysUser;
-    private final List<UmsResource> resourceList;
-    public AdminUserDetails(SysUser sysUser, List<UmsResource> resourceList) {
+    public AdminUserDetails(SysUser sysUser) {
         this.sysUser = sysUser;
-        this.resourceList = resourceList;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(1+":"+"admin"));
         //返回当前用户的角色
-        return resourceList.stream()
-                .map(role ->new SimpleGrantedAuthority(role.getId()+":"+role.getName()))
-                .collect(Collectors.toList());
+        return authorities;
     }
 
     @Override

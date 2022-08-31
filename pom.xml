@@ -32,6 +32,7 @@
         <zacboot.version>0.0.1</zacboot.version>
         <zacboot.common.version>0.0.1</zacboot.common.version>
 
+        <spring-boot.version>2.7.0</spring-boot.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-fox.version>3.0.0</spring-fox.version>
         <admin-starter-server.version>2.7.0</admin-starter-server.version>
@@ -44,12 +45,12 @@
 
         <mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
-        <mysql.version>8.0.19</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
 
-        <hutool.version>5.8.3</hutool.version>
+        <hutool.version>5.8.5</hutool.version>
         <com.projectlombok.version>1.18.24</com.projectlombok.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <nimbusds-jwt.version>9.20</nimbusds-jwt.version>
+        <nimbusds-jwt.version>9.24.3</nimbusds-jwt.version>
 
     </properties>
 
@@ -191,7 +192,7 @@
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.7.0</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

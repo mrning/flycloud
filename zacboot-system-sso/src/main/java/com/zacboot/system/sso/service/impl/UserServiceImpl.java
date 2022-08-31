@@ -4,8 +4,8 @@ import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.domain.UserDto;
 import com.zacboot.system.sso.domain.SecurityUser;
 import com.zacboot.system.sso.constant.MessageConstant;
-import com.zacboot.system.sso.feign.UmsAdminFeign;
-import com.zacboot.system.sso.feign.UmsMemberFeign;
+import com.zacboot.system.sso.feign.AdminFeign;
+import com.zacboot.system.sso.feign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UmsAdminFeign adminService;
+    private AdminFeign adminService;
     @Autowired
-    private UmsMemberFeign memberService;
+    private UserFeign memberService;
     @Autowired
     private HttpServletRequest request;
 

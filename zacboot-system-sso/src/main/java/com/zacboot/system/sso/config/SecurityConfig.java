@@ -1,24 +1,16 @@
 package com.zacboot.system.sso.config;
 
 import com.zacboot.common.base.utils.RedisUtil;
-import com.zacboot.system.sso.domain.UmsResource;
-import com.zacboot.system.sso.service.DynamicSecurityService;
-import com.zacboot.system.sso.service.UserRescourceService;
 import com.zacboot.system.sso.service.impl.UserServiceImpl;
 import com.zacboot.system.sso.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * mall-security模块相关配置
@@ -31,9 +23,6 @@ public class SecurityConfig {
     @Autowired
     private UserServiceImpl adminService;
 
-    @Autowired
-    private UserRescourceService resourceService;
-
     @Bean
     public DefaultSecurityFilterChain securityWebFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
@@ -44,18 +33,6 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
         return username -> adminService.loadUserByUsername(username);
-    }
-
-    @Bean
-    public DynamicSecurityService dynamicSecurityService() {
-        return ()-> {
-                Map<String, ConfigAttribute> map = new ConcurrentHashMap<>();
-                List<UmsResource> resourceList = resourceService.list();
-                for (UmsResource resource : resourceList) {
-                    map.put(resource.getUrl(), new org.springframework.security.access.SecurityConfig(resource.getId() + ":" + resource.getName()));
-                }
-                return map;
-            };
     }
 
     @Bean

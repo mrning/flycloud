@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by macro on 2019/10/18.
  */
 @FeignClient("zacboot-admin")
-public interface UmsAdminFeign {
+public interface AdminFeign {
 
     @GetMapping("/admin/loadByUsername")
     UserDto loadUserByUsername(@RequestParam String username);

@@ -1,15 +1,11 @@
 package com.zacboot.system.sso.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.system.sso.domain.SysUser;
-import com.zacboot.system.sso.domain.UmsRole;
-import com.zacboot.system.sso.dto.UmsAdminParam;
-import com.zacboot.system.sso.dto.UpdateAdminPasswordParam;
-import com.zacboot.system.sso.service.UmsAdminService;
-import com.zacboot.system.sso.service.UmsRoleService;
+import com.zacboot.system.sso.dto.AdminParam;
+import com.zacboot.system.sso.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 自定义Oauth2获取令牌接口
@@ -38,15 +31,13 @@ public class AuthController {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Autowired
-    private UmsAdminService adminService;
-    @Autowired
-    private UmsRoleService roleService;
+    private AdminService adminService;
 
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public Result<SysUser> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
-        SysUser umsAdmin = adminService.register(umsAdminParam);
+    public Result<SysUser> register(@Validated @RequestBody AdminParam adminParam) {
+        SysUser umsAdmin = adminService.register(adminParam);
         if (umsAdmin == null) {
             return Result.error(-1,"用户不存在",null);
         }
@@ -74,27 +65,6 @@ public class AuthController {
         return Result.success(tokenMap);
     }
 
-    @ApiOperation(value = "获取当前登录用户信息")
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
-    @ResponseBody
-    public Result getAdminInfo(Principal principal) {
-        if(principal==null){
-            return Result.unauthorized(null,"登录信息为空");
-        }
-        String username = principal.getName();
-        SysUser umsAdmin = adminService.getAdminByUsername(username).orElseThrow();
-        Map<String, Object> data = new HashMap<>();
-        data.put("username", umsAdmin.getUsername());
-        data.put("menus", roleService.getMenuList(umsAdmin.getId()));
-        data.put("icon", umsAdmin.getAvatar());
-        List<UmsRole> roleList = adminService.getRoleList(umsAdmin.getId());
-        if(CollUtil.isNotEmpty(roleList)){
-            List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
-            data.put("roles",roles);
-        }
-        return Result.success(data);
-    }
-
     @ApiOperation(value = "登出功能")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
@@ -110,86 +80,5 @@ public class AuthController {
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         Page<SysUser> adminList = adminService.list(keyword, pageSize, pageNum);
         return Result.success(adminList);
-    }
-
-    @ApiOperation("获取指定用户信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Result<SysUser> getItem(@PathVariable Long id) {
-        SysUser admin = adminService.getById(id);
-        return Result.success(admin);
-    }
-
-    @ApiOperation("修改指定用户信息")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public Result update(@PathVariable Long id, @RequestBody SysUser admin) {
-        boolean success = adminService.update(id, admin);
-        if (success) {
-            return Result.success();
-        }
-        return Result.error("");
-    }
-
-    @ApiOperation("修改指定用户密码")
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
-    @ResponseBody
-    public Result updatePassword(@Validated @RequestBody UpdateAdminPasswordParam updatePasswordParam) {
-        int status = adminService.updatePassword(updatePasswordParam);
-        if (status > 0) {
-            return Result.success(status);
-        } else if (status == -1) {
-            return Result.error("提交参数不合法");
-        } else if (status == -2) {
-            return Result.error("找不到该用户");
-        } else if (status == -3) {
-            return Result.error("旧密码错误");
-        } else {
-            return Result.error("");
-        }
-    }
-
-    @ApiOperation("删除指定用户信息")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public Result delete(@PathVariable Long id) {
-        boolean success = adminService.delete(id);
-        if (success) {
-            return Result.success();
-        }
-        return Result.error("");
-    }
-
-    @ApiOperation("修改帐号状态")
-    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public Result updateStatus(@PathVariable Long id,@RequestParam(value = "status") Boolean status) {
-        SysUser umsAdmin = new SysUser();
-        umsAdmin.setDeleted(status);
-        boolean success = adminService.update(id,umsAdmin);
-        if (success) {
-            return Result.success();
-        }
-        return Result.error("");
-    }
-
-    @ApiOperation("给用户分配角色")
-    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
-    @ResponseBody
-    public Result updateRole(@RequestParam("adminId") Long adminId,
-                                   @RequestParam("roleIds") List<Long> roleIds) {
-        int count = adminService.updateRole(adminId, roleIds);
-        if (count >= 0) {
-            return Result.success(count);
-        }
-        return Result.error();
-    }
-
-    @ApiOperation("获取指定用户的角色")
-    @RequestMapping(value = "/role/{adminId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Result<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
-        List<UmsRole> roleList = adminService.getRoleList(adminId);
-        return Result.success(roleList);
     }
 }
