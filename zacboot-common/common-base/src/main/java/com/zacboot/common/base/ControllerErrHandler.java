@@ -1,15 +1,16 @@
 package com.zacboot.common.base;
 
-import lombok.extern.slf4j.Slf4j;
 import com.zacboot.common.base.basebeans.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.connection.PoolException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import javax.naming.AuthenticationException;
 
 /**
  * 异常处理器
