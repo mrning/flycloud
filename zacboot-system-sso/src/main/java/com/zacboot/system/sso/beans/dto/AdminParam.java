@@ -1,4 +1,4 @@
-package com.zacboot.system.sso.dto;
+package com.zacboot.system.sso.beans.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.service;
 
 
-import com.zacboot.system.sso.domain.SysUser;
+import com.zacboot.system.sso.beans.domain.SysUser;
 
 /**
  * 后台用户缓存管理Service

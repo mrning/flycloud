@@ -1,4 +1,4 @@
-package com.zacboot.admin.feign.reactive;
+package com.zacboot.admin.feign;
 
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import io.swagger.annotations.ApiOperation;

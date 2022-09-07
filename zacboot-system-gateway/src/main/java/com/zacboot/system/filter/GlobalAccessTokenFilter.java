@@ -1,5 +1,6 @@
 package com.zacboot.system.filter;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -19,7 +20,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
 @Slf4j
 @Component
 public class GlobalAccessTokenFilter implements GlobalFilter, Ordered {
-    public final static String X_ACCESS_TOKEN = "X-Access-Token";
+    public final static String X_ACCESS_TOKEN = "X-SA-Token";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -37,6 +38,8 @@ public class GlobalAccessTokenFilter implements GlobalFilter, Ordered {
         //将现在的request，添加当前身份
         ServerHttpRequest mutableReq = exchange.getRequest().mutate().header("Authorization-UserName", "").build();
         ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
+
+        StpUtil.checkLogin();
         return chain.filter(mutableExchange);
     }
 

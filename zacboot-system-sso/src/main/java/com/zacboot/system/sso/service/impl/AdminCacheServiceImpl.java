@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.service.impl;
 
 import com.zacboot.common.base.utils.RedisUtil;
-import com.zacboot.system.sso.domain.SysUser;
+import com.zacboot.system.sso.beans.domain.SysUser;
 import com.zacboot.system.sso.service.AdminCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

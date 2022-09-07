@@ -16,6 +16,9 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = false)
 public class SsoLoginRequest {
     @NotEmpty
+    @ApiModelProperty(value = "用户id",required = true)
+    private String userUuid;
+    @NotEmpty
     @ApiModelProperty(value = "用户名",required = true)
     private String username;
     @NotEmpty

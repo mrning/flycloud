@@ -1,4 +1,4 @@
-package com.zacboot.system.sso.domain;
+package com.zacboot.system.sso.beans.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

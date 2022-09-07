@@ -1,4 +1,4 @@
-package com.zacboot.system.sso.domain;
+package com.zacboot.system.sso.beans.domain;
 
 import com.zacboot.common.base.domain.UserDto;
 import lombok.Data;

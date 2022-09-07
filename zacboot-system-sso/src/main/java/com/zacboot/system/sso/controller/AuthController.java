@@ -3,19 +3,16 @@ package com.zacboot.system.sso.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.system.sso.domain.SysUser;
-import com.zacboot.system.sso.dto.AdminParam;
+import com.zacboot.system.sso.beans.domain.SysUser;
+import com.zacboot.system.sso.beans.dto.AdminParam;
 import com.zacboot.system.sso.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 自定义Oauth2获取令牌接口
@@ -25,11 +22,6 @@ import java.util.Map;
 @Api(tags = "AuthController", description = "认证中心登录认证")
 @RequestMapping("/sso")
 public class AuthController {
-
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
     @Autowired
     private AdminService adminService;
 
@@ -47,22 +39,15 @@ public class AuthController {
     @ApiOperation(value = "登录以后返回token")
     @PostMapping(value = "/login")
     public String login(@Validated @RequestBody SsoLoginRequest ssoLoginRequest) {
-        return adminService.login(ssoLoginRequest.getUsername(), ssoLoginRequest.getPassword());
+        return adminService.login(ssoLoginRequest);
     }
 
     @ApiOperation(value = "刷新token")
     @RequestMapping(value = "/refreshToken", method = RequestMethod.GET)
     @ResponseBody
     public Result refreshToken(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader);
-        String refreshToken = adminService.refreshToken(token);
-        if (refreshToken == null) {
-            return Result.error("token已经过期！");
-        }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", refreshToken);
-        tokenMap.put("tokenHead", tokenHead);
-        return Result.success(tokenMap);
+        String token = request.getHeader("satoken");
+        return Result.success(token);
     }
 
     @ApiOperation(value = "登出功能")

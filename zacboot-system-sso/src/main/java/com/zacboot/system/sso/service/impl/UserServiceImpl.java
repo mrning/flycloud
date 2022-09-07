@@ -2,7 +2,7 @@ package com.zacboot.system.sso.service.impl;
 
 import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.domain.UserDto;
-import com.zacboot.system.sso.domain.SecurityUser;
+import com.zacboot.system.sso.beans.domain.SecurityUser;
 import com.zacboot.system.sso.constant.MessageConstant;
 import com.zacboot.system.sso.feign.AdminFeign;
 import com.zacboot.system.sso.feign.UserFeign;

@@ -51,6 +51,7 @@
         <com.projectlombok.version>1.18.24</com.projectlombok.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <nimbusds-jwt.version>9.24.3</nimbusds-jwt.version>
+        <sa-token.version>1.30.0</sa-token.version>
 
     </properties>
 

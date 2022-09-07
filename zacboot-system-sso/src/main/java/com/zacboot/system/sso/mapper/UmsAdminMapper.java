@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zacboot.system.sso.domain.SysUser;
+import com.zacboot.system.sso.beans.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

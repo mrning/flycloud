@@ -1,4 +1,4 @@
-package com.zacboot.system.sso.domain;
+package com.zacboot.system.sso.beans.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,30 +1,25 @@
 package com.zacboot.system.sso.service.impl;
 
-import cn.hutool.core.lang.Assert;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zacboot.system.sso.domain.AdminLoginLog;
-import com.zacboot.system.sso.domain.AdminUserDetails;
-import com.zacboot.system.sso.domain.SysUser;
-import com.zacboot.system.sso.dto.AdminParam;
+import com.zac.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.common.base.utils.MD5Util;
+import com.zacboot.system.sso.beans.domain.AdminLoginLog;
+import com.zacboot.system.sso.beans.domain.SysUser;
+import com.zacboot.system.sso.beans.dto.AdminParam;
 import com.zacboot.system.sso.mapper.UmsAdminMapper;
-import com.zacboot.system.sso.service.AdminService;
 import com.zacboot.system.sso.service.AdminCacheService;
-import com.zacboot.system.sso.utils.JwtTokenUtil;
+import com.zacboot.system.sso.service.AdminService;
 import com.zacboot.system.sso.utils.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -41,10 +36,6 @@ import java.util.Optional;
 @Service
 public class AdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> implements AdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<SysUser> getAdminByUsername(String username) {
@@ -75,24 +66,20 @@ public class AdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> imple
             return null;
         }
         //将密码进行加密操作
-        String encodePassword = passwordEncoder.encode(umsAdmin.getPassword());
+        String encodePassword = MD5Util.MD5Encode(umsAdmin.getPassword(), CharsetUtil.UTF_8);
         umsAdmin.setPassword(encodePassword);
         baseMapper.insert(umsAdmin);
         return umsAdmin;
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(SsoLoginRequest ssoLoginRequest) {
         String token = null;
         //密码需要客户端加密后传递
         try {
-            UserDetails userDetails = loadUserByUsername(username);
-            Assert.isTrue(!passwordEncoder.matches(password,userDetails.getPassword()),"密码不正确");
-            Assert.isTrue(!userDetails.isEnabled(),"帐号已被禁用");
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
-            insertLoginLog(username);
+            StpUtil.login(ssoLoginRequest.getUserUuid());
+            token = StpUtil.getTokenValue();
+            insertLoginLog(ssoLoginRequest.getUsername());
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
@@ -115,11 +102,6 @@ public class AdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> imple
     }
 
     @Override
-    public String refreshToken(String oldToken) {
-        return jwtTokenUtil.refreshHeadToken(oldToken);
-    }
-
-    @Override
     public Page<SysUser> list(String keyword, Integer pageSize, Integer pageNum) {
         Page<SysUser> page = new Page<>(pageNum,pageSize);
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
@@ -129,18 +111,6 @@ public class AdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> imple
             lambda.or().like(SysUser::getNickname,keyword);
         }
         return page(page,wrapper);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username){
-        //获取用户信息
-        SysUser admin = getAdminByUsername(username).orElseThrow(() -> new UsernameNotFoundException("用户名或密码错误"));
-        return new AdminUserDetails(admin);
-//        if (admin != null) {
-//            List<UmsResource> resourceList = getResourceList(admin.getId());
-//            return new AdminUserDetails(admin,resourceList);
-//        }
-
     }
 
     @Override
