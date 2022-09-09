@@ -19,7 +19,6 @@ import com.zacboot.system.sso.utils.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -80,7 +79,7 @@ public class AdminServiceImpl extends ServiceImpl<UmsAdminMapper, SysUser> imple
             StpUtil.login(ssoLoginRequest.getUserUuid());
             token = StpUtil.getTokenValue();
             insertLoginLog(ssoLoginRequest.getUsername());
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
         return token;

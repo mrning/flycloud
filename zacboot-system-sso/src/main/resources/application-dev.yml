@@ -18,16 +18,16 @@ spring:
       #链接超时时间
       connection-timeout: 30000
       connection-test-query: SELECT 1
-    redis:
-      database: 0
-      port: 6379
-      host: localhost
-      password:
-      key:
-        admin: 'ums:admin'
-        resourceList: 'ums:resourceList'
-      expire:
-        common: 86400 # 24小时
+  redis:
+    database: 0
+    port: 6379
+    host: 127.0.0.1
+    password:
+    key:
+      admin: 'ums:admin'
+      resourceList: 'ums:resourceList'
+    expire:
+      common: 86400 # 24小时
   cloud:
     nacos:
       discovery:
@@ -35,6 +35,8 @@ spring:
       config:
         server-addr: http://localhost:8848
         file-extension: yaml
+  config:
+    import: application-common.yml
 logging:
   level:
     root: debug

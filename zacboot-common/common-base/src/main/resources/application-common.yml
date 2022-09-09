@@ -60,3 +60,5 @@ zacboot:
     secretKey: ??
     bucketName: zacbootoss
     staticDomain: https://static.cpu1024.top
+sa-token:
+  token-name: token
