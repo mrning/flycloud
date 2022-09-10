@@ -6,29 +6,14 @@ import java.util.Map;
 public interface CommonConstant {
 
     /**
-     * 正常状态
-     */
-    Integer STATUS_OK = 0;
-
-    /**
-     * 禁用状态
-     */
-    Integer STATUS_DISABLE = -1;
-
-    /**
-     * 删除标志
-     */
-    Integer DEL_FLAG_1 = 1;
-
-    /**
-     * 未删除
-     */
-    Integer DEL_FLAG_0 = 0;
-
-    /**
      * 系统日志类型： 登录
      */
-    int LOG_TYPE_LOGIN_1 = 1;
+    int LOG_TYPE_LOGIN = 1;
+
+    /**
+     * 登出
+     */
+    int LOG_TYPE_LOGOUT = 2;
 
     /**
      * 系统日志类型： 操作

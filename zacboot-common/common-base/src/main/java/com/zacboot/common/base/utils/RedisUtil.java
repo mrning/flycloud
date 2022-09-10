@@ -108,8 +108,7 @@ public class RedisUtil {
 	 */
 	public boolean set(String key, Object value) {
 		try {
-			redisTemplate.opsForValue().set(key, value);
-			return true;
+			return this.set(key,value,-1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -130,7 +129,7 @@ public class RedisUtil {
 			if (time > 0) {
 				redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
 			} else {
-				set(key, value);
+				redisTemplate.opsForValue().set(key, value);
 			}
 			return true;
 		} catch (Exception e) {

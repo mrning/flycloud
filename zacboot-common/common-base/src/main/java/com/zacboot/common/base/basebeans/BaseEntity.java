@@ -45,7 +45,7 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 是否删除，0未删除，1已删除
+     * 是否删除
      */
     private Boolean deleted;
 }

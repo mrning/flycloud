@@ -30,6 +30,16 @@ public interface SysUserService extends SysBaseService<SysUser> {
     SysUser getUserByName(String username);
 
     /**
+     * 根据手机号获取用户名和密码
+     */
+    SysUser getUserByPhone(String phone);
+
+    /**
+     * 根据邮箱获取用户
+     */
+    SysUser getUserByEmail(String mail);
+
+    /**
      * 重置密码
      *
      * @param username
@@ -47,17 +57,6 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * @return
      */
     Result<?> changePassword(SysUser sysUser);
-
-    /**
-     * 根据手机号获取用户名和密码
-     */
-    SysUser getUserByPhone(String phone);
-
-
-    /**
-     * 根据邮箱获取用户
-     */
-    SysUser getUserByEmail(String email);
 
     /**
      * 校验用户是否有效
@@ -78,5 +77,10 @@ public interface SysUserService extends SysBaseService<SysUser> {
     /**
      * regis
      */
-    boolean regis(RegisRequest regisRequest);
+    boolean register(RegisRequest regisRequest);
+
+    /**
+     * 登出
+     */
+    boolean logout(String token);
 }

@@ -5,9 +5,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zacboot.admin.beans.constants.AdminConstants;
+import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysUserDept;
-import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.dao.SysDeptDao;
 import com.zacboot.admin.dao.SysUserDeptDao;
@@ -15,9 +15,8 @@ import com.zacboot.admin.dao.mapper.SysDeptMapper;
 import com.zacboot.admin.dao.mapper.SysUserDeptMapper;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysUserService;
-import com.zacboot.common.base.basebeans.PageResult;
-import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.admin.utils.FindsDeptsChildrenUtil;
+import com.zacboot.common.base.basebeans.PageResult;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +83,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     @Override
     public List<TreeDto> queryTreeList() {
         LambdaQueryWrapper<SysDept> query = new LambdaQueryWrapper<SysDept>();
-        query.eq(SysDept::getDeleted, CommonConstant.DEL_FLAG_0.toString());
+        query.eq(SysDept::getDeleted, Boolean.FALSE);
         List<SysDept> list = this.list(query);
         // 调用wrapTreeDataToTreeList方法生成树状数据
         List<TreeDto> listResult = FindsDeptsChildrenUtil.wrapTreeDataToTreeList(list);
@@ -133,7 +132,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
             if(StringUtil.isNullOrEmpty(departIds)){
                 return newList;
             }
-            query.eq(SysDept::getDeleted, CommonConstant.DEL_FLAG_0.toString());
+            query.eq(SysDept::getDeleted, Boolean.FALSE);
         }
         query.like(SysDept::getDepartName, keyWord);
         TreeDto model = new TreeDto();

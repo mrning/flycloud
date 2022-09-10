@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class SysUserDaoImpl implements SysUserDao {
 
     public Integer add(SysUser sysUser) {
         sysUser.setCreateTime(DateUtil.date());
-        sysUser.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        sysUser.setDeleted(false);
         return sysUserMapper.insertSelective(sysUser);
     }
 
@@ -38,14 +37,12 @@ public class SysUserDaoImpl implements SysUserDao {
         SysUserExample s = buildWhereParam(sysUser);
         sysUser.setDeleted(true);
         sysUser.setUpdateTime(DateUtil.date());
-        sysUser.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
         return sysUserMapper.updateByExample(sysUser,s);
     }
 
     public Integer update(SysUser sysUser) {
         SysUserExample sysUserExample = buildWhereParam(sysUser);
         sysUser.setUpdateTime(DateUtil.date());
-        sysUser.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
         return sysUserMapper.updateByExampleSelective(sysUser, sysUserExample);
     }
 

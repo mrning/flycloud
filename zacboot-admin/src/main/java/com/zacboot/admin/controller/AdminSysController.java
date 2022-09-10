@@ -3,7 +3,6 @@ package com.zacboot.admin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.vos.SysUserLoginVO;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
@@ -12,7 +11,6 @@ import com.zacboot.admin.service.UploadFileService;
 import com.zacboot.admin.service.impl.ossImpl.AliOssServiceImpl;
 import com.zacboot.admin.service.impl.ossImpl.TencentServiceImpl;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.enums.UploadClientEnum;
 import com.zacboot.common.base.utils.*;
 import io.swagger.annotations.Api;
@@ -49,6 +47,42 @@ public class AdminSysController {
 
     @Value("${zacboot.uploadClient}")
     private String uploadClient;
+
+    /**
+     * 用户注册接口
+     * 用户名和密码必输一个
+     * @param regisRequest
+     * @return
+     */
+    @ApiOperation("注册")
+    @PostMapping("/register")
+    public Result userRegister(@RequestBody RegisRequest regisRequest) {
+        Assert.isTrue(StringUtils.isNotBlank(regisRequest.getUsername()) || StringUtils.isNotBlank(regisRequest.getPhone()), "用户名不能为空");
+
+        // 用户名注册
+        if (StringUtils.isNotBlank(regisRequest.getUsername())){
+            Assert.isTrue(null == sysUserService.getUserByName(regisRequest.getUsername()), "用户名已注册");
+            Assert.notNull(regisRequest.getPassword(), "密码不能为空");
+            Assert.notNull(regisRequest.getMail(),"邮箱不能为空");
+            // 校验邮箱
+            if (StringUtils.isNotBlank(regisRequest.getMail())) {
+                Assert.isTrue(null == sysUserService.getUserByEmail(regisRequest.getMail()), "邮箱已被注册");
+            }
+        }
+        // 手机号注册
+        if (StringUtils.isNotBlank(regisRequest.getPhone())){
+            Assert.notNull(regisRequest.getSmscode(),"验证码不能为空");
+            Assert.isTrue(null == sysUserService.getUserByPhone(regisRequest.getPhone()),"用户名已注册");
+            // 校验验证码
+            Object code = redisUtil.get(regisRequest.getPhone());
+            Assert.isTrue(regisRequest.getSmscode().equals(code), "手机验证码错误");
+            regisRequest.setUsername(regisRequest.getPhone());
+        }
+        if (sysUserService.register(regisRequest)) {
+            return Result.success("注册成功");
+        }
+        return Result.error("注册失败");
+    }
 
     /**
      * 用户名密码登录接口
@@ -149,47 +183,7 @@ public class AdminSysController {
         if (StringUtils.isEmpty(token)) {
             return Result.error("token为空，退出登录失败！");
         }
-        String username = String.valueOf(redisUtil.get(token));
-        SysUser sysUser = sysUserService.getUserByName(username);
-        if (sysUser != null) {
-            //清空用户登录Token缓存
-            redisUtil.del(token);
-            redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
-            //清空用户的缓存信息（包括部门信息），例如sys:cache:user::<username>
-            redisUtil.del(String.format("%s::%s", AdminConstants.SYS_USERS_CACHE, sysUser.getUsername()));
-
-            sysUserService.addLog("用户名: " + sysUser.getRealname() + ",退出成功！", CommonConstant.LOG_TYPE_LOGIN_1, null);
-            log.info(" 用户名:  " + sysUser.getRealname() + ",退出成功！ ");
-        }
-        return Result.success("退出登录成功！");
-    }
-
-    /**
-     * 用户注册接口
-     *
-     * @param regisRequest
-     * @return
-     */
-    @ApiOperation("注册")
-    @PostMapping("/register")
-    public Result userRegister(@RequestBody RegisRequest regisRequest) {
-        Assert.notNull(regisRequest.getUsername(), "用户名不能为空");
-        Assert.notNull(regisRequest.getPassword(), "密码不能为空");
-        Assert.isTrue(null == sysUserService.getUserByName(regisRequest.getUsername()), "用户名已注册");
-        // 校验验证码
-        if (StringUtils.isNotBlank(regisRequest.getSmscode())) {
-            // 后台实际发送的短信验证码
-            Object code = redisUtil.get(regisRequest.getPhone());
-            Assert.isTrue(regisRequest.getSmscode().equals(code), "手机验证码错误");
-        }
-        // 校验邮箱
-        if (StringUtils.isNotBlank(regisRequest.getEmail())) {
-            Assert.isTrue(null == sysUserService.getUserByEmail(regisRequest.getEmail()), "邮箱已被注册");
-        }
-        if (sysUserService.regis(regisRequest)) {
-            return Result.success("注册成功");
-        }
-        return Result.error("注册失败");
+        return Result.success(sysUserService.logout(token));
     }
 
     /**

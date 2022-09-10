@@ -13,19 +13,15 @@ import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.dao.mapper.*;
 import com.zacboot.admin.service.SysBaseService;
+import com.zacboot.common.base.basebeans.BaseEntity;
 import com.zacboot.common.base.utils.RedisUtil;
 import com.zacboot.common.base.utils.SpringContextUtils;
 import com.zacboot.common.base.utils.UrlIPUtils;
-import com.zacboot.common.base.basebeans.BaseEntity;
-import com.zacboot.admin.dao.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -91,19 +87,11 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
         }
 
         //获取登录用户信息
-        if(null == SecurityContextHolder.getContext().getAuthentication() || SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
-            sysLog.setUserid(null);
-            sysLog.setUsername(null);
-        }else{
-            User securityUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            SysUser sysUser = sysUserMapper.getUserByName(securityUser.getUsername());
-            if (securityUser != null) {
-                sysLog.setUserid(String.valueOf(sysUser.getId()));
-                sysLog.setUsername(sysUser.getRealname());
-            }
-        }
+        sysLog.setUserid(null);
+        sysLog.setUsername(null);
         sysLog.setCreateTime(new Date());
         sysLog.setUuid(UUID.randomUUID().toString());
+        sysLog.setDeleted(false);
         //保存系统日志
         sysLogMapper.insert(sysLog);
     }
