@@ -87,7 +87,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // controller生成插件
         PluginConfiguration controllerPlugin = new PluginConfiguration();
         controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ControllerGenPlugin");
-        controllerPlugin.addProperty("controllerPath","controller\\"+ MgtConstant.TARGETPROJECT);
+        controllerPlugin.addProperty("controllerPath",MgtConstant.TARGETPROJECT + "controller\\");
         controllerPlugin.addProperty("controllerPackage", MgtConstant.TARGETPACKAGE+API_PACKAGE+platform);
         controllerPlugin.addProperty("controllerPlatform", platform);
         controllerPlugin.addProperty("controllerDesc", desc);
@@ -95,13 +95,13 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();
         servicePlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ServiceGenPlugin");
-        servicePlugin.addProperty("servicePath","service\\"+ MgtConstant.TARGETPROJECT);
+        servicePlugin.addProperty("servicePath",MgtConstant.TARGETPROJECT+"service\\");
         servicePlugin.addProperty("servicePackage", MgtConstant.TARGETPACKAGE_SERVICE);
         context.addPluginConfiguration(servicePlugin);
         // dao生成插件
         PluginConfiguration daoPlugin = new PluginConfiguration();
         daoPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.DaoGenPlugin");
-        daoPlugin.addProperty("daoPath","dao\\"+ MgtConstant.TARGETPROJECT);
+        daoPlugin.addProperty("daoPath",MgtConstant.TARGETPROJECT + "dao\\");
         daoPlugin.addProperty("daoPackage", MgtConstant.TARGETPACKAGE_DAO);
         context.addPluginConfiguration(daoPlugin);
     }
@@ -109,16 +109,16 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private void buildMapper(Context context) {
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
-        javaClientGeneratorConfiguration.setTargetProject("dao\\"+ MgtConstant.TARGETPROJECT);
+        javaClientGeneratorConfiguration.setTargetProject(MgtConstant.TARGETPROJECT +"dao\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
     }
 
     private void buildJavaModel(Context context) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject("bean\\"+ MgtConstant.TARGETPROJECT);
+        javaModelGeneratorConfiguration.setTargetProject(MgtConstant.TARGETPROJECT + "bean\\");
         javaModelGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_DTO);
-        javaModelGeneratorConfiguration.addProperty("rootClass", MgtConstant.TARGETPACKAGE+".basebean.BaseDTO");
+        javaModelGeneratorConfiguration.addProperty("rootClass", "com.zacboot.common.base.basebean.BaseDTO");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");
         javaModelGeneratorConfiguration.addProperty("trimStrings","true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);

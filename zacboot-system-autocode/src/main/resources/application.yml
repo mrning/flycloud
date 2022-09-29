@@ -4,5 +4,9 @@ spring:
     active: dev
   application:
     name: zacboot-system-autocode
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server:
   port: 8009
+debug: on

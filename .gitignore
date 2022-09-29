@@ -19,7 +19,7 @@ target/
 *.iws
 *.ipr
 *.iml
-
+*.log
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -33,3 +33,4 @@ build/
 /hs_err_**.log
 /replay_**.log
 dependency-reduced-pom.xml
+

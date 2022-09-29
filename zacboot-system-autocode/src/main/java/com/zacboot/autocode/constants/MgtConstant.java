@@ -4,7 +4,7 @@ public class MgtConstant {
     // 文件生成路径
     public static final String TARGETPROJECT = "src\\main\\java\\";
     // 文件生成的包路径
-    public static final String TARGETPACKAGE = "com.zacboot";
+    public static final String TARGETPACKAGE = "com.zacboot.autocode";
     public static final String TARGETPACKAGE_SERVICE = TARGETPACKAGE+".service";
     public static final String TARGETPACKAGE_DTO = TARGETPACKAGE+".dto";
     public static final String TARGETPACKAGE_EXAMPLE = TARGETPACKAGE_DTO+".example";
