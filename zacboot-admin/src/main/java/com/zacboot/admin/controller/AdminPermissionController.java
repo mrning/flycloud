@@ -49,7 +49,6 @@ public class AdminPermissionController {
             //路由菜单
             json.put("menu", menuArray);
             json.put("auth", sysPermissionService.getAuthJsonArray(sysPermissions));
-            json.put("allAuth", sysPermissionService.getAllAuthJsonArray(sysPermissions));
             result.setResult(json);
             result.setMessage("查询成功");
         } catch (Exception e) {

@@ -19,26 +19,6 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     /**
      * 获取权限JSON数组
      *
-     * @param allList
-     */
-    @Override
-    public JSONArray getAllAuthJsonArray(List<SysPermission> allList) {
-        JSONArray jsonArray = new JSONArray();
-        JSONObject json = null;
-        for (SysPermission permission : allList) {
-            json = new JSONObject();
-            json.put("action", permission.getPerms());
-            json.put("status", permission.getStatus());
-            json.put("type", permission.getPermsType());
-            json.put("describe", permission.getName());
-            jsonArray.add(json);
-        }
-        return jsonArray;
-    }
-
-    /**
-     * 获取权限JSON数组
-     *
      * @param metaList
      */
     @Override
@@ -54,6 +34,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 json.put("action", permission.getPerms());
                 json.put("type", permission.getPermsType());
                 json.put("describe", permission.getName());
+                json.put("url",metaList.stream().filter(s -> s.getUuid().equals(permission.getParentId())).map(SysPermission::getUrl).findFirst().get());
                 jsonArray.add(json);
             }
         }
@@ -143,8 +124,8 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 json.put("path", permission.getUrl());
             }
             // 重要规则：路由name (通过URL生成路由name,路由name供前端开发，页面跳转使用)
-            if (StringUtils.isNotBlank(permission.getComponentName())) {
-                json.put("name", permission.getComponentName());
+            if (StringUtils.isNotBlank(permission.getComponent())) {
+                json.put("name", permission.getName());
             } else {
                 json.put("name", UrlIPUtils.urlToRouteName(permission.getUrl()));
             }

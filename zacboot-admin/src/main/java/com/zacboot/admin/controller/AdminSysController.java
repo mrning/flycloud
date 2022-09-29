@@ -98,20 +98,20 @@ public class AdminSysController {
         String username = sysLoginModel.getUsername();
         // 密码
         String password = sysLoginModel.getPassword();
-        // 验证码
-        String captcha = sysLoginModel.getCaptcha();
-
-        // 1. 校验验证码
-        if (StringUtils.isBlank(captcha)) {
-            result.error500("验证码不能为空");
-            return result;
-        }
-        String lowerCase = captcha.toLowerCase();
-        Object checkCode = redisUtil.get(MD5Util.MD5Encode(lowerCase + sysLoginModel.getCheckKey(), "utf-8"));
-        if (checkCode == null || !checkCode.equals(lowerCase)) {
-            result.error500("验证码错误");
-            return result;
-        }
+//        // 验证码
+//        String captcha = sysLoginModel.getCaptcha();
+//
+//        // 1. 校验验证码
+//        if (StringUtils.isBlank(captcha)) {
+//            result.error500("验证码不能为空");
+//            return result;
+//        }
+//        String lowerCase = captcha.toLowerCase();
+//        Object checkCode = redisUtil.get(MD5Util.MD5Encode(lowerCase + sysLoginModel.getCheckKey(), "utf-8"));
+//        if (checkCode == null || !checkCode.equals(lowerCase)) {
+//            result.error500("验证码错误");
+//            return result;
+//        }
 
         // 2. 校验用户是否有效
         SysUser sysUser = sysUserService.getUserByName(username);

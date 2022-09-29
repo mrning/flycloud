@@ -51,11 +51,6 @@ public class SysPermission extends BaseEntity {
     private String component;
 
     /**
-     * 组件名字
-     */
-    private String componentName;
-
-    /**
      * 路径
      */
     private String url;
@@ -94,11 +89,6 @@ public class SysPermission extends BaseEntity {
     private boolean keepAlive;
 
     /**
-     * 描述
-     */
-    private String description;
-
-    /**
      * 是否配置菜单的数据权限 1是0否 默认0
      */
     private Integer ruleFlag;
@@ -127,7 +117,6 @@ public class SysPermission extends BaseEntity {
             this.setUuid("homepage");
             this.name = "首页";
             this.component = "dashboard/Analysis";
-            this.componentName = "dashboard-analysis";
             this.url = "/dashboard/analysis";
             this.icon = "home";
             this.menuType = 0;
