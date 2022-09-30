@@ -33,4 +33,4 @@ build/
 /hs_err_**.log
 /replay_**.log
 dependency-reduced-pom.xml
-
+/gen-dir/

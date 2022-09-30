@@ -1,9 +1,11 @@
 package com.zacboot.autocode.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.UUID;
+import com.zacboot.autocode.bean.MybatisGeneratorRequest;
 import com.zacboot.autocode.constants.MgtConstant;
 import com.zacboot.autocode.service.MybatisGeneratorService;
-import com.zacboot.autocode.bean.MybatisGeneratorRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.api.VerboseProgressCallback;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+@Slf4j
 @Service
 public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     @Value("${spring.datasource.url}")
@@ -65,13 +69,17 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // 设置mapper接口的生成
         buildMapper(context);
 
+        List<String> errorMsg = new ArrayList<>();
         try {
             config.addContext(context);
             // 允许覆盖生成的文件
             DefaultShellCallback callback = new DefaultShellCallback(true);
-            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, new ArrayList<>());
+            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, errorMsg);
             ProgressCallback progressCallback = new VerboseProgressCallback();
             myBatisGenerator.generate(progressCallback);
+            if (CollectionUtil.isNotEmpty(errorMsg)){
+                errorMsg.forEach(log::error);
+            }
         } catch (InvalidConfigurationException | SQLException | IOException | InterruptedException e) {
             e.printStackTrace();
             return e.getLocalizedMessage();
@@ -87,7 +95,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // controller生成插件
         PluginConfiguration controllerPlugin = new PluginConfiguration();
         controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ControllerGenPlugin");
-        controllerPlugin.addProperty("controllerPath",MgtConstant.TARGETPROJECT + "controller\\");
+        controllerPlugin.addProperty("controllerPath", System.getProperty("user.dir")+"\\gen-dir\\");
         controllerPlugin.addProperty("controllerPackage", MgtConstant.TARGETPACKAGE+API_PACKAGE+platform);
         controllerPlugin.addProperty("controllerPlatform", platform);
         controllerPlugin.addProperty("controllerDesc", desc);
@@ -95,13 +103,13 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();
         servicePlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ServiceGenPlugin");
-        servicePlugin.addProperty("servicePath",MgtConstant.TARGETPROJECT+"service\\");
+        servicePlugin.addProperty("servicePath", System.getProperty("user.dir")+"\\gen-dir\\");
         servicePlugin.addProperty("servicePackage", MgtConstant.TARGETPACKAGE_SERVICE);
         context.addPluginConfiguration(servicePlugin);
         // dao生成插件
         PluginConfiguration daoPlugin = new PluginConfiguration();
         daoPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.DaoGenPlugin");
-        daoPlugin.addProperty("daoPath",MgtConstant.TARGETPROJECT + "dao\\");
+        daoPlugin.addProperty("daoPath", System.getProperty("user.dir")+"\\gen-dir\\");
         daoPlugin.addProperty("daoPackage", MgtConstant.TARGETPACKAGE_DAO);
         context.addPluginConfiguration(daoPlugin);
     }
@@ -109,14 +117,14 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private void buildMapper(Context context) {
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
-        javaClientGeneratorConfiguration.setTargetProject(MgtConstant.TARGETPROJECT +"dao\\");
+        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir")+"\\gen-dir\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
     }
 
     private void buildJavaModel(Context context) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject(MgtConstant.TARGETPROJECT + "bean\\");
+        javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir")+"\\gen-dir\\");
         javaModelGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_DTO);
         javaModelGeneratorConfiguration.addProperty("rootClass", "com.zacboot.common.base.basebean.BaseDTO");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");

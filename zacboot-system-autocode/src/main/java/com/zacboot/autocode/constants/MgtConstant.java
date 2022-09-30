@@ -2,7 +2,7 @@ package com.zacboot.autocode.constants;
 
 public class MgtConstant {
     // 文件生成路径
-    public static final String TARGETPROJECT = "src\\main\\java\\";
+    public static final String TARGETPROJECT = "src\\main\\java";
     // 文件生成的包路径
     public static final String TARGETPACKAGE = "com.zacboot.autocode";
     public static final String TARGETPACKAGE_SERVICE = TARGETPACKAGE+".service";
