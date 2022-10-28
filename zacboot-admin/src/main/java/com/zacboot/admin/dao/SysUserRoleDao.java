@@ -1,7 +1,6 @@
 package com.zacboot.admin.dao;
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 
@@ -23,5 +22,5 @@ public interface SysUserRoleDao {
 
     Long queryPageCount(UserRoleRequest userRoleRequest);
 
-    List<SysRole> queryUserRoles(String userUuid);
+    List<SysUserRole> queryUserRoles(String userUuid);
 }

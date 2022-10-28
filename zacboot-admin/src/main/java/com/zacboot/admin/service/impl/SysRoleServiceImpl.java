@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * AutoCreateFile
@@ -56,6 +57,8 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
 
     @Override
     public List<SysRole> queryUserRoles(String userUuid) {
-        return sysUserRoleDao.queryUserRoles(userUuid);
+        return sysUserRoleDao.queryUserRoles(userUuid).stream()
+                .map(sysUserRole -> sysRoleDao.queryByUuid(sysUserRole.getRoleUuid()))
+                .collect(Collectors.toList());
     }
 }

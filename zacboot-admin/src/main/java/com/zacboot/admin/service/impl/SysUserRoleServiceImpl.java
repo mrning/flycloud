@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -54,5 +55,10 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
                         sysRoleDao.queryByUuid(sysUserRoleDTO.getRoleUuid()))).collect(Collectors.toList()));
         pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest).intValue());
         return pageResult;
+    }
+
+    @Override
+    public List<SysUserRole> queryRolesByUserUuid(String userUuid) {
+        return sysUserRoleDao.queryUserRoles(userUuid);
     }
 }

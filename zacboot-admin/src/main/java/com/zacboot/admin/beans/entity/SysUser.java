@@ -1,9 +1,12 @@
 package com.zacboot.admin.beans.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zacboot.common.base.annotation.AutoColumn;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
 
 
 /**
@@ -30,7 +33,7 @@ public class SysUser extends BaseEntity {
      * 真实姓名
      */
     @ApiModelProperty(value = "真实姓名")
-    private String realname;
+    private String realName;
 
     /**
      * 头像
@@ -55,5 +58,12 @@ public class SysUser extends BaseEntity {
      */
     @ApiModelProperty(value = "电话")
     private String phone;
+
+    /**
+     * 角色id
+     */
+    @ApiModelProperty(value = "角色id")
+    @AutoColumn(isIgnore = true)
+    private List<String> roleUuids;
 
 }

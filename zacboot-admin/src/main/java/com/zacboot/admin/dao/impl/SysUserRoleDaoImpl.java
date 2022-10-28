@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysRole;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.example.SysUserRoleExample;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
@@ -50,7 +50,7 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
     }
 
     @Override
-    public List<SysRole> queryUserRoles(String userUuid) {
-        return sysUserRoleMapper.getRolesByUserUuid(userUuid);
+    public List<SysUserRole> queryUserRoles(String userUuid) {
+        return sysUserRoleMapper.selectList(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserUuid,userUuid));
     }
 }

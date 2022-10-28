@@ -11,6 +11,7 @@ import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
+import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
@@ -18,6 +19,7 @@ import com.zacboot.admin.dao.mapper.SysUserMapper;
 import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysRoleService;
+import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.admin.service.SysUserService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
@@ -35,6 +37,7 @@ import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * AutoCreateFile
@@ -47,6 +50,9 @@ import java.util.List;
 public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
     @Autowired
     private SysUserDao sysUserDao;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @Autowired
     private SysRoleService sysRoleService;
@@ -78,7 +84,10 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
     public PageResult<SysUser> queryPage(UserRequest userRequest) {
         PageResult<SysUser> pageResult = new PageResult<>();
-        pageResult.setDataList(sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize())));
+        List<SysUser> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
+                .stream().peek(sysUser -> sysUser.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList())))
+                .collect(Collectors.toList());
+        pageResult.setDataList(sysUsers);
         pageResult.setTotal(sysUserDao.queryPageCount(userRequest).intValue());
         return pageResult;
     }
@@ -210,7 +219,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             SysUser sysUser = new SysUser();
             sysUser.setCreateTime(new Date());// 设置创建时间
             sysUser.setUsername(regisRequest.getUsername());
-            sysUser.setRealname(regisRequest.getUsername());
+            sysUser.setRealName(regisRequest.getUsername());
             sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequest.getPassword()));
             sysUser.setMail(regisRequest.getMail());
             sysUser.setPhone(regisRequest.getPhone());

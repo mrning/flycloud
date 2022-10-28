@@ -56,8 +56,8 @@ public class SysUserSqlProvider {
             sql.VALUES("`password`", "#{password,jdbcType=VARCHAR}");
         }
         
-        if (record.getRealname() != null) {
-            sql.VALUES("realname", "#{realname,jdbcType=VARCHAR}");
+        if (record.getRealName() != null) {
+            sql.VALUES("real_name", "#{realName,jdbcType=VARCHAR}");
         }
         
         if (record.getAvatar() != null) {
@@ -114,7 +114,7 @@ public class SysUserSqlProvider {
         }
         sql.SELECT("username");
         sql.SELECT("`password`");
-        sql.SELECT("realname");
+        sql.SELECT("real_name");
         sql.SELECT("avatar");
         sql.SELECT("nickname");
         sql.SELECT("mail");
@@ -159,8 +159,8 @@ public class SysUserSqlProvider {
             sql.SET("`password` = #{record.password,jdbcType=VARCHAR}");
         }
         
-        if (record.getRealname() != null) {
-            sql.SET("realname = #{record.realname,jdbcType=VARCHAR}");
+        if (record.getRealName() != null) {
+            sql.SET("real_name = #{record.realName,jdbcType=VARCHAR}");
         }
         
         if (record.getAvatar() != null) {
@@ -216,7 +216,7 @@ public class SysUserSqlProvider {
         sql.SET("uuid = #{record.uuid,jdbcType=VARCHAR}");
         sql.SET("username = #{record.username,jdbcType=VARCHAR}");
         sql.SET("`password` = #{record.password,jdbcType=VARCHAR}");
-        sql.SET("realname = #{record.realname,jdbcType=VARCHAR}");
+        sql.SET("real_name = #{record.realName,jdbcType=VARCHAR}");
         sql.SET("avatar = #{record.avatar,jdbcType=VARCHAR}");
         sql.SET("nickname = #{record.nickname,jdbcType=VARCHAR}");
         sql.SET("mail = #{record.mail,jdbcType=VARCHAR}");

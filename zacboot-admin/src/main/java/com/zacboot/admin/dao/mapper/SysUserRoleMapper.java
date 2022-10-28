@@ -117,7 +117,4 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 	@Select("select uuid from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = (select uuid from sys_user where username=#{username}))")
 	List<String> getRoleIdByUserName(@Param("username") String username);
 
-	@Select("select * from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = #{userUuid})")
-	List<SysRole> getRolesByUserUuid(@Param("userUuid") String userUuid);
-
 }

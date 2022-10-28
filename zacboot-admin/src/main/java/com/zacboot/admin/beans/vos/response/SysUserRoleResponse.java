@@ -20,7 +20,7 @@ public class SysUserRoleResponse {
     public SysUserRoleResponse(SysUser sysUser, SysRole sysRole){
         this.setUserUuid(sysUser.getUuid());
         this.setUserName(sysUser.getUsername());
-        this.setUserRealName(sysUser.getRealname());
+        this.setUserRealName(sysUser.getRealName());
         this.setRoleUuid(sysRole.getUuid());
         this.setRoleName(sysRole.getRoleName());
     }
