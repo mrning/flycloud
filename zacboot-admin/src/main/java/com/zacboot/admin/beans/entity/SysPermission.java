@@ -1,133 +1,62 @@
 package com.zacboot.admin.beans.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zacboot.common.base.basebeans.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * <p>
- * 菜单权限表
+ * 权限表
  * </p>
  *
- * @Author scott
- * @since 2018-12-21
+ * @author zac
+ * @since 2022-11-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "sys_permission", autoResultMap = true)
-public class SysPermission extends BaseEntity {
+@TableName("sys_permission")
+@ApiModel(value = "SysPermission对象", description = "权限表")
+public class SysPermission extends BaseEntity implements Serializable {
 
-    /**
-     * 父id
-     */
-    private String parentId;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 菜单名称
-     */
+    @ApiModelProperty(value = "父级uuid")
+    private String parentUuid;
+
+    @ApiModelProperty(value = "名称")
     private String name;
 
-    /**
-     * 菜单权限编码，例如：“sys:schedule:list,sys:schedule:info”,多个逗号隔开
-     */
-    private String perms;
-    /**
-     * 权限策略1显示2禁用
-     */
-    private String permsType;
+    @ApiModelProperty(value = "菜单/权限编码")
+    private String code;
 
-    /**
-     * 菜单图标
-     */
+    @ApiModelProperty(value = "图标")
     private String icon;
 
-    /**
-     * 组件
-     */
+    @ApiModelProperty(value = "组件路径")
     private String component;
 
-    /**
-     * 路径
-     */
+    @ApiModelProperty(value = "组件请求url")
     private String url;
-    /**
-     * 一级菜单跳转地址
-     */
+
+    @ApiModelProperty(value = "是否跳转到第三方网页")
     private String redirect;
 
-    /**
-     * 菜单排序
-     */
+    @ApiModelProperty(value = "排序")
     private Integer sortNo;
 
-    /**
-     * 类型（0：一级菜单；1：子菜单 ；2：按钮权限）
-     */
+    @ApiModelProperty(value = "菜单类型0=父级菜单1=子菜单2=权限按钮")
     private Integer menuType;
 
-    /**
-     * 是否叶子节点: 1:是  0:不是
-     */
-    @TableField(value = "leaf")
-    private boolean leaf;
+    @ApiModelProperty(value = "是否隐藏")
+    private Boolean hidden;
 
-    /**
-     * 是否路由菜单: 0:不是  1:是（默认值1）
-     */
-    @TableField(value = "route")
-    private boolean route;
-
-
-    /**
-     * 是否缓存页面: 0:不是  1:是（默认值1）
-     */
-    @TableField(value = "keep_alive")
-    private boolean keepAlive;
-
-    /**
-     * 是否配置菜单的数据权限 1是0否 默认0
-     */
-    private Integer ruleFlag;
-
-    /**
-     * 是否隐藏路由菜单: 0否,1是（默认值0）
-     */
-    private boolean hidden;
-
-    /**
-     * 按钮权限状态(0无效1有效)
-     */
-    private String status;
-
-    /**
-     * 外链菜单打开方式 0/内部打开 1/外部打开
-     */
-    private boolean internalOrExternal;
-
-    public SysPermission() {
-
-    }
-
-    public SysPermission(boolean index) {
-        if (index) {
-            this.setUuid("homepage");
-            this.name = "首页";
-            this.component = "dashboard/Analysis";
-            this.url = "/dashboard/analysis";
-            this.icon = "home";
-            this.menuType = 0;
-            this.sortNo = 0;
-            this.ruleFlag = 0;
-            this.setDeleted(false);
-            this.route = true;
-            this.keepAlive = true;
-            this.leaf = true;
-            this.hidden = false;
-        }
-
-    }
 }

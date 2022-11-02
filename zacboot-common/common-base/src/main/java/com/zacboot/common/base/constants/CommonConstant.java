@@ -95,39 +95,6 @@ public interface CommonConstant {
     Integer MENU_TYPE_2 = 2;
 
     /**
-     * 公告发送对象类型（USER:指定用户，ALL:全体用户）
-     */
-    String MSG_TYPE_UESR = "USER";
-    String MSG_TYPE_ALL = "ALL";
-
-    /**
-     * 发布状态（0未发布，1已发布，2已撤销）
-     */
-    String NO_SEND = "0";
-    String HAS_SEND = "1";
-    String HAS_CANCLE = "2";
-
-    /**
-     * 阅读状态（0未读，1已读）
-     */
-    String HAS_READ_FLAG = "1";
-    String NO_READ_FLAG = "0";
-
-    /**
-     * 优先级（L低，M中，H高）
-     */
-    String PRIORITY_L = "L";
-    String PRIORITY_M = "M";
-    String PRIORITY_H = "H";
-
-    /**
-     * 短信模板方式  0 .登录模板、1.注册模板、2.忘记密码模板
-     */
-    String SMS_TPL_TYPE_0 = "0";
-    String SMS_TPL_TYPE_1 = "1";
-    String SMS_TPL_TYPE_2 = "2";
-
-    /**
      * 状态(0无效1有效)
      */
     String STATUS_0 = "0";
@@ -144,29 +111,6 @@ public interface CommonConstant {
      */
     String MSG_CATEGORY_1 = "1";
     String MSG_CATEGORY_2 = "2";
-
-    /**
-     * 是否配置菜单的数据权限 1是0否
-     */
-    Integer RULE_FLAG_0 = 0;
-    Integer RULE_FLAG_1 = 1;
-
-    /**
-     * 是否用户已被冻结 1正常(解冻) 2冻结
-     */
-    Integer USER_UNFREEZE = 1;
-    Integer USER_FREEZE = 2;
-
-    /**
-     * 字典翻译文本后缀
-     */
-    String DICT_TEXT_SUFFIX = "_dictText";
-
-    /**
-     * online参数值设置（是：Y, 否：N）
-     */
-    String ONLINE_PARAM_VAL_IS_TURE = "Y";
-    String ONLINE_PARAM_VAL_IS_FALSE = "N";
 
     /**
      * 文件上传类型（本地：local，Minio：minio，阿里云：alioss）

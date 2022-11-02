@@ -2,6 +2,7 @@ package com.zacboot.common.base.basebeans;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zacboot.common.base.annotation.AutoColumn;
 import lombok.Data;
@@ -47,5 +48,6 @@ public class BaseEntity implements Serializable {
     /**
      * 是否删除
      */
+    @TableLogic
     private Boolean deleted;
 }
