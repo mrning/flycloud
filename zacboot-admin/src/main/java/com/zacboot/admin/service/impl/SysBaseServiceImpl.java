@@ -11,7 +11,6 @@ import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysLog;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
-import com.zacboot.admin.dao.mapper.*;
 import com.zacboot.admin.mapper.*;
 import com.zacboot.admin.service.SysBaseService;
 import com.zacboot.common.base.basebeans.BaseEntity;
