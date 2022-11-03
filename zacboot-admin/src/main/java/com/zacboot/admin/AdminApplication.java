@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @SpringBootApplication(scanBasePackages = {"com.zacboot"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.zacboot.admin.feign")
-@MapperScan(basePackages = {"com.zacboot.admin.dao.mapper",
+@MapperScan(basePackages = {"com.zacboot.admin.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class AdminApplication {
 
