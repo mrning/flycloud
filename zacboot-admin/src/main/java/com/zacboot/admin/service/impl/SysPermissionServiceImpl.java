@@ -25,14 +25,14 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     public JSONArray getAuthJsonArray(List<SysPermission> authList) {
         JSONArray jsonArray = new JSONArray();
         for (SysPermission permission : authList) {
-            if (permission.getMenuType() == null) {
-                continue;
-            }
-            JSONObject json = null;
-            if (CommonConstant.MENU_TYPE_2.equals(permission.getMenuType()) && !permission.getHidden()) {
-                json = new JSONObject();
-                json.put("describe", permission.getName());
-                json.put("url", authList.stream().filter(s -> s.getUuid().equals(permission.getParentUuid())).map(SysPermission::getUrl).findFirst().get());
+            if (permission.getMenuType() != null && CommonConstant.MENU_TYPE_2.equals(permission.getMenuType())) {
+                JSONObject json = new JSONObject();
+                json.put("uuid", permission.getUuid());
+                json.put("parentUuid", permission.getParentUuid());
+                json.put("code", permission.getCode());
+                json.put("name", permission.getName());
+                json.put("type", permission.getMenuType());
+                json.put("hidden", permission.getHidden());
                 jsonArray.add(json);
             }
         }
