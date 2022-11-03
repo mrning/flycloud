@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.example.SysDeptExample;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.dao.SysDeptDao;
-import com.zacboot.admin.dao.mapper.SysDeptMapper;
+import com.zacboot.admin.mapper.SysDeptMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

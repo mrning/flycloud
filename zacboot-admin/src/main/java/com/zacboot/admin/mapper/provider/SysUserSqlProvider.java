@@ -1,4 +1,4 @@
-package com.zacboot.admin.dao.mapper.provider;
+package com.zacboot.admin.mapper.provider;
 
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;

@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
-import com.zacboot.admin.dao.mapper.SysUserMapper;
+import com.zacboot.admin.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;

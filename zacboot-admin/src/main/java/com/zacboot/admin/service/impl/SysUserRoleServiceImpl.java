@@ -8,7 +8,7 @@ import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.dao.SysUserRoleDao;
-import com.zacboot.admin.dao.mapper.SysUserRoleMapper;
+import com.zacboot.admin.mapper.SysUserRoleMapper;
 import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;

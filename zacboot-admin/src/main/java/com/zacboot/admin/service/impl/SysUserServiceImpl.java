@@ -15,7 +15,7 @@ import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
-import com.zacboot.admin.dao.mapper.SysUserMapper;
+import com.zacboot.admin.mapper.SysUserMapper;
 import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysRoleService;

@@ -5,7 +5,7 @@ import cn.hutool.db.Page;
 import com.zacboot.admin.beans.entity.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 import com.zacboot.admin.dao.SysUserDeptDao;
-import com.zacboot.admin.dao.mapper.SysUserDeptMapper;
+import com.zacboot.admin.mapper.SysUserDeptMapper;
 import com.zacboot.admin.service.SysUserDeptService;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;

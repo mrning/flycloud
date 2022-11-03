@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.example.SysRoleExample;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;
-import com.zacboot.admin.dao.mapper.SysRoleMapper;
+import com.zacboot.admin.mapper.SysRoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ import com.zacboot.admin.beans.entity.SysLog;
 import com.zacboot.admin.beans.example.SysLogExample;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.dao.SysLogDao;
-import com.zacboot.admin.dao.mapper.SysLogMapper;
+import com.zacboot.admin.mapper.SysLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

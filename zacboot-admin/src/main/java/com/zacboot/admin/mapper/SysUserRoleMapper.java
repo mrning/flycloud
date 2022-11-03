@@ -1,10 +1,10 @@
-package com.zacboot.admin.dao.mapper;
+package com.zacboot.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.example.SysUserRoleExample;
-import com.zacboot.admin.dao.mapper.provider.SysUserRoleDTOSqlProvider;
+import com.zacboot.admin.mapper.provider.SysUserRoleDTOSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;

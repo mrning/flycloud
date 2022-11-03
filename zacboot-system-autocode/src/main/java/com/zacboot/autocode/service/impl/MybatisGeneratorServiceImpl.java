@@ -119,6 +119,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
         javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir")+"\\gen-dir\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
+        javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
     }
 

@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.dao.SysUserRoleDao;
-import com.zacboot.admin.dao.mapper.SysRoleMapper;
+import com.zacboot.admin.mapper.SysRoleMapper;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;

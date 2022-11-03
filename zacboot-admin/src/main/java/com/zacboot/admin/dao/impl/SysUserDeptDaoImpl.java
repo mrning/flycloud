@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.entity.SysUserDept;
 import com.zacboot.admin.beans.example.SysUserDeptExample;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 import com.zacboot.admin.dao.SysUserDeptDao;
-import com.zacboot.admin.dao.mapper.SysUserDeptMapper;
+import com.zacboot.admin.mapper.SysUserDeptMapper;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -3,7 +3,7 @@ package com.zacboot.admin.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
-import com.zacboot.admin.dao.mapper.SysPermissionMapper;
+import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.utils.MD5Util;
