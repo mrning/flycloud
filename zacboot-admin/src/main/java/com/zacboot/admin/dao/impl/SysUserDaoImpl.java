@@ -1,6 +1,6 @@
 package com.zacboot.admin.dao.impl;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,7 +29,8 @@ public class SysUserDaoImpl implements SysUserDao {
     private SysUserMapper sysUserMapper;
 
     public Integer add(SysUser sysUser) {
-        sysUser.setCreateTime(DateUtil.date());
+        sysUser.setUuid(UUID.randomUUID().toString(Boolean.TRUE));
+        sysUser.setCreateTime(LocalDateTime.now());
         sysUser.setDeleted(false);
         return sysUserMapper.insertSelective(sysUser);
     }
@@ -36,13 +38,13 @@ public class SysUserDaoImpl implements SysUserDao {
     public Integer del(SysUser sysUser) {
         SysUserExample s = buildWhereParam(sysUser);
         sysUser.setDeleted(true);
-        sysUser.setUpdateTime(DateUtil.date());
-        return sysUserMapper.updateByExample(sysUser,s);
+        sysUser.setUpdateTime(LocalDateTime.now());
+        return sysUserMapper.updateByExampleSelective(sysUser, s);
     }
 
     public Integer update(SysUser sysUser) {
         SysUserExample sysUserExample = buildWhereParam(sysUser);
-        sysUser.setUpdateTime(DateUtil.date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         return sysUserMapper.updateByExampleSelective(sysUser, sysUserExample);
     }
 
@@ -66,6 +68,7 @@ public class SysUserDaoImpl implements SysUserDao {
         if(StringUtils.isNotBlank(sysUser.getUuid())){
             criteria.andUuidEqualTo(sysUser.getUuid());
         }
+        criteria.andDeletedEqualTo(Boolean.FALSE);
         return sysUserExample;
     }
 

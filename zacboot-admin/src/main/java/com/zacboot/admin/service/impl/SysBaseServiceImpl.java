@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,8 +89,8 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
         //获取登录用户信息
         sysLog.setUserid(null);
         sysLog.setUsername(null);
-        sysLog.setCreateTime(new Date());
-        sysLog.setUuid(UUID.randomUUID().toString());
+        sysLog.setCreateTime(LocalDateTime.now());
+        sysLog.setUuid(UUID.randomUUID().toString(true));
         sysLog.setDeleted(false);
         //保存系统日志
         sysLogMapper.insert(sysLog);

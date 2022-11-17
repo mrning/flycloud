@@ -142,7 +142,7 @@ public class Result<T> implements Serializable {
 	/**
 	 * 未登录返回结果
 	 */
-	public static <T> Result<T> unauthorized(T data,String msg) {
-		return error(CommonConstant.UNAUTHORIZED, msg, data);
+	public static <T> Result<T> unauthorized(T data) {
+		return error(CommonConstant.UNAUTHORIZED, ResEnum.UNAUTHORIZED.message, data);
 	}
 }

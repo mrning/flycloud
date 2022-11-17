@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class BaseServiceImpl implements BaseService {
@@ -39,8 +39,8 @@ public class BaseServiceImpl implements BaseService {
         sysLog.setUserid(null);
         sysLog.setUsername(null);
 
-        sysLog.setCreateTime(new Date());
-        sysLog.setUuid(UUID.randomUUID().toString());
+        sysLog.setCreateTime(LocalDateTime.now());
+        sysLog.setUuid(UUID.randomUUID().toString(true));
         sysLog.setDeleted(false);
         //保存系统日志
         sysLogMapper.insert(sysLog);

@@ -22,4 +22,6 @@ public interface SysUserRoleService extends SysBaseService<SysUserRole> {
     PageResult<SysUserRoleResponse> queryPage(UserRoleRequest userRoleRequest);
 
     List<SysUserRole> queryRolesByUserUuid(String userUuid);
+
+    Integer updateByUserUuid(String userUuid, List<String> roleUuids);
 }

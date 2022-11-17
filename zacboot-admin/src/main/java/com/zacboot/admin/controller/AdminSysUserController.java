@@ -6,9 +6,9 @@ import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
 import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.admin.service.SysUserService;
-import com.zacboot.common.base.utils.PasswordUtil;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
+import com.zacboot.common.base.utils.PasswordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
- * AutoCreateFile 日志相关 
- * @date 2021年4月24日星期六
+ * AutoCreateFile 日志相关
+ *
  * @author zac
+ * @date 2021年4月24日星期六
  */
 @Api(tags = "用户管理")
 @RestController
@@ -59,13 +62,14 @@ public class AdminSysUserController {
 
     /**
      * AutoCreateFile update
+     *
      * @date 2021年4月24日星期六
      * @author zac
      */
     @ApiOperation("更新")
     @PostMapping("/update")
-    public Result<Integer> update(@RequestBody SysUser sysUser) {
-        return Result.success(sysUserService.update(sysUser));
+    public Result<Integer> update(@RequestBody SysUser sysUser, HttpServletRequest request) {
+        return Result.success(sysUserService.update(sysUser, request.getHeader("token")));
     }
 
     /**

@@ -15,8 +15,8 @@ import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
-import com.zacboot.admin.mapper.SysUserMapper;
 import com.zacboot.admin.feign.SsoServiceFeign;
+import com.zacboot.admin.mapper.SysUserMapper;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.admin.service.SysUserRoleService;
@@ -34,8 +34,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,15 +71,28 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     private RedisUtil redisUtil;
 
     public Integer add(SysUser sysUser) {
+        if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
+            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
+        }
         return sysUserDao.add(sysUser);
     }
 
     public Integer del(SysUser sysUser) {
+        Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，更新失败");
         Assert.isTrue(BeanUtil.isNotEmpty(sysUser), "不能全部属性为空，会删除全表数据");
         return sysUserDao.del(sysUser);
     }
 
-    public Integer update(SysUser sysUser) {
+    public Integer update(SysUser sysUser, String token) {
+        Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，更新失败");
+        if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
+            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
+        }
+        if (StringUtils.isNotBlank(sysUser.getPassword())) {
+            sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
+            // 如果密码修改则用户退出重新登录
+            logout(token);
+        }
         return sysUserDao.update(sysUser);
     }
 
@@ -217,7 +231,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     public boolean register(RegisRequest regisRequest) {
         try {
             SysUser sysUser = new SysUser();
-            sysUser.setCreateTime(new Date());// 设置创建时间
+            sysUser.setCreateTime(LocalDateTime.now());// 设置创建时间
             sysUser.setUsername(regisRequest.getUsername());
             sysUser.setRealName(regisRequest.getUsername());
             sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequest.getPassword()));

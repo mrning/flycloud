@@ -1,10 +1,13 @@
 package com.zacboot.admin.beans.entity;
 
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -36,6 +39,10 @@ public class SysUserRole extends BaseEntity {
     public SysUserRole(String userUuid, String roleUuid) {
         this.userUuid = userUuid;
         this.roleUuid = roleUuid;
+        this.setUuid(UUID.randomUUID().toString(true));
+        this.setCreateTime(LocalDateTime.now());
+        this.setUpdateTime(LocalDateTime.now());
+        this.setDeleted(Boolean.FALSE);
     }
 
 

@@ -4,8 +4,6 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HexUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
@@ -64,8 +62,5 @@ public class PasswordUtil {
 
     public static void main(String[] args) throws Exception {
         System.out.println(getPasswordMatch("123456",getPasswordEncode("123456")));
-//        String token = createToken("abc");
-//        System.out.println(token);
-//        System.out.println(getUserNameByToken(token));
     }
 }

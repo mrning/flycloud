@@ -25,9 +25,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +97,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     @Transactional
     public Boolean updateDepartDataById(SysDept SysDept, String username) {
         if (SysDept != null && username != null) {
-            SysDept.setUpdateTime(new Date());
+            SysDept.setUpdateTime(LocalDateTime.now());
             SysDept.setUpdateUser(username);
             this.updateById(SysDept);
             return true;

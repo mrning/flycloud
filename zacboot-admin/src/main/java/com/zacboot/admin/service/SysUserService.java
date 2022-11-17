@@ -17,7 +17,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
 
     Integer del(SysUser sysUser);
 
-    Integer update(SysUser sysUser);
+    Integer update(SysUser sysUser, String token);
 
     PageResult<SysUser> queryPage(UserRequest userRequest);
 

@@ -34,6 +34,13 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
         return sysUserRoleMapper.deleteByExample(sysUserRoleExample);
     }
 
+    @Override
+    public Integer delByUserUuid(String userUuid) {
+        SysUserRoleExample sysUserRoleExample = new SysUserRoleExample();
+        sysUserRoleExample.createCriteria().andUserUuidEqualTo(userUuid);
+        return sysUserRoleMapper.deleteByExample(sysUserRoleExample);
+    }
+
     public Integer update(SysUserRole sysUserRole) {
         SysUserRoleExample sysUserRoleExample = new SysUserRoleExample();
         return sysUserRoleMapper.updateByExampleSelective(sysUserRole, sysUserRoleExample);
@@ -41,7 +48,7 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
 
     public List<SysUserRole> queryPage(UserRoleRequest userRoleRequest, Page page) {
         SysUserRoleExample sysUserRoleExample = new SysUserRoleExample();
-        return sysUserRoleMapper.selectByExampleWithRowbounds(sysUserRoleExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+        return sysUserRoleMapper.selectByExampleWithRowbounds(sysUserRoleExample, new RowBounds(page.getPageNumber(), page.getPageSize()));
     }
 
     public Long queryPageCount(UserRoleRequest userRoleRequest) {

@@ -61,4 +61,15 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
     public List<SysUserRole> queryRolesByUserUuid(String userUuid) {
         return sysUserRoleDao.queryUserRoles(userUuid);
     }
+
+    @Override
+    public Integer updateByUserUuid(String userUuid, List<String> roleUuids) {
+        sysUserRoleDao.delByUserUuid(userUuid);
+        roleUuids.forEach(roleUuid -> {
+            SysUserRole sysUserRole = new SysUserRole(userUuid, roleUuid);
+            sysUserRoleDao.add(sysUserRole);
+        });
+
+        return roleUuids.size();
+    }
 }

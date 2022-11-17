@@ -30,6 +30,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 json.put("uuid", permission.getUuid());
                 json.put("parentUuid", permission.getParentUuid());
                 json.put("code", permission.getCode());
+                json.put("url", permission.getUrl());
                 json.put("name", permission.getName());
                 json.put("type", permission.getMenuType());
                 json.put("hidden", permission.getHidden());

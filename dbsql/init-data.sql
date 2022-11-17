@@ -2,7 +2,7 @@
 INSERT INTO `zacboot`.`sys_user`
 (`uuid`, `username`, `password`, `real_name`, `avatar`, `nickname`, `mail`, `phone`, `create_user`, `create_time`,
  `update_user`, `update_time`, `deleted`)
-VALUES ('e9ca23d68d884d4ebb19d07889727dae', 'zacboot',
+VALUES ('superadmin', 'zacboot',
         '$2a$10$VZ0DkrPjMFScvPyz4wVpneazIGN4rfK57OY0baiQ.m1FF5t9JcRpG', '管理员',
         'http://minio.jeecg.com/otatest/temp/lgo33_1583397323099.png',
         '管理员', 'zacboot@163.com', '18611111111', 'A01', now(), 'A01', now(), false);
@@ -45,13 +45,13 @@ VALUES ('f6817f48af4fb3af11b9e8bf182f618b', '管理员', 'admin', '管理员', '
 
 -- 初始化用户 ~ 部门关联表
 INSERT INTO `zacboot`.`sys_user_dept` (`uuid`, `user_uuid`, `dept_uuid`,create_user,create_time,update_user,update_time,deleted)
-VALUES ('1255ebc5dfc611eaa09238d5477a5fc1', 'e9ca23d68d884d4ebb19d07889727dae',
+VALUES ('1255ebc5dfc611eaa09238d5477a5fc1', 'superadmin',
         '4f1765520d6346f9bd9c79e2479e5b12', 'init', now(), 'init', now(), 0);
 
 -- 初始化用户 ~ 角色关联表
 INSERT INTO `zacboot`.`sys_user_role` (`uuid`, `user_uuid`, `role_uuid`, create_user, create_time, update_user,
                                        update_time, deleted)
-VALUES ('42448bdedfc611eaa09238d5477a5fc1', 'e9ca23d68d884d4ebb19d07889727dae',
+VALUES ('42448bdedfc611eaa09238d5477a5fc1', 'superadmin',
         'f6817f48af4fb3af11b9e8bf182f618b', 'init', now(), 'init', now(), 0);
 
 
