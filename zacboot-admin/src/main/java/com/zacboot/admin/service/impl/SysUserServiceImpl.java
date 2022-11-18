@@ -247,10 +247,13 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
     @Override
     public boolean logout(String token) {
-        SysUser sysUser = (SysUser) redisUtil.get(RedisKey.LOGIN_TOKEN+":"+token);
+        SysUser sysUser = (SysUser) redisUtil.get(RedisKey.LOGIN_TOKEN + ":" + token);
+        if (sysUser == null) {
+            return true;
+        }
         Result<Boolean> result = ssoServiceFeign.logout(new SsoLogoutRequest(token, sysUser.getUsername()));
         if (result.isSuccess()) {
-            redisUtil.del(RedisKey.LOGIN_TOKEN+":"+token);
+            redisUtil.del(RedisKey.LOGIN_TOKEN + ":" + token);
             return result.getResult();
         }
         return false;
