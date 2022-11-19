@@ -88,10 +88,14 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
             sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
         }
+
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
             sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
-            // 如果密码修改则用户退出重新登录
-            logout(token);
+            SysUser sysUserCache = (SysUser) redisUtil.get(RedisKey.LOGIN_TOKEN + ":" + token);
+            if (sysUserCache != null && sysUserCache.getUuid().equals(sysUser.getUuid())) {
+                // 如果密码修改则用户退出重新登录
+                logout(token);
+            }
         }
         return sysUserDao.update(sysUser);
     }
