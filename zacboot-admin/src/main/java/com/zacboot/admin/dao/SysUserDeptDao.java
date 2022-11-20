@@ -21,4 +21,6 @@ public interface SysUserDeptDao {
     List<SysUserDept> queryPage(UserDeptRequest userDeptRequest, Page page);
 
     Long queryPageCount(UserDeptRequest userDeptRequest);
+
+    Integer delByUserUuid(String userUuid);
 }

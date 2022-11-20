@@ -47,4 +47,11 @@ public class SysUserDeptDaoImpl implements SysUserDeptDao {
     public List<SysDept> getDeptsByUserUuid(String userUuid) {
         return sysUserDeptMapper.getDeptsByUserUuid(userUuid);
     }
+
+    @Override
+    public Integer delByUserUuid(String userUuid) {
+        SysUserDeptExample sysUserDeptExample = new SysUserDeptExample();
+        sysUserDeptExample.createCriteria().andUserUuidEqualTo(userUuid);
+        return sysUserDeptMapper.deleteByExample(sysUserDeptExample);
+    }
 }

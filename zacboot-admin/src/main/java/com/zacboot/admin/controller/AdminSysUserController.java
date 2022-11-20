@@ -8,7 +8,6 @@ import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.admin.service.SysUserService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.common.base.utils.PasswordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +44,6 @@ public class AdminSysUserController {
     @ApiOperation("新增")
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody SysUser sysUser) {
-        sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
         return Result.success(sysUserService.add(sysUser));
     }
 

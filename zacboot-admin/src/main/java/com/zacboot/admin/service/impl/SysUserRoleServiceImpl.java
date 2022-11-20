@@ -72,4 +72,9 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
 
         return roleUuids.size();
     }
+
+    @Override
+    public Integer delByUserUuid(String userUuid) {
+        return sysUserRoleDao.delByUserUuid(userUuid);
+    }
 }

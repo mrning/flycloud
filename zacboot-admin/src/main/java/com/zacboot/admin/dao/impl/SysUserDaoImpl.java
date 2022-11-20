@@ -1,6 +1,5 @@
 package com.zacboot.admin.dao.impl;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
@@ -29,7 +28,6 @@ public class SysUserDaoImpl implements SysUserDao {
     private SysUserMapper sysUserMapper;
 
     public Integer add(SysUser sysUser) {
-        sysUser.setUuid(UUID.randomUUID().toString(Boolean.TRUE));
         sysUser.setCreateTime(LocalDateTime.now());
         sysUser.setDeleted(false);
         return sysUserMapper.insertSelective(sysUser);

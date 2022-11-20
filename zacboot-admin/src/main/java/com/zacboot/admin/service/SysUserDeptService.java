@@ -17,4 +17,6 @@ public interface SysUserDeptService extends SysBaseService<SysUserDept> {
     Integer update(SysUserDept sysUserDept);
 
     PageResult<SysUserDept> queryPage(UserDeptRequest userDeptRequest);
+
+    Integer delByUserUuid(String userUuid);
 }

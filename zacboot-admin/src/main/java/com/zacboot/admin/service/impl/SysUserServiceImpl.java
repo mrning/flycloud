@@ -17,10 +17,7 @@ import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.mapper.SysUserMapper;
-import com.zacboot.admin.service.SysDeptService;
-import com.zacboot.admin.service.SysRoleService;
-import com.zacboot.admin.service.SysUserRoleService;
-import com.zacboot.admin.service.SysUserService;
+import com.zacboot.admin.service.*;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.common.base.constants.CommonConstant;
@@ -65,21 +62,30 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     private SysDeptService sysDeptService;
 
     @Autowired
+    private SysUserDeptService sysUserDeptService;
+
+    @Autowired
     private SsoServiceFeign ssoServiceFeign;
 
     @Autowired
     private RedisUtil redisUtil;
 
     public Integer add(SysUser sysUser) {
+        sysUser.setUuid(UUID.randomUUID().toString(Boolean.TRUE));
         if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
             sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
+        }
+        if (StringUtils.isNotBlank(sysUser.getPassword())) {
+            sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
         }
         return sysUserDao.add(sysUser);
     }
 
     public Integer del(SysUser sysUser) {
-        Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，更新失败");
-        Assert.isTrue(BeanUtil.isNotEmpty(sysUser), "不能全部属性为空，会删除全表数据");
+        Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，删除失败");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysUser), "不能全部属性为空");
+        sysUserRoleService.delByUserUuid(sysUser.getUuid());
+        sysUserDeptService.delByUserUuid(sysUser.getUuid());
         return sysUserDao.del(sysUser);
     }
 
@@ -238,6 +244,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             sysUser.setCreateTime(LocalDateTime.now());// 设置创建时间
             sysUser.setUsername(regisRequest.getUsername());
             sysUser.setRealName(regisRequest.getUsername());
+            sysUser.setNickname(regisRequest.getUsername());
             sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequest.getPassword()));
             sysUser.setMail(regisRequest.getMail());
             sysUser.setPhone(regisRequest.getPhone());

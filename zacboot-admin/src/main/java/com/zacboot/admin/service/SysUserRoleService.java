@@ -24,4 +24,6 @@ public interface SysUserRoleService extends SysBaseService<SysUserRole> {
     List<SysUserRole> queryRolesByUserUuid(String userUuid);
 
     Integer updateByUserUuid(String userUuid, List<String> roleUuids);
+
+    Integer delByUserUuid(String userUuid);
 }

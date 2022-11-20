@@ -111,10 +111,10 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 	@UpdateProvider(type=SysUserRoleDTOSqlProvider.class, method="updateByExample")
 	int updateByExample(@Param("record") SysUserRole record, @Param("example") SysUserRoleExample example);
 
-	@Select("select * from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = (select uuid from sys_user where username=#{username}))")
+	@Select("select * from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = (select uuid from sys_user where username=#{username} and deleted = 0))")
 	List<SysRole> getRoleByUserName(@Param("username") String username);
 
-	@Select("select uuid from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = (select uuid from sys_user where username=#{username}))")
+	@Select("select uuid from sys_role where uuid in (select role_uuid from sys_user_role where user_uuid = (select uuid from sys_user where username=#{username} and deleted = 0))")
 	List<String> getRoleIdByUserName(@Param("username") String username);
 
 }
