@@ -12,53 +12,31 @@ INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `descripti
                                    `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
                                    `create_time`,
                                    `update_user`, `update_time`)
-VALUES ('4f1765520d6346f9bd9c79e2479e5b12', '', '上海飞云科技', NULL, NULL, NULL, NULL, NULL, '1', 0, 'zacboot',
+VALUES ('mainDept', '', '上海飞云科技', NULL, NULL, NULL, NULL, NULL, '1', 0, 'zacboot',
         now(), 'zacboot', now());
-
-INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
-                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
-                                   `create_time`,
-                                   `update_user`, `update_time`)
-VALUES ('5159cde220114246b045e574adceafe9', '4f1765520d6346f9bd9c79e2479e5b12', '研发部', NULL, NULL, NULL,
-        NULL, NULL, '1', 0, 'zacboot', now(), 'zacboot', now());
-
-INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
-                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
-                                   `create_time`,
-                                   `update_user`, `update_time`)
-VALUES ('5159cde220114246b045e574adceafe8', '4f1765520d6346f9bd9c79e2479e5b12', '财务部', NULL, NULL, NULL,
-        NULL, NULL, '1', 0, 'zacboot', now(), 'zacboot', now());
-
-INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
-                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
-                                   `create_time`,
-                                   `update_user`, `update_time`)
-VALUES ('5159cde220114246b045e574adceafe7', '4f1765520d6346f9bd9c79e2479e5b12', '人事部', NULL, NULL, NULL,
-        NULL, NULL, '1', 0, 'zacboot', now(), 'zacboot', now());
 
 -- 初始化角色
 INSERT INTO `zacboot`.`sys_role` (`uuid`, `role_name`, `role_code`, `description`, `create_user`, `create_time`,
-                                   `update_user`, `update_time`)
-VALUES ('f6817f48af4fb3af11b9e8bf182f618b', '管理员', 'admin', '管理员', 'auto', now(), 'auto',
+                                  `update_user`, `update_time`)
+VALUES ('adminRole', '管理员', 'admin', '管理员', 'auto', now(), 'auto',
         now());
 
 
 -- 初始化用户 ~ 部门关联表
-INSERT INTO `zacboot`.`sys_user_dept` (`uuid`, `user_uuid`, `dept_uuid`,create_user,create_time,update_user,update_time,deleted)
+INSERT INTO `zacboot`.`sys_user_dept` (`uuid`, `user_uuid`, `dept_uuid`, create_user, create_time, update_user,
+                                       update_time, deleted)
 VALUES ('1255ebc5dfc611eaa09238d5477a5fc1', 'superadmin',
-        '4f1765520d6346f9bd9c79e2479e5b12', 'init', now(), 'init', now(), 0);
+        'mainDept', 'init', now(), 'init', now(), 0);
 
 -- 初始化用户 ~ 角色关联表
 INSERT INTO `zacboot`.`sys_user_role` (`uuid`, `user_uuid`, `role_uuid`, create_user, create_time, update_user,
                                        update_time, deleted)
 VALUES ('42448bdedfc611eaa09238d5477a5fc1', 'superadmin',
-        'f6817f48af4fb3af11b9e8bf182f618b', 'init', now(), 'init', now(), 0);
+        'adminRole', 'init', now(), 'init', now(), 0);
 
-
--- 初始化权限菜单表
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('homepage', null, '首页', null, 'HomeFilled', 'Home', 'Home', null, 0, 0, true, 'admin', '2021-09-20 22:02:03',
+VALUES ('homepage', null, '首页', null, 'HomeFilled', 'Home', 'Home', null, 0, 0, false, 'admin', '2021-09-20 22:02:03',
         'admin', '2021-09-20 22:02:03', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
@@ -101,17 +79,58 @@ VALUES ('d86f58e7ab516d3bc6bfb1fe10585f97', '717f6bee46f44a3897eca9abd6e2ec44', 
         '2021-09-20 22:02:11', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('12147434438212567069999999999999', '3f915b2769fc80648e92d04e84ca059d', '用户管理删除', 'delete', null, null,
-        null, null, 0, 2, false, 'admin', '2022-01-08 17:49:00', null, null, false);
+VALUES ('12147434438212567069999999999999', '3f915b2769fc80648e92d04e84ca059d', '用户删除', 'del', null, null,
+        '/system/users', null, 0, 2, false, 'admin', '2022-01-08 17:49:00', 'admin', '2022-01-08 19:02:01', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('12147435604229079060000000000000', '3f915b2769fc80648e92d04e84ca059d', '用户添加', 'add', null, null, null,
-        null, 0, 2, false, 'admin', '2022-01-08 17:49:00', null, null, false);
+VALUES ('12147435604229079060000000000000', '3f915b2769fc80648e92d04e84ca059d', '用户添加', 'add', null, null,
+        '/system/users', null, 0, 2, false, 'admin', '2022-01-08 17:49:00', 'admin', '2022-01-08 19:02:01', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('ajhfdh2k34h23kj4h2iu54241234234d', '3f915b2769fc80648e92d04e84ca059d', '用户管理密码', 'password', null, null,
-        null, null, 0, 2, false, 'admin', '2022-01-08 19:02:01', null, null, false);
+VALUES ('123123123223ab516d3bc6bf12323555', '3f915b2769fc80648e92d04e84ca059d', '用户编辑', 'edit', null, null,
+        '/system/users', null, 0, 2, false, 'admin', '2022-01-08 19:12:22', 'admin', '2022-01-08 19:02:01', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('1sdddddddddddddddd12312312323555', '3f915b2769fc80648e92d04e84ca059d', '用户编辑', 'edit', null, null, null,
-        null, 0, 2, false, 'admin', '2022-01-08 19:12:22', null, null, false);
+VALUES ('8e7aby2k34h23kj4h2iu542412342341', '190c2b43bec6a5f7a4194a85db67d96a', '角色添加', 'add', null, null,
+        '/system/roles', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c97b0b7e6f0d11eda70138d5477a5fc1', '190c2b43bec6a5f7a4194a85db67d96a', '角色编辑', 'edit', null, null,
+        '/system/roles', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c98830f66f0d11eda70138d5477a5fc1', '190c2b43bec6a5f7a4194a85db67d96a', '角色删除', 'del', null, null,
+        '/system/roles', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c992b04e6f0d11eda70138d5477a5fc1', '45c966826eeff4c99b8f8ebfe74511fc', '部门添加', 'add', null, null,
+        '/system/departList', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c99fb5176f0d11eda70138d5477a5fc1', '45c966826eeff4c99b8f8ebfe74511fc', '部门编辑', 'edit', null, null,
+        '/system/departList', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c9b5d15d6f0d11eda70138d5477a5fc1', '45c966826eeff4c99b8f8ebfe74511fc', '部门删除', 'del', null, null,
+        '/system/departList', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c992b04e6f0d11eda70138d5477a5fc0', '54dd5457a3190740005c1bfec55b1c34', '菜单添加', 'add', null, null,
+        '/system/menus', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c99fb5176f0d11eda70138d5477a5fc2', '54dd5457a3190740005c1bfec55b1c34', '菜单编辑', 'edit', null, null,
+        '/system/menus', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c9b5d15d6f0d11eda70138d5477a5fc3', '54dd5457a3190740005c1bfec55b1c34', '菜单添加子菜单', 'addChild', null,
+        null, '/system/menus', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01',
+        false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c9b5d15d6f0d11eda70138d5477a5fc4', '54dd5457a3190740005c1bfec55b1c34', '子菜单添加按钮', 'addBtn', null, null,
+        '/system/menus', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
+INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
+                                    hidden, create_user, create_time, update_user, update_time, deleted)
+VALUES ('c9b5d15d6f0d11eda70138d5477a5fc5', '54dd5457a3190740005c1bfec55b1c34', '菜单(按钮)删除', 'del', null, null,
+        '/system/menus', null, 0, 2, false, 'admin', '2022-01-08 19:02:01', 'admin', '2022-01-08 19:02:01', false);
