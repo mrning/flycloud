@@ -1,19 +1,25 @@
 package com.zacboot.admin.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.zacboot.admin.beans.entity.SysRole;
+import com.zacboot.admin.beans.entity.SysRolePermission;
+import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.dao.SysUserRoleDao;
 import com.zacboot.admin.mapper.SysRoleMapper;
+import com.zacboot.admin.service.SysRolePermissionService;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +36,35 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
     @Autowired
     private SysUserRoleDao sysUserRoleDao;
 
-    public Integer add(SysRole sysRole) {
+    @Autowired
+    private SysRolePermissionService sysRolePermissionService;
+
+    public Integer add(RoleAddRequest roleAddRequest) {
+        SysRole sysRole = SysRole.convertByAddRequest(roleAddRequest);
+        sysRole.setUuid(UUID.fastUUID().toString(true));
+
+        if (!roleAddRequest.getPermissions().isEmpty()) {
+            for (String permissionUuid : roleAddRequest.getPermissions()) {
+                SysRolePermission sysRolePermission = new SysRolePermission();
+                sysRolePermission.setRoleUuid(sysRole.getUuid());
+                sysRolePermission.setPermissionUuid(permissionUuid);
+                sysRolePermissionService.add(sysRolePermission);
+            }
+        }
+
+        sysRole.setCreateTime(LocalDateTime.now());
+        sysRole.setDeleted(false);
         return sysRoleDao.add(sysRole);
     }
 
     public Integer del(SysRole sysRole) {
-        Assert.isTrue(BeanUtil.isEmpty(sysRole),"不能全部属性为空，会删除全表数据");
-        return sysRoleDao.del(sysRole);
+        Assert.isTrue(StringUtils.isNotBlank(sysRole.getUuid()), "删除失败，参数异常");
+
+        if (!CollectionUtils.isEmpty(sysRolePermissionService.queryByRoleUuid(sysRole.getUuid()))) {
+            sysRolePermissionService.delByRoleUuid(sysRole.getUuid());
+        }
+        sysRole.setDeleted(true);
+        return sysRoleDao.update(sysRole);
     }
 
     public Integer update(SysRole sysRole) {

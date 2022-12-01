@@ -39,11 +39,25 @@ public class SysRolePermissionDaoImpl implements SysRolePermissionDao {
 
     public List<SysRolePermission> queryPage(SysRolePermission sysRolePermission, Page page) {
         SysRolePermissionExample sysRolePermissionExample = new SysRolePermissionExample();
-        return sysRolePermissionMapper.selectByExampleWithRowbounds(sysRolePermissionExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+        return sysRolePermissionMapper.selectByExampleWithRowbounds(sysRolePermissionExample, new RowBounds(page.getPageNumber(), page.getPageSize()));
     }
 
     public Long queryPageCount(SysRolePermission sysRolePermission) {
         SysRolePermissionExample sysRolePermissionExample = new SysRolePermissionExample();
         return sysRolePermissionMapper.countByExample(sysRolePermissionExample);
+    }
+
+    @Override
+    public List<SysRolePermission> queryByRoleUuid(String roleUuid) {
+        SysRolePermissionExample sysRolePermissionExample = new SysRolePermissionExample();
+        sysRolePermissionExample.createCriteria().andRoleUuidEqualTo(roleUuid);
+        return sysRolePermissionMapper.selectByExample(sysRolePermissionExample);
+    }
+
+    @Override
+    public Integer delByRoleUuid(String roleUuid) {
+        SysRolePermissionExample sysRolePermissionExample = new SysRolePermissionExample();
+        sysRolePermissionExample.createCriteria().andRoleUuidEqualTo(roleUuid);
+        return sysRolePermissionMapper.deleteByExample(sysRolePermissionExample);
     }
 }

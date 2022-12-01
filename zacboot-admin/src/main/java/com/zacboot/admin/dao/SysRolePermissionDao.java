@@ -20,4 +20,8 @@ public interface SysRolePermissionDao {
     List<SysRolePermission> queryPage(SysRolePermission sysRolePermission, Page page);
 
     Long queryPageCount(SysRolePermission sysRolePermission);
+
+    List<SysRolePermission> queryByRoleUuid(String roleUuid);
+
+    Integer delByRoleUuid(String roleUuid);
 }

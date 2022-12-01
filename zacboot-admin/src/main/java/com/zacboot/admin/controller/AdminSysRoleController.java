@@ -1,6 +1,7 @@
 package com.zacboot.admin.controller;
 
 import com.zacboot.admin.beans.entity.SysRole;
+import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -28,13 +29,14 @@ public class AdminSysRoleController {
 
     /**
      * AutoCreateFile add
+     *
      * @date 2021年4月30日星期五
      * @author zac
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public Result<Integer> add(@RequestBody SysRole sysRole) {
-        return Result.success(sysRoleService.add(sysRole));
+    public Result<Integer> add(@RequestBody RoleAddRequest addRequest) {
+        return Result.success(sysRoleService.add(addRequest));
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.zacboot.admin.service;
 
 import com.zacboot.admin.beans.entity.SysRole;
+import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.common.base.basebeans.PageResult;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author zac
  */
 public interface SysRoleService extends SysBaseService<SysRole> {
-    Integer add(SysRole sysRole);
+    Integer add(RoleAddRequest roleAddRequest);
 
     Integer del(SysRole sysRole);
 

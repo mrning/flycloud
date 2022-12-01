@@ -37,17 +37,23 @@ public class SysRoleDaoImpl implements SysRoleDao {
 
     public Integer update(SysRole sysRole) {
         SysRoleExample sysRoleExample = new SysRoleExample();
+        sysRoleExample.createCriteria().andUuidEqualTo(sysRole.getUuid());
         return sysRoleMapper.updateByExampleSelective(sysRole, sysRoleExample);
     }
 
     public List<SysRole> queryPage(RoleRequest roleRequest, Page page) {
         SysRoleExample sysRoleExample = new SysRoleExample();
-        return sysRoleMapper.selectByExampleWithRowbounds(sysRoleExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+        return sysRoleMapper.selectByExampleWithRowbounds(buildExample(sysRoleExample), new RowBounds(page.getPageNumber(), page.getPageSize()));
     }
 
     public Long queryPageCount(RoleRequest roleRequest) {
         SysRoleExample sysRoleExample = new SysRoleExample();
-        return sysRoleMapper.countByExample(sysRoleExample);
+        return sysRoleMapper.countByExample(buildExample(sysRoleExample));
+    }
+
+    private SysRoleExample buildExample(SysRoleExample sysRoleExample) {
+        sysRoleExample.createCriteria().andDeletedEqualTo(false);
+        return sysRoleExample;
     }
 
     @Override

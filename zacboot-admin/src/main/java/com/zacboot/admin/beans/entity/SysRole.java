@@ -1,6 +1,8 @@
 package com.zacboot.admin.beans.entity;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,5 +37,9 @@ public class SysRole extends BaseEntity {
      */
     private String description;
 
-
+    public static SysRole convertByAddRequest(RoleAddRequest roleAddRequest) {
+        SysRole sysRole = new SysRole();
+        BeanUtil.copyProperties(roleAddRequest, sysRole);
+        return sysRole;
+    }
 }
