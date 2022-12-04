@@ -3,6 +3,8 @@ package com.zacboot.admin.controller;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
+import com.zacboot.admin.beans.vos.request.RoleUpdateRequest;
+import com.zacboot.admin.beans.vos.response.RolePageResponse;
 import com.zacboot.admin.service.SysRoleService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
@@ -52,23 +54,25 @@ public class AdminSysRoleController {
 
     /**
      * AutoCreateFile update
+     *
      * @date 2021年4月30日星期五
      * @author zac
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public Result<Integer> update(@RequestBody SysRole sysRole) {
-        return Result.success(sysRoleService.update(sysRole));
+    public Result<Integer> update(@RequestBody RoleUpdateRequest roleUpdateRequest) {
+        return Result.success(sysRoleService.update(roleUpdateRequest));
     }
 
     /**
      * AutoCreateFile queryPage
+     *
      * @date 2021年4月30日星期五
      * @author zac
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysRole>> queryPage(@RequestBody RoleRequest roleRequest) {
+    public Result<PageResult<RolePageResponse>> queryPage(@RequestBody RoleRequest roleRequest) {
         return Result.success(sysRoleService.queryPage(roleRequest));
     }
 

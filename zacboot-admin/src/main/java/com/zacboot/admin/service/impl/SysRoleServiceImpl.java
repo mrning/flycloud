@@ -6,11 +6,14 @@ import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysRolePermission;
 import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
+import com.zacboot.admin.beans.vos.request.RoleUpdateRequest;
+import com.zacboot.admin.beans.vos.response.RolePageResponse;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.dao.SysUserRoleDao;
 import com.zacboot.admin.mapper.SysRoleMapper;
 import com.zacboot.admin.service.SysRolePermissionService;
 import com.zacboot.admin.service.SysRoleService;
+import com.zacboot.admin.utils.SysUtil;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,8 +28,9 @@ import java.util.stream.Collectors;
 
 /**
  * AutoCreateFile
- * @date 2021年4月30日星期五
+ *
  * @author zac
+ * @date 2021年4月30日星期五
  */
 @Slf4j
 @Service
@@ -67,13 +71,34 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
         return sysRoleDao.update(sysRole);
     }
 
-    public Integer update(SysRole sysRole) {
+    public Integer update(RoleUpdateRequest request) {
+        if (!CollectionUtils.isEmpty(request.getPermissions())) {
+            sysRolePermissionService.delByRoleUuid(request.getUuid());
+            request.getPermissions().forEach(s -> {
+                SysRolePermission sysRolePermission = new SysRolePermission();
+                sysRolePermission.setRoleUuid(request.getUuid());
+                sysRolePermission.setPermissionUuid(s);
+                sysRolePermission.setCreateUser(SysUtil.getCurrentUser().getNickname());
+                sysRolePermissionService.add(sysRolePermission);
+            });
+        }
+        SysRole sysRole = SysRole.convertByUpdateRequest(request);
+        sysRole.setUpdateTime(LocalDateTime.now());
+        sysRole.setUpdateUser(SysUtil.getCurrentUser().getNickname());
         return sysRoleDao.update(sysRole);
     }
 
-    public PageResult<SysRole> queryPage(RoleRequest roleRequest) {
-        PageResult<SysRole> pageResult = new PageResult<>();
-        pageResult.setDataList(sysRoleDao.queryPage(roleRequest,new Page(roleRequest.getPageNumber(), roleRequest.getPageSize())));
+    public PageResult<RolePageResponse> queryPage(RoleRequest roleRequest) {
+        PageResult<RolePageResponse> pageResult = new PageResult<>();
+        List<RolePageResponse> sysRoles = sysRoleDao.queryPage(roleRequest, new Page(roleRequest.getPageNumber(), roleRequest.getPageSize()))
+                .stream().map(sysRole -> {
+                    RolePageResponse rolePageResponse = sysRole.convertToPageRes();
+                    List<String> permissionUuids = sysRolePermissionService.queryByRoleUuid(sysRole.getUuid()).stream().map(SysRolePermission::getPermissionUuid).collect(Collectors.toList());
+                    rolePageResponse.setPermissions(permissionUuids);
+                    return rolePageResponse;
+                }).collect(Collectors.toList());
+
+        pageResult.setDataList(sysRoles);
         pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest).intValue());
         return pageResult;
     }
