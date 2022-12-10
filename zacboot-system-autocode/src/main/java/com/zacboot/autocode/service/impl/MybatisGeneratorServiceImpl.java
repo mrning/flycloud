@@ -49,8 +49,8 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addProperty("autoDelimitKeywords","true");
         context.addProperty("beginningDelimiter","`");
         context.addProperty("endingDelimiter","`");
-        context.addProperty("tableName",mybatisGeneratorRequest.getTableName());
-        context.addProperty("dataBaseName",mybatisGeneratorRequest.getDataBaseName());
+        context.addProperty("tableName", mybatisGeneratorRequest.getTableName());
+        context.addProperty("schema", mybatisGeneratorRequest.getSchema());
 
         // 添加插件
         addPlugins(context,mybatisGeneratorRequest.getDesc(),mybatisGeneratorRequest.getPlatform().getValue());
@@ -94,22 +94,22 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addPluginConfiguration(pluginRowBoundsPlugin);
         // controller生成插件
         PluginConfiguration controllerPlugin = new PluginConfiguration();
-        controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ControllerGenPlugin");
-        controllerPlugin.addProperty("controllerPath", System.getProperty("user.dir")+"\\gen-dir\\");
-        controllerPlugin.addProperty("controllerPackage", MgtConstant.TARGETPACKAGE+API_PACKAGE+platform);
+        controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.ControllerGenPlugin");
+        controllerPlugin.addProperty("controllerPath", System.getProperty("user.dir") + "\\genDir\\");
+        controllerPlugin.addProperty("controllerPackage", MgtConstant.TARGETPACKAGE + API_PACKAGE + platform);
         controllerPlugin.addProperty("controllerPlatform", platform);
         controllerPlugin.addProperty("controllerDesc", desc);
         context.addPluginConfiguration(controllerPlugin);
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();
-        servicePlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.ServiceGenPlugin");
-        servicePlugin.addProperty("servicePath", System.getProperty("user.dir")+"\\gen-dir\\");
+        servicePlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.ServiceGenPlugin");
+        servicePlugin.addProperty("servicePath", System.getProperty("user.dir") + "\\genDir\\");
         servicePlugin.addProperty("servicePackage", MgtConstant.TARGETPACKAGE_SERVICE);
         context.addPluginConfiguration(servicePlugin);
         // dao生成插件
         PluginConfiguration daoPlugin = new PluginConfiguration();
-        daoPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE+".genplugins.DaoGenPlugin");
-        daoPlugin.addProperty("daoPath", System.getProperty("user.dir")+"\\gen-dir\\");
+        daoPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.DaoGenPlugin");
+        daoPlugin.addProperty("daoPath", System.getProperty("user.dir") + "\\genDir\\");
         daoPlugin.addProperty("daoPackage", MgtConstant.TARGETPACKAGE_DAO);
         context.addPluginConfiguration(daoPlugin);
     }
@@ -117,7 +117,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private void buildMapper(Context context) {
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
-        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir")+"\\gen-dir\\");
+        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
         javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
@@ -125,7 +125,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
 
     private void buildJavaModel(Context context) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir")+"\\gen-dir\\");
+        javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
         javaModelGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_DTO);
         javaModelGeneratorConfiguration.addProperty("rootClass", "com.zacboot.common.base.basebean.BaseDTO");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");
@@ -140,8 +140,8 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         tableConfiguration.setGeneratedKey(generatedKey);
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
         // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
-        tableConfiguration.setCatalog(context.getProperty("dataBaseName"));
-        tableConfiguration.addProperty("ignoreQualifiersAtRuntime","true");
+        tableConfiguration.setSchema(context.getProperty("schema"));
+        tableConfiguration.addProperty("ignoreQualifiersAtRuntime", "true");
         context.addTableConfiguration(tableConfiguration);
     }
 

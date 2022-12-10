@@ -89,6 +89,7 @@ public class DaoGenPlugin extends PluginAdapter {
             createMethod("update", genClass);
             createMethod("queryPage", genClass);
             createMethod("queryPageCount", genClass);
+            createMethod("buildExample", genClass);
             return new GeneratedJavaFile(genClass, daoPath, new DefaultJavaFormatter());
         } else {
             Interface genInterface = new Interface(fullFileName);
@@ -134,11 +135,13 @@ public class DaoGenPlugin extends PluginAdapter {
                         "page"));
                 method.setReturnType(new FullyQualifiedJavaType("List<" + dtoName + ">"));
                 compilationUnit.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE + ".dto." + dtoName));
-                method.addBodyLine(1, "return " + firstLowerMapperName + ".selectByExampleWithRowbounds(" + firstLowerExample + ",new RowBounds(page.getPageNumber(),page.getPageSize()));");
+                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(2, "return " + firstLowerMapperName + ".selectByExampleWithRowbounds(" + firstLowerExample + ",new RowBounds(page.getPageNumber(),page.getPageSize()));");
                 break;
             case "queryPageCount":
                 method.setReturnType(PrimitiveTypeWrapper.getLongInstance());
-                method.addBodyLine(1, "return " + firstLowerMapperName + ".countByExample(" + firstLowerExample + ");");
+                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(2, "return " + firstLowerMapperName + ".countByExample(" + firstLowerExample + ");");
                 break;
             case "add":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
@@ -147,12 +150,13 @@ public class DaoGenPlugin extends PluginAdapter {
                 break;
             case "del":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
-                method.addBodyLine(1, "buildExample(" + firstLowerExample + ")");
+                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
                 method.addBodyLine(2, "return " + firstLowerMapperName + ".deleteByExample(" + firstLowerExample + ");");
                 break;
             case "update":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
-                method.addBodyLine(1, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
+                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(2, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 break;
             case "buildExample":
                 method.addParameter(1, new Parameter(

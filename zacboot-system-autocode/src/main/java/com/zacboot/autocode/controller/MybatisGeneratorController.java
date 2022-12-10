@@ -29,9 +29,10 @@ public class MybatisGeneratorController {
     @PostMapping(value = "/tableToCode")
     @ApiOperation("根据数据库字段生成代码")
     @ApiImplicitParam(name = "platform", value = "接口平台", dataTypeClass = PlatformEnum.class)
-    public String tableToCod(@RequestBody MybatisGeneratorRequest mybatisGeneratorRequest) {
+    public String tableToCode(@RequestBody MybatisGeneratorRequest mybatisGeneratorRequest) {
         return mybatisGeneratorService.doDenerator(mybatisGeneratorRequest);
     }
+
     @PostMapping(value = "/codeToTable")
     @ApiOperation("根据实体类创建或更新表结构")
     public void codeToTable() {

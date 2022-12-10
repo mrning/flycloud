@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class MybatisGeneratorRequest {
-    String dataBaseName;
+    String schema;
     String tableName;
     String desc;
     PlatformEnum platform;
