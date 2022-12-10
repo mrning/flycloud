@@ -51,6 +51,7 @@ public class SysDeptDaoImpl implements SysDeptDao {
 
     public List<SysDept> queryPage(DeptRequest deptRequest, Page page) {
         SysDeptExample sysDeptExample = new SysDeptExample();
+        sysDeptExample.createCriteria().andDeletedEqualTo(false);
         return sysDeptMapper.selectByExampleWithRowbounds(sysDeptExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
