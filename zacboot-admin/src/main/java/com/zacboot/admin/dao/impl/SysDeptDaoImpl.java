@@ -7,11 +7,13 @@ import com.zacboot.admin.beans.example.SysDeptExample;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.dao.SysDeptDao;
 import com.zacboot.admin.mapper.SysDeptMapper;
+import com.zacboot.admin.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,15 +28,23 @@ public class SysDeptDaoImpl implements SysDeptDao {
     private SysDeptMapper sysDeptMapper;
 
     public Integer add(SysDept sysDept) {
+        sysDept.setCreateTime(LocalDateTime.now());
+        sysDept.setCreateUser(SysUtil.getCurrentUser().getNickname());
+        sysDept.setDeleted(false);
         return sysDeptMapper.insertSelective(sysDept);
     }
 
     public Integer del(SysDept sysDept) {
-        SysDeptExample sysDeptExample = new SysDeptExample();
-        return sysDeptMapper.deleteByExample(sysDeptExample);
+        SysDeptExample s = new SysDeptExample();
+        s.createCriteria().andUuidEqualTo(sysDept.getUuid());
+        sysDept.setDeleted(true);
+        sysDept.setUpdateTime(LocalDateTime.now());
+        return sysDeptMapper.updateByExampleSelective(sysDept, s);
     }
 
     public Integer update(SysDept sysDept) {
+        sysDept.setUpdateTime(LocalDateTime.now());
+        sysDept.setUpdateUser(SysUtil.getCurrentUser().getNickname());
         SysDeptExample sysDeptExample = new SysDeptExample();
         return sysDeptMapper.updateByExampleSelective(sysDept, sysDeptExample);
     }
@@ -52,5 +62,12 @@ public class SysDeptDaoImpl implements SysDeptDao {
     @Override
     public List<SysDept> queryAll() {
         return sysDeptMapper.selectList(Wrappers.emptyWrapper());
+    }
+
+    @Override
+    public SysDept queryByUuid(String deptUuid) {
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        sysDeptExample.createCriteria().andUuidEqualTo(deptUuid);
+        return sysDeptMapper.selectByExample(sysDeptExample).get(0);
     }
 }

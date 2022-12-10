@@ -37,7 +37,7 @@ public class ControllerErrHandler {
 	@ExceptionHandler(Exception.class)
 	public Result<?> handleException(Exception e){
 		log.error(e.getMessage(), e);
-		return Result.error("操作失败，"+e.getMessage());
+		return Result.error("操作失败，请联系管理员处理");
 	}
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)

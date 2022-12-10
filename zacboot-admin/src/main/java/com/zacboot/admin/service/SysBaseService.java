@@ -1,9 +1,7 @@
 package com.zacboot.admin.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
 
@@ -27,12 +25,12 @@ public interface SysBaseService<T> extends IService<T> {
     void addLog(String LogContent, Integer logType, Integer operatetype);
 
     /**
-     * 根据用户id查询用户信息
+     * 根据用户uuid查询用户信息
      *
-     * @param id
+     * @param uuid
      * @return
      */
-    SysUser getUserById(String id);
+    SysUser getUserByUuid(String uuid);
 
     /**
      * 通过用户账号查询角色集合
@@ -43,79 +41,10 @@ public interface SysBaseService<T> extends IService<T> {
     List<SysRole> getRolesByUsername(String username);
 
     /**
-     * 通过用户账号查询部门 name
-     *
-     * @param username
-     * @return 部门 name
-     */
-    List<String> getDepartNamesByUsername(String username);
-
-    /**
-     * 查询所有部门，拼接查询条件
-     *
-     * @return
-     */
-    List<JSONObject> queryAllDepart(Wrapper wrapper);
-
-    /**
      * 获取所有有效用户 拼接查询条件
      *
      * @return
      */
-    List<JSONObject> queryAllUser(Wrapper wrapper);
-
-    /**
-     * 获取所有角色
-     *
-     * @return
-     */
-    List<SysRole> queryAllRole();
-
-    /**
-     * 获取所有角色 带参
-     * roleIds 默认选中角色
-     *
-     * @return
-     */
-    List<SysRole> queryAllRole(String[] roleIds);
-
-    /**
-     * 通过用户账号查询角色Id集合
-     *
-     * @param username
-     * @return
-     */
-    List<String> getRoleIdsByUsername(String username);
-
-    /**
-     * 通过部门编号查询部门id
-     *
-     * @param orgCode
-     * @return
-     */
-    String getDepartIdsByOrgCode(String orgCode);
-
-    /**
-     * 查询上一级部门
-     *
-     * @param departId
-     * @return
-     */
-    SysDept getParentDepartId(String departId);
-
-    /**
-     * 查询所有部门
-     *
-     * @return
-     */
-    List<SysDept> getAllSysDept();
-
-    /**
-     * 根据部门Id获取部门负责人
-     *
-     * @param deptId
-     * @return
-     */
-    List<String> getDeptHeadByDepId(String deptId);
+    List<SysUser> queryAllUser(Wrapper wrapper);
 
 }

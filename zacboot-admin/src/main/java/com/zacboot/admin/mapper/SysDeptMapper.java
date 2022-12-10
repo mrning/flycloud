@@ -63,21 +63,19 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	 */
 	@SelectProvider(type=SysDeptSqlProvider.class, method="selectByExample")
 	@Results({
-			@Result(column="uuid", property="uuid", jdbcType= JdbcType.VARCHAR),
-			@Result(column="parent_id", property="parentId", jdbcType=JdbcType.VARCHAR),
-			@Result(column="depart_name", property="departName", jdbcType=JdbcType.VARCHAR),
-			@Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
-			@Result(column="mobile", property="mobile", jdbcType=JdbcType.VARCHAR),
-			@Result(column="fax", property="fax", jdbcType=JdbcType.VARCHAR),
-			@Result(column="address", property="address", jdbcType=JdbcType.VARCHAR),
-			@Result(column="memo", property="memo", jdbcType=JdbcType.VARCHAR),
-			@Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
-			@Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
-			@Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-			@Result(column="update_user", property="updateUser", jdbcType=JdbcType.VARCHAR),
-			@Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
-			@Result(column="deleted", property="deleted", jdbcType=JdbcType.BIT)
-	})
+            @Result(column = "uuid", property = "uuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "parent_uuid", property = "parentUuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "depart_name", property = "departName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mobile", property = "mobile", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "leader_uuid", property = "leaderUuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "dept_address", property = "deptAddress", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_user", property = "createUser", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_user", property = "updateUser", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "deleted", property = "deleted", jdbcType = JdbcType.BIT)
+    })
 	List<SysDept> selectByExampleWithRowbounds(SysDeptExample example, RowBounds rowBounds);
 
 	/**
@@ -88,21 +86,19 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	 */
 	@SelectProvider(type=SysDeptSqlProvider.class, method="selectByExample")
 	@Results({
-			@Result(column="uuid", property="uuid", jdbcType=JdbcType.VARCHAR),
-			@Result(column="parent_id", property="parentId", jdbcType=JdbcType.VARCHAR),
-			@Result(column="depart_name", property="departName", jdbcType=JdbcType.VARCHAR),
-			@Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
-			@Result(column="mobile", property="mobile", jdbcType=JdbcType.VARCHAR),
-			@Result(column="fax", property="fax", jdbcType=JdbcType.VARCHAR),
-			@Result(column="address", property="address", jdbcType=JdbcType.VARCHAR),
-			@Result(column="memo", property="memo", jdbcType=JdbcType.VARCHAR),
-			@Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
-			@Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
-			@Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-			@Result(column="update_user", property="updateUser", jdbcType=JdbcType.VARCHAR),
-			@Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
-			@Result(column="deleted", property="deleted", jdbcType=JdbcType.BIT)
-	})
+            @Result(column = "uuid", property = "uuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "parent_uuid", property = "parentUuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "depart_name", property = "departName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mobile", property = "mobile", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "dept_address", property = "deptAddress", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "leader_uuid", property = "leaderUuid", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_user", property = "createUser", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_user", property = "updateUser", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "deleted", property = "deleted", jdbcType = JdbcType.BIT)
+    })
 	List<SysDept> selectByExample(SysDeptExample example);
 
 	/**
@@ -139,7 +135,7 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 	@Select("select id from sys_dept where org_code=#{orgCode}")
     String queryDepartIdByOrgCode(@Param("orgCode") String orgCode);
 
-	@Select("select id,parent_id from sys_dept where id=#{departId}")
+    @Select("select id,parent_uuid from sys_dept where id=#{departId}")
     SysDept getParentDepartId(@Param("departId") String departId);
 
 	/**

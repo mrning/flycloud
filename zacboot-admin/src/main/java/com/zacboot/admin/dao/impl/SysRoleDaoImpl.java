@@ -7,11 +7,13 @@ import com.zacboot.admin.beans.example.SysRoleExample;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.mapper.SysRoleMapper;
+import com.zacboot.admin.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,15 +29,23 @@ public class SysRoleDaoImpl implements SysRoleDao {
     private SysRoleMapper sysRoleMapper;
 
     public Integer add(SysRole sysRole) {
+        sysRole.setCreateTime(LocalDateTime.now());
+        sysRole.setDeleted(false);
         return sysRoleMapper.insertSelective(sysRole);
     }
 
     public Integer del(SysRole sysRole) {
-        SysRoleExample sysRoleExample = new SysRoleExample();
-        return sysRoleMapper.deleteByExample(sysRoleExample);
+        SysRoleExample s = new SysRoleExample();
+        s.createCriteria().andUuidEqualTo(sysRole.getUuid());
+        sysRole.setDeleted(true);
+        sysRole.setUpdateTime(LocalDateTime.now());
+        return sysRoleMapper.updateByExampleSelective(sysRole, s);
     }
 
     public Integer update(SysRole sysRole) {
+        sysRole.setUpdateTime(LocalDateTime.now());
+        sysRole.setUpdateUser(SysUtil.getCurrentUser().getNickname());
+
         SysRoleExample sysRoleExample = new SysRoleExample();
         sysRoleExample.createCriteria().andUuidEqualTo(sysRole.getUuid());
         return sysRoleMapper.updateByExampleSelective(sysRole, sysRoleExample);

@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
     private SysRolePermissionService sysRolePermissionService;
 
     public Integer add(RoleAddRequest roleAddRequest) {
-        SysRole sysRole = SysRole.convertByAddRequest(roleAddRequest);
+        SysRole sysRole = SysRole.convertByRequest(roleAddRequest);
         sysRole.setUuid(UUID.fastUUID().toString(true));
 
         if (!roleAddRequest.getPermissions().isEmpty()) {
@@ -56,8 +55,6 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
             }
         }
 
-        sysRole.setCreateTime(LocalDateTime.now());
-        sysRole.setDeleted(false);
         return sysRoleDao.add(sysRole);
     }
 
@@ -82,10 +79,7 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
                 sysRolePermissionService.add(sysRolePermission);
             });
         }
-        SysRole sysRole = SysRole.convertByUpdateRequest(request);
-        sysRole.setUpdateTime(LocalDateTime.now());
-        sysRole.setUpdateUser(SysUtil.getCurrentUser().getNickname());
-        return sysRoleDao.update(sysRole);
+        return sysRoleDao.update(SysRole.convertByRequest(request));
     }
 
     public PageResult<RolePageResponse> queryPage(RoleRequest roleRequest) {

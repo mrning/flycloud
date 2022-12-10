@@ -1,6 +1,8 @@
 package com.zacboot.admin.beans.entity;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
 
@@ -19,7 +21,7 @@ public class SysDept extends BaseEntity {
     /**
      * 父机构ID
      */
-    private String parentId;
+    private String parentUuid;
     /**
      * 机构/部门名称
      */
@@ -33,20 +35,24 @@ public class SysDept extends BaseEntity {
      */
     private String mobile;
     /**
-     * 传真
+     * 部门领导名称
      */
-    private String fax;
+    private String leaderUuid;
     /**
      * 地址
      */
-    private String address;
-    /**
-     * 备注
-     */
-    private String memo;
-    /**
-     * 状态（1启用，0不启用）
-     */
-    private String status;
+    private String deptAddress;
+
+    public static <T> SysDept convertByRequest(T request) {
+        SysDept sysDept = new SysDept();
+        BeanUtil.copyProperties(request, sysDept);
+        return sysDept;
+    }
+
+    public SysDeptPageResponse convertToPageResponse() {
+        SysDeptPageResponse sysDeptPageResponse = new SysDeptPageResponse();
+        BeanUtil.copyProperties(this, sysDeptPageResponse);
+        return sysDeptPageResponse;
+    }
 
 }

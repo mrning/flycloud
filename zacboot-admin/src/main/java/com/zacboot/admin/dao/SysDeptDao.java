@@ -23,4 +23,6 @@ public interface SysDeptDao {
     Long queryPageCount(DeptRequest deptRequest);
 
     List<SysDept> queryAll();
+
+    SysDept queryByUuid(String deptUuid);
 }

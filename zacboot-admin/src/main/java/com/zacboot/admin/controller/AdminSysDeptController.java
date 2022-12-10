@@ -1,13 +1,16 @@
 package com.zacboot.admin.controller;
 
+import cn.hutool.core.lang.Assert;
 import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
+import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +48,7 @@ public class AdminSysDeptController {
     @PostMapping("/del")
     @ApiOperation("删除")
     public Result<Integer> del(@RequestBody SysDept sysDept) {
+        Assert.notNull(StringUtils.isNotBlank(sysDept.getUuid()), "删除失败");
         return Result.success(sysDeptService.del(sysDept));
     }
 
@@ -61,12 +65,13 @@ public class AdminSysDeptController {
 
     /**
      * AutoCreateFile queryPage
+     *
      * @date 2021年4月30日星期五
      * @author zac
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysDept>> queryPage(@RequestBody DeptRequest deptRequest) {
+    public Result<PageResult<SysDeptPageResponse>> queryPage(@RequestBody DeptRequest deptRequest) {
         return Result.success(sysDeptService.queryPage(deptRequest));
     }
 

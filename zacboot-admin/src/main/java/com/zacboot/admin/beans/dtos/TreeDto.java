@@ -31,7 +31,7 @@ public class TreeDto implements Serializable {
 
 	private Map<String,String> scopedSlots;
 
-	private String parentId;
+	private String parentUuid;
 
 	private String label;
 
@@ -48,25 +48,25 @@ public class TreeDto implements Serializable {
 	 * @param sysDept
 	 */
 	public TreeDto(SysDept sysDept) {
-		this.key = sysDept.getId();
-		this.parentId = sysDept.getParentId();
-		this.title = sysDept.getDepartName();
+        this.key = sysDept.getId();
+        this.parentUuid = sysDept.getParentUuid();
+        this.title = sysDept.getDepartName();
 		this.slotTitle =  sysDept.getDepartName();
 		this.value = sysDept.getId();
 		this.label = sysDept.getDepartName();
 	}
 
-	public TreeDto(Long key, String parentId, String slotTitle, Integer ruleFlag, boolean isLeaf) {
-		this.key = key;
-		this.parentId = parentId;
-		this.ruleFlag=ruleFlag;
-		this.slotTitle =  slotTitle;
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("title", "hasDatarule");
-		this.scopedSlots = map;
-		this.isLeaf = isLeaf;
-		this.value = key;
-		if(!isLeaf) {
+    public TreeDto(Long key, String parentUuid, String slotTitle, Integer ruleFlag, boolean isLeaf) {
+        this.key = key;
+        this.parentUuid = parentUuid;
+        this.ruleFlag = ruleFlag;
+        this.slotTitle = slotTitle;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("title", "hasDatarule");
+        this.scopedSlots = map;
+        this.isLeaf = isLeaf;
+        this.value = key;
+        if (!isLeaf) {
 			this.children = new ArrayList<TreeDto>();
 		}
 	}

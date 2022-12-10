@@ -1,13 +1,9 @@
 package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.lang.UUID;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zacboot.admin.beans.entity.SysDept;
 import com.zacboot.admin.beans.entity.SysLog;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
@@ -27,7 +23,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,19 +92,13 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
     }
 
 
-    /**
-     * 根据用户id获取用户
-     *
-     * @param id
-     * @return
-     */
     @Override
-    public SysUser getUserById(String id) {
-        if (StringUtils.isEmpty(id)) {
+    public SysUser getUserByUuid(String uuid) {
+        if (StringUtils.isEmpty(uuid)) {
             return null;
         }
         SysUser loginUser = new SysUser();
-        SysUser sysUser = sysUserMapper.selectById(id);
+        SysUser sysUser = sysUserMapper.getUserByUuid(uuid);
         if (sysUser == null) {
             return null;
         }
@@ -122,76 +111,10 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
         return sysUserRoleMapper.getRoleByUserName(username);
     }
 
-    @Override
-    public List<String> getDepartNamesByUsername(String username) {
-        List<SysDept> list = sysDeptMapper.queryDepartsByUsername(username);
-        List<String> result = new ArrayList<>(list.size());
-        for (SysDept depart : list) {
-            result.add(depart.getDepartName());
-        }
-        return result;
-    }
-
 
     @Override
-    public List<JSONObject> queryAllDepart(Wrapper wrapper) {
-        return JSON.parseArray(JSON.toJSONString(list(wrapper))).toJavaList(JSONObject.class);
+    public List<SysUser> queryAllUser(Wrapper wrapper) {
+        return sysUserMapper.selectList(wrapper);
     }
 
-    @Override
-    public List<JSONObject> queryAllUser(Wrapper wrapper) {
-        return JSON.parseArray(JSON.toJSONString(sysUserMapper.selectList(wrapper))).toJavaList(JSONObject.class);
-    }
-
-    @Override
-    public List<SysRole> queryAllRole() {
-        return roleMapper.selectList(new QueryWrapper<SysRole>());
-    }
-
-    @Override
-    public List<SysRole> queryAllRole(String[] roleIds) {
-        List<SysRole> list = new ArrayList<>();
-        List<SysRole> roleList = roleMapper.selectList(new QueryWrapper<SysRole>());
-        for (SysRole role : roleList) {
-            if (null != roleIds && roleIds.length > 0) {
-                for (int i = 0; i < roleIds.length; i++) {
-                    if (roleIds[i].equals(role.getId())) {
-                        list.add(role);
-                    }
-                }
-            }
-
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getRoleIdsByUsername(String username) {
-        return sysUserRoleMapper.getRoleIdByUserName(username);
-    }
-
-    @Override
-    public String getDepartIdsByOrgCode(String orgCode) {
-        return sysDeptMapper.queryDepartIdByOrgCode(orgCode);
-    }
-
-    @Override
-    public SysDept getParentDepartId(String departId) {
-        return sysDeptMapper.getParentDepartId(departId);
-    }
-
-    @Override
-    public List<SysDept> getAllSysDept() {
-        return sysDeptMapper.selectList(new QueryWrapper<SysDept>().eq("del_flag", "0"));
-    }
-
-    @Override
-    public List<String> getDeptHeadByDepId(String deptId) {
-        List<SysUser> userList = sysUserMapper.selectList(new QueryWrapper<SysUser>().like("depart_ids", deptId).eq("status", 1).eq("del_flag", 0));
-        List<String> list = new ArrayList<>();
-        for (SysUser user : userList) {
-            list.add(user.getUsername());
-        }
-        return list;
-    }
 }

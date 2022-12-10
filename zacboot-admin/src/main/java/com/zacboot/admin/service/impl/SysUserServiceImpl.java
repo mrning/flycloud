@@ -13,7 +13,10 @@ import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
+import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
+import com.zacboot.admin.beans.vos.response.UserPageResponse;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.mapper.SysUserMapper;
@@ -33,7 +36,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,10 +72,11 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     @Autowired
     private RedisUtil redisUtil;
 
-    public Integer add(SysUser sysUser) {
+    public Integer add(UserAddRequest userAddRequest) {
+        SysUser sysUser = SysUser.convertByRequest(userAddRequest);
         sysUser.setUuid(UUID.randomUUID().toString(Boolean.TRUE));
-        if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
-            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
+        if (!CollectionUtils.isEmpty(userAddRequest.getRoleUuids())) {
+            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), userAddRequest.getRoleUuids());
         }
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
             sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
@@ -89,10 +92,12 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.del(sysUser);
     }
 
-    public Integer update(SysUser sysUser, String token) {
-        Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，更新失败");
-        if (!CollectionUtils.isEmpty(sysUser.getRoleUuids())) {
-            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), sysUser.getRoleUuids());
+    public Integer update(UserUpdateRequest userUpdateRequest, String token) {
+        Assert.isTrue(StringUtils.isNotBlank(userUpdateRequest.getUuid()), "参数异常，更新失败");
+        SysUser sysUser = SysUser.convertByRequest(userUpdateRequest);
+
+        if (!CollectionUtils.isEmpty(userUpdateRequest.getRoleUuids())) {
+            sysUserRoleService.updateByUserUuid(sysUser.getUuid(), userUpdateRequest.getRoleUuids());
         }
 
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
@@ -106,11 +111,14 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.update(sysUser);
     }
 
-    public PageResult<SysUser> queryPage(UserRequest userRequest) {
-        PageResult<SysUser> pageResult = new PageResult<>();
-        List<SysUser> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
-                .stream().peek(sysUser -> sysUser.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList())))
-                .collect(Collectors.toList());
+    public PageResult<UserPageResponse> queryPage(UserRequest userRequest) {
+        PageResult<UserPageResponse> pageResult = new PageResult<>();
+        List<UserPageResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
+                .stream().map(sysUser -> {
+                    UserPageResponse userPageResponse = sysUser.convertToPageRes();
+                    userPageResponse.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList()));
+                    return userPageResponse;
+                }).collect(Collectors.toList());
         pageResult.setDataList(sysUsers);
         pageResult.setTotal(sysUserDao.queryPageCount(userRequest).intValue());
         return pageResult;
@@ -240,15 +248,13 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     @Override
     public boolean register(RegisRequest regisRequest) {
         try {
-            SysUser sysUser = new SysUser();
-            sysUser.setCreateTime(LocalDateTime.now());// 设置创建时间
+            UserAddRequest sysUser = new UserAddRequest();
             sysUser.setUsername(regisRequest.getUsername());
             sysUser.setRealName(regisRequest.getUsername());
             sysUser.setNickname(regisRequest.getUsername());
             sysUser.setPassword(PasswordUtil.getPasswordEncode(regisRequest.getPassword()));
             sysUser.setMail(regisRequest.getMail());
             sysUser.setPhone(regisRequest.getPhone());
-            sysUser.setUuid(UUID.randomUUID().toString(true));
             return add(sysUser) > 0;
         } catch (Exception e) {
             log.error("注册异常", e);

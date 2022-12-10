@@ -3,7 +3,10 @@ package com.zacboot.admin.service;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysUser;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
+import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
+import com.zacboot.admin.beans.vos.response.UserPageResponse;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 
@@ -13,13 +16,13 @@ import com.zacboot.common.base.basebeans.Result;
  * @author zac
  */
 public interface SysUserService extends SysBaseService<SysUser> {
-    Integer add(SysUser sysUser);
+    Integer add(UserAddRequest userAddRequest);
 
     Integer del(SysUser sysUser);
 
-    Integer update(SysUser sysUser, String token);
+    Integer update(UserUpdateRequest userUpdateRequest, String token);
 
-    PageResult<SysUser> queryPage(UserRequest userRequest);
+    PageResult<UserPageResponse> queryPage(UserRequest userRequest);
 
     /**
      * 根据用户账号查询用户信息

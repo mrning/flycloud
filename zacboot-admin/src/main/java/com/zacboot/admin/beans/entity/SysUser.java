@@ -1,12 +1,11 @@
 package com.zacboot.admin.beans.entity;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.common.base.annotation.AutoColumn;
+import com.zacboot.admin.beans.vos.response.UserPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.util.List;
 
 
 /**
@@ -16,6 +15,7 @@ import java.util.List;
 @TableName("sys_user")
 public class SysUser extends BaseEntity {
 
+    private static long serialVersionUID = 1L;
 
     /**
      * 用户名
@@ -59,11 +59,18 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "电话")
     private String phone;
 
-    /**
-     * 角色id
-     */
-    @ApiModelProperty(value = "角色id")
-    @AutoColumn(isIgnore = true)
-    private List<String> roleUuids;
+    public static <T> SysUser convertByRequest(T request) {
+        SysUser sysUser = new SysUser();
+        BeanUtil.copyProperties(request, sysUser);
+        return sysUser;
+    }
+
+    public UserPageResponse convertToPageRes() {
+        UserPageResponse response = new UserPageResponse();
+        BeanUtil.copyProperties(this, response);
+        response.setUuid(this.getUuid());
+        response.setCreateTime(this.getCreateTime());
+        return response;
+    }
 
 }

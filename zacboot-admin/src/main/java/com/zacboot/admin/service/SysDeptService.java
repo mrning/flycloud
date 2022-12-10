@@ -1,8 +1,8 @@
 package com.zacboot.admin.service;
 
 import com.zacboot.admin.beans.entity.SysDept;
-import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
+import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.common.base.basebeans.PageResult;
 
 import java.util.List;
@@ -19,31 +19,10 @@ public interface SysDeptService extends SysBaseService<SysDept> {
 
     Integer update(SysDept SysDept);
 
-    PageResult<SysDept> queryPage(DeptRequest deptRequest);
+    PageResult<SysDeptPageResponse> queryPage(DeptRequest deptRequest);
 
     List<SysDept> queryAll();
 
-    /**
-     * 查询所有部门信息,并分节点进行显示
-     * @return
-     */
-    List<TreeDto> queryTreeList();
-
-
-    /**
-     * 更新depart数据
-     * @param sysDepart
-     * @return
-     */
-    Boolean updateDepartDataById(SysDept sysDepart,String username);
-
-
-    /**
-     * 根据关键字搜索相关的部门数据
-     * @param keyWord
-     * @return
-     */
-    List<TreeDto> searchBy(String keyWord, String myDeptSearch, String departIds);
 
     /**
      * 根据一个或多个部门id删除，并删除其可能存在的子级部门
@@ -67,10 +46,4 @@ public interface SysDeptService extends SysBaseService<SysDept> {
      */
     List<SysDept> queryDepartsByUsername(String username);
 
-    /**
-     *  根据部门Id查询,当前和下级所有部门IDS
-     * @param departId
-     * @return
-     */
-    List<SysDept> getSubDepIdsByDepId(String departId);
 }
