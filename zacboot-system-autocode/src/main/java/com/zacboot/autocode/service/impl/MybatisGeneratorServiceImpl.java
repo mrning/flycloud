@@ -141,6 +141,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         tableConfiguration.addIgnoredColumn(new IgnoredColumn("id"));
         // 生成代码逻辑需要制定库名，否则会查找全部库的同名表然后被覆盖生成不需要的DTO
         tableConfiguration.setSchema(context.getProperty("schema"));
+        tableConfiguration.setCatalog(context.getProperty("schema"));
         tableConfiguration.addProperty("ignoreQualifiersAtRuntime", "true");
         context.addTableConfiguration(tableConfiguration);
     }

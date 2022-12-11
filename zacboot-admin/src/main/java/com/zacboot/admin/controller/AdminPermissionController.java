@@ -3,15 +3,15 @@ package com.zacboot.admin.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.service.SysPermissionService;
+import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +24,50 @@ public class AdminPermissionController {
 
     @Autowired
     private SysPermissionService sysPermissionService;
+
+    /**
+     * AutoCreateFile add
+     * @date 2022年12月11日星期日
+     * @author zac
+     */
+    @PostMapping("/add")
+    @ApiOperation("新增")
+    public Result<Integer> add(@RequestBody SysPermission sysPermission) {
+        return Result.success(sysPermissionService.add(sysPermission));
+    }
+
+    /**
+     * AutoCreateFile del
+     * @date 2022年12月11日星期日
+     * @author zac
+     */
+    @PostMapping("/del")
+    @ApiOperation("删除")
+    public Result<Integer> del(@RequestBody SysPermission sysPermission) {
+        return Result.success(sysPermissionService.del(sysPermission));
+    }
+
+    /**
+     * AutoCreateFile update
+     * @date 2022年12月11日星期日
+     * @author zac
+     */
+    @PostMapping("/update")
+    @ApiOperation("更新")
+    public Result<Integer> update(@RequestBody SysPermission sysPermission) {
+        return Result.success(sysPermissionService.update(sysPermission));
+    }
+
+    /**
+     * AutoCreateFile queryPage
+     * @date 2022年12月11日星期日
+     * @author zac
+     */
+    @PostMapping("/queryPage")
+    @ApiOperation("分页查询")
+    public Result<PageResult<SysPermission>> queryPage(@RequestBody PermissionRequest permissionRequest) {
+        return Result.success(sysPermissionService.queryPage(permissionRequest));
+    }
 
     /**
      * 查询用户拥有的菜单权限

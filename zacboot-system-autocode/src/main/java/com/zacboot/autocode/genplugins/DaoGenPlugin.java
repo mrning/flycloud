@@ -135,12 +135,12 @@ public class DaoGenPlugin extends PluginAdapter {
                         "page"));
                 method.setReturnType(new FullyQualifiedJavaType("List<" + dtoName + ">"));
                 compilationUnit.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE + ".dto." + dtoName));
-                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ")");
                 method.addBodyLine(2, "return " + firstLowerMapperName + ".selectByExampleWithRowbounds(" + firstLowerExample + ",new RowBounds(page.getPageNumber(),page.getPageSize()));");
                 break;
             case "queryPageCount":
                 method.setReturnType(PrimitiveTypeWrapper.getLongInstance());
-                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 method.addBodyLine(2, "return " + firstLowerMapperName + ".countByExample(" + firstLowerExample + ");");
                 break;
             case "add":
@@ -150,12 +150,12 @@ public class DaoGenPlugin extends PluginAdapter {
                 break;
             case "del":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
-                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 method.addBodyLine(2, "return " + firstLowerMapperName + ".deleteByExample(" + firstLowerExample + ");");
                 break;
             case "update":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
-                method.addBodyLine(1, "buildExample(" + firstLowerExample + "," + firstLowerDtoName + ")");
+                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 method.addBodyLine(2, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 break;
             case "buildExample":
@@ -164,7 +164,7 @@ public class DaoGenPlugin extends PluginAdapter {
                         firstLowerExample));
                 method.addBodyLine(1, dtoName + MgtConstant.EXAMPLE_SUFFIX + ".Criteria criteria = " + firstLowerExample + ".createCriteria();");
                 method.addBodyLine(2, "return " + firstLowerExample + ";");
-                method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
+                method.setReturnType(new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX));
                 break;
             default:
                 break;

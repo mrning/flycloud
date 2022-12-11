@@ -1,20 +1,54 @@
 package com.zacboot.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.admin.beans.vos.request.PermissionRequest;
+import com.zacboot.admin.dao.SysPermissionDao;
 import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
+import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.utils.MD5Util;
 import com.zacboot.common.base.utils.UrlIPUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
 @Service
 public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
+
+    @Autowired
+    private SysPermissionDao sysPermissionDao;
+
+    @Override
+    public Integer add(SysPermission sysPermission) {
+        return sysPermissionDao.add(sysPermission);
+    }
+
+    @Override
+    public Integer del(SysPermission sysPermission) {
+        Assert.isTrue(BeanUtil.isEmpty(sysPermission),"不能全部属性为空，会删除全表数据");
+        return sysPermissionDao.del(sysPermission);
+    }
+
+    @Override
+    public Integer update(SysPermission sysPermission) {
+        return sysPermissionDao.update(sysPermission);
+    }
+
+    @Override
+    public PageResult<SysPermission> queryPage(PermissionRequest permissionRequest) {
+        PageResult<SysPermission> pageResult = new PageResult<>();
+        pageResult.setDataList(sysPermissionDao.queryPage(permissionRequest,new Page(permissionRequest.getPageNumber(),permissionRequest.getPageSize())));
+        pageResult.setTotal(sysPermissionDao.queryPageCount(permissionRequest).intValue());
+        return pageResult;
+    }
 
     /**
      * 获取权限JSON数组
