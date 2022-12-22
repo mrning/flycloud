@@ -7,11 +7,16 @@ import com.zacboot.admin.beans.example.SysPermissionExample;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.dao.SysPermissionDao;
 import com.zacboot.admin.mapper.SysPermissionMapper;
+import com.zacboot.admin.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,6 +31,9 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
     private SysPermissionMapper sysPermissionMapper;
 
     public Integer add(SysPermission sysPermission) {
+        sysPermission.setCreateTime(LocalDateTime.now());
+        sysPermission.setCreateUser(SysUtil.getCurrentUser().getNickname());
+        sysPermission.setDeleted(false);
         return sysPermissionMapper.insertSelective(sysPermission);
     }
 
@@ -60,5 +68,22 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
     public SysPermissionExample buildExample(SysPermission sysPermission, SysPermissionExample sysPermissionExample) {
         SysPermissionExample.Criteria criteria = sysPermissionExample.createCriteria();
         return sysPermissionExample;
+    }
+
+    @Override
+    public Integer getMaxSortNo(String parentUuid) {
+        SysPermissionExample sysPermissionExample = new SysPermissionExample();
+        SysPermissionExample.Criteria criteria = sysPermissionExample.createCriteria();
+        if (StringUtils.isNotBlank(parentUuid)){
+            criteria.andParentUuidEqualTo(parentUuid);
+        }else{
+            criteria.andParentUuidIsNull();
+        }
+        // 获取相同父级uuid下排序值最大的对象
+        List<SysPermission> sysPermission = sysPermissionMapper.selectByExample(sysPermissionExample);
+        if (!CollectionUtils.isEmpty(sysPermission)){
+            return sysPermission.stream().max(Comparator.comparing(SysPermission::getSortNo)).get().getSortNo();
+        }
+        return 0;
     }
 }

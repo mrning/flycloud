@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zacboot.admin.beans.entity.SysLog;
 import com.zacboot.admin.beans.entity.SysRole;
 import com.zacboot.admin.beans.entity.SysUser;
-import com.zacboot.admin.mapper.*;
+import com.zacboot.admin.mapper.SysLogMapper;
+import com.zacboot.admin.mapper.SysUserMapper;
+import com.zacboot.admin.mapper.SysUserRoleMapper;
 import com.zacboot.admin.service.SysBaseService;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import com.zacboot.common.base.utils.RedisUtil;
@@ -42,14 +44,8 @@ public abstract class SysBaseServiceImpl<M extends BaseMapper<T>, T extends Base
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
 
-    @Resource
-    private SysRoleMapper roleMapper;
-
     @Autowired
     private SysUserMapper sysUserMapper;
-
-    @Resource
-    private SysDeptMapper sysDeptMapper;
 
     @Autowired
     protected RedisUtil redisUtil;

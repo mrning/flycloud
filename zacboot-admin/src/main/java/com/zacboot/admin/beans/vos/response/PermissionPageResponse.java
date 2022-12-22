@@ -1,8 +1,5 @@
-package com.zacboot.admin.beans.entity;
+package com.zacboot.admin.beans.vos.response;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.admin.beans.vos.response.PermissionPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,9 +21,8 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_permission")
-@ApiModel(value = "SysPermission对象", description = "权限表")
-public class SysPermission extends BaseEntity implements Serializable {
+@ApiModel(value = "PermissionPageResponse", description = "权限分页查询")
+public class PermissionPageResponse extends BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -60,19 +56,5 @@ public class SysPermission extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "是否隐藏")
     private Boolean hidden;
-
-    public static <T> SysPermission convertByRequest(T request) {
-        SysPermission sysPermission = new SysPermission();
-        BeanUtil.copyProperties(request, sysPermission);
-        return sysPermission;
-    }
-
-    public PermissionPageResponse convertToPageRes() {
-        PermissionPageResponse response = new PermissionPageResponse();
-        BeanUtil.copyProperties(this, response);
-        response.setUuid(this.getUuid());
-        response.setCreateTime(this.getCreateTime());
-        return response;
-    }
 
 }

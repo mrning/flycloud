@@ -1,18 +1,18 @@
 package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.dao.SysPermissionDao;
 import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.constants.CommonConstant;
-import com.zacboot.common.base.utils.MD5Util;
-import com.zacboot.common.base.utils.UrlIPUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,14 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     private SysPermissionDao sysPermissionDao;
 
     @Override
-    public Integer add(SysPermission sysPermission) {
+    public Integer add(PermissionAddRequest permissionAddRequest) {
+        SysPermission sysPermission = SysPermission.convertByRequest(permissionAddRequest);
+        sysPermission.setUuid(UUID.randomUUID().toString(true));
+
+        if (null == permissionAddRequest.getSortNo()){
+            // 获取相同父级uuid下排序值最大的对象
+            sysPermission.setSortNo(sysPermissionDao.getMaxSortNo(permissionAddRequest.getParentUuid())+1);
+        }
         return sysPermissionDao.add(sysPermission);
     }
 
@@ -66,8 +73,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 json.put("code", permission.getCode());
                 json.put("url", permission.getUrl());
                 json.put("name", permission.getName());
-                json.put("type", permission.getMenuType());
-                json.put("hidden", permission.getHidden());
+                json.put("menuType", permission.getMenuType());
                 jsonArray.add(json);
             }
         }
@@ -118,24 +124,12 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     @Override
     public JSONObject getPermissionJsonObject(SysPermission permission) {
         JSONObject json = new JSONObject();
-        // 是否隐藏路由，默认都是显示的
-        if (permission.getHidden()) {
-            return null;
-        }
         json.put("uuid", permission.getUuid());
-        // 判断url是否外链
-        if (UrlIPUtils.isWWWHttpUrl(permission.getUrl())) {
-            json.put("path", MD5Util.MD5Encode(permission.getUrl(), "utf-8"));
-        } else {
-            json.put("path", permission.getUrl());
-        }
-        // 重要规则：路由name (通过URL生成路由name,路由name供前端开发，页面跳转使用)
-        if (StringUtils.isNotBlank(permission.getComponent())) {
-            json.put("name", permission.getName());
-        } else {
-            json.put("name", UrlIPUtils.urlToRouteName(permission.getUrl()));
-        }
+        json.put("name", permission.getName());
         json.put("component", permission.getComponent());
+        json.put("menuType", permission.getMenuType());
+        json.put("url", permission.getUrl());
+        json.put("path", permission.getUrl());
 
         JSONObject meta = new JSONObject();
         // 菜单名称
@@ -160,21 +154,4 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
         return json;
     }
 
-    /**
-     * 判断是否授权首页
-     *
-     * @param metaList
-     * @return
-     */
-    @Override
-    public boolean hasIndexPage(List<SysPermission> metaList) {
-        boolean hasIndexMenu = false;
-        for (SysPermission sysPermission : metaList) {
-            if ("homepage".equals(sysPermission.getUuid())) {
-                hasIndexMenu = true;
-                break;
-            }
-        }
-        return hasIndexMenu;
-    }
 }

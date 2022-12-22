@@ -3,6 +3,7 @@ package com.zacboot.admin.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.common.base.basebeans.PageResult;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface SysPermissionService extends SysBaseService<SysPermission> {
 
-    Integer add(SysPermission sysPermission);
+    Integer add(PermissionAddRequest sysPermission);
 
     Integer del(SysPermission sysPermission);
 
@@ -24,5 +25,4 @@ public interface SysPermissionService extends SysBaseService<SysPermission> {
 
     JSONObject getPermissionJsonObject(SysPermission permission);
 
-    boolean hasIndexPage(List<SysPermission> metaList);
 }

@@ -13,7 +13,6 @@
     <artifactId>zacboot</artifactId>
     <version>0.0.1</version>
     <name>zacboot</name>
-    <description>飞云平台</description>
 
     <modules>
         <module>zacboot-system-autocode</module>

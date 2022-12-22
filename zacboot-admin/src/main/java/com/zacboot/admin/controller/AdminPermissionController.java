@@ -3,6 +3,7 @@ package com.zacboot.admin.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -32,8 +33,8 @@ public class AdminPermissionController {
      */
     @PostMapping("/add")
     @ApiOperation("新增")
-    public Result<Integer> add(@RequestBody SysPermission sysPermission) {
-        return Result.success(sysPermissionService.add(sysPermission));
+    public Result<Integer> add(@RequestBody PermissionAddRequest permissionAddRequest) {
+        return Result.success(sysPermissionService.add(permissionAddRequest));
     }
 
     /**

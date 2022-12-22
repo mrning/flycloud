@@ -30,6 +30,7 @@ public class SysRoleDaoImpl implements SysRoleDao {
 
     public Integer add(SysRole sysRole) {
         sysRole.setCreateTime(LocalDateTime.now());
+        sysRole.setCreateUser(SysUtil.getCurrentUser().getNickname());
         sysRole.setDeleted(false);
         return sysRoleMapper.insertSelective(sysRole);
     }
