@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
+import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
@@ -55,8 +56,8 @@ public class AdminPermissionController {
      */
     @PostMapping("/update")
     @ApiOperation("更新")
-    public Result<Integer> update(@RequestBody SysPermission sysPermission) {
-        return Result.success(sysPermissionService.update(sysPermission));
+    public Result<Integer> update(@RequestBody PermissionUpdateRequest permissionUpdateRequest) {
+        return Result.success(sysPermissionService.update(permissionUpdateRequest));
     }
 
     /**

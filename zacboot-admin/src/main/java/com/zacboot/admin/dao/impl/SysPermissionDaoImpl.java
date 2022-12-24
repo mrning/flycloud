@@ -44,6 +44,8 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
     }
 
     public Integer update(SysPermission sysPermission) {
+        sysPermission.setUpdateTime(LocalDateTime.now());
+        sysPermission.setUpdateUser(SysUtil.getCurrentUser().getNickname());
         SysPermissionExample sysPermissionExample = new SysPermissionExample();
         buildExample(sysPermission,sysPermissionExample);
         return sysPermissionMapper.updateByExampleSelective(sysPermission,sysPermissionExample);
@@ -67,6 +69,9 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
 
     public SysPermissionExample buildExample(SysPermission sysPermission, SysPermissionExample sysPermissionExample) {
         SysPermissionExample.Criteria criteria = sysPermissionExample.createCriteria();
+        if (StringUtils.isNotBlank(sysPermission.getUuid())){
+            criteria.andUuidEqualTo(sysPermission.getUuid());
+        }
         return sysPermissionExample;
     }
 

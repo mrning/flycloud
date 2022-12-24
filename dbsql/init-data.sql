@@ -64,21 +64,6 @@ VALUES ('54dd5457a3190740005c1bfec55b1c34', 'd7d6e2e4e2934f2c9385a623fd98c6f3', 
         '2021-09-20 22:02:05', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
                                     hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('6e73eb3c26099c191bf03852ee1310a1', '717f6bee46f44a3897eca9abd6e2ec44', '个人设置', null, null,
-        'account/settings/Index', '/account/settings/index', null, 2, 1, false, 'admin', '2021-09-20 22:02:05', 'admin',
-        '2021-09-20 22:02:05', false);
-INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
-                                    hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('8fb8172747a78756c11916216b8b8066', '717f6bee46f44a3897eca9abd6e2ec44', '工作台', null, null,
-        'dashboard/Workplace', '/dashboard/workplace', null, 2, 1, false, 'admin', '2021-09-20 22:02:11', 'admin',
-        '2021-09-20 22:02:11', false);
-INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
-                                    hidden, create_user, create_time, update_user, update_time, deleted)
-VALUES ('d86f58e7ab516d3bc6bfb1fe10585f97', '717f6bee46f44a3897eca9abd6e2ec44', '个人中心', null, null,
-        'account/center/Index', '/account/center', null, 2, 1, false, 'admin', '2021-09-20 22:02:11', 'admin',
-        '2021-09-20 22:02:11', false);
-INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,
-                                    hidden, create_user, create_time, update_user, update_time, deleted)
 VALUES ('12147434438212567069999999999999', '3f915b2769fc80648e92d04e84ca059d', '用户删除', 'del', null, null,
         '/system/users', null, 0, 2, false, 'admin', '2022-01-08 17:49:00', 'admin', '2022-01-08 19:02:01', false);
 INSERT INTO zacboot.sys_permission (uuid, parent_uuid, name, code, icon, component, url, redirect, sort_no, menu_type,

@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
+import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;
 import com.zacboot.admin.dao.SysPermissionDao;
 import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
@@ -45,7 +46,8 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     }
 
     @Override
-    public Integer update(SysPermission sysPermission) {
+    public Integer update(PermissionUpdateRequest permissionUpdateRequest) {
+        SysPermission sysPermission = SysPermission.convertByRequest(permissionUpdateRequest);
         return sysPermissionDao.update(sysPermission);
     }
 

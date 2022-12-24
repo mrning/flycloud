@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zacboot.admin.beans.entity.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
+import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;
 import com.zacboot.common.base.basebeans.PageResult;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface SysPermissionService extends SysBaseService<SysPermission> {
 
     Integer del(SysPermission sysPermission);
 
-    Integer update(SysPermission sysPermission);
+    Integer update(PermissionUpdateRequest permissionUpdateRequest);
 
     PageResult<SysPermission> queryPage(PermissionRequest permissionRequest);
 
