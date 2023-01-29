@@ -1,0 +1,75 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/zacboot?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
+    username: root
+    password: mysql417298...
+    hikari:
+      #最小空闲链接数量
+      minimum-idle: 5
+      #空闲连接存活最大时间（默认600000）
+      idle-timeout: 180000
+      #最大连接数
+      maximum-pool-size: 10
+      #是否自动提交
+      auto-commit: true
+      #连接池中链接的最长生命周期默认30分钟 = 1800000
+      max-lifetime: 1800000
+      #链接超时时间
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+    redis:
+      database: 0
+      port: 6379
+      host: 127.0.0.1
+      password:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        server-addr: http://localhost:8848
+        file-extension: yaml
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true #使用小写service-id
+      routes: #配置路由路径
+        - id: zacboot-auth
+          uri: lb://zacboot-system-sso
+          predicates:
+            - Path=/api-auth/**
+          filters:
+            - StripPrefix=1
+        - id: zacboot-admin
+          uri: lb://zacboot-admin
+          predicates:
+            - Path=/api-admin/**
+          filters:
+            - StripPrefix=1
+        - id: zacboot-app
+          uri: lb://zacboot-app-user
+          predicates:
+            - Path=/api-app/**
+          filters:
+            - StripPrefix=1
+  config:
+    import: application-common.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+management: #开启SpringBoot Admin的监控
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    root: info
+    com.zacboot.system: debug
+logstash:
+  host: localhost
