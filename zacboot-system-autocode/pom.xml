@@ -9,6 +9,7 @@
         <version>0.0.1</version>
     </parent>
     <artifactId>zacboot-system-autocode</artifactId>
+    <description>根据db代码生成模块，根据代码生成db</description>
 
     <dependencies>
         <dependency>

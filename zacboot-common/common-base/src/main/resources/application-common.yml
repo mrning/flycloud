@@ -40,7 +40,7 @@ zacboot:
       urls:
         /css/**, /images/**, /img/**, /js/**,
         /swagger-ui/**, /swagger-resources, /swagger-resources/**, /v3/api-docs,/webjars/**,
-        /api-admin/sys/**, /api/mybatisGenerator/**,/api-app/sys/**,/api-auth/**
+        /api-admin/sys/**, /api/mybatisGenerator/**,/api-app/sys/**,/api-auth/**,/api-sp/**
     tokenKey: 644b18e4eade56810e649357597aa3b0
   actable:
     # 需要自动建表的包名

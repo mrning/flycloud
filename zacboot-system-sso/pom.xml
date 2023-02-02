@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zacboot-system-sso</artifactId>
+    <description>各个服务单点登录认证模块</description>
 
     <dependencies>
         <dependency>

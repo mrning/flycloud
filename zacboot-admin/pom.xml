@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zacboot-admin</artifactId>
+    <description>提供管理后台相关接口</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

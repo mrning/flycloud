@@ -8,6 +8,7 @@
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>系统sdk，提供maven配置供其他服务引入</description>
 
     <artifactId>zacboot-common</artifactId>
     <packaging>pom</packaging>

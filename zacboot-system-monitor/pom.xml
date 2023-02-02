@@ -8,6 +8,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zacboot-system-monitor</artifactId>
+    <description>系统监控相关模块</description>
 
     <dependencies>
         <dependency>

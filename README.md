@@ -13,14 +13,15 @@
 - Redis
 
 ### 模块说明
-- zacboot-system-gateway【路由鉴权】
-- zacboot-system-sso【登录认证】
-- zacboot-system-monitor【监控】
-- zacboot-system-autocode【代码生成】
+- zacboot-system-gateway【路由鉴权】端口：8000
+- zacboot-system-sso【登录认证】端口：8001
+- zacboot-system-monitor【监控】端口：8101
+- zacboot-system-autocode【代码生成】端口：8009
 - zacboot-system-core【服务调用中间件】
-- zacboot-admin【管理后台】
-- zacboot-app-user【app用户模块】
 - zacboot-common【公共模块，按需引用，无需启动】
+- zacboot-admin【管理后台】端口：8010
+- zacboot-app-user【app用户模块】端口：8020
+- zacboot-api-sp【电商推广api调用模块】端口：8030
 
 ### 安装教程
 - 安装jdk17
