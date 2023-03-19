@@ -1,6 +1,6 @@
 package com.zacboot.admin.mapper.provider;
 
-import com.zacboot.admin.beans.entity.SysUserRole;
+import com.zac.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.example.SysUserRoleExample;
 import org.apache.ibatis.jdbc.SQL;
 

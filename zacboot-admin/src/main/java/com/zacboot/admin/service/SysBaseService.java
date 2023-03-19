@@ -2,8 +2,8 @@ package com.zacboot.admin.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zacboot.admin.beans.entity.SysRole;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zac.system.core.entity.admin.SysRole;
+import com.zac.system.core.entity.admin.SysUser;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.zacboot.admin.utils;
 
 
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zac.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 
 import java.util.ArrayList;

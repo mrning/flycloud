@@ -1,8 +1,7 @@
-package com.zacboot.admin.beans.entity;
+package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
 
@@ -47,12 +46,6 @@ public class SysDept extends BaseEntity {
         SysDept sysDept = new SysDept();
         BeanUtil.copyProperties(request, sysDept);
         return sysDept;
-    }
-
-    public SysDeptPageResponse convertToPageResponse() {
-        SysDeptPageResponse sysDeptPageResponse = new SysDeptPageResponse();
-        BeanUtil.copyProperties(this, sysDeptPageResponse);
-        return sysDeptPageResponse;
     }
 
 }

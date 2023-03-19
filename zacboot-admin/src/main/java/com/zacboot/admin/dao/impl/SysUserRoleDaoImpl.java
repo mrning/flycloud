@@ -2,7 +2,7 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zacboot.admin.beans.entity.SysUserRole;
+import com.zac.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.example.SysUserRoleExample;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.dao.SysUserRoleDao;

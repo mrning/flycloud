@@ -5,13 +5,13 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zac.system.core.entity.admin.SysDept;
+import com.zac.system.core.entity.admin.SysRole;
+import com.zac.system.core.entity.admin.SysUser;
+import com.zac.system.core.entity.admin.SysUserRole;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zac.system.core.request.sso.SsoLogoutRequest;
 import com.zacboot.admin.beans.constants.AdminConstants;
-import com.zacboot.admin.beans.entity.SysDept;
-import com.zacboot.admin.beans.entity.SysRole;
-import com.zacboot.admin.beans.entity.SysUser;
-import com.zacboot.admin.beans.entity.SysUserRole;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
@@ -115,7 +115,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         PageResult<UserPageResponse> pageResult = new PageResult<>();
         List<UserPageResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
                 .stream().map(sysUser -> {
-                    UserPageResponse userPageResponse = sysUser.convertToPageRes();
+                    UserPageResponse userPageResponse = UserPageResponse.convertByEntity(sysUser);
                     userPageResponse.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList()));
                     return userPageResponse;
                 }).collect(Collectors.toList());

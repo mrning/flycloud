@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysRolePermission;
+import com.zac.system.core.entity.admin.SysRolePermission;
 import com.zacboot.admin.beans.example.SysRolePermissionExample;
 import com.zacboot.admin.dao.SysRolePermissionDao;
 import com.zacboot.admin.mapper.SysRolePermissionMapper;

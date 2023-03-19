@@ -1,6 +1,6 @@
 package com.zacboot.admin.service;
 
-import com.zacboot.admin.beans.entity.SysUserDept;
+import com.zac.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 import com.zacboot.common.base.basebeans.PageResult;
 

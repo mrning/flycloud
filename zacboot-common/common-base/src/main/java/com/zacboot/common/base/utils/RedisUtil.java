@@ -2,7 +2,6 @@ package com.zacboot.common.base.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -21,8 +20,6 @@ public class RedisUtil {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
-	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
 
 	/**
 	 * 指定缓存失效时间

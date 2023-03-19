@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Data
 public class BaseEntity implements Serializable {
 
-    @AutoColumn(isAutoIncrement = true)
+    @AutoColumn(isAutoIncrement = true,orderIndex = 0)
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @AutoColumn()
+    @AutoColumn(orderIndex = 1)
     private String uuid;
 
     /**

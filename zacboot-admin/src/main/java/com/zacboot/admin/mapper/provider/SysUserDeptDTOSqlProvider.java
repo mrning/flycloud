@@ -1,6 +1,6 @@
 package com.zacboot.admin.mapper.provider;
 
-import com.zacboot.admin.beans.entity.SysUserDept;
+import com.zac.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.example.SysUserDeptExample;
 import org.apache.ibatis.jdbc.SQL;
 

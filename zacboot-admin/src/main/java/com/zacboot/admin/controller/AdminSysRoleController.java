@@ -1,6 +1,6 @@
 package com.zacboot.admin.controller;
 
-import com.zacboot.admin.beans.entity.SysRole;
+import com.zac.system.core.entity.admin.SysRole;
 import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.beans.vos.request.RoleUpdateRequest;

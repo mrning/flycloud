@@ -1,7 +1,7 @@
 package com.zacboot.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;

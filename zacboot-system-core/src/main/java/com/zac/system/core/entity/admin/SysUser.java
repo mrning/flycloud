@@ -1,8 +1,7 @@
-package com.zacboot.admin.beans.entity;
+package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.admin.beans.vos.response.UserPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -63,14 +62,6 @@ public class SysUser extends BaseEntity {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(request, sysUser);
         return sysUser;
-    }
-
-    public UserPageResponse convertToPageRes() {
-        UserPageResponse response = new UserPageResponse();
-        BeanUtil.copyProperties(this, response);
-        response.setUuid(this.getUuid());
-        response.setCreateTime(this.getCreateTime());
-        return response;
     }
 
 }

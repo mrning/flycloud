@@ -1,6 +1,6 @@
 package com.zacboot.admin.service;
 
-import com.zacboot.admin.beans.entity.SysUserRole;
+import com.zac.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
 import com.zacboot.common.base.basebeans.PageResult;

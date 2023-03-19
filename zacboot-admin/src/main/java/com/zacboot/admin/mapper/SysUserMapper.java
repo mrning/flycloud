@@ -1,7 +1,7 @@
 package com.zacboot.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
 import com.zacboot.admin.mapper.provider.SysUserSqlProvider;
 import org.apache.ibatis.annotations.*;

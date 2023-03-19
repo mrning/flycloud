@@ -1,4 +1,4 @@
-package com.zacboot.admin.beans.entity;
+package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.annotation.TableName;

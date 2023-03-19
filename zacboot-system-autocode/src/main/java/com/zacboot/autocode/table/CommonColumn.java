@@ -50,4 +50,9 @@ public abstract class CommonColumn implements ICommonColumn {
      */
     private String defaultValue = "";
 
+    /**
+     * 字段注释
+     */
+    private String comment;
+
 }

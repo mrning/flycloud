@@ -5,8 +5,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zacboot.admin.beans.entity.SysDept;
-import com.zacboot.admin.beans.entity.SysUserDept;
+import com.zac.system.core.entity.admin.SysDept;
+import com.zac.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.admin.dao.SysDeptDao;
@@ -67,7 +67,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         PageResult<SysDeptPageResponse> pageResult = new PageResult<>();
         List<SysDeptPageResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPageNumber(), deptRequest.getPageSize()))
                 .stream().map(sysDept -> {
-                    SysDeptPageResponse sysDeptPageResponse = sysDept.convertToPageResponse();
+                    SysDeptPageResponse sysDeptPageResponse = SysDeptPageResponse.convertByEntity(sysDept);
                     // 上级部门名称
                     sysDeptPageResponse.setParentName(StringUtils.isNotBlank(sysDept.getParentUuid()) ? sysDeptDao.queryByUuid(sysDept.getParentUuid()).getDepartName() : "");
                     // 部门领导昵称

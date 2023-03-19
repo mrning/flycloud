@@ -1,6 +1,6 @@
 package com.zacboot.admin.mapper.provider;
 
-import com.zacboot.admin.beans.entity.SysLog;
+import com.zac.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.example.SysLogExample;
 import org.apache.ibatis.jdbc.SQL;
 

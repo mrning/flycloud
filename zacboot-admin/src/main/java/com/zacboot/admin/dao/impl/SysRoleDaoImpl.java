@@ -2,7 +2,7 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zacboot.admin.beans.entity.SysRole;
+import com.zac.system.core.entity.admin.SysRole;
 import com.zacboot.admin.beans.example.SysRoleExample;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;

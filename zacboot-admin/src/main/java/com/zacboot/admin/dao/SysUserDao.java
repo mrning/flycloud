@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao;
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 
 import java.util.List;

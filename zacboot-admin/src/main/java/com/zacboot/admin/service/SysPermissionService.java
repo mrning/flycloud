@@ -2,7 +2,7 @@ package com.zacboot.admin.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zacboot.admin.beans.entity.SysPermission;
+import com.zac.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;

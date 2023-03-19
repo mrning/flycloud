@@ -1,6 +1,8 @@
 package com.zacboot.admin.beans.vos.response;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zac.system.core.entity.admin.SysDept;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -49,4 +51,10 @@ public class SysDeptPageResponse {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+
+    public static SysDeptPageResponse convertByEntity(SysDept sysDept) {
+        SysDeptPageResponse sysDeptPageResponse = new SysDeptPageResponse();
+        BeanUtil.copyProperties(sysDept, sysDeptPageResponse);
+        return sysDeptPageResponse;
+    }
 }

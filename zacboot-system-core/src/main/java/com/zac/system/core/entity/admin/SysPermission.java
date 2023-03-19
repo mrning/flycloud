@@ -1,8 +1,7 @@
-package com.zacboot.admin.beans.entity;
+package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.admin.beans.vos.response.PermissionPageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -65,14 +64,6 @@ public class SysPermission extends BaseEntity implements Serializable {
         SysPermission sysPermission = new SysPermission();
         BeanUtil.copyProperties(request, sysPermission);
         return sysPermission;
-    }
-
-    public PermissionPageResponse convertToPageRes() {
-        PermissionPageResponse response = new PermissionPageResponse();
-        BeanUtil.copyProperties(this, response);
-        response.setUuid(this.getUuid());
-        response.setCreateTime(this.getCreateTime());
-        return response;
     }
 
 }

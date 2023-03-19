@@ -1,6 +1,6 @@
 package com.zacboot.admin.beans.dtos;
 
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zac.system.core.entity.admin.SysDept;
 import lombok.Data;
 
 import java.io.Serializable;

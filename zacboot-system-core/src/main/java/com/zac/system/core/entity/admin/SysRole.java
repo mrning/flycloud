@@ -1,8 +1,7 @@
-package com.zacboot.admin.beans.entity;
+package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.admin.beans.vos.response.RolePageResponse;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,11 +42,4 @@ public class SysRole extends BaseEntity {
         return sysRole;
     }
 
-    public RolePageResponse convertToPageRes() {
-        RolePageResponse response = new RolePageResponse();
-        BeanUtil.copyProperties(this, response);
-        response.setUuid(this.getUuid());
-        response.setCreateTime(this.getCreateTime());
-        return response;
-    }
 }

@@ -1,6 +1,6 @@
 package com.zacboot.admin.dao.impl;
 
-import com.zacboot.admin.beans.entity.SysLog;
+import com.zac.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.example.SysLogExample;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.dao.SysLogDao;

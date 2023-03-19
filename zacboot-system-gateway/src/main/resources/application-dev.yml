@@ -55,9 +55,9 @@ spring:
           filters:
             - StripPrefix=1
         - id: zacboot-api
-          uri: lb://zacboot-api-sp
+          uri: lb://zacboot-api-miniprogram
           predicates:
-            - Path=/api-sp/**
+            - Path=/api-mini/**
           filters:
             - StripPrefix=1
   config:

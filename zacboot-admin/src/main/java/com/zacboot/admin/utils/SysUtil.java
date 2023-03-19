@@ -1,6 +1,6 @@
 package com.zacboot.admin.utils;
 
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zacboot.common.base.constants.RedisKey;
 import com.zacboot.common.base.utils.RedisUtil;
 import com.zacboot.common.base.utils.SpringContextUtils;

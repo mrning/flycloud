@@ -1,7 +1,7 @@
 package com.zacboot.admin.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zac.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
 import com.zacboot.admin.service.SysDeptService;

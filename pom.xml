@@ -23,7 +23,7 @@
         <module>zacboot-admin</module>
         <module>zacboot-app-user</module>
         <module>zacboot-system-core</module>
-        <module>zacboot-api-sp</module>
+        <module>zacboot-api-miniprogram</module>
     </modules>
 
     <properties>

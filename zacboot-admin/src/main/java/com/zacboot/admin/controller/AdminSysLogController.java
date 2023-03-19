@@ -1,13 +1,13 @@
 package com.zacboot.admin.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zacboot.admin.beans.entity.SysLog;
+import com.zac.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.service.SysLogService;
-import com.zacboot.common.base.utils.ConverUtil;
-import com.zacboot.common.base.utils.DateUtils;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
+import com.zacboot.common.base.utils.ConverUtil;
+import com.zacboot.common.base.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

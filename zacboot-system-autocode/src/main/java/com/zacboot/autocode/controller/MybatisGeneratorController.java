@@ -35,9 +35,9 @@ public class MybatisGeneratorController {
 
     @PostMapping(value = "/codeToTable")
     @ApiOperation("根据实体类创建或更新表结构")
-    public void codeToTable() {
+    public void codeToTable(@RequestBody MybatisGeneratorRequest mybatisGeneratorRequest) {
         log.info("开始自动检查是否需要创建表 || 更新表");
-        sysMysqlCreateTableService.createMysqlTable();
+        sysMysqlCreateTableService.createMysqlTable(mybatisGeneratorRequest);
     }
 }
 

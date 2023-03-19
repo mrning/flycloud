@@ -2,7 +2,7 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zac.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.example.SysDeptExample;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.dao.SysDeptDao;

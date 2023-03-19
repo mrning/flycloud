@@ -1,7 +1,7 @@
 package com.zacboot.admin.service;
 
 
-import com.zacboot.admin.beans.entity.SysLog;
+import com.zac.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.common.base.basebeans.PageResult;
 

@@ -1,6 +1,8 @@
 package com.zacboot.admin.beans.vos.response;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zac.system.core.entity.admin.SysUser;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -70,4 +72,12 @@ public class UserPageResponse {
      */
     @ApiModelProperty(value = "角色id")
     private List<String> roleUuids;
+
+    public static UserPageResponse convertByEntity(SysUser sysUser) {
+        UserPageResponse response = new UserPageResponse();
+        BeanUtil.copyProperties(sysUser, response);
+        response.setUuid(sysUser.getUuid());
+        response.setCreateTime(sysUser.getCreateTime());
+        return response;
+    }
 }

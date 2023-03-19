@@ -2,7 +2,7 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysPermission;
+import com.zac.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.example.SysPermissionExample;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.dao.SysPermissionDao;
