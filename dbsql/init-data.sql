@@ -17,10 +17,9 @@ VALUES ('mainDept', '', '上海飞云科技', NULL, NULL, NULL, NULL, 0, 'zacboo
 
 -- 初始化角色
 INSERT INTO `zacboot`.`sys_role` (`uuid`, `role_name`, `role_code`, `description`, `create_user`, `create_time`,
-                                  `update_user`, `update_time`)
+                                  `update_user`, `update_time`, `deleted`)
 VALUES ('adminRole', '管理员', 'admin', '管理员', 'auto', now(), 'auto',
-        now());
-
+        now(), 0);
 
 -- 初始化用户 ~ 部门关联表
 INSERT INTO `zacboot`.`sys_user_dept` (`uuid`, `user_uuid`, `dept_uuid`, create_user, create_time, update_user,
