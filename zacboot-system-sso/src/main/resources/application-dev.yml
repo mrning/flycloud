@@ -37,6 +37,3 @@ spring:
         file-extension: yaml
   config:
     import: application-common.yml
-logging:
-  level:
-    root: debug
