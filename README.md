@@ -35,10 +35,8 @@
 - 执行dbsql文件夹下的init-data.sql中的初始化语句
 
 ### 使用说明
- ##### 开发规范
- 1. com.zac.boot.entity.tablemodel包下面的bean（后缀为DTO）只用于创建或者更新数据库字段，不做业务使用
  ##### 理想状态下，使用该平台的正确打开方式：
- 1. 在com.zac.boot.entity.tablemodel包下面创建需要的entity类，并且继承BaseEntity
+ 1. 在【zacboot-system-core】项目 com.zac.system.core.entity.admin包下面创建需要的entity类，并且继承BaseEntity
  2. 然后访问[swagger-ui](http://localhost:9088/swagger-ui/index.html)
  3. 调用 `mybatis自动生成代码 >>> 代码生成入口` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
  4. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面

@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/zacboot?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
     username: root
-    password: mysql417298...
+    password: wanlisql@123
     hikari:
       #最小空闲链接数量
       minimum-idle: 5
