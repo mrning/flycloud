@@ -153,7 +153,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         }else{
             method.setReturnType(new FullyQualifiedJavaType("Integer"));
             if(methodName.contains("del")){
-                method.addBodyLine("Assert.isTrue(BeanUtil.isEmpty("+firstLowerDtoName+"),\"不能全部属性为空，会删除全表数据\");");
+                method.addBodyLine("Assert.isTrue(BeanUtil.isNotEmpty("+firstLowerDtoName+"),\"不能全部属性为空，会删除全表数据\");");
             }
             method.addBodyLine("return "+firstLowerDaoName+"."+methodName+"("+firstLowerDtoName+");");
         }
