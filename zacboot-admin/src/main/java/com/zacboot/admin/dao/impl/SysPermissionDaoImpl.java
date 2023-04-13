@@ -2,6 +2,7 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.example.SysPermissionExample;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
@@ -90,5 +91,10 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
             return sysPermission.stream().max(Comparator.comparing(SysPermission::getSortNo)).get().getSortNo();
         }
         return 0;
+    }
+
+    @Override
+    public SysPermission getByUuid(String uuid) {
+        return sysPermissionMapper.selectOne(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getUuid,uuid));
     }
 }

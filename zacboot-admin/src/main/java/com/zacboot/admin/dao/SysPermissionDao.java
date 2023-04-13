@@ -23,4 +23,6 @@ public interface SysPermissionDao {
     Long queryPageCount(PermissionRequest permissionRequest);
 
     Integer getMaxSortNo(String parentUuid);
+
+    SysPermission getByUuid(String uuid);
 }

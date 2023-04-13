@@ -21,6 +21,7 @@
         <module>zacboot-system-monitor</module>
         <module>zacboot-common</module>
         <module>zacboot-admin</module>
+        <module>zacboot-admin-work</module>
         <module>zacboot-app-user</module>
         <module>zacboot-system-core</module>
     </modules>
@@ -144,11 +145,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${spring-fox.version}</version>
         </dependency>
     </dependencies>
 

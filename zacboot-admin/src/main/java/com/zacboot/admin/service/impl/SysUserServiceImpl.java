@@ -11,6 +11,7 @@ import com.zac.system.core.entity.admin.SysUser;
 import com.zac.system.core.entity.admin.SysUserRole;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zac.system.core.request.sso.SsoLogoutRequest;
+import com.zac.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
@@ -19,6 +20,7 @@ import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.UserPageResponse;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.feign.SsoServiceFeign;
+import com.zacboot.admin.feign.WeixinApiFeign;
 import com.zacboot.admin.mapper.SysUserMapper;
 import com.zacboot.admin.service.*;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -71,6 +73,9 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private WeixinApiFeign weixinApiFeign;
 
     public Integer add(UserAddRequest userAddRequest) {
         SysUser sysUser = SysUser.convertByRequest(userAddRequest);
@@ -274,5 +279,14 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             return result.getResult();
         }
         return false;
+    }
+
+    @Override
+    public String qwUserImport() {
+        Result<List<QwUserVo>> qwUsers = weixinApiFeign.getWxUsers();
+        if (CommonConstant.SC_OK_200.equals(qwUsers.getCode()) && !CollectionUtils.isEmpty(qwUsers.getResult())){
+            qwUsers.getResult().forEach(u -> saveOrUpdate(SysUser.convertByWxUser(u)));
+        }
+        return Result.success().getMessage();
     }
 }

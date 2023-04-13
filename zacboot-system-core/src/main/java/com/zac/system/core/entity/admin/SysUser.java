@@ -2,7 +2,9 @@ package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zac.system.core.response.weixin.QwUserVo;
 import com.zacboot.common.base.basebeans.BaseEntity;
+import com.zacboot.common.base.utils.PasswordUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -61,6 +63,17 @@ public class SysUser extends BaseEntity {
     public static <T> SysUser convertByRequest(T request) {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(request, sysUser);
+        return sysUser;
+    }
+
+    public static SysUser convertByWxUser(QwUserVo qwUserVo){
+        SysUser sysUser = new SysUser();
+        sysUser.setUuid(qwUserVo.getUserId().toString());
+        sysUser.setRealName(qwUserVo.getName());
+        sysUser.setPhone(qwUserVo.getMobile());
+        sysUser.setMail(qwUserVo.getEmail());
+        sysUser.setAvatar(qwUserVo.getAvatar());
+        sysUser.setPassword(PasswordUtil.getPasswordEncode("wanli123"));
         return sysUser;
     }
 

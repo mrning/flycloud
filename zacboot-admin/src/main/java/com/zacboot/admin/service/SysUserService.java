@@ -86,4 +86,6 @@ public interface SysUserService extends SysBaseService<SysUser> {
      * 登出
      */
     boolean logout(String token);
+
+    String qwUserImport();
 }

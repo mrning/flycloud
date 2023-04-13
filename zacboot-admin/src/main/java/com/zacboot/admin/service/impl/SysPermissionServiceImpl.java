@@ -48,6 +48,11 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     @Override
     public Integer update(PermissionUpdateRequest permissionUpdateRequest) {
         SysPermission sysPermission = SysPermission.convertByRequest(permissionUpdateRequest);
+        // 如果是按钮权限的话
+        if (StringUtils.isBlank(sysPermission.getUrl()) && CommonConstant.MENU_TYPE_2.equals(sysPermission.getMenuType())){
+            SysPermission parent = sysPermissionDao.getByUuid(sysPermission.getParentUuid());
+            sysPermission.setUrl(parent.getComponent());
+        }
         return sysPermissionDao.update(sysPermission);
     }
 
