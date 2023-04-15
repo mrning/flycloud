@@ -53,6 +53,12 @@ public class UserUpdateRequest {
     private String phone;
 
     /**
+     * 部门id
+     */
+    @ApiModelProperty(value = "部门id")
+    private List<String> deptUuids;
+
+    /**
      * 角色id
      */
     @ApiModelProperty(value = "角色id")

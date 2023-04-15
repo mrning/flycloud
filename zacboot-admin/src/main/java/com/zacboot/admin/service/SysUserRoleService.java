@@ -1,5 +1,6 @@
 package com.zacboot.admin.service;
 
+import com.zac.system.core.entity.admin.SysUserDept;
 import com.zac.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;

@@ -6,15 +6,18 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zac.system.core.entity.admin.SysDept;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zac.system.core.entity.admin.SysUserDept;
+import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
-import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
+import com.zacboot.admin.beans.vos.response.SysDeptResponse;
 import com.zacboot.admin.dao.SysDeptDao;
 import com.zacboot.admin.dao.SysUserDeptDao;
 import com.zacboot.admin.mapper.SysDeptMapper;
 import com.zacboot.admin.mapper.SysUserDeptMapper;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.admin.service.SysUserService;
+import com.zacboot.admin.utils.FindsDeptsChildrenUtil;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,9 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -50,7 +51,6 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     private SysUserService sysUserService;
 
     public Integer add(SysDept sysDept) {
-        sysDept.setUuid(UUID.randomUUID().toString(true));
         return sysDeptDao.add(sysDept);
     }
 
@@ -63,16 +63,16 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         return sysDeptDao.update(sysDept);
     }
 
-    public PageResult<SysDeptPageResponse> queryPage(DeptRequest deptRequest) {
-        PageResult<SysDeptPageResponse> pageResult = new PageResult<>();
-        List<SysDeptPageResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPageNumber(), deptRequest.getPageSize()))
+    public PageResult<SysDeptResponse> queryPage(DeptRequest deptRequest) {
+        PageResult<SysDeptResponse> pageResult = new PageResult<>();
+        List<SysDeptResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPageNumber(), deptRequest.getPageSize()))
                 .stream().map(sysDept -> {
-                    SysDeptPageResponse sysDeptPageResponse = SysDeptPageResponse.convertByEntity(sysDept);
+                    SysDeptResponse sysDeptResponse = SysDeptResponse.convertByEntity(sysDept);
                     // 上级部门名称
-                    sysDeptPageResponse.setParentName(StringUtils.isNotBlank(sysDept.getParentUuid()) ? sysDeptDao.queryByUuid(sysDept.getParentUuid()).getDepartName() : "");
+                    sysDeptResponse.setParentName(StringUtils.isNotBlank(sysDept.getParentUuid()) ? sysDeptDao.queryByUuid(sysDept.getParentUuid()).getDepartName() : "");
                     // 部门领导昵称
-                    sysDeptPageResponse.setLeaderName(StringUtils.isNotBlank(sysDept.getLeaderUuid()) ? sysUserService.getUserByUuid(sysDept.getLeaderUuid()).getNickname() : "");
-                    return sysDeptPageResponse;
+                    sysDeptResponse.setLeaderName(StringUtils.isNotBlank(sysDept.getLeaderUuid()) ? sysUserService.getUserByUuid(sysDept.getLeaderUuid()).getNickname() : "");
+                    return sysDeptResponse;
                 }).collect(Collectors.toList());
         pageResult.setDataList(deptPageResponses);
         pageResult.setTotal(sysDeptDao.queryPageCount(deptRequest).intValue());
@@ -126,5 +126,37 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     @Override
     public List<SysDept> queryDepartsByUsername(String username) {
         return queryUserDeparts(sysUserService.getUserByName(username).getUuid());
+    }
+
+    @Override
+    public List<TreeDto> getDeptUsers() {
+        List<TreeDto> allDepts = FindsDeptsChildrenUtil.wrapTreeDataToTreeList(queryAll());
+        Map<String,List<TreeDto>> userTree = handleDeptUser(allDepts);
+        handleDeptChild(allDepts, userTree);
+        return allDepts;
+    }
+
+    private static void handleDeptChild(List<TreeDto> allDepts, Map<String, List<TreeDto>> userTree) {
+        allDepts.forEach(dept -> {
+            if(CollectionUtil.isEmpty(dept.getChildren())){
+                dept.setChildren(userTree.get(dept.getKey()));
+            }else{
+                handleDeptChild(dept.getChildren(),userTree);
+            }
+        });
+    }
+
+    private Map<String,List<TreeDto>> handleDeptUser(List<TreeDto> allDepts){
+        Map<String,List<TreeDto>> userTree = new HashMap<>();
+        for (TreeDto dept : allDepts){
+            if (CollectionUtil.isEmpty(dept.getChildren())){
+                List<SysUser> users = sysUserDeptDao.getUsersByDeptUuid(dept.getKey());
+                List<TreeDto> userTrees = users.stream().map(TreeDto::new).toList();
+                userTree.put(dept.getKey(),userTrees);
+            }else{
+                return handleDeptUser(dept.getChildren());
+            }
+        }
+        return userTree;
     }
 }

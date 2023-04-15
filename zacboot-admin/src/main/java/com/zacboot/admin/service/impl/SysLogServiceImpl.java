@@ -33,7 +33,7 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     public Integer del(SysLog SysLog) {
-        Assert.isTrue(BeanUtil.isEmpty(SysLog), "不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(SysLog), "不能全部属性为空，会删除全表数据");
         return sysLogDao.del(SysLog);
     }
 

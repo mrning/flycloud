@@ -6,7 +6,7 @@ import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
-import com.zacboot.admin.beans.vos.response.UserPageResponse;
+import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
 
@@ -22,7 +22,7 @@ public interface SysUserService extends SysBaseService<SysUser> {
 
     Integer update(UserUpdateRequest userUpdateRequest, String token);
 
-    PageResult<UserPageResponse> queryPage(UserRequest userRequest);
+    PageResult<SysUserResponse> queryPage(UserRequest userRequest);
 
     /**
      * 根据用户账号查询用户信息

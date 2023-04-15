@@ -37,13 +37,13 @@ public class ControllerErrHandler {
 	@ExceptionHandler(Exception.class)
 	public Result<?> handleException(Exception e){
 		log.error(e.getMessage(), e);
-		return Result.error("操作失败，请联系管理员处理"+e.getMessage());
+		return Result.error("操作失败，请联系管理员处理 ["+e.getMessage()+"]");
 	}
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public Result<?> handleException(HttpMessageNotReadableException e){
 		log.error(e.getMessage(), e);
-		return Result.error("操作失败，参数格式异常无法转换"+e.getMessage());
+		return Result.error("操作失败，参数格式异常无法转换 ["+e.getMessage()+"]");
 	}
 	
 	 /** 

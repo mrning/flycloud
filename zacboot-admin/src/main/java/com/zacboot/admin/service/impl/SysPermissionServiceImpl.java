@@ -14,12 +14,15 @@ import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.constants.CommonConstant;
+import groovyjarjarpicocli.CommandLine;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+
+import static com.zacboot.common.base.constants.CommonConstant.MENU_TYPE_0;
 
 @Service
 public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
@@ -36,12 +39,15 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
             // 获取相同父级uuid下排序值最大的对象
             sysPermission.setSortNo(sysPermissionDao.getMaxSortNo(permissionAddRequest.getParentUuid())+1);
         }
+        if (StringUtils.isBlank(sysPermission.getComponent()) && sysPermission.getMenuType() < 2){
+            sysPermission.setComponent(sysPermission.getUrl());
+        }
         return sysPermissionDao.add(sysPermission);
     }
 
     @Override
     public Integer del(SysPermission sysPermission) {
-        Assert.isTrue(BeanUtil.isEmpty(sysPermission),"不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysPermission),"不能全部属性为空，会删除全表数据");
         return sysPermissionDao.del(sysPermission);
     }
 
@@ -52,6 +58,9 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
         if (StringUtils.isBlank(sysPermission.getUrl()) && CommonConstant.MENU_TYPE_2.equals(sysPermission.getMenuType())){
             SysPermission parent = sysPermissionDao.getByUuid(sysPermission.getParentUuid());
             sysPermission.setUrl(parent.getComponent());
+        }
+        if (StringUtils.isBlank(sysPermission.getComponent()) && sysPermission.getMenuType() < 2){
+            sysPermission.setComponent(sysPermission.getUrl());
         }
         return sysPermissionDao.update(sysPermission);
     }
@@ -101,7 +110,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 continue;
             }
             // 0=父级菜单 1=子菜单
-            if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
+            if (permission.getMenuType().equals(MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
                 // 处理获取单个菜单信息
                 JSONObject json = getPermissionJsonObject(permission);
                 String parentUuid = permission.getParentUuid();

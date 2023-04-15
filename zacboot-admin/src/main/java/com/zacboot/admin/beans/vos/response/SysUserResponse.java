@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class UserPageResponse {
+public class SysUserResponse {
 
     /**
      * 角色uuid
@@ -73,8 +73,14 @@ public class UserPageResponse {
     @ApiModelProperty(value = "角色id")
     private List<String> roleUuids;
 
-    public static UserPageResponse convertByEntity(SysUser sysUser) {
-        UserPageResponse response = new UserPageResponse();
+    /**
+     * 部门id
+     */
+    @ApiModelProperty(value = "部门id")
+    private List<String> deptUuids;
+
+    public static SysUserResponse convertByEntity(SysUser sysUser) {
+        SysUserResponse response = new SysUserResponse();
         BeanUtil.copyProperties(sysUser, response);
         response.setUuid(sysUser.getUuid());
         response.setCreateTime(sysUser.getCreateTime());

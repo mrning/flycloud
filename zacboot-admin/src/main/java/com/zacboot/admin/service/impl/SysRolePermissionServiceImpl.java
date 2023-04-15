@@ -34,7 +34,7 @@ public class SysRolePermissionServiceImpl extends SysBaseServiceImpl<SysRolePerm
     }
 
     public Integer del(SysRolePermission sysRolePermission) {
-        Assert.isTrue(BeanUtil.isEmpty(sysRolePermission), "不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysRolePermission), "不能全部属性为空，会删除全表数据");
         return sysRolePermissionDao.del(sysRolePermission);
     }
 

@@ -7,7 +7,7 @@ import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
-import com.zacboot.admin.beans.vos.response.UserPageResponse;
+import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.admin.service.SysUserService;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -84,7 +84,7 @@ public class AdminSysUserController {
      */
     @ApiOperation("分页查询")
     @PostMapping("/queryPage")
-    public Result<PageResult<UserPageResponse>> queryPage(@RequestBody UserRequest userRequest) {
+    public Result<PageResult<SysUserResponse>> queryPage(@RequestBody UserRequest userRequest) {
         return Result.success(sysUserService.queryPage(userRequest));
     }
 

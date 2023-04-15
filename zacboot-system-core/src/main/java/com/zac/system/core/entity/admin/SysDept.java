@@ -1,9 +1,12 @@
 package com.zac.system.core.entity.admin;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zacboot.common.base.basebeans.BaseEntity;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * <p>
@@ -41,6 +44,9 @@ public class SysDept extends BaseEntity {
      * 地址
      */
     private String deptAddress;
+
+    @TableField(exist = false)
+    private List<SysDept> children;
 
     public static <T> SysDept convertByRequest(T request) {
         SysDept sysDept = new SysDept();

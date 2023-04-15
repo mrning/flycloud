@@ -5,10 +5,7 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zac.system.core.entity.admin.SysDept;
-import com.zac.system.core.entity.admin.SysRole;
-import com.zac.system.core.entity.admin.SysUser;
-import com.zac.system.core.entity.admin.SysUserRole;
+import com.zac.system.core.entity.admin.*;
 import com.zac.system.core.request.sso.SsoLoginRequest;
 import com.zac.system.core.request.sso.SsoLogoutRequest;
 import com.zac.system.core.response.weixin.QwUserVo;
@@ -17,7 +14,7 @@ import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
-import com.zacboot.admin.beans.vos.response.UserPageResponse;
+import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.feign.SsoServiceFeign;
 import com.zacboot.admin.feign.WeixinApiFeign;
@@ -83,6 +80,9 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         if (!CollectionUtils.isEmpty(userAddRequest.getRoleUuids())) {
             sysUserRoleService.updateByUserUuid(sysUser.getUuid(), userAddRequest.getRoleUuids());
         }
+        if (!CollectionUtils.isEmpty(userAddRequest.getDeptUuids())){
+            sysUserDeptService.updateByUserUuid(sysUser.getUuid(), userAddRequest.getDeptUuids());
+        }
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
             sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
         }
@@ -104,6 +104,9 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         if (!CollectionUtils.isEmpty(userUpdateRequest.getRoleUuids())) {
             sysUserRoleService.updateByUserUuid(sysUser.getUuid(), userUpdateRequest.getRoleUuids());
         }
+        if (!CollectionUtils.isEmpty(userUpdateRequest.getDeptUuids())){
+            sysUserDeptService.updateByUserUuid(sysUser.getUuid(), userUpdateRequest.getDeptUuids());
+        }
 
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
             sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
@@ -116,13 +119,14 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.update(sysUser);
     }
 
-    public PageResult<UserPageResponse> queryPage(UserRequest userRequest) {
-        PageResult<UserPageResponse> pageResult = new PageResult<>();
-        List<UserPageResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
+    public PageResult<SysUserResponse> queryPage(UserRequest userRequest) {
+        PageResult<SysUserResponse> pageResult = new PageResult<>();
+        List<SysUserResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
                 .stream().map(sysUser -> {
-                    UserPageResponse userPageResponse = UserPageResponse.convertByEntity(sysUser);
-                    userPageResponse.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList()));
-                    return userPageResponse;
+                    SysUserResponse sysUserResponse = SysUserResponse.convertByEntity(sysUser);
+                    sysUserResponse.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList()));
+                    sysUserResponse.setDeptUuids(sysUserDeptService.queryDeptsByUserUuid(sysUser.getUuid()).stream().map(SysUserDept::getDeptUuid).collect(Collectors.toList()));
+                    return sysUserResponse;
                 }).collect(Collectors.toList());
         pageResult.setDataList(sysUsers);
         pageResult.setTotal(sysUserDao.queryPageCount(userRequest).intValue());

@@ -1,5 +1,6 @@
 package com.zacboot.admin.dao.impl;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zac.system.core.entity.admin.SysDept;
@@ -28,6 +29,7 @@ public class SysDeptDaoImpl implements SysDeptDao {
     private SysDeptMapper sysDeptMapper;
 
     public Integer add(SysDept sysDept) {
+        sysDept.setUuid(UUID.randomUUID().toString(true));
         sysDept.setCreateTime(LocalDateTime.now());
         sysDept.setCreateUser(SysUtil.getCurrentUser().getNickname());
         sysDept.setDeleted(false);

@@ -2,6 +2,7 @@ package com.zacboot.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zac.system.core.entity.admin.SysDept;
+import com.zac.system.core.entity.admin.SysUser;
 import com.zac.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.example.SysUserDeptExample;
 import com.zacboot.admin.mapper.provider.SysUserDeptDTOSqlProvider;
@@ -111,5 +112,13 @@ public interface SysUserDeptMapper extends BaseMapper<SysUserDept>{
 	 */
 	@Select("select * from sys_dept	where uuid in (select dept_uuid from sys_user_dept where user_uuid = #{userUuid})")
 	List<SysDept> getDeptsByUserUuid(@Param("userUuid") String userUuid);
+
+	/**
+	 * 根据部门uuid获取部门员工列表
+	 * @param deptUuid
+	 * @return
+	 */
+	@Select("select * from sys_user	where uuid in (select user_uuid from sys_user_dept where dept_uuid = #{deptUuid})")
+	List<SysUser> getUsersByDeptUuid(@Param("deptUuid") String deptUuid);
 
 }

@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class SysDeptPageResponse {
+public class SysDeptResponse {
 
     private String uuid;
 
@@ -52,9 +52,9 @@ public class SysDeptPageResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    public static SysDeptPageResponse convertByEntity(SysDept sysDept) {
-        SysDeptPageResponse sysDeptPageResponse = new SysDeptPageResponse();
-        BeanUtil.copyProperties(sysDept, sysDeptPageResponse);
-        return sysDeptPageResponse;
+    public static SysDeptResponse convertByEntity(SysDept sysDept) {
+        SysDeptResponse sysDeptResponse = new SysDeptResponse();
+        BeanUtil.copyProperties(sysDept, sysDeptResponse);
+        return sysDeptResponse;
     }
 }
