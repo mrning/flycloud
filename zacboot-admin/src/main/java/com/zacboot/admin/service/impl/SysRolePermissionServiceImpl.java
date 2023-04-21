@@ -2,7 +2,7 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
-import com.zac.system.core.entity.admin.SysRolePermission;
+import com.zacboot.system.core.entity.admin.SysRolePermission;
 import com.zacboot.admin.dao.SysRolePermissionDao;
 import com.zacboot.admin.mapper.SysRolePermissionMapper;
 import com.zacboot.admin.service.SysRolePermissionService;

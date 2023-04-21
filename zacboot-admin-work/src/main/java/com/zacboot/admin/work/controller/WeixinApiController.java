@@ -1,6 +1,6 @@
 package com.zacboot.admin.work.controller;
 
-import com.zac.system.core.response.weixin.QwUserVo;
+import com.zacboot.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.work.service.WeixinService;
 import com.zacboot.common.base.basebeans.Result;
 import org.springframework.beans.factory.annotation.Autowired;

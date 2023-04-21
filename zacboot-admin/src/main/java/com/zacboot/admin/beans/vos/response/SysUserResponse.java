@@ -2,7 +2,7 @@ package com.zacboot.admin.beans.vos.response;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zac.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -66,6 +66,19 @@ public class SysUserResponse {
      */
     @ApiModelProperty(value = "电话")
     private String phone;
+
+    /**
+     * 入职时间
+     */
+    @ApiModelProperty(value = "入职时间")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime entryDate;
+
+    /**
+     * 上级领导
+     */
+    @ApiModelProperty(value = "上级领导")
+    private String parentUserName;
 
     /**
      * 角色id

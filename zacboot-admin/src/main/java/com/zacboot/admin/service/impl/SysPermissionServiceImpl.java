@@ -5,7 +5,7 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.system.core.entity.admin.SysPermission;
+import com.zacboot.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;
@@ -14,7 +14,6 @@ import com.zacboot.admin.mapper.SysPermissionMapper;
 import com.zacboot.admin.service.SysPermissionService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.constants.CommonConstant;
-import groovyjarjarpicocli.CommandLine;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,10 +38,19 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
             // 获取相同父级uuid下排序值最大的对象
             sysPermission.setSortNo(sysPermissionDao.getMaxSortNo(permissionAddRequest.getParentUuid())+1);
         }
+        handleData(sysPermission);
+        return sysPermissionDao.add(sysPermission);
+    }
+
+    private void handleData(SysPermission sysPermission) {
+        // 如果是按钮权限的话
+        if (StringUtils.isBlank(sysPermission.getUrl()) && CommonConstant.MENU_TYPE_2.equals(sysPermission.getMenuType())){
+            SysPermission parent = sysPermissionDao.getByUuid(sysPermission.getParentUuid());
+            sysPermission.setUrl(parent.getComponent());
+        }
         if (StringUtils.isBlank(sysPermission.getComponent()) && sysPermission.getMenuType() < 2){
             sysPermission.setComponent(sysPermission.getUrl());
         }
-        return sysPermissionDao.add(sysPermission);
     }
 
     @Override
@@ -55,13 +63,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     public Integer update(PermissionUpdateRequest permissionUpdateRequest) {
         SysPermission sysPermission = SysPermission.convertByRequest(permissionUpdateRequest);
         // 如果是按钮权限的话
-        if (StringUtils.isBlank(sysPermission.getUrl()) && CommonConstant.MENU_TYPE_2.equals(sysPermission.getMenuType())){
-            SysPermission parent = sysPermissionDao.getByUuid(sysPermission.getParentUuid());
-            sysPermission.setUrl(parent.getComponent());
-        }
-        if (StringUtils.isBlank(sysPermission.getComponent()) && sysPermission.getMenuType() < 2){
-            sysPermission.setComponent(sysPermission.getUrl());
-        }
+        handleData(sysPermission);
         return sysPermissionDao.update(sysPermission);
     }
 

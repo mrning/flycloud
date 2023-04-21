@@ -1,12 +1,10 @@
 package com.zacboot.admin.beans.dtos;
 
-import com.zac.system.core.entity.admin.SysDept;
-import com.zac.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -2,7 +2,7 @@ package com.zacboot.admin.work.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.system.core.response.weixin.QwUserVo;
+import com.zacboot.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.work.service.WeixinService;
 import com.zacboot.admin.work.weixin.WeixinWorkApi;
 import lombok.extern.slf4j.Slf4j;

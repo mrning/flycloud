@@ -1,6 +1,6 @@
 package com.zacboot.admin.service;
 
-import com.zac.system.core.entity.admin.SysRolePermission;
+import com.zacboot.system.core.entity.admin.SysRolePermission;
 
 import java.util.List;
 

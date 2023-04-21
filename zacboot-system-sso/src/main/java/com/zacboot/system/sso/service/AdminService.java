@@ -1,8 +1,8 @@
 package com.zacboot.system.sso.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zac.system.core.request.sso.SsoLoginRequest;
-import com.zac.system.core.request.sso.SsoLogoutRequest;
+import com.zacboot.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.system.core.request.sso.SsoLogoutRequest;
 import com.zacboot.system.sso.beans.domain.SysUser;
 
 import java.util.Optional;

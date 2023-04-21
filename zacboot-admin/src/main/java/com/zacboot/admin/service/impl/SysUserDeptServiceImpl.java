@@ -2,8 +2,7 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysUserDept;
-import com.zac.system.core.entity.admin.SysUserRole;
+import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 import com.zacboot.admin.dao.SysUserDeptDao;
 import com.zacboot.admin.mapper.SysUserDeptMapper;

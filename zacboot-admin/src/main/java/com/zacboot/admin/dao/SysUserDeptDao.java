@@ -2,10 +2,9 @@ package com.zacboot.admin.dao;
 
 
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysDept;
-import com.zac.system.core.entity.admin.SysUser;
-import com.zac.system.core.entity.admin.SysUserDept;
-import com.zac.system.core.entity.admin.SysUserRole;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 
 import java.util.List;

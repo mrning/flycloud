@@ -5,10 +5,10 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zac.system.core.entity.admin.*;
-import com.zac.system.core.request.sso.SsoLoginRequest;
-import com.zac.system.core.request.sso.SsoLogoutRequest;
-import com.zac.system.core.response.weixin.QwUserVo;
+import com.zacboot.system.core.entity.admin.*;
+import com.zacboot.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.system.core.request.sso.SsoLogoutRequest;
+import com.zacboot.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
@@ -289,6 +289,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     public String qwUserImport() {
         Result<List<QwUserVo>> qwUsers = weixinApiFeign.getWxUsers();
         if (CommonConstant.SC_OK_200.equals(qwUsers.getCode()) && !CollectionUtils.isEmpty(qwUsers.getResult())){
+            // 企微用户导入后默认密码为 wanli123
             qwUsers.getResult().forEach(u -> saveOrUpdate(SysUser.convertByWxUser(u)));
         }
         return Result.success().getMessage();

@@ -2,7 +2,7 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.dao.SysLogDao;
 import com.zacboot.admin.service.SysLogService;

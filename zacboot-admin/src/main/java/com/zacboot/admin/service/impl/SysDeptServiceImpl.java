@@ -2,12 +2,11 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zac.system.core.entity.admin.SysDept;
-import com.zac.system.core.entity.admin.SysUser;
-import com.zac.system.core.entity.admin.SysUserDept;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.beans.vos.response.SysDeptResponse;

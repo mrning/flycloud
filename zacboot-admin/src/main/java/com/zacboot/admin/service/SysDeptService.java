@@ -1,6 +1,6 @@
 package com.zacboot.admin.service;
 
-import com.zac.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.beans.vos.response.SysDeptResponse;

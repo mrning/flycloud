@@ -37,7 +37,7 @@ spring:
         server-addr: 101.35.131.180:8848
         namespace: fly-cloud-namespaces
   config:
-    import: ../../../../zacboot-system-gateway/src/main/resources/application-common.yml
+    import: application-common.yml
 xxl:
   job:
     admin:

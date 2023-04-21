@@ -1,6 +1,6 @@
 package com.zacboot.admin.work.service;
 
-import com.zac.system.core.response.weixin.QwUserVo;
+import com.zacboot.system.core.response.weixin.QwUserVo;
 
 import java.util.List;
 

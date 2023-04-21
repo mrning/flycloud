@@ -1,7 +1,7 @@
 package com.zacboot.admin.utils;
 
 
-import com.zac.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 import org.apache.commons.lang3.StringUtils;
 

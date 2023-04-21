@@ -1,7 +1,7 @@
 package com.zacboot.admin.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
 import com.zacboot.admin.beans.vos.request.UserRequest;

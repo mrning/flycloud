@@ -2,7 +2,7 @@ package com.zacboot.admin.beans.vos.response;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zac.system.core.entity.admin.SysRole;
+import com.zacboot.system.core.entity.admin.SysRole;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

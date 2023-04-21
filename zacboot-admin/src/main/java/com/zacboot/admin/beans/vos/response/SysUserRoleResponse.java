@@ -1,7 +1,7 @@
 package com.zacboot.admin.beans.vos.response;
 
-import com.zac.system.core.entity.admin.SysRole;
-import com.zac.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysRole;
+import com.zacboot.system.core.entity.admin.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

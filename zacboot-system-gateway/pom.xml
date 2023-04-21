@@ -13,8 +13,8 @@
     <dependencies>
         <dependency>
             <groupId>com.zac</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${zacboot.common.version}</version>
+            <artifactId>zacboot-system-core</artifactId>
+            <version>${zacboot.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.alibaba</groupId>

@@ -1,6 +1,6 @@
 package com.zacboot.admin.beans.vos.request;
 
-import com.zacboot.common.base.basebeans.BaseEntity;
+import com.zacboot.system.core.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

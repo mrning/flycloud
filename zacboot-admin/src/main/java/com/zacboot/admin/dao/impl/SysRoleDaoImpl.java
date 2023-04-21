@@ -2,12 +2,12 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zac.system.core.entity.admin.SysRole;
+import com.zacboot.system.core.entity.admin.SysRole;
 import com.zacboot.admin.beans.example.SysRoleExample;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.mapper.SysRoleMapper;
-import com.zacboot.admin.utils.SysUtil;
+import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

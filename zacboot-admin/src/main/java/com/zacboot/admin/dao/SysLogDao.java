@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao;
 
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 
 import java.util.Date;
