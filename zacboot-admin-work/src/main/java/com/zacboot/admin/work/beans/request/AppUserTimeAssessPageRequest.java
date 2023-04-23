@@ -9,7 +9,9 @@ public class AppUserTimeAssessPageRequest {
 
     private String userUuid;
 
-    private Page<AppUserTimeAssess> page;
+    private Long page;
+
+    private Long limit;
 
     public AppUserTimeAssess converToDo(){
         AppUserTimeAssess appUserTimeAssess = new AppUserTimeAssess();

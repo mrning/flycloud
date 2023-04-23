@@ -46,7 +46,7 @@ public class AppUserMonthAssessServiceImpl extends SysBaseServiceImpl<AppUserMon
     public PageResult<AppUserMonthAssess> queryPage(AppUserMonthAssessPageRequest pageRequest) {
         PageResult<AppUserMonthAssess> pageResult = new PageResult<>();
         AppUserMonthAssess appUserMonthAssess = pageRequest.converToDo();
-        Page<AppUserMonthAssess> page = appUserMonthAssessDao.queryPage(appUserMonthAssess,pageRequest.getPage());
+        Page<AppUserMonthAssess> page = appUserMonthAssessDao.queryPage(appUserMonthAssess,new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
         pageResult.setDataList(page.getRecords());
         pageResult.setTotal(page.getTotal());
         return pageResult;

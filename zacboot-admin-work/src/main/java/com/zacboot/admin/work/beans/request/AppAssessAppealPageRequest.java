@@ -9,7 +9,9 @@ public class AppAssessAppealPageRequest {
 
     private String userUuid;
 
-    private Page<AppAssessAppeal> page;
+    private Long page;
+
+    private Long limit;
 
     public AppAssessAppeal converToDo(){
         AppAssessAppeal appAssessAppeal = new AppAssessAppeal();

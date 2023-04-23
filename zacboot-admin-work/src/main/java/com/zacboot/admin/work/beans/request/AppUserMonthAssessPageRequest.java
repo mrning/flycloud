@@ -9,7 +9,9 @@ public class AppUserMonthAssessPageRequest {
 
     private String userUuid;
 
-    private Page<AppUserMonthAssess> page;
+    private Long page;
+
+    private Long limit;
 
     public AppUserMonthAssess converToDo(){
         AppUserMonthAssess appUserMonthAssess = new AppUserMonthAssess();

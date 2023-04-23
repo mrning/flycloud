@@ -15,7 +15,9 @@ public class ThreeReportPageRequest {
 
     private String reportType;
 
-    private Page<AppThreeReport> page;
+    private Long page;
+
+    private Long limit;
 
     public AppThreeReport converToDo(){
         AppThreeReport appThreeReport = new AppThreeReport();

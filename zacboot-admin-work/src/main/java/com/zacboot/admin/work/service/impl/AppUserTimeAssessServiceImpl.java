@@ -45,7 +45,7 @@ public class AppUserTimeAssessServiceImpl extends SysBaseServiceImpl<AppUserTime
     public PageResult<AppUserTimeAssess> queryPage(AppUserTimeAssessPageRequest pageRequest) {
         PageResult<AppUserTimeAssess> pageResult = new PageResult<>();
         AppUserTimeAssess appUserTimeAssess = pageRequest.converToDo();
-        Page<AppUserTimeAssess> page =  appUserTimeAssessDao.queryPage(appUserTimeAssess, pageRequest.getPage());
+        Page<AppUserTimeAssess> page =  appUserTimeAssessDao.queryPage(appUserTimeAssess, new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
         pageResult.setDataList(page.getRecords());
         pageResult.setTotal(page.getTotal());
         return pageResult;

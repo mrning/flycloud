@@ -40,7 +40,7 @@ public class AppThreeReportServiceImpl extends SysBaseServiceImpl<AppThreeReport
     public PageResult<AppThreeReport> queryPage(ThreeReportPageRequest pageRequest) {
         PageResult<AppThreeReport> pageResult = new PageResult<>();
         AppThreeReport appThreeReport = pageRequest.converToDo();
-        Page<AppThreeReport> threeReportPage = appThreeReportDao.queryPage(appThreeReport,pageRequest.getPage());
+        Page<AppThreeReport> threeReportPage = appThreeReportDao.queryPage(appThreeReport,new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
         pageResult.setDataList(threeReportPage.getRecords());
         pageResult.setTotal(threeReportPage.getTotal());
         return pageResult;

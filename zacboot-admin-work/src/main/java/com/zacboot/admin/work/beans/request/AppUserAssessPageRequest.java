@@ -11,7 +11,9 @@ public class AppUserAssessPageRequest {
 
     private String userName;
 
-    private Page<AppUserAssess> page;
+    private Long page;
+
+    private Long limit;
 
     public AppUserAssess converToDo(){
         AppUserAssess appUserAssess = new AppUserAssess();

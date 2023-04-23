@@ -48,7 +48,7 @@ public class AppUserAssessServiceImpl extends SysBaseServiceImpl<AppUserAssessMa
     public PageResult<AppUserAssess> queryPage(AppUserAssessPageRequest pageRequest) {
         PageResult<AppUserAssess> pageResult = new PageResult<>();
         AppUserAssess appUserAssess = pageRequest.converToDo();
-        Page<AppUserAssess> page = appUserAssessDao.queryPage(appUserAssess, pageRequest.getPage());
+        Page<AppUserAssess> page = appUserAssessDao.queryPage(appUserAssess, new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
         pageResult.setDataList(page.getRecords());
         pageResult.setTotal(page.getTotal());
         return pageResult;

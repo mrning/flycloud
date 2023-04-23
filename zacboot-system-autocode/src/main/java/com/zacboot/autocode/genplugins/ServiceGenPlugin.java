@@ -137,7 +137,7 @@ public class ServiceGenPlugin extends PluginAdapter {
             method.addBodyLine("PageResult<"+dtoName+"> pageResult = new PageResult<>();");
 
             method.addBodyLine(dtoName + " "+ firstLowerDtoName+" = pageRequest.converToDo();");
-            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage("+firstLowerDtoName+",pageRequest.getPage());");
+            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage("+firstLowerDtoName+",new Page<>(pageRequest.getPage(),pageRequest.getLimit()));");
             method.addBodyLine("pageResult.setDataList(page.getRecords());");
             method.addBodyLine("pageResult.setTotal(page.getTotal());");
             method.addBodyLine("return pageResult;");

@@ -48,7 +48,8 @@ public class AppAssessAppealServiceImpl extends SysBaseServiceImpl<AppAssessAppe
     public PageResult<AppAssessAppeal> queryPage(AppAssessAppealPageRequest pageRequest) {
         PageResult<AppAssessAppeal> pageResult = new PageResult<>();
         AppAssessAppeal appAssessAppeal = pageRequest.converToDo();
-        Page<AppAssessAppeal> assessAppealPage = appAssessAppealDao.queryPage(appAssessAppeal,pageRequest.getPage());
+        Page<AppAssessAppeal> assessAppealPage = appAssessAppealDao.queryPage(appAssessAppeal,
+                new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
         pageResult.setDataList(assessAppealPage.getRecords());
         pageResult.setTotal(assessAppealPage.getTotal());
         return pageResult;
