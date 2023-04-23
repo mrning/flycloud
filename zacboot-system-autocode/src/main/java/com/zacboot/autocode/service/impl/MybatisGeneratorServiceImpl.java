@@ -114,15 +114,6 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         context.addPluginConfiguration(daoPlugin);
     }
 
-    private void buildMapper(Context context) {
-        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
-        javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
-        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
-        javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
-        javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper");
-        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
-    }
-
     private void buildJavaModel(Context context) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
@@ -131,6 +122,15 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");
         javaModelGeneratorConfiguration.addProperty("trimStrings","true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
+    }
+
+    private void buildMapper(Context context) {
+        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
+        javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
+        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
+        javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
+        javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper<>");
+        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
     }
 
     private void buildTables(Context context) {

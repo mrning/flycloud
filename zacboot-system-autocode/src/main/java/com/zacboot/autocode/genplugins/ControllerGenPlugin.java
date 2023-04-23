@@ -82,11 +82,6 @@ public class ControllerGenPlugin extends PluginAdapter {
         // 引入包
         String className = (controllerPlatform.substring(0, 1).toUpperCase() + controllerPlatform.substring(1)) + baseDomainName + MgtConstant.CONTROLLER_SUFFIX;
         TopLevelClass topLevelClass = new TopLevelClass(controllerPackage + "." + className);
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE + ".BaseController");
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE + ".basebean.Result");
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE_DTO + "." + dtoName);
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE_SERVICE + "." + baseDomainName + MgtConstant.SERVICE_SUFFIX);
-        topLevelClass.addImportedType("cn.hutool.db.PageResult");
         topLevelClass.addImportedType("org.springframework.beans.factory.annotation.*");
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
@@ -123,7 +118,6 @@ public class ControllerGenPlugin extends PluginAdapter {
     }
 
     private void createField(String baseDomainName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE_SERVICE + "." + baseDomainName + MgtConstant.SERVICE_SUFFIX);
         Field field = new Field(firstLowerServiceName, new FullyQualifiedJavaType(baseDomainName + MgtConstant.SERVICE_SUFFIX));
         field.addAnnotation(MgtConstant.ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -147,7 +141,6 @@ public class ControllerGenPlugin extends PluginAdapter {
         // 加返回类型
         if (methodName.contains("queryPage")) {
             method.setReturnType(new FullyQualifiedJavaType("Result<PageResult<" + dtoName + ">>"));
-            topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE_DTO + "." + dtoName);
         } else {
             method.setReturnType(new FullyQualifiedJavaType("Result<Integer>"));
         }

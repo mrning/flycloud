@@ -76,16 +76,7 @@ public class ServiceGenPlugin extends PluginAdapter {
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+ MgtConstant.SERVICE_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+ MgtConstant.SERVICE_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".base.SysBaseServiceImpl"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_MAPPER+"."+baseDomainName+ MgtConstant.MAPPER_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".tablemodel."+baseDomainName));
-
-
 
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SERVICE);
@@ -110,10 +101,6 @@ public class ServiceGenPlugin extends PluginAdapter {
                     " * @date "+ LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) +"\n" +
                     " * @author zac\n" +
                     " */");
-            genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".base.SysBaseService"));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".tablemodel."+baseDomainName));
             // 继承类
             genInterface.addSuperInterface(new FullyQualifiedJavaType("SysBaseService<"+ baseDomainName +">"));
 
@@ -128,7 +115,6 @@ public class ServiceGenPlugin extends PluginAdapter {
     }
 
     private void createField(String domainObjectName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE+".dao."+ domainObjectName+ MgtConstant.DAO_SUFFIX);
         Field field = new Field(daoName ,new FullyQualifiedJavaType(domainObjectName + MgtConstant.DAO_SUFFIX));
         field.addAnnotation(MgtConstant.ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -139,6 +125,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         String firstLowerDaoName = StringUtils.firstToLowerCase(daoName);
         Method method = new Method(methodName);
+        method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(new Parameter(
                 new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName),
