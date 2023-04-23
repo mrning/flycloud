@@ -1,7 +1,7 @@
 package com.zacboot.admin.work.mapper.provider;
 
 import com.zacboot.admin.work.beans.example.AppAssessAppealExample;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;

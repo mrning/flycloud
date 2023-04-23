@@ -56,7 +56,7 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
         pageResult.setDataList(sysUserRoleDao.queryPage(userRoleRequest,new Page(userRoleRequest.getPageNumber(), userRoleRequest.getPageSize()))
                 .stream().map(sysUserRoleDTO -> new SysUserRoleResponse(sysUserDao.queryByUuid(sysUserRoleDTO.getUserUuid()),
                         sysRoleDao.queryByUuid(sysUserRoleDTO.getRoleUuid()))).collect(Collectors.toList()));
-        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest).intValue());
+        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest));
         return pageResult;
     }
 

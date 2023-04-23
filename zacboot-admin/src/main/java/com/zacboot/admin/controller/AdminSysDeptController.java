@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.zacboot.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
-import com.zacboot.admin.beans.vos.response.SysDeptResponse;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;

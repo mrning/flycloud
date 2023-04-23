@@ -1,10 +1,11 @@
 package com.zacboot.admin.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
 import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
-import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -88,4 +89,6 @@ public interface SysUserService extends SysBaseService<SysUser> {
     boolean logout(String token);
 
     String qwUserImport();
+
+    SysUserDeptAndRoleInfo deptAndRoleInfo(UserRequest userRequest);
 }

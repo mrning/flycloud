@@ -2,7 +2,7 @@ package com.zacboot.admin.work.service;
 
 import com.zacboot.admin.work.beans.request.ThreeReportPageRequest;
 import com.zacboot.common.base.basebeans.PageResult;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 
 /**
  * AutoCreateFile

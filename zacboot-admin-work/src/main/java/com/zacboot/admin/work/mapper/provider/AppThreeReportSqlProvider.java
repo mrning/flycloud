@@ -1,7 +1,7 @@
 package com.zacboot.admin.work.mapper.provider;
 
 import com.zacboot.admin.work.beans.example.AppThreeReportExample;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;

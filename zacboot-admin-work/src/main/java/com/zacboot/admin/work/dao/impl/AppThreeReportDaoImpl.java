@@ -1,16 +1,17 @@
 package com.zacboot.admin.work.dao.impl;
 
 import cn.hutool.core.lang.UUID;
-import cn.hutool.db.Page;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zacboot.admin.work.beans.example.AppThreeReportExample;
 import com.zacboot.admin.work.dao.AppThreeReportDao;
 import com.zacboot.admin.work.mapper.AppThreeReportMapper;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import com.zacboot.system.core.util.SysUtil;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.*;
@@ -47,10 +48,8 @@ public class AppThreeReportDaoImpl implements AppThreeReportDao {
         return appThreeReportMapper.updateByExampleSelective(appThreeReport,appThreeReportExample);
     }
 
-    public List<AppThreeReport> queryPage(AppThreeReport threeReport,Page page) {
-        AppThreeReportExample appThreeReportExample = new AppThreeReportExample();
-        buildExample(threeReport,appThreeReportExample);
-        return appThreeReportMapper.selectByExampleWithRowbounds(appThreeReportExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
+    public Page<AppThreeReport> queryPage(AppThreeReport threeReport, Page<AppThreeReport> page) {
+        return appThreeReportMapper.selectPage(page,new LambdaQueryWrapper<>());
     }
 
     public Long queryPageCount(AppThreeReport appThreeReport) {

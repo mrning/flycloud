@@ -21,11 +21,6 @@ public class UserHomeBasicInfo {
     private String userName;
 
     /**
-     * 考核分数
-     */
-    private String assesScore;
-
-    /**
      * 部门
      */
     private String deptName;

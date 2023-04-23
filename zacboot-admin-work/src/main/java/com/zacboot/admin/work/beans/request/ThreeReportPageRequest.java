@@ -1,11 +1,11 @@
 package com.zacboot.admin.work.beans.request;
 
-import cn.hutool.db.Page;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import lombok.Data;
 
 @Data
-public class ThreeReportPageRequest extends Page {
+public class ThreeReportPageRequest {
 
     private String userName;
 
@@ -14,6 +14,8 @@ public class ThreeReportPageRequest extends Page {
     private String roleUuid;
 
     private String reportType;
+
+    private Page<AppThreeReport> page;
 
     public AppThreeReport converToDo(){
         AppThreeReport appThreeReport = new AppThreeReport();

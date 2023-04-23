@@ -44,7 +44,7 @@ public class SysLogServiceImpl implements SysLogService {
     public PageResult<SysLog> queryPage(SysLogRequest sysLogRequest) {
         PageResult<SysLog> pageResult = new PageResult<>();
         pageResult.setDataList(sysLogDao.queryPage(sysLogRequest, new Page(sysLogRequest.getPageNumber(), sysLogRequest.getPageSize())));
-        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequest).intValue());
+        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequest));
         return pageResult;
     }
 

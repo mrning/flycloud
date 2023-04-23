@@ -1,7 +1,8 @@
 package com.zacboot.admin.work.dao;
 
-import cn.hutool.db.Page;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface AppThreeReportDao {
 
     Integer update(AppThreeReport appThreeReport);
 
-    List<AppThreeReport> queryPage(AppThreeReport threeReport,Page page);
+    Page<AppThreeReport> queryPage(AppThreeReport threeReport, Page<AppThreeReport> page);
 
     Long queryPageCount(AppThreeReport threeReport);
 }

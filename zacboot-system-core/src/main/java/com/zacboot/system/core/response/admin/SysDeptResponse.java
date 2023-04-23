@@ -1,4 +1,4 @@
-package com.zacboot.admin.beans.vos.response;
+package com.zacboot.system.core.response.admin;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;

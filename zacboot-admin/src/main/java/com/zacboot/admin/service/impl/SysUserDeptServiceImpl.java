@@ -42,7 +42,7 @@ public class SysUserDeptServiceImpl extends SysBaseServiceImpl<SysUserDeptMapper
     public PageResult<SysUserDept> queryPage(UserDeptRequest userDeptRequest) {
         PageResult<SysUserDept> pageResult = new PageResult<>();
         pageResult.setDataList(sysUserDeptDao.queryPage(userDeptRequest, new Page(userDeptRequest.getPageNumber(), userDeptRequest.getPageSize())));
-        pageResult.setTotal(sysUserDeptDao.queryPageCount(userDeptRequest).intValue());
+        pageResult.setTotal(sysUserDeptDao.queryPageCount(userDeptRequest));
         return pageResult;
     }
 

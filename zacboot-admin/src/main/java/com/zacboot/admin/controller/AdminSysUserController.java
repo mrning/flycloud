@@ -1,9 +1,10 @@
 package com.zacboot.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
 import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
-import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
@@ -112,6 +113,20 @@ public class AdminSysUserController {
     public Result<PageResult<SysUserRoleResponse>> queryUserRolePage(@RequestBody UserRoleRequest userRoleRequest) {
         return Result.success(sysUserRoleService.queryPage(userRoleRequest));
     }
+
+    /**
+     * 根据用户id获取部门和角色信息
+     *
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @ApiOperation("根据用户id获取部门和角色信息")
+    @PostMapping("/deptAndRoleInfo")
+    public Result<SysUserDeptAndRoleInfo> deptAndRoleInfo(@RequestBody UserRequest userRequest) {
+        return Result.success(sysUserService.deptAndRoleInfo(userRequest));
+    }
+
+
 
     /**
      * 企微信息导入

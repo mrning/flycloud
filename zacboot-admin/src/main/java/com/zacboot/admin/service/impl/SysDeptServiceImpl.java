@@ -9,7 +9,7 @@ import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
-import com.zacboot.admin.beans.vos.response.SysDeptResponse;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
 import com.zacboot.admin.dao.SysDeptDao;
 import com.zacboot.admin.dao.SysUserDeptDao;
 import com.zacboot.admin.mapper.SysDeptMapper;
@@ -74,7 +74,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
                     return sysDeptResponse;
                 }).collect(Collectors.toList());
         pageResult.setDataList(deptPageResponses);
-        pageResult.setTotal(sysDeptDao.queryPageCount(deptRequest).intValue());
+        pageResult.setTotal(sysDeptDao.queryPageCount(deptRequest));
         return pageResult;
     }
 

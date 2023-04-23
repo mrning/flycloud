@@ -1,4 +1,4 @@
-package com.zacboot.system.core.entity.admin;
+package com.zacboot.system.core.entity.assess;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;

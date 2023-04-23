@@ -1,10 +1,11 @@
 package com.zacboot.admin.work.controller;
 
 import cn.hutool.db.Page;
+import com.zacboot.admin.work.beans.request.AppAssessAppealPageRequest;
 import com.zacboot.admin.work.service.AppAssessAppealService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +65,7 @@ public class AppAssessAppealController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<AppAssessAppeal>> queryPage(@RequestBody AppAssessAppeal appAssessAppeal, Page page) {
-        return Result.success(appAssessAppealService.queryPage(appAssessAppeal,page));
+    public Result<PageResult<AppAssessAppeal>> queryPage(@RequestBody AppAssessAppealPageRequest pageRequest) {
+        return Result.success(appAssessAppealService.queryPage(pageRequest));
     }
 }

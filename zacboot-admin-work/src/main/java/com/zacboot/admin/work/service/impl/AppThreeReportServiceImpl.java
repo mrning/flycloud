@@ -1,13 +1,13 @@
 package com.zacboot.admin.work.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zacboot.admin.work.beans.request.ThreeReportPageRequest;
 import com.zacboot.admin.work.dao.AppThreeReportDao;
 import com.zacboot.admin.work.mapper.AppThreeReportMapper;
 import com.zacboot.admin.work.service.AppThreeReportService;
 import com.zacboot.common.base.basebeans.PageResult;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
@@ -40,8 +40,9 @@ public class AppThreeReportServiceImpl extends SysBaseServiceImpl<AppThreeReport
     public PageResult<AppThreeReport> queryPage(ThreeReportPageRequest pageRequest) {
         PageResult<AppThreeReport> pageResult = new PageResult<>();
         AppThreeReport appThreeReport = pageRequest.converToDo();
-        pageResult.setDataList(appThreeReportDao.queryPage(appThreeReport,new Page(pageRequest.getPageNumber(),pageRequest.getPageSize())));
-        pageResult.setTotal(appThreeReportDao.queryPageCount(appThreeReport).intValue());
+        Page<AppThreeReport> threeReportPage = appThreeReportDao.queryPage(appThreeReport,pageRequest.getPage());
+        pageResult.setDataList(threeReportPage.getRecords());
+        pageResult.setTotal(threeReportPage.getTotal());
         return pageResult;
     }
 }

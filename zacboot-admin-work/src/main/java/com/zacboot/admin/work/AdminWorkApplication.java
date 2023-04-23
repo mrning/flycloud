@@ -6,10 +6,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @Slf4j
 @SpringBootApplication(scanBasePackages = {"com.zacboot"})
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.zacboot.admin.work.feign")
 @MapperScan(basePackages = {"com.zacboot.admin.work.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class AdminWorkApplication {

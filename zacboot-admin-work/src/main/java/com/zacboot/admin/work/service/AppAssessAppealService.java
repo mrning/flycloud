@@ -1,9 +1,10 @@
 package com.zacboot.admin.work.service;
 
 
-import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.admin.work.beans.request.AppAssessAppealPageRequest;
 import com.zacboot.common.base.basebeans.PageResult;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 
 /**
  * AutoCreateFile
@@ -17,5 +18,5 @@ public interface AppAssessAppealService extends SysBaseService<AppAssessAppeal> 
 
     Integer update(AppAssessAppeal appAssessAppeal);
 
-    PageResult<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal, Page page);
+    PageResult<AppAssessAppeal> queryPage(AppAssessAppealPageRequest pageRequest);
 }

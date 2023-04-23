@@ -3,7 +3,7 @@ package com.zacboot.admin.work.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zacboot.admin.work.beans.example.AppThreeReportExample;
 import com.zacboot.admin.work.mapper.provider.AppThreeReportSqlProvider;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;

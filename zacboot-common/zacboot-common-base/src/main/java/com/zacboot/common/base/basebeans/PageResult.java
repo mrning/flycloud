@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class PageResult<T> {
 
-    private int total;
+    private Long total;
     private List<T> dataList;
 }
 

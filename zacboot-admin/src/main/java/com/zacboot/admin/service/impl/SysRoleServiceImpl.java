@@ -93,7 +93,7 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
                 }).collect(Collectors.toList());
 
         pageResult.setDataList(sysRoles);
-        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest).intValue());
+        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest));
         return pageResult;
     }
 

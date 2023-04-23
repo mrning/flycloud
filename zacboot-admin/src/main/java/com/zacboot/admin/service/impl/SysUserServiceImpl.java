@@ -5,6 +5,9 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
+import com.zacboot.system.core.response.admin.SysRoleResponse;
+import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
 import com.zacboot.system.core.entity.admin.*;
 import com.zacboot.system.core.request.sso.SsoLoginRequest;
 import com.zacboot.system.core.request.sso.SsoLogoutRequest;
@@ -12,7 +15,7 @@ import com.zacboot.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
-import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.admin.dao.SysUserDao;
@@ -129,7 +132,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
                     return sysUserResponse;
                 }).collect(Collectors.toList());
         pageResult.setDataList(sysUsers);
-        pageResult.setTotal(sysUserDao.queryPageCount(userRequest).intValue());
+        pageResult.setTotal(sysUserDao.queryPageCount(userRequest));
         return pageResult;
     }
 
@@ -293,5 +296,24 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             qwUsers.getResult().forEach(u -> saveOrUpdate(SysUser.convertByWxUser(u)));
         }
         return Result.success().getMessage();
+    }
+
+    @Override
+    public SysUserDeptAndRoleInfo deptAndRoleInfo(UserRequest userRequest) {
+        Assert.notNull(userRequest.getUserUuid(),"用户uuid不能为空");
+        SysUser sysUser = sysUserDao.queryByUuid(userRequest.getUserUuid());
+        if (null != sysUser){
+            List<SysRole> roles = sysRoleService.queryUserRoles(userRequest.getUserUuid());
+            List<SysDept> depts = sysDeptService.queryUserDeparts(userRequest.getUserUuid());
+
+            SysUserDeptAndRoleInfo sysUserDeptAndRoleInfo = new SysUserDeptAndRoleInfo();
+            sysUserDeptAndRoleInfo.setUserUuid(sysUser.getUuid());
+            sysUserDeptAndRoleInfo.setUserName(sysUser.getRealName());
+            sysUserDeptAndRoleInfo.setRoleResponseList(roles.stream().map(SysRoleResponse::convertByEntity).toList());
+            sysUserDeptAndRoleInfo.setDeptResponseList(depts.stream().map(SysDeptResponse::convertByEntity).toList());
+
+            return  sysUserDeptAndRoleInfo;
+        }
+        return null;
     }
 }

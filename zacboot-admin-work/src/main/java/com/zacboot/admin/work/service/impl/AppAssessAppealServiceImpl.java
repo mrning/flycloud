@@ -1,12 +1,13 @@
 package com.zacboot.admin.work.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.db.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.admin.work.beans.request.AppAssessAppealPageRequest;
 import com.zacboot.admin.work.dao.AppAssessAppealDao;
 import com.zacboot.admin.work.mapper.AppAssessAppealMapper;
 import com.zacboot.admin.work.service.AppAssessAppealService;
 import com.zacboot.common.base.basebeans.PageResult;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ public class AppAssessAppealServiceImpl extends SysBaseServiceImpl<AppAssessAppe
     @Autowired
     private AppAssessAppealDao appAssessAppealDao;
 
+    @Override
     public Integer add(AppAssessAppeal appAssessAppeal) {
         return appAssessAppealDao.add(appAssessAppeal);
     }
@@ -43,10 +45,12 @@ public class AppAssessAppealServiceImpl extends SysBaseServiceImpl<AppAssessAppe
         return appAssessAppealDao.update(appAssessAppeal);
     }
 
-    public PageResult<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal,Page page) {
+    public PageResult<AppAssessAppeal> queryPage(AppAssessAppealPageRequest pageRequest) {
         PageResult<AppAssessAppeal> pageResult = new PageResult<>();
-        pageResult.setDataList(appAssessAppealDao.queryPage(appAssessAppeal,page));
-        pageResult.setTotal(appAssessAppealDao.queryPageCount(appAssessAppeal).intValue());
+        AppAssessAppeal appAssessAppeal = pageRequest.converToDo();
+        Page<AppAssessAppeal> assessAppealPage = appAssessAppealDao.queryPage(appAssessAppeal,pageRequest.getPage());
+        pageResult.setDataList(assessAppealPage.getRecords());
+        pageResult.setTotal(assessAppealPage.getTotal());
         return pageResult;
     }
 }

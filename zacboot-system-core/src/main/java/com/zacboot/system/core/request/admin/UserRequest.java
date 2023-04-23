@@ -1,6 +1,7 @@
-package com.zacboot.admin.beans.vos.request;
+package com.zacboot.system.core.request.admin;
 
 import cn.hutool.db.Page;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

@@ -1,7 +1,7 @@
 package com.zacboot.admin.work.dao;
 
-import cn.hutool.db.Page;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface AppAssessAppealDao {
 
     Integer update(AppAssessAppeal appAssessAppeal);
 
-    List<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal, Page page);
+    Page<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal, Page<AppAssessAppeal> page);
 
     Long queryPageCount(AppAssessAppeal appAssessAppeal);
 }

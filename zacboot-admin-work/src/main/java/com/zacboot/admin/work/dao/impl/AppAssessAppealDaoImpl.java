@@ -1,17 +1,17 @@
 package com.zacboot.admin.work.dao.impl;
 
-import cn.hutool.core.lang.UUID;
-import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-
+import cn.hutool.core.lang.UUID;
 import java.time.LocalDateTime;
-import java.util.List;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zacboot.system.core.util.SysUtil;
+import java.util.List;
 import com.zacboot.admin.work.beans.example.AppAssessAppealExample;
 import com.zacboot.admin.work.dao.AppAssessAppealDao;
 import com.zacboot.admin.work.mapper.AppAssessAppealMapper;
-import com.zacboot.system.core.util.SysUtil;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.*;
@@ -48,12 +48,8 @@ public class AppAssessAppealDaoImpl implements AppAssessAppealDao {
         return appAssessAppealMapper.updateByExampleSelective(appAssessAppeal,appAssessAppealExample);
     }
 
-    public List<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal, Page page) {
-        com.baomidou.mybatisplus.extension.plugins.pagination.Page mPage = new com.baomidou.mybatisplus.extension.plugins.pagination.Page();
-        mPage.setCurrent(page.getPageNumber());
-        mPage.setSize(page.getPageSize());
-        mPage = appAssessAppealMapper.selectPage(mPage,new LambdaQueryWrapper<AppAssessAppeal>());
-        return mPage.getRecords();
+    public Page<AppAssessAppeal> queryPage(AppAssessAppeal appAssessAppeal, Page<AppAssessAppeal> page) {
+        return appAssessAppealMapper.selectPage(page,new LambdaQueryWrapper<>());
     }
 
     public Long queryPageCount(AppAssessAppeal appAssessAppeal) {

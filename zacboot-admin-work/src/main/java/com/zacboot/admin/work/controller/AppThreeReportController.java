@@ -4,7 +4,7 @@ import com.zacboot.admin.work.beans.request.ThreeReportPageRequest;
 import com.zacboot.admin.work.service.AppThreeReportService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
-import com.zacboot.system.core.entity.admin.AppThreeReport;
+import com.zacboot.system.core.entity.assess.AppThreeReport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

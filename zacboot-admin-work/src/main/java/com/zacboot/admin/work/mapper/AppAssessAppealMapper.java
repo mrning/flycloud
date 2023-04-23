@@ -4,7 +4,7 @@ package com.zacboot.admin.work.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zacboot.admin.work.beans.example.AppAssessAppealExample;
 import com.zacboot.admin.work.mapper.provider.AppAssessAppealSqlProvider;
-import com.zacboot.system.core.entity.admin.AppAssessAppeal;
+import com.zacboot.system.core.entity.assess.AppAssessAppeal;
 import org.apache.ibatis.annotations.*;
 
 public interface AppAssessAppealMapper extends BaseMapper<AppAssessAppeal> {
