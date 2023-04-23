@@ -75,7 +75,7 @@ public class ServiceGenPlugin extends PluginAdapter {
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
 
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
@@ -125,17 +125,21 @@ public class ServiceGenPlugin extends PluginAdapter {
         String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         String firstLowerDaoName = StringUtils.firstToLowerCase(daoName);
         Method method = new Method(methodName);
-        method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(new Parameter(
-                new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName),
+                new FullyQualifiedJavaType(dtoName),
                 firstLowerDtoName));
         if(methodName.contains("queryPage")){
+            method.getParameters().clear();
+            method.addParameter(new Parameter(new FullyQualifiedJavaType(dtoName + "PageRequest"),
+                    "pageRequest"));
             method.setReturnType(new FullyQualifiedJavaType("PageResult<"+dtoName+">"));
             method.addBodyLine("PageResult<"+dtoName+"> pageResult = new PageResult<>();");
-            method.addBodyLine("pageResult.setDataList("+firstLowerDaoName+"."+methodName+"("+
-                    firstLowerDtoName+",new Page("+firstLowerDtoName+".getPageNumber(),"+firstLowerDtoName+".getPageSize())));");
-            method.addBodyLine("pageResult.setTotal("+firstLowerDaoName+"."+methodName+"Count("+firstLowerDtoName+").intValue());");
+
+            method.addBodyLine(dtoName + " "+ firstLowerDtoName+" = pageRequest.converToDo();");
+            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage("+firstLowerDtoName+",pageRequest.getPage());");
+            method.addBodyLine("pageResult.setDataList(page.getRecords());");
+            method.addBodyLine("pageResult.setTotal(page.getTotal());");
             method.addBodyLine("return pageResult;");
         }else{
             method.setReturnType(new FullyQualifiedJavaType("Integer"));
@@ -146,6 +150,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         }
 
         if (compilationUnit instanceof TopLevelClass) {
+            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
             ((TopLevelClass) compilationUnit).addMethod(method);
         } else {
             method.setAbstract(true);

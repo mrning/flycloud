@@ -141,17 +141,26 @@ public class ControllerGenPlugin extends PluginAdapter {
         // 加返回类型
         if (methodName.contains("queryPage")) {
             method.setReturnType(new FullyQualifiedJavaType("Result<PageResult<" + dtoName + ">>"));
+            // 加参数
+            method.addParameter(new Parameter(
+                    new FullyQualifiedJavaType(dtoName + "PageRequest"),
+                    "pageRequest",
+                    MgtConstant.ANNOTATION_REQUESTBODY));
+            // 加内容
+            method.addBodyLine("return Result.success(" +
+                    firstLowerServiceName + "." + methodName + "(pageRequest));");
         } else {
             method.setReturnType(new FullyQualifiedJavaType("Result<Integer>"));
+            // 加参数
+            method.addParameter(new Parameter(
+                    new FullyQualifiedJavaType(dtoName),
+                    firstLowerDtoName,
+                    MgtConstant.ANNOTATION_REQUESTBODY));
+            // 加内容
+            method.addBodyLine("return Result.success(" +
+                    firstLowerServiceName + "." + methodName + "(" + firstLowerDtoName + "));");
         }
-        // 加参数
-        method.addParameter(new Parameter(
-                new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO + "." + dtoName),
-                firstLowerDtoName,
-                MgtConstant.ANNOTATION_REQUESTBODY));
-        // 加内容
-        method.addBodyLine("return Result.success(" +
-                firstLowerServiceName + "." + methodName + "(" + firstLowerDtoName + "));");
+
         topLevelClass.addMethod(method);
     }
 }

@@ -1,8 +1,11 @@
 package com.zacboot.autocode.genplugins;
 
 import cn.hutool.core.lang.UUID;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zacboot.autocode.constants.MgtConstant;
+import com.zacboot.system.core.entity.assess.AppUserMonthAssess;
 import com.zacboot.system.core.util.SysUtil;
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -79,7 +82,7 @@ public class DaoGenPlugin extends PluginAdapter {
             genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.lang.UUID"));
             genClass.addImportedType(new FullyQualifiedJavaType("java.time.LocalDateTime"));
             genClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.system.core.util.SysUtil"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
 
             genClass.addAnnotation(MgtConstant.ANNOTATION_REPOSITORY);
             genClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
@@ -101,7 +104,7 @@ public class DaoGenPlugin extends PluginAdapter {
                     " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                     " * @author zac\n" +
                     " */");
-            genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            genInterface.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
 
             createMethod("add", genInterface);
             createMethod("del", genInterface);
@@ -123,21 +126,19 @@ public class DaoGenPlugin extends PluginAdapter {
         String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         String firstLowerExample = firstLowerDtoName + MgtConstant.EXAMPLE_SUFFIX;
         Method method = new Method(methodName);
-        method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(0, new Parameter(
-                new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO + "." + dtoName),
+                new FullyQualifiedJavaType(dtoName),
                 firstLowerDtoName));
         method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + " " + firstLowerExample + " = new " + dtoName + MgtConstant.EXAMPLE_SUFFIX + "();");
         switch (methodName) {
             case "queryPage":
                 method.addParameter(1, new Parameter(
-                        new FullyQualifiedJavaType("Page"),
+                        new FullyQualifiedJavaType("Page<"+ dtoName+">"),
                         "page"));
-                method.setReturnType(new FullyQualifiedJavaType("List<" + dtoName + ">"));
-                compilationUnit.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE + ".dto." + dtoName));
-                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
-                method.addBodyLine(2, "return " + firstLowerMapperName + ".selectByExampleWithRowbounds(" + firstLowerExample + ",new RowBounds(page.getPageNumber(),page.getPageSize()));");
+                method.getBodyLines().clear();
+                method.addBodyLine(0, "return "+firstLowerMapperName+".selectPage(page,new LambdaQueryWrapper<>());");
+                method.setReturnType(new FullyQualifiedJavaType("Page<" + dtoName + ">"));
                 break;
             case "queryPageCount":
                 method.setReturnType(PrimitiveTypeWrapper.getLongInstance());
@@ -167,18 +168,19 @@ public class DaoGenPlugin extends PluginAdapter {
                 method.addParameter(1, new Parameter(
                         new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX),
                         firstLowerExample));
+                method.getBodyLines().clear();
                 method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + ".Criteria criteria = " + firstLowerExample + ".createCriteria();");
                 method.addBodyLine(1, "if (StringUtils.isNotBlank("+dtoName+".getUuid())){");
                 method.addBodyLine(2, "    criteria.andUuidEqualTo("+dtoName+".getUuid());");
                 method.addBodyLine(3, "}");
-                method.addBodyLine(1, "return " + firstLowerExample + ";");
-                method.setReturnType(new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX));
+                method.addBodyLine(4, "return " + firstLowerExample + ";");
                 break;
             default:
                 break;
         }
 
         if (compilationUnit instanceof TopLevelClass) {
+            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
             ((TopLevelClass) compilationUnit).addMethod(method);
         } else {
             method.setAbstract(true);
