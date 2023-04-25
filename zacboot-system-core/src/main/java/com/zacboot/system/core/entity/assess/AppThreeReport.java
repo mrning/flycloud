@@ -81,7 +81,6 @@ public class AppThreeReport extends BaseEntity {
      *
      * @mbg.generated Thu Apr 20 15:06:52 CST 2023
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     /**
@@ -91,7 +90,6 @@ public class AppThreeReport extends BaseEntity {
      *
      * @mbg.generated Thu Apr 20 15:06:52 CST 2023
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     /**

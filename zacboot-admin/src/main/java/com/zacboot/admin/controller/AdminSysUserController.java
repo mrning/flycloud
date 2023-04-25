@@ -1,6 +1,8 @@
 package com.zacboot.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zacboot.admin.beans.vos.request.UserDeptRequest;
+import com.zacboot.admin.service.SysUserDeptService;
 import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
 import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
@@ -42,6 +44,9 @@ public class AdminSysUserController {
     private SysUserService sysUserService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private SysUserDeptService sysUserDeptService;
 
     /**
      * AutoCreateFile add
@@ -112,6 +117,18 @@ public class AdminSysUserController {
     @PostMapping("/userRoleList")
     public Result<PageResult<SysUserRoleResponse>> queryUserRolePage(@RequestBody UserRoleRequest userRoleRequest) {
         return Result.success(sysUserRoleService.queryPage(userRoleRequest));
+    }
+
+    /**
+     * 根据部门id查询用户列表
+     *
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @ApiOperation("根据部门id查询用户列表")
+    @PostMapping("/userListByDept")
+    public Result<List<SysUserResponse>> userListByDept(@RequestBody UserDeptRequest userDeptRequest) {
+        return Result.success(sysUserDeptService.userListByDept(userDeptRequest));
     }
 
     /**

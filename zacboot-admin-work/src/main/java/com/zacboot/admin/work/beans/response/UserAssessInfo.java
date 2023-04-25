@@ -29,6 +29,9 @@ public class UserAssessInfo {
     private String workListFiles;
 
     public UserAssessInfo converByDo(AppUserAssess appUserAssess){
+        if (null == appUserAssess){
+            return null;
+        }
         BeanUtils.copyProperties(appUserAssess,this);
         return this;
     }

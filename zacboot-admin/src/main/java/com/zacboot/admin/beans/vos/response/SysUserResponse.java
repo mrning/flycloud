@@ -14,7 +14,7 @@ import java.util.List;
 public class SysUserResponse {
 
     /**
-     * 角色uuid
+     * 用户uuid
      */
     private String uuid;
 

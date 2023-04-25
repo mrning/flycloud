@@ -2,6 +2,8 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
+import com.zacboot.admin.beans.vos.response.SysUserResponse;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 import com.zacboot.admin.dao.SysUserDeptDao;
@@ -67,5 +69,12 @@ public class SysUserDeptServiceImpl extends SysBaseServiceImpl<SysUserDeptMapper
     @Override
     public List<SysUserDept> queryDeptsByUserUuid(String userUuid) {
         return sysUserDeptDao.queryUserDepts(userUuid);
+    }
+
+    @Override
+    public List<SysUserResponse> userListByDept(UserDeptRequest userDeptRequest) {
+        Assert.notNull(userDeptRequest.getDeptUuid(),"部门uuid不能为空");
+        List<SysUser> sysUsers = sysUserDeptDao.getUsersByDeptUuid(userDeptRequest.getDeptUuid());
+        return sysUsers.stream().map(SysUserResponse::convertByEntity).toList();
     }
 }
