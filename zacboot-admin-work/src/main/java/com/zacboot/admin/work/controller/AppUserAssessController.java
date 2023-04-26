@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "用户考核表")
 @RestController
-@RequestMapping("/api/admin/appUserAssess")
+@RequestMapping("/appUserAssess")
 @Slf4j
 public class AppUserAssessController {
     @Autowired

@@ -1,5 +1,6 @@
 package com.zacboot.admin.beans.vos.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -57,6 +58,7 @@ public class UserUpdateRequest {
      * 入职时间
      */
     @ApiModelProperty(value = "入职时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date entryDate;
 
     /**
