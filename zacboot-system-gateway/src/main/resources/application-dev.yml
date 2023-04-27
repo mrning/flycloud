@@ -42,6 +42,12 @@ spring:
             - Path=/api-admin-work/work/**
           filters:
             - StripPrefix=2
+        - id: zacboot-admin-property
+          uri: lb://zacboot-admin-property
+          predicates:
+            - Path=/api-admin-property/property/**
+          filters:
+            - StripPrefix=2
   config:
     import: application-common.yml
   mvc:
