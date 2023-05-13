@@ -1,7 +1,7 @@
 package com.zacboot.api.mini.mapper;
 
-import com.zac.system.core.entity.mini.MiniUserEntity;
 import com.zacboot.api.mini.beans.dtos.example.MiniSysUserExample;
+import com.zacboot.system.core.entity.mini.MiniUser;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class MiniSysUserSqlProvider {
      *
      * @mbg.generated Sun Mar 19 13:50:07 CST 2023
      */
-    public String insertSelective(MiniUserEntity record) {
+    public String insertSelective(MiniUser record) {
         SQL sql = new SQL();
         sql.INSERT_INTO("mini_sys_user");
         
@@ -126,7 +126,7 @@ public class MiniSysUserSqlProvider {
      * @mbg.generated Sun Mar 19 13:50:07 CST 2023
      */
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        MiniUserEntity record = (MiniUserEntity) parameter.get("record");
+        MiniUser record = (MiniUser) parameter.get("record");
         MiniSysUserExample example = (MiniSysUserExample) parameter.get("example");
         
         SQL sql = new SQL();

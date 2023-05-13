@@ -1,7 +1,7 @@
 package com.zacboot.api.mini.beans.requests;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.zac.system.core.entity.mini.MiniUserEntity;
+import com.zacboot.system.core.entity.mini.MiniUser;
 import lombok.Data;
 
 /**
@@ -30,8 +30,8 @@ public class SaveUserInfoRequest {
      */
     private String phoneNumber;
 
-    public MiniUserEntity toEntity() {
-        MiniUserEntity miniUser = new MiniUserEntity();
+    public MiniUser toEntity() {
+        MiniUser miniUser = new MiniUser();
         BeanUtil.copyProperties(this,miniUser);
         return miniUser;
     }

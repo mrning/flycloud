@@ -1,7 +1,7 @@
 package com.zacboot.api.mini.dao;
 
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.mini.MiniUserEntity;
+import com.zacboot.system.core.entity.mini.MiniUser;
 
 import java.util.List;
 
@@ -11,15 +11,15 @@ import java.util.List;
  * @author zac
  */
 public interface MiniSysUserDao {
-    Integer add(MiniUserEntity miniUser);
+    Integer add(MiniUser miniUser);
 
-    Integer del(MiniUserEntity miniUser);
+    Integer del(MiniUser miniUser);
 
-    Integer update(MiniUserEntity miniUser);
+    Integer update(MiniUser miniUser);
 
-    MiniUserEntity queryByOpenId(String openId);
+    MiniUser queryByOpenId(String openId);
 
-    List<MiniUserEntity> queryPage(MiniUserEntity miniUser, Page page);
+    List<MiniUser> queryPage(MiniUser miniUser, Page page);
 
-    Long queryPageCount(MiniUserEntity miniUser);
+    Long queryPageCount(MiniUser miniUser);
 }

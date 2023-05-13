@@ -4,15 +4,15 @@ import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zac.system.core.entity.admin.SysLog;
-import com.zac.system.core.entity.mini.MiniUserEntity;
 import com.zacboot.api.mini.beans.dtos.MiniUserDto;
 import com.zacboot.api.mini.mapper.MiniUserMapper;
 import com.zacboot.api.mini.service.BaseService;
-import com.zacboot.common.base.basebeans.BaseEntity;
 import com.zacboot.common.base.utils.RedisUtil;
 import com.zacboot.common.base.utils.SpringContextUtils;
 import com.zacboot.common.base.utils.UrlIPUtils;
+import com.zacboot.system.core.entity.BaseEntity;
+import com.zacboot.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.mini.MiniUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -84,7 +84,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
             return null;
         }
         MiniUserDto miniUserDto = new MiniUserDto();
-        MiniUserEntity userEntity = miniUserMapper.selectOne(new LambdaQueryWrapper<MiniUserEntity>().eq(MiniUserEntity::getUuid,uuid));
+        MiniUser userEntity = miniUserMapper.selectOne(new LambdaQueryWrapper<MiniUser>().eq(MiniUser::getUuid,uuid));
         if (userEntity == null) {
             return null;
         }
