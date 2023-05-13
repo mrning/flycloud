@@ -1,13 +1,14 @@
 package com.zacboot.admin.dao.impl;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
 import com.zacboot.admin.beans.example.SysDeptExample;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
 import com.zacboot.admin.dao.SysDeptDao;
 import com.zacboot.admin.mapper.SysDeptMapper;
-import com.zacboot.admin.utils.SysUtil;
+import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class SysDeptDaoImpl implements SysDeptDao {
     private SysDeptMapper sysDeptMapper;
 
     public Integer add(SysDept sysDept) {
+        sysDept.setUuid(UUID.randomUUID().toString(true));
         sysDept.setCreateTime(LocalDateTime.now());
         sysDept.setCreateUser(SysUtil.getCurrentUser().getNickname());
         sysDept.setDeleted(false);

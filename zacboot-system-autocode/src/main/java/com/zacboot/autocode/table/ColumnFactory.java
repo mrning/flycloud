@@ -1,6 +1,7 @@
 package com.zacboot.autocode.table;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class ColumnFactory {
 
     static {
         add(Date.class.getName(), DateColumn.class);
+        add(LocalDateTime.class.getName(), DateColumn.class);
         add(Double.class.getName(), DoubleColumn.class);
         add(Integer.class.getName(), IntegerColumn.class);
         add(int.class.getName(), IntegerColumn.class);
@@ -25,6 +27,7 @@ public class ColumnFactory {
         add(Boolean.class.getName(), BooleanColumn.class);
         add(String.class.getName(), StringColumn.class);
         add(BigDecimal.class.getName(), DecimalColumn.class);
+
 
     }
 

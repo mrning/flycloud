@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zacboot-system-core</artifactId>
+    <description>提供各个服务间调用时共用的工具类</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

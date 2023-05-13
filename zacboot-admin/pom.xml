@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zacboot-admin</artifactId>
+    <description>提供管理后台相关接口</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,11 +18,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.zac</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${zacboot.common.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.zac</groupId>
             <artifactId>zacboot-system-core</artifactId>
@@ -38,4 +34,12 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,15 +1,16 @@
 package com.zacboot.autocode.service.impl;
 
-import com.zacboot.common.base.annotation.AutoColumn;
+import com.zacboot.autocode.bean.MybatisGeneratorRequest;
+import com.zacboot.autocode.config.ActableConfig;
 import com.zacboot.autocode.mapper.CreateMysqlTablesMapper;
+import com.zacboot.autocode.service.SysMysqlCreateTableService;
 import com.zacboot.autocode.table.ColumnFactory;
+import com.zacboot.autocode.table.ColumnSql;
 import com.zacboot.autocode.table.CommonColumn;
+import com.zacboot.autocode.table.TableSql;
 import com.zacboot.autocode.util.CamelCaseUtil;
 import com.zacboot.autocode.util.ClassTools;
-import com.zacboot.autocode.config.ActableConfig;
-import com.zacboot.autocode.service.SysMysqlCreateTableService;
-import com.zacboot.autocode.table.ColumnSql;
-import com.zacboot.autocode.table.TableSql;
+import com.zacboot.common.base.annotation.AutoColumn;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,16 +43,18 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
     /**
      * 读取配置文件的三种状态（创建表、更新表、不做任何事情）
      */
-    public void createMysqlTable() {
-        try {
+    public void createMysqlTable(MybatisGeneratorRequest mybatisGeneratorRequest) {
+        try {//TODO 动态切库支持，建表增加字段注释
             // 不做任何事情
             if ("none".equals(actableConfig.getTableAuto())) {
                 log.info("配置mybatis.table.auto=none，不需要做任何事情");
                 return;
             }
 
+            String pack = StringUtils.isNotBlank(mybatisGeneratorRequest.getPackagePath()) ? mybatisGeneratorRequest.getPackagePath() : actableConfig.getPack();
+
             // 从包package中获取所有的Class
-            Set<Class<?>> classes = ClassTools.findPathMatchingResources(actableConfig.getPack());
+            Set<Class<?>> classes = ClassTools.findPathMatchingResources(pack);
 
             // 用于存需要创建的表名+结构
             Map<String, List<CommonColumn>> newTableMap = new HashMap<String, List<CommonColumn>>();
@@ -189,6 +192,9 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                 continue;
             }
             Class<CommonColumn> commonColumnClass = ColumnFactory.getCommonColumn(field.getType().getName());
+            if (null == commonColumnClass){
+                throw new RuntimeException(field.getType().getName() + "不识别的java类型，无法转换为数据库列类型");
+            }
             CommonColumn commonColumn = commonColumnClass.newInstance();
             //设置字段
             if (column != null && StringUtils.isNoneEmpty(column.name())) {
@@ -229,6 +235,8 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
                 if (column.orderIndex() >= 0) {
                     newFieldList.add(column.orderIndex(), commonColumn);
                 }
+                // TODO 设置字段注释
+                commonColumn.setComment("");
             }
             if(!newFieldList.stream().anyMatch(c -> c.getName().equals(commonColumn.getName()))){
                 newFieldList.add(commonColumn);

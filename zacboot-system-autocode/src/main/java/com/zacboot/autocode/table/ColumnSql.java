@@ -34,6 +34,10 @@ public class ColumnSql implements Serializable {
         } else {
             stringBuilder.append("NOT NULL");
         }
+
+        if (StringUtils.isNotBlank(column.getComment())){
+            stringBuilder.append(" comment '"+column.getComment()+"'");
+        }
         if (column.isAutoIncrement()) {
             stringBuilder.append(" ");
             stringBuilder.append("AUTO_INCREMENT");

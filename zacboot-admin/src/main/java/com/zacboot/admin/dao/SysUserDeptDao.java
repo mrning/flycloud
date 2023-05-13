@@ -2,8 +2,9 @@ package com.zacboot.admin.dao;
 
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysDept;
-import com.zacboot.admin.beans.entity.SysUserDept;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUserDept;
 import com.zacboot.admin.beans.vos.request.UserDeptRequest;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface SysUserDeptDao {
 
     List<SysDept> getDeptsByUserUuid(String userUuid);
+
+    List<SysUser> getUsersByDeptUuid(String deptUuid);
 
     Integer add(SysUserDept sysUserDept);
 
@@ -23,4 +26,6 @@ public interface SysUserDeptDao {
     Long queryPageCount(UserDeptRequest userDeptRequest);
 
     Integer delByUserUuid(String userUuid);
+
+    List<SysUserDept> queryUserDepts(String userUuid);
 }

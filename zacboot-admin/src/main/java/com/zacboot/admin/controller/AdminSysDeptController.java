@@ -1,9 +1,10 @@
 package com.zacboot.admin.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.zacboot.admin.beans.entity.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
-import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
 import com.zacboot.admin.service.SysDeptService;
 import com.zacboot.common.base.basebeans.PageResult;
 import com.zacboot.common.base.basebeans.Result;
@@ -71,7 +72,7 @@ public class AdminSysDeptController {
      */
     @PostMapping("/queryPage")
     @ApiOperation("分页查询")
-    public Result<PageResult<SysDeptPageResponse>> queryPage(@RequestBody DeptRequest deptRequest) {
+    public Result<PageResult<SysDeptResponse>> queryPage(@RequestBody DeptRequest deptRequest) {
         return Result.success(sysDeptService.queryPage(deptRequest));
     }
 
@@ -90,5 +91,11 @@ public class AdminSysDeptController {
     @ApiOperation("根据用户uuid查询用户部门列表")
     public Result<List<SysDept>> queryByUserUuid(@RequestParam String userUuid){
         return Result.success(sysDeptService.queryUserDeparts(userUuid));
+    }
+
+    @PostMapping("/getDeptUsers")
+    @ApiOperation("获取部门用户列表")
+    public Result<List<TreeDto>> getDeptUsers(){
+        return Result.success(sysDeptService.getDeptUsers());
     }
 }

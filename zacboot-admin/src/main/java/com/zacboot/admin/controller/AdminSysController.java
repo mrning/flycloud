@@ -3,7 +3,7 @@ package com.zacboot.admin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.SysUserLoginVO;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.service.SysUserService;

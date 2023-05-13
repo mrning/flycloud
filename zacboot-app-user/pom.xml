@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zacboot-app-user</artifactId>
+    <description>app端用户模块</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,8 +20,8 @@
     <dependencies>
         <dependency>
             <groupId>com.zac</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${zacboot.common.version}</version>
+            <artifactId>zacboot-system-core</artifactId>
+            <version>${zacboot.version}</version>
         </dependency>
     </dependencies>
 

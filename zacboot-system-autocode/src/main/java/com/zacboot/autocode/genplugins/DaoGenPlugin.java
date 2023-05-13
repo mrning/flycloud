@@ -72,12 +72,12 @@ public class DaoGenPlugin extends PluginAdapter {
                     " */");
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
+            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.session.RowBounds"));
             genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
             genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.lang.UUID"));
             genClass.addImportedType(new FullyQualifiedJavaType("java.time.LocalDateTime"));
             genClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.system.core.util.SysUtil"));
             genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
 
             genClass.addAnnotation(MgtConstant.ANNOTATION_REPOSITORY);
             genClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);

@@ -2,11 +2,12 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysUserRole;
+import com.zacboot.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
 import com.zacboot.admin.dao.SysRoleDao;
 import com.zacboot.admin.dao.SysUserDao;
+import com.zacboot.admin.dao.SysUserDeptDao;
 import com.zacboot.admin.dao.SysUserRoleDao;
 import com.zacboot.admin.mapper.SysUserRoleMapper;
 import com.zacboot.admin.service.SysUserRoleService;
@@ -30,6 +31,8 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
     @Autowired
     private SysUserRoleDao sysUserRoleDao;
     @Autowired
+    private SysUserDeptDao sysUserDeptDao;
+    @Autowired
     private SysUserDao sysUserDao;
 
     @Autowired
@@ -40,7 +43,7 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
     }
 
     public Integer del(SysUserRole sysUserRole) {
-        Assert.isTrue(BeanUtil.isEmpty(sysUserRole),"不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysUserRole),"不能全部属性为空，会删除全表数据");
         return sysUserRoleDao.del(sysUserRole);
     }
 
@@ -53,7 +56,7 @@ public class SysUserRoleServiceImpl extends SysBaseServiceImpl<SysUserRoleMapper
         pageResult.setDataList(sysUserRoleDao.queryPage(userRoleRequest,new Page(userRoleRequest.getPageNumber(), userRoleRequest.getPageSize()))
                 .stream().map(sysUserRoleDTO -> new SysUserRoleResponse(sysUserDao.queryByUuid(sysUserRoleDTO.getUserUuid()),
                         sysRoleDao.queryByUuid(sysUserRoleDTO.getRoleUuid()))).collect(Collectors.toList()));
-        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest).intValue());
+        pageResult.setTotal(sysUserRoleDao.queryPageCount(userRoleRequest));
         return pageResult;
     }
 

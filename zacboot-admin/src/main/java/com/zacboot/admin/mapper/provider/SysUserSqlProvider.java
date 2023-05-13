@@ -1,6 +1,6 @@
 package com.zacboot.admin.mapper.provider;
 
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -75,7 +75,16 @@ public class SysUserSqlProvider {
         if (record.getPhone() != null) {
             sql.VALUES("phone", "#{phone,jdbcType=VARCHAR}");
         }
-        
+
+        if (record.getEntryDate() != null) {
+            sql.VALUES("entry_date", "#{entryDate,jdbcType=VARCHAR}");
+        }
+
+        if (record.getParentUserName() != null) {
+            sql.VALUES("parent_user_name", "#{parentUserName,jdbcType=VARCHAR}");
+        }
+
+
         if (record.getCreateUser() != null) {
             sql.VALUES("create_user", "#{createUser,jdbcType=VARCHAR}");
         }
@@ -119,6 +128,8 @@ public class SysUserSqlProvider {
         sql.SELECT("nickname");
         sql.SELECT("mail");
         sql.SELECT("phone");
+        sql.SELECT("entry_date");
+        sql.SELECT("parent_user_name");
         sql.SELECT("create_user");
         sql.SELECT("create_time");
         sql.SELECT("update_user");
@@ -178,6 +189,14 @@ public class SysUserSqlProvider {
         if (record.getPhone() != null) {
             sql.SET("phone = #{record.phone,jdbcType=VARCHAR}");
         }
+
+        if (record.getEntryDate() != null) {
+            sql.SET("entry_date = #{record.entryDate,jdbcType=VARCHAR}");
+        }
+
+        if (record.getParentUserName() != null) {
+            sql.SET("parent_user_name = #{record.parentUserName,jdbcType=VARCHAR}");
+        }
         
         if (record.getCreateUser() != null) {
             sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
@@ -221,6 +240,8 @@ public class SysUserSqlProvider {
         sql.SET("nickname = #{record.nickname,jdbcType=VARCHAR}");
         sql.SET("mail = #{record.mail,jdbcType=VARCHAR}");
         sql.SET("phone = #{record.phone,jdbcType=VARCHAR}");
+        sql.SET("entry_date = #{record.entryDate,jdbcType=VARCHAR}");
+        sql.SET("parent_user_name = #{record.parentUserName,jdbcType=VARCHAR}");
         sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
         sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("update_user = #{record.updateUser,jdbcType=VARCHAR}");

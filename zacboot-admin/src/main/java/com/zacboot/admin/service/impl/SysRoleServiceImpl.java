@@ -2,8 +2,8 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysRole;
-import com.zacboot.admin.beans.entity.SysRolePermission;
+import com.zacboot.system.core.entity.admin.SysRole;
+import com.zacboot.system.core.entity.admin.SysRolePermission;
 import com.zacboot.admin.beans.vos.request.RoleAddRequest;
 import com.zacboot.admin.beans.vos.request.RoleRequest;
 import com.zacboot.admin.beans.vos.request.RoleUpdateRequest;
@@ -13,7 +13,7 @@ import com.zacboot.admin.dao.SysUserRoleDao;
 import com.zacboot.admin.mapper.SysRoleMapper;
 import com.zacboot.admin.service.SysRolePermissionService;
 import com.zacboot.admin.service.SysRoleService;
-import com.zacboot.admin.utils.SysUtil;
+import com.zacboot.system.core.util.SysUtil;
 import com.zacboot.common.base.basebeans.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -86,14 +86,14 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
         PageResult<RolePageResponse> pageResult = new PageResult<>();
         List<RolePageResponse> sysRoles = sysRoleDao.queryPage(roleRequest, new Page(roleRequest.getPageNumber(), roleRequest.getPageSize()))
                 .stream().map(sysRole -> {
-                    RolePageResponse rolePageResponse = sysRole.convertToPageRes();
+                    RolePageResponse rolePageResponse = RolePageResponse.convertByEntity(sysRole);
                     List<String> permissionUuids = sysRolePermissionService.queryByRoleUuid(sysRole.getUuid()).stream().map(SysRolePermission::getPermissionUuid).collect(Collectors.toList());
                     rolePageResponse.setPermissions(permissionUuids);
                     return rolePageResponse;
                 }).collect(Collectors.toList());
 
         pageResult.setDataList(sysRoles);
-        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest).intValue());
+        pageResult.setTotal(sysRoleDao.queryPageCount(roleRequest));
         return pageResult;
     }
 

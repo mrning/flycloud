@@ -1,11 +1,11 @@
 package com.zacboot.admin.dao.impl;
 
-import com.zacboot.admin.beans.entity.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.example.SysLogExample;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.dao.SysLogDao;
 import com.zacboot.admin.mapper.SysLogMapper;
-import com.zacboot.admin.utils.SysUtil;
+import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

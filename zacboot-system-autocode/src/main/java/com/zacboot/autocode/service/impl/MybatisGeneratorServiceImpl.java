@@ -123,7 +123,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
         javaModelGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_DTO);
-        javaModelGeneratorConfiguration.addProperty("rootClass", "com.zacboot.common.base.basebean.BaseDTO");
+        javaModelGeneratorConfiguration.addProperty("rootClass", "com.zacboot.system.core.entity.BaseEntity");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");
         javaModelGeneratorConfiguration.addProperty("trimStrings","true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);

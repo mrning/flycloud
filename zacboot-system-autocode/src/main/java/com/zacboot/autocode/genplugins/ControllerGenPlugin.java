@@ -101,6 +101,7 @@ public class ControllerGenPlugin extends PluginAdapter {
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_RESTCONTROLLER);
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_REQUESTMAPPING + ("(\"" + API_APP + controllerPlatform + "/" + StringUtils.firstToLowerCase(baseDomainName) + "\")"));
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
+        topLevelClass.setSuperClass("BaseController");
         // 成员变量
         createField(baseDomainName, topLevelClass);
         // 方法
@@ -118,7 +119,6 @@ public class ControllerGenPlugin extends PluginAdapter {
     }
 
     private void createField(String baseDomainName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE_SERVICE + "." + baseDomainName + MgtConstant.SERVICE_SUFFIX);
         Field field = new Field(firstLowerServiceName, new FullyQualifiedJavaType(baseDomainName + MgtConstant.SERVICE_SUFFIX));
         field.addAnnotation(MgtConstant.ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -161,6 +161,7 @@ public class ControllerGenPlugin extends PluginAdapter {
             method.addBodyLine("return Result.success(" +
                     firstLowerServiceName + "." + methodName + "(" + firstLowerDtoName + "));");
         }
+
         topLevelClass.addMethod(method);
     }
 }

@@ -129,7 +129,7 @@ public class ServiceGenPlugin extends PluginAdapter {
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(new Parameter(
-                new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName),
+                new FullyQualifiedJavaType(dtoName),
                 firstLowerDtoName));
         if(methodName.contains("queryPage")){
             method.getParameters().clear();

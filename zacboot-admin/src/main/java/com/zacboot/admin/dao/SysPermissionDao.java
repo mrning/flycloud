@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao;
 
 import cn.hutool.db.Page;
-import com.zacboot.admin.beans.entity.SysPermission;
+import com.zacboot.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 
 import java.util.List;
@@ -23,4 +23,6 @@ public interface SysPermissionDao {
     Long queryPageCount(PermissionRequest permissionRequest);
 
     Integer getMaxSortNo(String parentUuid);
+
+    SysPermission getByUuid(String uuid);
 }

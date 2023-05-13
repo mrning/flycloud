@@ -1,13 +1,16 @@
 package com.zacboot.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zacboot.admin.beans.vos.request.UserDeptRequest;
+import com.zacboot.admin.service.SysUserDeptService;
+import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
-import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserRoleResponse;
-import com.zacboot.admin.beans.vos.response.UserPageResponse;
+import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.admin.service.SysUserRoleService;
 import com.zacboot.admin.service.SysUserService;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -16,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +45,9 @@ public class AdminSysUserController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
+    @Autowired
+    private SysUserDeptService sysUserDeptService;
+
     /**
      * AutoCreateFile add
      *
@@ -49,7 +56,7 @@ public class AdminSysUserController {
      */
     @ApiOperation("新增")
     @PostMapping("/add")
-    public Result<Integer> add(@RequestBody UserAddRequest userAddRequest) {
+    public Result<Integer> add(@RequestBody @Validated UserAddRequest userAddRequest) {
         return Result.success(sysUserService.add(userAddRequest));
     }
 
@@ -84,7 +91,7 @@ public class AdminSysUserController {
      */
     @ApiOperation("分页查询")
     @PostMapping("/queryPage")
-    public Result<PageResult<UserPageResponse>> queryPage(@RequestBody UserRequest userRequest) {
+    public Result<PageResult<SysUserResponse>> queryPage(@RequestBody UserRequest userRequest) {
         return Result.success(sysUserService.queryPage(userRequest));
     }
 
@@ -112,5 +119,39 @@ public class AdminSysUserController {
         return Result.success(sysUserRoleService.queryPage(userRoleRequest));
     }
 
+    /**
+     * 根据部门id查询用户列表
+     *
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @ApiOperation("根据部门id查询用户列表")
+    @PostMapping("/userListByDept")
+    public Result<List<SysUserResponse>> userListByDept(@RequestBody UserDeptRequest userDeptRequest) {
+        return Result.success(sysUserDeptService.userListByDept(userDeptRequest));
+    }
+
+    /**
+     * 根据用户id获取部门和角色信息
+     *
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @ApiOperation("根据用户id获取部门和角色信息")
+    @PostMapping("/deptAndRoleInfo")
+    public Result<SysUserDeptAndRoleInfo> deptAndRoleInfo(@RequestBody UserRequest userRequest) {
+        return Result.success(sysUserService.deptAndRoleInfo(userRequest));
+    }
+
+
+
+    /**
+     * 企微信息导入
+     */
+    @ApiOperation("企微用户信息导入")
+    @PostMapping("/qwUserImport")
+    public Result<String> qwUserImport(){
+        return Result.success(sysUserService.qwUserImport(),"ok");
+    }
 
 }

@@ -1,7 +1,7 @@
 package com.zacboot.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zacboot.admin.beans.entity.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
 import com.zacboot.admin.mapper.provider.SysUserSqlProvider;
 import org.apache.ibatis.annotations.*;
@@ -67,6 +67,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
             @Result(column="nickname", property="nickname", jdbcType=JdbcType.VARCHAR),
             @Result(column="mail", property="mail", jdbcType=JdbcType.VARCHAR),
             @Result(column="phone", property="phone", jdbcType=JdbcType.VARCHAR),
+            @Result(column="entry_date", property="entryDate", jdbcType=JdbcType.VARCHAR),
+            @Result(column="parent_user_name", property="parentUserName", jdbcType=JdbcType.VARCHAR),
             @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
             @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="update_user", property="updateUser", jdbcType=JdbcType.VARCHAR),
@@ -91,6 +93,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
             @Result(column="nickname", property="nickname", jdbcType=JdbcType.VARCHAR),
             @Result(column="mail", property="mail", jdbcType=JdbcType.VARCHAR),
             @Result(column="phone", property="phone", jdbcType=JdbcType.VARCHAR),
+            @Result(column="entry_date", property="entryDate", jdbcType=JdbcType.VARCHAR),
+            @Result(column="parent_user_name", property="parentUserName", jdbcType=JdbcType.VARCHAR),
             @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
             @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="update_user", property="updateUser", jdbcType=JdbcType.VARCHAR),
