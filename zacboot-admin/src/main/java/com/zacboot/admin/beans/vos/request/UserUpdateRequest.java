@@ -1,8 +1,10 @@
 package com.zacboot.admin.beans.vos.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -51,6 +53,25 @@ public class UserUpdateRequest {
      */
     @ApiModelProperty(value = "电话")
     private String phone;
+
+    /**
+     * 入职时间
+     */
+    @ApiModelProperty(value = "入职时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date entryDate;
+
+    /**
+     * 上级领导
+     */
+    @ApiModelProperty(value = "上级领导")
+    private String parentUserName;
+
+    /**
+     * 部门id
+     */
+    @ApiModelProperty(value = "部门id")
+    private List<String> deptUuids;
 
     /**
      * 角色id

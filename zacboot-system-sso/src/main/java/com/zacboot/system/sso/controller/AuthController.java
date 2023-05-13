@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.controller;
 
-import com.zac.system.core.request.sso.SsoLoginRequest;
-import com.zac.system.core.request.sso.SsoLogoutRequest;
+import com.zacboot.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.system.core.request.sso.SsoLogoutRequest;
 import com.zacboot.common.base.basebeans.Result;
 import com.zacboot.system.sso.service.AdminService;
 import io.swagger.annotations.Api;

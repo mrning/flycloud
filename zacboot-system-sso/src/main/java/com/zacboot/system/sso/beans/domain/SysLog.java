@@ -1,7 +1,7 @@
 package com.zacboot.system.sso.beans.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zacboot.common.base.basebeans.BaseEntity;
+import com.zacboot.system.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

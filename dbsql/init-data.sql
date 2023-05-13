@@ -8,18 +8,18 @@ VALUES ('superadmin', 'zacboot',
         '管理员', 'zacboot@163.com', '18611111111', 'A01', now(), 'A01', now(), false);
 
 -- 初始化部门表
-INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_id`, `depart_name`, `description`,
-                                   `mobile`, `fax`, `address`, `memo`, `status`, `deleted`, `create_user`,
+INSERT INTO `zacboot`.`sys_dept` (`uuid`, `parent_uuid`, `depart_name`, `description`,
+                                   `mobile`, `leader_uuid`, `dept_address`, `deleted`, `create_user`,
                                    `create_time`,
                                    `update_user`, `update_time`)
-VALUES ('mainDept', '', '上海飞云科技', NULL, NULL, NULL, NULL, NULL, '1', 0, 'zacboot',
+VALUES ('mainDept', '', '上海飞云科技', NULL, NULL, NULL, NULL, 0, 'zacboot',
         now(), 'zacboot', now());
 
 -- 初始化角色
 INSERT INTO `zacboot`.`sys_role` (`uuid`, `role_name`, `role_code`, `description`, `create_user`, `create_time`,
-                                  `update_user`, `update_time`)
+                                  `update_user`, `update_time`, `deleted`)
 VALUES ('adminRole', '管理员', 'admin', '管理员', 'auto', now(), 'auto',
-        now());
+        now(), 0);
 
 
 -- 初始化用户 ~ 部门关联表

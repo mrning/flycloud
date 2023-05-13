@@ -1,7 +1,7 @@
 package com.zacboot.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zac.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.example.SysLogExample;
 import com.zacboot.admin.mapper.provider.SysLogSqlProvider;
 import org.apache.ibatis.annotations.*;

@@ -1,23 +1,5 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/zacboot?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
-    username: root
-    password: mysql417298...
-    hikari:
-      #最小空闲链接数量
-      minimum-idle: 5
-      #空闲连接存活最大时间（默认600000）
-      idle-timeout: 180000
-      #最大连接数
-      maximum-pool-size: 10
-      #是否自动提交
-      auto-commit: true
-      #连接池中链接的最长生命周期默认30分钟 = 1800000
-      max-lifetime: 1800000
-      #链接超时时间
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
     redis:
       database: 0
       port: 6379
@@ -52,12 +34,6 @@ spring:
           uri: lb://zacboot-app-user
           predicates:
             - Path=/api-app/**
-          filters:
-            - StripPrefix=1
-        - id: zacboot-api
-          uri: lb://zacboot-api-miniprogram
-          predicates:
-            - Path=/api-mini/**
           filters:
             - StripPrefix=1
   config:

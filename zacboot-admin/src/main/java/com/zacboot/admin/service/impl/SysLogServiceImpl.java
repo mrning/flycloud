@@ -2,7 +2,7 @@ package com.zacboot.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.dao.SysLogDao;
 import com.zacboot.admin.service.SysLogService;
@@ -33,7 +33,7 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     public Integer del(SysLog SysLog) {
-        Assert.isTrue(BeanUtil.isEmpty(SysLog), "不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(SysLog), "不能全部属性为空，会删除全表数据");
         return sysLogDao.del(SysLog);
     }
 
@@ -44,7 +44,7 @@ public class SysLogServiceImpl implements SysLogService {
     public PageResult<SysLog> queryPage(SysLogRequest sysLogRequest) {
         PageResult<SysLog> pageResult = new PageResult<>();
         pageResult.setDataList(sysLogDao.queryPage(sysLogRequest, new Page(sysLogRequest.getPageNumber(), sysLogRequest.getPageSize())));
-        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequest).intValue());
+        pageResult.setTotal(sysLogDao.queryPageCount(sysLogRequest));
         return pageResult;
     }
 

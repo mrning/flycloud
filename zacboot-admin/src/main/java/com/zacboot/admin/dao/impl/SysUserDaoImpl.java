@@ -1,9 +1,9 @@
 package com.zacboot.admin.dao.impl;
 
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysUser;
+import com.zacboot.system.core.entity.admin.SysUser;
 import com.zacboot.admin.beans.example.SysUserExample;
-import com.zacboot.admin.beans.vos.request.UserRequest;
+import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;

@@ -2,12 +2,13 @@ package com.zacboot.admin.dao.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysPermission;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zacboot.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.example.SysPermissionExample;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.dao.SysPermissionDao;
 import com.zacboot.admin.mapper.SysPermissionMapper;
-import com.zacboot.admin.utils.SysUtil;
+import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -90,5 +91,10 @@ public class SysPermissionDaoImpl implements SysPermissionDao {
             return sysPermission.stream().max(Comparator.comparing(SysPermission::getSortNo)).get().getSortNo();
         }
         return 0;
+    }
+
+    @Override
+    public SysPermission getByUuid(String uuid) {
+        return sysPermissionMapper.selectOne(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getUuid,uuid));
     }
 }

@@ -1,7 +1,7 @@
 package com.zacboot.admin.dao;
 
 import cn.hutool.db.Page;
-import com.zac.system.core.entity.admin.SysRolePermission;
+import com.zacboot.system.core.entity.admin.SysRolePermission;
 
 import java.util.List;
 

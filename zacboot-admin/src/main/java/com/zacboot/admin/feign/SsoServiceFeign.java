@@ -1,7 +1,7 @@
 package com.zacboot.admin.feign;
 
-import com.zac.system.core.request.sso.SsoLoginRequest;
-import com.zac.system.core.request.sso.SsoLogoutRequest;
+import com.zacboot.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.system.core.request.sso.SsoLogoutRequest;
 import com.zacboot.common.base.basebeans.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;

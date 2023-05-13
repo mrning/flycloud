@@ -1,17 +1,20 @@
 package com.zacboot.admin.dao.impl;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zac.system.core.entity.admin.SysUserRole;
+import com.zacboot.system.core.entity.admin.SysUserRole;
 import com.zacboot.admin.beans.example.SysUserRoleExample;
 import com.zacboot.admin.beans.vos.request.UserRoleRequest;
 import com.zacboot.admin.dao.SysUserRoleDao;
 import com.zacboot.admin.mapper.SysUserRoleMapper;
+import com.zacboot.system.core.util.SysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,6 +29,10 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
     private SysUserRoleMapper sysUserRoleMapper;
 
     public Integer add(SysUserRole sysUserRole) {
+        sysUserRole.setUuid(UUID.randomUUID().toString(true));
+        sysUserRole.setCreateUser(SysUtil.getCurrentUser().getNickname());
+        sysUserRole.setCreateTime(LocalDateTime.now());
+        sysUserRole.setDeleted(false);
         return sysUserRoleMapper.insertSelective(sysUserRole);
     }
 
@@ -42,6 +49,8 @@ public class SysUserRoleDaoImpl implements SysUserRoleDao {
     }
 
     public Integer update(SysUserRole sysUserRole) {
+        sysUserRole.setUpdateUser(SysUtil.getCurrentUser().getNickname());
+        sysUserRole.setUpdateTime(LocalDateTime.now());
         SysUserRoleExample sysUserRoleExample = new SysUserRoleExample();
         return sysUserRoleMapper.updateByExampleSelective(sysUserRole, sysUserRoleExample);
     }

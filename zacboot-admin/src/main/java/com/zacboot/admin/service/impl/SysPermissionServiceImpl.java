@@ -5,7 +5,7 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zac.system.core.entity.admin.SysPermission;
+import com.zacboot.system.core.entity.admin.SysPermission;
 import com.zacboot.admin.beans.vos.request.PermissionAddRequest;
 import com.zacboot.admin.beans.vos.request.PermissionRequest;
 import com.zacboot.admin.beans.vos.request.PermissionUpdateRequest;
@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+
+import static com.zacboot.common.base.constants.CommonConstant.MENU_TYPE_0;
 
 @Service
 public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
@@ -36,18 +38,32 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
             // 获取相同父级uuid下排序值最大的对象
             sysPermission.setSortNo(sysPermissionDao.getMaxSortNo(permissionAddRequest.getParentUuid())+1);
         }
+        handleData(sysPermission);
         return sysPermissionDao.add(sysPermission);
+    }
+
+    private void handleData(SysPermission sysPermission) {
+        // 如果是按钮权限的话
+        if (StringUtils.isBlank(sysPermission.getUrl()) && CommonConstant.MENU_TYPE_2.equals(sysPermission.getMenuType())){
+            SysPermission parent = sysPermissionDao.getByUuid(sysPermission.getParentUuid());
+            sysPermission.setUrl(parent.getComponent());
+        }
+        if (StringUtils.isBlank(sysPermission.getComponent()) && sysPermission.getMenuType() < 2){
+            sysPermission.setComponent(sysPermission.getUrl());
+        }
     }
 
     @Override
     public Integer del(SysPermission sysPermission) {
-        Assert.isTrue(BeanUtil.isEmpty(sysPermission),"不能全部属性为空，会删除全表数据");
+        Assert.isTrue(BeanUtil.isNotEmpty(sysPermission),"不能全部属性为空，会删除全表数据");
         return sysPermissionDao.del(sysPermission);
     }
 
     @Override
     public Integer update(PermissionUpdateRequest permissionUpdateRequest) {
         SysPermission sysPermission = SysPermission.convertByRequest(permissionUpdateRequest);
+        // 如果是按钮权限的话
+        handleData(sysPermission);
         return sysPermissionDao.update(sysPermission);
     }
 
@@ -55,7 +71,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     public PageResult<SysPermission> queryPage(PermissionRequest permissionRequest) {
         PageResult<SysPermission> pageResult = new PageResult<>();
         pageResult.setDataList(sysPermissionDao.queryPage(permissionRequest,new Page(permissionRequest.getPageNumber(),permissionRequest.getPageSize())));
-        pageResult.setTotal(sysPermissionDao.queryPageCount(permissionRequest).intValue());
+        pageResult.setTotal(sysPermissionDao.queryPageCount(permissionRequest));
         return pageResult;
     }
 
@@ -96,7 +112,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
                 continue;
             }
             // 0=父级菜单 1=子菜单
-            if (permission.getMenuType().equals(CommonConstant.MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
+            if (permission.getMenuType().equals(MENU_TYPE_0) || permission.getMenuType().equals(CommonConstant.MENU_TYPE_1)) {
                 // 处理获取单个菜单信息
                 JSONObject json = getPermissionJsonObject(permission);
                 String parentUuid = permission.getParentUuid();

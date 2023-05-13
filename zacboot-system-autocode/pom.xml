@@ -12,11 +12,6 @@
     <description>根据db代码生成模块，根据代码生成db</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.zac</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${zacboot.common.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.zac</groupId>

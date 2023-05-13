@@ -1,7 +1,7 @@
 package com.zacboot.admin.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zac.system.core.entity.admin.SysLog;
+import com.zacboot.system.core.entity.admin.SysLog;
 import com.zacboot.admin.beans.vos.request.SysLogRequest;
 import com.zacboot.admin.service.SysLogService;
 import com.zacboot.common.base.basebeans.PageResult;

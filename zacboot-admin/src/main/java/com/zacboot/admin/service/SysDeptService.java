@@ -1,8 +1,9 @@
 package com.zacboot.admin.service;
 
-import com.zac.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.admin.beans.dtos.TreeDto;
 import com.zacboot.admin.beans.vos.request.DeptRequest;
-import com.zacboot.admin.beans.vos.response.SysDeptPageResponse;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
 import com.zacboot.common.base.basebeans.PageResult;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface SysDeptService extends SysBaseService<SysDept> {
 
     Integer update(SysDept SysDept);
 
-    PageResult<SysDeptPageResponse> queryPage(DeptRequest deptRequest);
+    PageResult<SysDeptResponse> queryPage(DeptRequest deptRequest);
 
     List<SysDept> queryAll();
 
@@ -46,4 +47,5 @@ public interface SysDeptService extends SysBaseService<SysDept> {
      */
     List<SysDept> queryDepartsByUsername(String username);
 
+    List<TreeDto> getDeptUsers();
 }

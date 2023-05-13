@@ -1,11 +1,10 @@
 package com.zacboot.admin.beans.dtos;
 
-import com.zac.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysDept;
+import com.zacboot.system.core.entity.admin.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class TreeDto implements Serializable {
 
 	private static final long serialVersionUID = 4013193970046502756L;
 
-	private Long key;
+	private String key;
 
 	private String title;
 
@@ -35,7 +34,7 @@ public class TreeDto implements Serializable {
 
 	private String label;
 
-	private Long value;
+	private String value;
 
 	private List<TreeDto> children;
 
@@ -48,26 +47,28 @@ public class TreeDto implements Serializable {
 	 * @param sysDept
 	 */
 	public TreeDto(SysDept sysDept) {
-        this.key = sysDept.getId();
+        this.key = sysDept.getUuid();
         this.parentUuid = sysDept.getParentUuid();
         this.title = sysDept.getDepartName();
 		this.slotTitle =  sysDept.getDepartName();
-		this.value = sysDept.getId();
+		this.value = sysDept.getUuid();
 		this.label = sysDept.getDepartName();
 	}
 
-    public TreeDto(Long key, String parentUuid, String slotTitle, Integer ruleFlag, boolean isLeaf) {
-        this.key = key;
-        this.parentUuid = parentUuid;
-        this.ruleFlag = ruleFlag;
-        this.slotTitle = slotTitle;
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("title", "hasDatarule");
-        this.scopedSlots = map;
-        this.isLeaf = isLeaf;
-        this.value = key;
-        if (!isLeaf) {
-			this.children = new ArrayList<TreeDto>();
-		}
+	public TreeDto(SysUser sysUser) {
+        this.key = sysUser.getUuid();
+        this.title = sysUser.getRealName();
+		this.slotTitle =  sysUser.getRealName();
+		this.value = sysUser.getUuid();
+		this.label = sysUser.getRealName();
 	}
+
+	public SysDept convertToDept(){
+		SysDept sysDept = new SysDept();
+		sysDept.setUuid(this.getKey());
+		sysDept.setParentUuid(this.getParentUuid());
+		sysDept.setDepartName(this.getTitle());
+		return sysDept;
+	}
+
 }
