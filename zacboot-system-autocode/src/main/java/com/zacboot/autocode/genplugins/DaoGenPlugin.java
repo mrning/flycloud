@@ -72,18 +72,18 @@ public class DaoGenPlugin extends PluginAdapter {
                     " */");
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.session.RowBounds"));
             genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
+            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.lang.UUID"));
+            genClass.addImportedType(new FullyQualifiedJavaType("java.time.LocalDateTime"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.system.core.util.SysUtil"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
             genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
-            genClass.addImportedType(FullyQualifiedJavaType.getNewListInstance());
-            genClass.addImportedType(new FullyQualifiedJavaType(daoPackage + "." + baseDomainName + MgtConstant.DAO_SUFFIX));
-            genClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_EXAMPLE + "." + dtoName + MgtConstant.EXAMPLE_SUFFIX));
 
             genClass.addAnnotation(MgtConstant.ANNOTATION_REPOSITORY);
             genClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
             genClass.addSuperInterface(new FullyQualifiedJavaType(baseDomainName + MgtConstant.DAO_SUFFIX));
 
-            createField(baseDomainName, genClass);
+            createField(genClass);
             createMethod("add", genClass);
             createMethod("del", genClass);
             createMethod("update", genClass);
@@ -99,8 +99,7 @@ public class DaoGenPlugin extends PluginAdapter {
                     " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                     " * @author zac\n" +
                     " */");
-            genInterface.addImportedType(FullyQualifiedJavaType.getNewListInstance());
-            genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            genInterface.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
 
             createMethod("add", genInterface);
             createMethod("del", genInterface);
@@ -111,8 +110,7 @@ public class DaoGenPlugin extends PluginAdapter {
         }
     }
 
-    private void createField(String domainObjectName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE + ".mapper." + dtoName + MgtConstant.MAPPER_SUFFIX);
+    private void createField(TopLevelClass topLevelClass) {
         Field field = new Field(firstLowerMapperName, new FullyQualifiedJavaType(dtoName + MgtConstant.MAPPER_SUFFIX));
         field.addAnnotation(MgtConstant.ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -125,18 +123,17 @@ public class DaoGenPlugin extends PluginAdapter {
         Method method = new Method(methodName);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(0, new Parameter(
-                new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO + "." + dtoName),
+                new FullyQualifiedJavaType(dtoName),
                 firstLowerDtoName));
         method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + " " + firstLowerExample + " = new " + dtoName + MgtConstant.EXAMPLE_SUFFIX + "();");
         switch (methodName) {
             case "queryPage":
                 method.addParameter(1, new Parameter(
-                        new FullyQualifiedJavaType("Page"),
+                        new FullyQualifiedJavaType("Page<"+ dtoName+">"),
                         "page"));
-                method.setReturnType(new FullyQualifiedJavaType("List<" + dtoName + ">"));
-                compilationUnit.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE + ".dto." + dtoName));
-                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ")");
-                method.addBodyLine(2, "return " + firstLowerMapperName + ".selectByExampleWithRowbounds(" + firstLowerExample + ",new RowBounds(page.getPageNumber(),page.getPageSize()));");
+                method.getBodyLines().clear();
+                method.addBodyLine(0, "return "+firstLowerMapperName+".selectPage(page,new LambdaQueryWrapper<>());");
+                method.setReturnType(new FullyQualifiedJavaType("Page<" + dtoName + ">"));
                 break;
             case "queryPageCount":
                 method.setReturnType(PrimitiveTypeWrapper.getLongInstance());
@@ -146,6 +143,10 @@ public class DaoGenPlugin extends PluginAdapter {
             case "add":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
                 method.getBodyLines().clear();
+                method.addBodyLine(0, firstLowerDtoName + ".setUuid(UUID.randomUUID().toString(true));");
+                method.addBodyLine(1, firstLowerDtoName + ".setCreateTime(LocalDateTime.now());");
+                method.addBodyLine(2, firstLowerDtoName + ".setCreateUser(SysUtil.getCurrentUser().getNickname());");
+                method.addBodyLine(3, firstLowerDtoName + ".setDeleted(false);");
                 method.addBodyLine("return " + firstLowerMapperName + ".insertSelective(" + firstLowerDtoName + ");");
                 break;
             case "del":
@@ -155,22 +156,28 @@ public class DaoGenPlugin extends PluginAdapter {
                 break;
             case "update":
                 method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
-                method.addBodyLine(1, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
-                method.addBodyLine(2, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
+                method.addBodyLine(1, firstLowerDtoName + ".setUpdateTime(LocalDateTime.now());");
+                method.addBodyLine(2, firstLowerDtoName + ".setUpdateUser(SysUtil.getCurrentUser().getNickname());");
+                method.addBodyLine(3, "buildExample(" + firstLowerDtoName + "," + firstLowerExample + ");");
+                method.addBodyLine(4, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 break;
             case "buildExample":
                 method.addParameter(1, new Parameter(
                         new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX),
                         firstLowerExample));
-                method.addBodyLine(1, dtoName + MgtConstant.EXAMPLE_SUFFIX + ".Criteria criteria = " + firstLowerExample + ".createCriteria();");
-                method.addBodyLine(2, "return " + firstLowerExample + ";");
-                method.setReturnType(new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX));
+                method.getBodyLines().clear();
+                method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + ".Criteria criteria = " + firstLowerExample + ".createCriteria();");
+                method.addBodyLine(1, "if (StringUtils.isNotBlank("+dtoName+".getUuid())){");
+                method.addBodyLine(2, "    criteria.andUuidEqualTo("+dtoName+".getUuid());");
+                method.addBodyLine(3, "}");
+                method.addBodyLine(4, "return " + firstLowerExample + ";");
                 break;
             default:
                 break;
         }
 
         if (compilationUnit instanceof TopLevelClass) {
+            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
             ((TopLevelClass) compilationUnit).addMethod(method);
         } else {
             method.setAbstract(true);

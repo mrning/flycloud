@@ -88,10 +88,6 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     }
 
     private void addPlugins(Context context,String desc, String platform) {
-        // 添加自定义插件 分页插件
-        PluginConfiguration pluginRowBoundsPlugin = new PluginConfiguration();
-        pluginRowBoundsPlugin.setConfigurationType("org.mybatis.generator.plugins.RowBoundsPlugin");
-        context.addPluginConfiguration(pluginRowBoundsPlugin);
         // controller生成插件
         PluginConfiguration controllerPlugin = new PluginConfiguration();
         controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.ControllerGenPlugin");
@@ -119,7 +115,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
         javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
-        javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper");
+        javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper<"+context.getProperty("")+">");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
     }
 

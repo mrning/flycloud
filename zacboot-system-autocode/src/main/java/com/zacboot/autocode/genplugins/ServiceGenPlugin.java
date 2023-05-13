@@ -75,17 +75,9 @@ public class ServiceGenPlugin extends PluginAdapter {
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.Page"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+ MgtConstant.SERVICE_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(servicePackage+"."+baseDomainName+ MgtConstant.SERVICE_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".base.SysBaseServiceImpl"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_MAPPER+"."+baseDomainName+ MgtConstant.MAPPER_SUFFIX));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".tablemodel."+baseDomainName));
-
-
 
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SERVICE);
@@ -111,9 +103,6 @@ public class ServiceGenPlugin extends PluginAdapter {
                     " * @author zac\n" +
                     " */");
             genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".base.SysBaseService"));
-            genInterface.addImportedType(new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE+".tablemodel."+baseDomainName));
             // 继承类
             genInterface.addSuperInterface(new FullyQualifiedJavaType("SysBaseService<"+ baseDomainName +">"));
 
@@ -128,7 +117,6 @@ public class ServiceGenPlugin extends PluginAdapter {
     }
 
     private void createField(String domainObjectName, TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(MgtConstant.TARGETPACKAGE+".dao."+ domainObjectName+ MgtConstant.DAO_SUFFIX);
         Field field = new Field(daoName ,new FullyQualifiedJavaType(domainObjectName + MgtConstant.DAO_SUFFIX));
         field.addAnnotation(MgtConstant.ANNOTATION_AUTOWIRED);
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -144,21 +132,27 @@ public class ServiceGenPlugin extends PluginAdapter {
                 new FullyQualifiedJavaType(MgtConstant.TARGETPACKAGE_DTO+"."+dtoName),
                 firstLowerDtoName));
         if(methodName.contains("queryPage")){
+            method.getParameters().clear();
+            method.addParameter(new Parameter(new FullyQualifiedJavaType(dtoName + "PageRequest"),
+                    "pageRequest"));
             method.setReturnType(new FullyQualifiedJavaType("PageResult<"+dtoName+">"));
             method.addBodyLine("PageResult<"+dtoName+"> pageResult = new PageResult<>();");
-            method.addBodyLine("pageResult.setDataList("+firstLowerDaoName+"."+methodName+"("+
-                    firstLowerDtoName+",new Page("+firstLowerDtoName+".getPageNumber(),"+firstLowerDtoName+".getPageSize())));");
-            method.addBodyLine("pageResult.setTotal("+firstLowerDaoName+"."+methodName+"Count("+firstLowerDtoName+").intValue());");
+
+            method.addBodyLine(dtoName + " "+ firstLowerDtoName+" = pageRequest.converToDo();");
+            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage("+firstLowerDtoName+",new Page<>(pageRequest.getPage(),pageRequest.getLimit()));");
+            method.addBodyLine("pageResult.setDataList(page.getRecords());");
+            method.addBodyLine("pageResult.setTotal(page.getTotal());");
             method.addBodyLine("return pageResult;");
         }else{
             method.setReturnType(new FullyQualifiedJavaType("Integer"));
             if(methodName.contains("del")){
-                method.addBodyLine("Assert.isTrue(BeanUtil.isEmpty("+firstLowerDtoName+"),\"不能全部属性为空，会删除全表数据\");");
+                method.addBodyLine("Assert.isTrue(BeanUtil.isNotEmpty("+firstLowerDtoName+"),\"不能全部属性为空，会删除全表数据\");");
             }
             method.addBodyLine("return "+firstLowerDaoName+"."+methodName+"("+firstLowerDtoName+");");
         }
 
         if (compilationUnit instanceof TopLevelClass) {
+            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
             ((TopLevelClass) compilationUnit).addMethod(method);
         } else {
             method.setAbstract(true);
