@@ -70,14 +70,15 @@ public class DaoGenPlugin extends PluginAdapter {
                     " * @date " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + "\n" +
                     " * @author zac\n" +
                     " */");
+            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.lang.UUID"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
+            genClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.system.core.util.SysUtil"));
+            genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
+            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.commons.lang3.StringUtils"));
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.*"));
             genClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
-            genClass.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.session.RowBounds"));
-            genClass.addImportedType(new FullyQualifiedJavaType("lombok.extern.slf4j.Slf4j"));
-            genClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.lang.UUID"));
             genClass.addImportedType(new FullyQualifiedJavaType("java.time.LocalDateTime"));
-            genClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.system.core.util.SysUtil"));
-            genClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
 
             genClass.addAnnotation(MgtConstant.ANNOTATION_REPOSITORY);
             genClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
@@ -121,6 +122,13 @@ public class DaoGenPlugin extends PluginAdapter {
         String firstLowerDtoName = StringUtils.firstToLowerCase(dtoName);
         String firstLowerExample = firstLowerDtoName + MgtConstant.EXAMPLE_SUFFIX;
         Method method = new Method(methodName);
+
+        if (compilationUnit instanceof TopLevelClass) {
+            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
+        } else {
+            method.setAbstract(true);
+        }
+
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(0, new Parameter(
                 new FullyQualifiedJavaType(dtoName),
@@ -128,11 +136,11 @@ public class DaoGenPlugin extends PluginAdapter {
         method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + " " + firstLowerExample + " = new " + dtoName + MgtConstant.EXAMPLE_SUFFIX + "();");
         switch (methodName) {
             case "queryPage":
-                method.addParameter(1, new Parameter(
-                        new FullyQualifiedJavaType("Page<"+ dtoName+">"),
-                        "page"));
+                method.getParameters().clear();
+                method.addParameter(new Parameter(new FullyQualifiedJavaType(dtoName + "PageRequest"),
+                        "pageRequest"));
                 method.getBodyLines().clear();
-                method.addBodyLine(0, "return "+firstLowerMapperName+".selectPage(page,new LambdaQueryWrapper<>());");
+                method.addBodyLine(0, "return "+firstLowerMapperName+".selectPage(new Page<>(pageRequest.getPage(),pageRequest.getPageSize()),new LambdaQueryWrapper<>());");
                 method.setReturnType(new FullyQualifiedJavaType("Page<" + dtoName + ">"));
                 break;
             case "queryPageCount":
@@ -162,13 +170,15 @@ public class DaoGenPlugin extends PluginAdapter {
                 method.addBodyLine(4, "return " + firstLowerMapperName + ".updateByExampleSelective(" + firstLowerDtoName + "," + firstLowerExample + ");");
                 break;
             case "buildExample":
+                method.getAnnotations().clear();
+                method.setReturnType(new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX));
                 method.addParameter(1, new Parameter(
                         new FullyQualifiedJavaType(dtoName + MgtConstant.EXAMPLE_SUFFIX),
                         firstLowerExample));
                 method.getBodyLines().clear();
                 method.addBodyLine(0, dtoName + MgtConstant.EXAMPLE_SUFFIX + ".Criteria criteria = " + firstLowerExample + ".createCriteria();");
-                method.addBodyLine(1, "if (StringUtils.isNotBlank("+dtoName+".getUuid())){");
-                method.addBodyLine(2, "    criteria.andUuidEqualTo("+dtoName+".getUuid());");
+                method.addBodyLine(1, "if (StringUtils.isNotBlank("+firstLowerDtoName+".getUuid())){");
+                method.addBodyLine(2, "  criteria.andUuidEqualTo("+firstLowerDtoName+".getUuid());");
                 method.addBodyLine(3, "}");
                 method.addBodyLine(4, "return " + firstLowerExample + ";");
                 break;
@@ -177,10 +187,8 @@ public class DaoGenPlugin extends PluginAdapter {
         }
 
         if (compilationUnit instanceof TopLevelClass) {
-            method.addAnnotation(MgtConstant.ANNOTATION_OVERRIDE);
             ((TopLevelClass) compilationUnit).addMethod(method);
         } else {
-            method.setAbstract(true);
             ((Interface) compilationUnit).addMethod(method);
         }
     }

@@ -82,7 +82,8 @@ public class ControllerGenPlugin extends PluginAdapter {
         // 引入包
         String className = (controllerPlatform.substring(0, 1).toUpperCase() + controllerPlatform.substring(1)) + baseDomainName + MgtConstant.CONTROLLER_SUFFIX;
         TopLevelClass topLevelClass = new TopLevelClass(controllerPackage + "." + className);
-        topLevelClass.addImportedType("cn.hutool.db.PageResult");
+        topLevelClass.addImportedType("com.zacboot.common.base.basebeans.PageResult");
+        topLevelClass.addImportedType("com.zacboot.common.base.basebeans.Result;");
         topLevelClass.addImportedType("org.springframework.beans.factory.annotation.*");
         topLevelClass.addImportedType("org.springframework.web.bind.annotation.*");
         topLevelClass.addImportedType("lombok.extern.slf4j.Slf4j");
@@ -101,7 +102,6 @@ public class ControllerGenPlugin extends PluginAdapter {
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_RESTCONTROLLER);
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_REQUESTMAPPING + ("(\"" + API_APP + controllerPlatform + "/" + StringUtils.firstToLowerCase(baseDomainName) + "\")"));
         topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
-        topLevelClass.setSuperClass("BaseController");
         // 成员变量
         createField(baseDomainName, topLevelClass);
         // 方法

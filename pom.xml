@@ -21,8 +21,6 @@
         <module>zacboot-system-monitor</module>
         <module>zacboot-common</module>
         <module>zacboot-admin</module>
-        <module>zacboot-admin-work</module>
-        <module>zacboot-admin-property</module>
         <module>zacboot-app-user</module>
         <module>zacboot-system-core</module>
     </modules>

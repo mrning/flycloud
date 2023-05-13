@@ -76,7 +76,7 @@ public class ServiceGenPlugin extends PluginAdapter {
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("org.springframework.util.Assert"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
-            topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("com.zacboot.common.base.basebeans.PageResult"));
             topLevelClass.addImportedType(new FullyQualifiedJavaType("cn.hutool.core.bean.BeanUtil"));
 
             topLevelClass.addAnnotation(MgtConstant.ANNOTATION_SL4J);
@@ -102,7 +102,7 @@ public class ServiceGenPlugin extends PluginAdapter {
                     " * @date "+ LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) +"\n" +
                     " * @author zac\n" +
                     " */");
-            genInterface.addImportedType(new FullyQualifiedJavaType("cn.hutool.db.PageResult"));
+            genInterface.addImportedType(new FullyQualifiedJavaType("com.zacboot.common.base.basebeans.PageResult"));
             // 继承类
             genInterface.addSuperInterface(new FullyQualifiedJavaType("SysBaseService<"+ baseDomainName +">"));
 
@@ -137,9 +137,7 @@ public class ServiceGenPlugin extends PluginAdapter {
                     "pageRequest"));
             method.setReturnType(new FullyQualifiedJavaType("PageResult<"+dtoName+">"));
             method.addBodyLine("PageResult<"+dtoName+"> pageResult = new PageResult<>();");
-
-            method.addBodyLine(dtoName + " "+ firstLowerDtoName+" = pageRequest.converToDo();");
-            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage("+firstLowerDtoName+",new Page<>(pageRequest.getPage(),pageRequest.getLimit()));");
+            method.addBodyLine("Page<"+dtoName+"> page = "+firstLowerDaoName+".queryPage(pageRequest);");
             method.addBodyLine("pageResult.setDataList(page.getRecords());");
             method.addBodyLine("pageResult.setTotal(page.getTotal());");
             method.addBodyLine("return pageResult;");
