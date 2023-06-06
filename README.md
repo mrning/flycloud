@@ -21,7 +21,6 @@
 - zacboot-common【公共模块，按需引用，无需启动】
 - zacboot-admin【管理后台】端口：8010
 - zacboot-app-user【app用户模块】端口：8020
-- zacboot-api-sp【电商推广api调用模块】端口：8030
 
 ### 安装教程
 - 安装jdk17
@@ -33,6 +32,7 @@
 - 启动AutoCodeApplication类中的main方法,日志输出swagger地址
 - swagger中调用接口【Mybatis自动生成代码】-【根据实体类创建或更新表结构】
 - 执行dbsql文件夹下的init-data.sql中的初始化语句
+- 更多安装部署命令，请参照[安装命令详情](https://gitee.com/mrning001/zacbook/blob/master/dockertext.txt)
 
 ### 使用说明
  ##### 理想状态下，使用该平台的正确打开方式：
