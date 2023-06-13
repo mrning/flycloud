@@ -88,7 +88,5 @@ public interface SysUserService extends SysBaseService<SysUser> {
      */
     boolean logout(String token);
 
-    String qwUserImport();
-
     SysUserDeptAndRoleInfo deptAndRoleInfo(UserRequest userRequest);
 }

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -22,7 +21,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<SearchResponse> searchGoods(SearchRequest request) throws Exception {
         BaseApiService baseApiService = apiServiceFactory.getService(Constants.PLATFORM_PDD);
-        baseApiService.searchGoods(request);
-        return new ArrayList<>();
+        return baseApiService.searchGoods(request);
     }
 }

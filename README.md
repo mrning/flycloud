@@ -21,6 +21,7 @@
 - zacboot-common【公共模块，按需引用，无需启动】
 - zacboot-admin【管理后台】端口：8010
 - zacboot-app-user【app用户模块】端口：8020
+- zacboot-api-sp【电商推广api调用模块】端口：8030
 
 ### 安装教程
 - 安装jdk17

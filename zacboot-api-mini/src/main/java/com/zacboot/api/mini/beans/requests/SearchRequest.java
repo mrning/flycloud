@@ -9,7 +9,10 @@ import lombok.Data;
 @Data
 public class SearchRequest {
 
-    @ApiModelProperty("商品名称")
-    private String goodsName;
+    @ApiModelProperty("商品信息")
+    private String goodsInfo;
+
+    private Integer page = 0;
+    private Integer pageSize = 10;
 
 }

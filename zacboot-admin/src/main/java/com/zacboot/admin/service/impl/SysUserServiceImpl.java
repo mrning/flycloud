@@ -5,22 +5,13 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zacboot.system.core.response.admin.SysDeptResponse;
-import com.zacboot.system.core.response.admin.SysRoleResponse;
-import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
-import com.zacboot.system.core.entity.admin.*;
-import com.zacboot.system.core.request.sso.SsoLoginRequest;
-import com.zacboot.system.core.request.sso.SsoLogoutRequest;
-import com.zacboot.system.core.response.weixin.QwUserVo;
 import com.zacboot.admin.beans.constants.AdminConstants;
 import com.zacboot.admin.beans.vos.request.RegisRequest;
 import com.zacboot.admin.beans.vos.request.UserAddRequest;
-import com.zacboot.system.core.request.admin.UserRequest;
 import com.zacboot.admin.beans.vos.request.UserUpdateRequest;
 import com.zacboot.admin.beans.vos.response.SysUserResponse;
 import com.zacboot.admin.dao.SysUserDao;
 import com.zacboot.admin.feign.SsoServiceFeign;
-import com.zacboot.admin.feign.WeixinApiFeign;
 import com.zacboot.admin.mapper.SysUserMapper;
 import com.zacboot.admin.service.*;
 import com.zacboot.common.base.basebeans.PageResult;
@@ -29,6 +20,13 @@ import com.zacboot.common.base.constants.CommonConstant;
 import com.zacboot.common.base.constants.RedisKey;
 import com.zacboot.common.base.utils.PasswordUtil;
 import com.zacboot.common.base.utils.RedisUtil;
+import com.zacboot.system.core.entity.admin.*;
+import com.zacboot.system.core.request.admin.UserRequest;
+import com.zacboot.system.core.request.sso.SsoLoginRequest;
+import com.zacboot.system.core.request.sso.SsoLogoutRequest;
+import com.zacboot.system.core.response.admin.SysDeptResponse;
+import com.zacboot.system.core.response.admin.SysRoleResponse;
+import com.zacboot.system.core.response.admin.SysUserDeptAndRoleInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +72,6 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
     @Autowired
     private RedisUtil redisUtil;
 
-    @Autowired
-    private WeixinApiFeign weixinApiFeign;
 
     public Integer add(UserAddRequest userAddRequest) {
         SysUser sysUser = SysUser.convertByRequest(userAddRequest);
@@ -286,16 +282,6 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             return result.getResult();
         }
         return false;
-    }
-
-    @Override
-    public String qwUserImport() {
-        Result<List<QwUserVo>> qwUsers = weixinApiFeign.getWxUsers();
-        if (CommonConstant.SC_OK_200.equals(qwUsers.getCode()) && !CollectionUtils.isEmpty(qwUsers.getResult())){
-            // 企微用户导入后默认密码为 wanli123
-            qwUsers.getResult().forEach(u -> saveOrUpdate(SysUser.convertByWxUser(u)));
-        }
-        return Result.success().getMessage();
     }
 
     @Override

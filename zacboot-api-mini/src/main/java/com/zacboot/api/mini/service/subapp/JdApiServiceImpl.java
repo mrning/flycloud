@@ -7,15 +7,16 @@ import com.zacboot.api.mini.service.BaseApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
- * 淘宝联盟 - 开放平台api
+ * 京东联盟 - 开放平台api
  */
 @Slf4j
 @Service
-public class TbApiServiceImpl implements BaseApiService {
-
+public class JdApiServiceImpl implements BaseApiService {
     @Override
-    public SearchResponse searchGoods(SearchRequest request) throws Exception {
+    public List<SearchResponse> searchGoods(SearchRequest request) throws Exception {
         return null;
     }
 
@@ -26,6 +27,7 @@ public class TbApiServiceImpl implements BaseApiService {
 
     @Override
     public String getByName(String platform) {
-        return Constants.PLATFORM_TAOBAO;
+        return Constants.PLATFORM_JINGDONG;
     }
 }
+

@@ -36,6 +36,12 @@ spring:
             - Path=/api-app/**
           filters:
             - StripPrefix=1
+        - id: zacboot-api-mini
+          uri: lb://zacboot-api-mini
+          predicates:
+            - Path=/api-mini/**
+          filters:
+            - StripPrefix=1
   config:
     import: application-common.yml
   mvc:

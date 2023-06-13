@@ -9,7 +9,7 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>zacboot-api-miniprogram</artifactId>
+    <artifactId>zacboot-api-mini</artifactId>
     <description>小程序后台</description>
 
     <properties>

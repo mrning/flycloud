@@ -143,15 +143,4 @@ public class AdminSysUserController {
         return Result.success(sysUserService.deptAndRoleInfo(userRequest));
     }
 
-
-
-    /**
-     * 企微信息导入
-     */
-    @ApiOperation("企微用户信息导入")
-    @PostMapping("/qwUserImport")
-    public Result<String> qwUserImport(){
-        return Result.success(sysUserService.qwUserImport(),"ok");
-    }
-
 }

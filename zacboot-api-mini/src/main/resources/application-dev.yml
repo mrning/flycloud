@@ -49,7 +49,7 @@ api:
     clientId: a4d7724f5e3b49ec8674086df606cffa
     clientSecret: b91b6373e5c5438950e242405c99896bdcac40de
 #    callBackUrl: https://pddapi.cpu1024.top
-    callBackUrl: https://2fo8074368.imdo.co/api-sp/callBack/pdd/getCode
+    callBackUrl: https://2fo8074368.imdo.co/api-mini/callBack/pdd/getCode
   jd:
     mediaId: 4101015135
     appkey: 2f73dc1ab91e5bdb24225a789a8bdf48
