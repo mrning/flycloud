@@ -3,7 +3,7 @@ package com.zacboot.autocode.controller;
 import com.zacboot.autocode.bean.MybatisGeneratorRequest;
 import com.zacboot.autocode.service.MybatisGeneratorService;
 import com.zacboot.autocode.service.SysMysqlCreateTableService;
-import com.zacboot.common.base.enums.PlatformEnum;
+import com.zacboot.common.base.enums.ModuleEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,7 @@ public class MybatisGeneratorController {
 
     @PostMapping(value = "/tableToCode")
     @ApiOperation("根据数据库字段生成代码")
-    @ApiImplicitParam(name = "platform", value = "接口平台", dataTypeClass = PlatformEnum.class)
+    @ApiImplicitParam(name = "platform", value = "接口平台", dataTypeClass = ModuleEnum.class)
     public String tableToCode(@RequestBody MybatisGeneratorRequest mybatisGeneratorRequest) {
         return mybatisGeneratorService.doDenerator(mybatisGeneratorRequest);
     }

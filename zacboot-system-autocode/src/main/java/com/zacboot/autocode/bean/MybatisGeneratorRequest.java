@@ -1,6 +1,6 @@
 package com.zacboot.autocode.bean;
 
-import com.zacboot.common.base.enums.PlatformEnum;
+import com.zacboot.common.base.enums.ModuleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class MybatisGeneratorRequest {
     String desc;
 
     @ApiModelProperty("平台类型，会影响到生成java类的路径")
-    PlatformEnum platform;
+    ModuleEnum platform;
 
     @ApiModelProperty(value = "根据code建表时，自动扫描entity的包路径",example = "com.zacboot.system.core.entity.admin")
     private String packagePath;
