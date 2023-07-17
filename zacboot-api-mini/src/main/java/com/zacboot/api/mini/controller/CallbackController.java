@@ -1,6 +1,6 @@
 package com.zacboot.api.mini.controller;
 
-import com.zacboot.api.mini.beans.Constants;
+import com.zacboot.api.mini.beans.PlatformEnum;
 import com.zacboot.api.mini.factory.ApiServiceFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CallbackController {
     public void getPddCode(@RequestParam("code") String code){
         log.info("/pdd/getCode -->  {}",code);
         try {
-            apiServiceFactory.getService(Constants.PLATFORM_PDD).getToken(code);
+            apiServiceFactory.getService(PlatformEnum.PLATFORM_PDD.getName()).getToken(code);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

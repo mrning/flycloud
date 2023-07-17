@@ -1,6 +1,6 @@
 package com.zacboot.api.mini.service.subapp;
 
-import com.zacboot.api.mini.beans.Constants;
+import com.zacboot.api.mini.beans.PlatformEnum;
 import com.zacboot.api.mini.beans.reponses.SearchResponse;
 import com.zacboot.api.mini.beans.requests.SearchRequest;
 import com.zacboot.api.mini.service.BaseApiService;
@@ -27,7 +27,7 @@ public class JdApiServiceImpl implements BaseApiService {
 
     @Override
     public String getByName(String platform) {
-        return Constants.PLATFORM_JINGDONG;
+        return PlatformEnum.PLATFORM_JD.getName();
     }
 }
 

@@ -1,6 +1,6 @@
 package com.zacboot.api.mini.service.impl;
 
-import com.zacboot.api.mini.beans.Constants;
+import com.zacboot.api.mini.beans.PlatformEnum;
 import com.zacboot.api.mini.beans.reponses.SearchResponse;
 import com.zacboot.api.mini.beans.requests.SearchRequest;
 import com.zacboot.api.mini.factory.ApiServiceFactory;
@@ -20,7 +20,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<SearchResponse> searchGoods(SearchRequest request) throws Exception {
-        BaseApiService baseApiService = apiServiceFactory.getService(Constants.PLATFORM_PDD);
+        BaseApiService baseApiService = apiServiceFactory.getService(PlatformEnum.PLATFORM_PDD.getName());
         return baseApiService.searchGoods(request);
     }
 }

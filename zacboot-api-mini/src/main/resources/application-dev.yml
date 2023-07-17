@@ -53,7 +53,8 @@ api:
   jd:
     mediaId: 4101015135
     appkey: 2f73dc1ab91e5bdb24225a789a8bdf48
-    secretkey: 706fe9d2f2764c14a1b94cfbc7d72fc9
+    secretkey:
+
 wx:
   mini:
     appId: wxe2673747e5e58df8

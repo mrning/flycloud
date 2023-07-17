@@ -1,13 +1,14 @@
 package com.zacboot.api.mini.service.subapp;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.pdd.pop.sdk.http.PopAccessTokenClient;
 import com.pdd.pop.sdk.http.PopHttpClient;
 import com.pdd.pop.sdk.http.api.pop.request.*;
 import com.pdd.pop.sdk.http.api.pop.response.*;
 import com.pdd.pop.sdk.http.token.AccessTokenResponse;
-import com.zacboot.api.mini.beans.Constants;
+import com.zacboot.api.mini.beans.PlatformEnum;
 import com.zacboot.api.mini.beans.reponses.SearchResponse;
 import com.zacboot.api.mini.beans.requests.SearchRequest;
 import com.zacboot.api.mini.service.BaseApiService;
@@ -104,8 +105,10 @@ public class PddApiServiceImpl implements BaseApiService {
                 for (PddDdkGoodsSearchResponse.GoodsSearchResponseGoodsListItem goodsItem : httpResponse.getGoodsSearchResponse().getGoodsList()) {
                     result.add(SearchResponse.convertByPddSearchRes(goodsItem));
                 }
+            }else{
+                log.warn("关键字【{}】，搜索结果为空", request.getGoodsInfo());
+                return result;
             }
-
 
             PddDdkGoodsPromotionUrlGenerateResponse promotionUrlGenerateResponse = generateAuthUrl(pid,
                     httpResponse.getGoodsSearchResponse().getGoodsList().stream().map(PddDdkGoodsSearchResponse.GoodsSearchResponseGoodsListItem::getGoodsSign).collect(Collectors.toList()));
@@ -113,6 +116,7 @@ public class PddApiServiceImpl implements BaseApiService {
                     && CollectionUtil.isNotEmpty(promotionUrlGenerateResponse.getGoodsPromotionUrlGenerateResponse().getGoodsPromotionUrlList())) {
                 for (int i = 0; i < promotionUrlGenerateResponse.getGoodsPromotionUrlGenerateResponse().getGoodsPromotionUrlList().size(); i++) {
                     result.get(i).setLinkUrl(promotionUrlGenerateResponse.getGoodsPromotionUrlGenerateResponse().getGoodsPromotionUrlList().get(i).getMobileShortUrl());
+                    result.get(i).setWeAppStr(JSONUtil.toJsonStr(promotionUrlGenerateResponse.getGoodsPromotionUrlGenerateResponse().getGoodsPromotionUrlList().get(i).getWeAppInfo()));
                 }
             }
         }
@@ -131,6 +135,7 @@ public class PddApiServiceImpl implements BaseApiService {
             pddDdkGoodsPromotionUrlGenerateRequest.setPId(pid);
             pddDdkGoodsPromotionUrlGenerateRequest.setCustomParameters("{\"new\":1}");
             pddDdkGoodsPromotionUrlGenerateRequest.setGenerateAuthorityUrl(true);
+            pddDdkGoodsPromotionUrlGenerateRequest.setGenerateWeApp(true);
             // 商品goodsSign列表
             pddDdkGoodsPromotionUrlGenerateRequest.setGoodsSignList(goodsSignList);
             PddDdkGoodsPromotionUrlGenerateResponse promotionUrlGenerateResponse = httpClient.syncInvoke(pddDdkGoodsPromotionUrlGenerateRequest);
@@ -192,6 +197,6 @@ public class PddApiServiceImpl implements BaseApiService {
 
     @Override
     public String getByName(String platform) {
-        return Constants.PLATFORM_PDD;
+        return PlatformEnum.PLATFORM_PDD.getName();
     }
 }
