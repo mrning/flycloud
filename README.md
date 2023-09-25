@@ -3,7 +3,9 @@
 基于spirngcloud alibaba实现的微服务脚手架，实现了熔断，限流，gateway路由控制，sso登录认证，鉴权等功能，更多功能持续开发中
 
 
-### 软件架构
+### 核心依赖
+
+
 - Jdk17 [下载地址](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 - SpringBoot 2.7.0
 - SpringCloud Alibaba 2021.1 + Nacos

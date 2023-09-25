@@ -15,14 +15,9 @@
     <name>zacboot</name>
 
     <modules>
-        <module>zacboot-system-autocode</module>
-        <module>zacboot-system-gateway</module>
-        <module>zacboot-system-sso</module>
-        <module>zacboot-system-monitor</module>
+        <module>zacboot-system</module>
         <module>zacboot-common</module>
-        <module>zacboot-admin</module>
-        <module>zacboot-app-user</module>
-        <module>zacboot-system-core</module>
+        <module>zacboot-api</module>
     </modules>
 
     <properties>
