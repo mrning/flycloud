@@ -1,0 +1,8 @@
+# 启动脚本环境变量 --spring.profiles.active=home
+spring:
+  profiles:
+    active: dev
+  application:
+    name: htx-app-user
+server:
+  port: 8020

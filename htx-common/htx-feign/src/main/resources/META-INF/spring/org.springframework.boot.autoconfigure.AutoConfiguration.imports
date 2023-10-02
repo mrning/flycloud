@@ -1,0 +1,3 @@
+com.lqjk.feign.HtxFeignAutoConfiguration
+com.lqjk.feign.sentinel.SentinelAutoConfiguration
+com.lqjk.feign.sentinel.handle.GlobalBizExceptionHandler

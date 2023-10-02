@@ -4,154 +4,107 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.2</version>
-    </parent>
-    <groupId>com.zac</groupId>
-    <artifactId>zacboot</artifactId>
+
+    <groupId>com.lqjk</groupId>
+    <artifactId>htx-server</artifactId>
     <version>0.0.1</version>
-    <name>zacboot</name>
+    <name>htx-server</name>
 
     <modules>
-        <module>zacboot-system</module>
-        <module>zacboot-common</module>
-        <module>zacboot-api</module>
+        <module>htx-system</module>
+        <module>htx-common</module>
+        <module>htx-api</module>
+        <module>htx-request</module>
+        <module>htx-api/htx-user</module>
     </modules>
 
     <properties>
+        <spring-boot.version>3.1.3</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
-        <zacboot.version>0.0.1</zacboot.version>
-        <zacboot.common.version>0.0.1</zacboot.common.version>
-
-        <spring-boot.version>2.7.0</spring-boot.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring-fox.version>3.0.0</spring-fox.version>
-        <admin-starter-server.version>2.7.0</admin-starter-server.version>
-        <spring-cloud-starter-oauth2.version>2.2.5.RELEASE</spring-cloud-starter-oauth2.version>
-
-        <com.alibaba.fastjson.version>2.0.7</com.alibaba.fastjson.version>
-        <com.alibaba.druid.version>1.2.11</com.alibaba.druid.version>
-        <com.alibaba.cloud.version>2021.1</com.alibaba.cloud.version>
-        <aliyun.oss.version>3.6.0</aliyun.oss.version>
-
-        <mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
-        <mysql.version>8.0.28</mysql.version>
-
-        <hutool.version>5.8.5</hutool.version>
-        <com.projectlombok.version>1.18.24</com.projectlombok.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
+        <spring.authorization.version>1.1.2</spring.authorization.version>
+        <screw.version>0.0.3</screw.version>
+        <captcha.version>2.2.3</captcha.version>
+        <aws.version>1.12.261</aws.version>
+        <velocity.version>2.3</velocity.version>
+        <velocity.tool.version>3.1</velocity.tool.version>
+        <configuration.version>1.10</configuration.version>
+        <jasypt.version>3.0.5</jasypt.version>
+        <jaxb.version>2.3.5</jaxb.version>
+        <swagger.fox.version>3.0.0</swagger.fox.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <nimbusds-jwt.version>9.24.3</nimbusds-jwt.version>
-        <sa-token.version>1.30.0</sa-token.version>
-
+        <sa-token.version>1.34.0</sa-token.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
 
+    <!-- 以下依赖 全局所有的模块都会引入  -->
     <dependencies>
-        <!--spring-->
+        <!--配置文件处理器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-        <!--集成SpringBoot Admin监控-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
+            <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--apache-->
+        <!--配置文件加解密-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
         </dependency>
+        <!--监控-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-        <!--alibaba-->
+        <!--监控客户端-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${com.alibaba.fastjson.version}</version>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>${aliyun.oss.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>${com.alibaba.cloud.version}</version>
-        </dependency>
-
-        <!--lombok-->
+        <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
-            <version>${com.projectlombok.version}</version>
+            <scope>provided</scope>
         </dependency>
-        <!--hutool-->
+        <!-- JAVA 17 -->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-            <version>${nimbusds-jwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-            <version>${xxl-job.version}</version>
-        </dependency>
-        <!--test-->
+        <!--测试依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-properties-migrator</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!--pig 公共版本定义-->
             <dependency>
-                <!-- Import dependency management from Spring Boot -->
+                <groupId>com.lqjk</groupId>
+                <artifactId>htx-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring boot 依赖 -->
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- spring cloud 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -159,18 +112,83 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- spring cloud alibaba 依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${com.alibaba.cloud.version}</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+                <!--Nacos服务地址-->
+                <nacos.config.server-addr>http://localhost:8848</nacos.config.server-addr>
+                <!--Nacos配置分组名称-->
+                <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>test</profiles.active>
+                <!--Nacos服务地址-->
+                <nacos.config.server-addr>http://htxalitest.lcago.cn:8848</nacos.config.server-addr>
+                <!--Nacos配置分组名称-->
+                <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>prod</profiles.active>
+                <!--Nacos服务地址-->
+                <nacos.config.server-addr>http://htxalitest.lcago.cn:8848/</nacos.config.server-addr>
+                <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
+                <nacos.config.namespace></nacos.config.namespace>
+                <!--Nacos配置分组名称-->
+                <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+            </properties>
+        </profile>
+    </profiles>
+
 	<build>
+        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <finalName>${project.build.finalName}</finalName>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -182,7 +200,20 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>snapshots</id>
+            <url>
+                https://oss.sonatype.org/content/repositories/snapshots/
+            </url>
+        </repository>
+        <repository>
+            <id>release</id>
+            <url>
+                https://oss.sonatype.org/service/local/staging/deploy/maven2/
+            </url>
+        </repository>
+    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>spring-snapshots</id>

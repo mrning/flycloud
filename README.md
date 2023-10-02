@@ -1,4 +1,4 @@
-# ZacBoot
+# htx
 
 基于spirngcloud alibaba实现的微服务脚手架，实现了熔断，限流，gateway路由控制，sso登录认证，鉴权等功能，更多功能持续开发中
 
@@ -7,22 +7,22 @@
 
 
 - Jdk17 [下载地址](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
-- SpringBoot 2.7.0
-- SpringCloud Alibaba 2021.1 + Nacos
+- SpringBoot 3.1.3
+- SpringCloud Alibaba 2022 + Nacos
 - Sa-Token 1.30.0
 - Mybatis + Mybatis-plus
 - Mysql8
 - Redis
 
 ### 模块说明
-- zacboot-system-gateway【路由鉴权】端口：8000
-- zacboot-system-sso【登录认证】端口：8001
-- zacboot-system-monitor【监控】端口：8101
-- zacboot-system-autocode【代码生成】端口：8009
-- zacboot-system-core【服务调用中间件】
-- zacboot-common【公共模块，按需引用，无需启动】
-- zacboot-admin【管理后台】端口：8010
-- zacboot-app-user【app用户模块】端口：8020
+- htx-system-gateway【路由鉴权】端口：8000
+- htx-system-sso【登录认证】端口：8001
+- htx-system-monitor【监控】端口：8101
+- htx-system-autocode【代码生成】端口：8009
+- htx-system-core【服务调用中间件】
+- htx-common【公共模块，按需引用，无需启动】
+- htx-admin【管理后台】端口：8010
+- htx-app-user【app用户模块】端口：8020
 
 ### 安装教程
 - 安装jdk17
@@ -38,9 +38,9 @@
 
 ### 使用说明
  ##### 理想状态下，使用该平台的正确打开方式：
- 1. 【zacboot-system-core】依赖【zacboot-common-base】，其他项目引用system-core
- 2. 在【zacboot-system-core】项目 com.zac.system.core.entity.admin包下面创建需要的entity类，并且继承BaseEntity
- 3. 然后访问[swagger-ui](http://localhost:9088/swagger-ui/index.html)
+ 1. 【htx-system-core】依赖【htx-common-base】，其他项目引用system-core
+ 2. 在【htx-system-core】项目 com.lqjk.system.core.entity.admin包下面创建需要的entity类，并且继承BaseEntity
+ 3. 然后访问[swagger-ui](http://htxalitest.lcago.cn:9088/swagger-ui/index.html)
  4. 调用 `mybatis自动生成代码 >>> 代码生成入口` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
  5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
  6. 前端直接调用接口使用数据即可

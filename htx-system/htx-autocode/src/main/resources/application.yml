@@ -1,0 +1,14 @@
+# 启动脚本环境变量 --spring.profiles.active=home
+spring:
+  profiles:
+    active: dev
+  application:
+    name: htx-autocode
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  devtools:
+    livereload:
+      port: 35729
+server:
+  port: 8009

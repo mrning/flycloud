@@ -1,0 +1,159 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.111.15.229:3336/htx-system?useUnicode=true&character_set_server=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
+    username: root
+    password: htx@LQJK
+    hikari:
+      #最小空闲链接数量
+      minimum-idle: 5
+      #空闲连接存活最大时间（默认600000）
+      idle-timeout: 180000
+      #最大连接数
+      maximum-pool-size: 10
+      #是否自动提交
+      auto-commit: true
+      #连接池中链接的最长生命周期默认30分钟 = 1800000
+      max-lifetime: 1800000
+      #链接超时时间
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  data:
+    redis:
+      database: 0
+      port: 6379
+      host: htxalitest.lcago.cn
+      password:
+  config:
+    import:
+      - optional:nacos:htx-common.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      config:
+        server-addr: @nacos.config.server-addr@
+        group: @nacos.config.group@
+        file-extension: yaml
+      discovery:
+        server-addr: @nacos.config.server-addr@
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true #使用小写service-id
+      #      # 跨域处理，视情况开启
+      #      globalcors:
+      #        cors-configurations:
+      #          '[/**]':
+      #            allowCredentials: true
+      #            #springboot2.4后需用allowedOriginPatterns
+      #            allowedOriginPatterns: "*"
+      #            allowedMethods: "*"
+      #            allowedHeaders: "*"
+      routes: #配置路由路径
+        - id: htx-auth
+          uri: lb://htx-auth
+          predicates:
+            - Path=/api-auth/**
+          filters:
+            - StripPrefix=1
+        - id: htx-admin
+          uri: lb://htx-admin
+          predicates:
+            - Path=/api-admin/**
+          filters:
+            - StripPrefix=1
+        - id: htx-app
+          uri: lb://htx-app-user
+          predicates:
+            - Path=/api-app/**
+          filters:
+            - StripPrefix=1
+    #Sentinel配置
+    sentinel:
+      transport:
+        dashboard: htx-sentinel:9000
+      # 支持链路限流
+      web-context-unify: false
+      filter:
+        enabled: false
+      # 取消Sentinel控制台懒加载
+      eager: false
+      datasource:
+        #流控规则
+        flow: # 指定数据源名称
+          # 指定nacos数据源
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            # 指定配置文件
+            dataId: ${spring.application.name}-flow-rules
+            # 指定分组
+            groupId: SENTINEL_GROUP
+            # 指定配置文件规则类型
+            rule-type: flow
+            # 指定配置文件数据格式
+            data-type: json
+        #降级规则
+        degrade:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: degrade
+            data-type: json
+        #系统规则
+        system:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-system-rules
+            groupId: SENTINEL_GROUP
+            rule-type: system
+            data-type: json
+        #授权规则
+        authority:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-authority-rules
+            groupId: SENTINEL_GROUP
+            rule-type: authority
+            data-type: json
+        #热点参数
+        param-flow:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-param-rules
+            groupId: SENTINEL_GROUP
+            rule-type: param-flow
+            data-type: json
+        #网关流控规则
+        gw-flow:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: gw-flow
+            data-type: json
+        #API流控规则
+        gw-api-group:
+          nacos:
+            server-addr: @nacos.config.server-addr@
+            dataId: ${spring.application.name}-api-rules
+            groupId: SENTINEL_GROUP
+            rule-type: gw-api-group
+            data-type: json
+management: #开启SpringBoot Admin的监控
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    root: info
+    com.lqjk.gateway: debug
+logstash:
+  host: htxalitest.lcago.cn
