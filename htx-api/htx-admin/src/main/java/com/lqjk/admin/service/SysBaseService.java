@@ -2,8 +2,8 @@ package com.lqjk.admin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lqjk.admin.entity.SysUser;
-import com.lqjk.admin.entity.SysRole;
+import com.lqjk.base.bizentity.SysUser;
+import com.lqjk.base.bizentity.SysRole;
 
 import java.util.List;
 

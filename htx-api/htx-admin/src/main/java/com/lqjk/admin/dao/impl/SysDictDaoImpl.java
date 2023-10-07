@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lqjk.admin.beans.example.SysDictExample;
 import com.lqjk.admin.dao.SysDictDao;
 import com.lqjk.admin.mapper.SysDictMapper;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import com.lqjk.base.utils.SysUtil;
 import java.time.LocalDateTime;
 import java.util.List;

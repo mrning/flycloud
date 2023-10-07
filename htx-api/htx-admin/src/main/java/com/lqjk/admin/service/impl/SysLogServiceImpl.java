@@ -2,7 +2,7 @@ package com.lqjk.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.vos.request.SysLogRequest;
 import com.lqjk.admin.dao.SysLogDao;
 import com.lqjk.admin.service.SysLogService;
@@ -30,7 +30,7 @@ public class SysLogServiceImpl implements SysLogService {
     private SysLogDao sysLogDao;
 
     public Integer add(LogRequest logRequest) {
-        return sysLogDao.add(new SysLog().convertByRequest(logRequest));
+        return sysLogDao.add(logRequest.convertToEntity());
     }
 
     public Integer del(SysLog SysLog) {

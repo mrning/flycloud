@@ -1,7 +1,7 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.bizentity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 
 @Data
@@ -11,12 +11,10 @@ public class SysRolePermission extends BaseEntity {
     /**
      * 角色uuid
      */
-    @SchemaProperty(name = "角色uuid")
     private String roleUuid;
 
     /**
      * 权限uuid
      */
-    @SchemaProperty(name = "权限uuid")
     private String permissionUuid;
 }

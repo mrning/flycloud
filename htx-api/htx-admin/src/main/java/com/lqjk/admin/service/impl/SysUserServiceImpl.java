@@ -11,16 +11,18 @@ import com.lqjk.admin.beans.vos.request.UserAddRequest;
 import com.lqjk.admin.beans.vos.request.UserUpdateRequest;
 import com.lqjk.admin.beans.vos.response.SysUserResponse;
 import com.lqjk.admin.dao.SysUserDao;
-import com.lqjk.admin.entity.*;
 import com.lqjk.admin.mapper.SysUserMapper;
 import com.lqjk.admin.service.*;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
+import com.lqjk.base.bizentity.*;
 import com.lqjk.base.constants.CommonConstant;
 import com.lqjk.base.constants.RedisKey;
 import com.lqjk.base.utils.PasswordUtil;
 import com.lqjk.base.utils.RedisUtil;
 import com.lqjk.request.req.admin.UserRequest;
+import com.lqjk.request.res.SysDeptResponse;
+import com.lqjk.request.res.SysRoleResponse;
 import com.lqjk.request.res.SysUserDeptAndRoleInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -277,8 +279,8 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             SysUserDeptAndRoleInfo sysUserDeptAndRoleInfo = new SysUserDeptAndRoleInfo();
             sysUserDeptAndRoleInfo.setUserUuid(sysUser.getUuid());
             sysUserDeptAndRoleInfo.setUserName(sysUser.getRealName());
-            sysUserDeptAndRoleInfo.setRoleResponseList(roles.stream().map(SysRole::convert).toList());
-            sysUserDeptAndRoleInfo.setDeptResponseList(depts.stream().map(SysDept::convert).toList());
+            sysUserDeptAndRoleInfo.setRoleResponseList(roles.stream().map(sysRole -> new SysRoleResponse().convertByEntity(sysRole)).toList());
+            sysUserDeptAndRoleInfo.setDeptResponseList(depts.stream().map(sysDept -> new SysDeptResponse().convertByEntity(sysDept)).toList());
 
             return  sysUserDeptAndRoleInfo;
         }

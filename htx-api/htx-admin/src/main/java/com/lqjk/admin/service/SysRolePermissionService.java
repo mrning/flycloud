@@ -1,6 +1,6 @@
 package com.lqjk.admin.service;
 
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 
 import java.util.List;
 

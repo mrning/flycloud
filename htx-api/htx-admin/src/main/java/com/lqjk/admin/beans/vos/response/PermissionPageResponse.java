@@ -1,6 +1,6 @@
 package com.lqjk.admin.beans.vos.response;
 
-import com.lqjk.admin.entity.BaseEntity;
+import com.lqjk.base.basebeans.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;

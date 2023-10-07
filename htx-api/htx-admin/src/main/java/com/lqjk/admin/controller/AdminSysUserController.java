@@ -2,7 +2,7 @@ package com.lqjk.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lqjk.admin.beans.vos.request.UserDeptRequest;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.service.SysUserDeptService;
 import com.lqjk.admin.beans.vos.request.UserAddRequest;
 import com.lqjk.admin.beans.vos.request.UserRoleRequest;

@@ -5,8 +5,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author scott
- * @date 2020/05/26
  * 路由配置信息
  */
 @Configuration

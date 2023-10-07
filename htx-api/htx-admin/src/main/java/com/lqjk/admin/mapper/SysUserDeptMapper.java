@@ -1,10 +1,10 @@
 package com.lqjk.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lqjk.admin.entity.SysDept;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysDept;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.beans.example.SysUserDeptExample;
-import com.lqjk.admin.entity.SysUserDept;
+import com.lqjk.base.bizentity.SysUserDept;
 import com.lqjk.admin.mapper.provider.SysUserDeptDTOSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;

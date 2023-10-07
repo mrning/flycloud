@@ -1,7 +1,7 @@
 package com.lqjk.admin.beans.vos.response;
 
-import com.lqjk.admin.entity.SysRole;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysRole;
+import com.lqjk.base.bizentity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

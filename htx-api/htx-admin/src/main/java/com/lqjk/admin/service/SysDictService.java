@@ -2,7 +2,7 @@ package com.lqjk.admin.service;
 
 import com.lqjk.admin.beans.vos.request.SysDictPageRequest;
 import com.lqjk.base.basebeans.PageResult;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 
 import java.util.List;
 

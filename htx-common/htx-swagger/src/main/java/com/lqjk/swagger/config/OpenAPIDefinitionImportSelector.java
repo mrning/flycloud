@@ -1,6 +1,6 @@
 package com.lqjk.swagger.config;
 
-import com.lqjk.swagger.annotation.EnablePigDoc;
+import com.lqjk.swagger.annotation.EnableHtxDoc;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -23,7 +23,7 @@ public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegi
 	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-		Optional.ofNullable(metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true))
+		Optional.ofNullable(metadata.getAnnotationAttributes(EnableHtxDoc.class.getName(), true))
 			.map(attrs -> attrs.get("value"))
 			.ifPresent(value -> {
 				createBeanDefinition(registry, "openAPIMetadataRegister", OpenAPIMetadataRegister.class, value);

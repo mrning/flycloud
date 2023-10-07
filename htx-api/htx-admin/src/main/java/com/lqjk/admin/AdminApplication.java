@@ -1,7 +1,7 @@
 package com.lqjk.admin;
 
-import com.lqjk.security.annotation.EnablePigResourceServer;
-import com.lqjk.swagger.annotation.EnablePigDoc;
+import com.lqjk.security.annotation.EnableHtxResourceServer;
+import com.lqjk.swagger.annotation.EnableHtxDoc;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
@@ -11,18 +11,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.stream.Collectors;
 
 @Slf4j
-@EnablePigDoc(value = "admin")
-@EnablePigResourceServer
+@EnableHtxDoc(value = "admin")
+@EnableHtxResourceServer
 @SpringBootApplication(scanBasePackages = {"com.lqjk"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.lqjk.request.feign")

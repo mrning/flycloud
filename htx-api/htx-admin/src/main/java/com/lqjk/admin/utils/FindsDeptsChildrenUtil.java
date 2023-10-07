@@ -2,7 +2,7 @@ package com.lqjk.admin.utils;
 
 
 import com.lqjk.admin.beans.dtos.TreeDto;
-import com.lqjk.admin.entity.SysDept;
+import com.lqjk.base.bizentity.SysDept;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

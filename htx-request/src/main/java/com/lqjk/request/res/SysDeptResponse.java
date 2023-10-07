@@ -2,6 +2,7 @@ package com.lqjk.request.res;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lqjk.base.bizentity.SysDept;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -50,4 +51,12 @@ public class SysDeptResponse {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+
+    public SysDeptResponse convertByEntity(SysDept sysDept){
+        if (null == sysDept){
+            return null;
+        }
+        BeanUtil.copyProperties(sysDept,this);
+        return this;
+    }
 }

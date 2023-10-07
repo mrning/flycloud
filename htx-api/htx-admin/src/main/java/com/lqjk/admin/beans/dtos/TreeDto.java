@@ -1,7 +1,7 @@
 package com.lqjk.admin.beans.dtos;
 
-import com.lqjk.admin.entity.SysDept;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysDept;
+import com.lqjk.base.bizentity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;

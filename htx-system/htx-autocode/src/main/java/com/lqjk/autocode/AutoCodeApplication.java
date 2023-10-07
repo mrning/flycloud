@@ -12,8 +12,7 @@ import java.net.UnknownHostException;
 
 @Slf4j
 @SpringBootApplication
-@MapperScan(basePackages = {"com.lqjk.autocode.mapper",
-        "com.baomidou.mybatisplus.core.mapper"})
+@MapperScan(basePackages = {"com.lqjk.autocode.mapper","com.baomidou.mybatisplus.core.mapper"})
 public class AutoCodeApplication {
 
     public static void main(String[] args) throws UnknownHostException {
@@ -27,7 +26,7 @@ public class AutoCodeApplication {
                 ----------------------------------------------------------
                 AutoCodeApplication Start is running! Requests URLs:
                 Swagger文档: http://""" + ip + ":" + port + """
-                /swagger-ui/index.html
+                /doc.html#/home
                 ----------------------------------------------------------""");
     }
 

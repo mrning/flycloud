@@ -2,7 +2,7 @@ package com.lqjk.admin.service;
 
 import com.lqjk.admin.beans.vos.request.UserRoleRequest;
 import com.lqjk.admin.beans.vos.response.SysUserRoleResponse;
-import com.lqjk.admin.entity.SysUserRole;
+import com.lqjk.base.bizentity.SysUserRole;
 import com.lqjk.base.basebeans.PageResult;
 
 import java.util.List;

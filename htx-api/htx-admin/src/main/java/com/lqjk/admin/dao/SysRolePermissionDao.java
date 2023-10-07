@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao;
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 
 import java.util.List;
 

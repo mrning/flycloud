@@ -2,8 +2,8 @@ package com.lqjk.admin.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysRole;
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRole;
+import com.lqjk.base.bizentity.SysRolePermission;
 import com.lqjk.admin.beans.vos.request.RoleAddRequest;
 import com.lqjk.admin.beans.vos.request.RoleRequest;
 import com.lqjk.admin.beans.vos.request.RoleUpdateRequest;

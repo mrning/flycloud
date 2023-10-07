@@ -1,7 +1,7 @@
 package com.lqjk.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.example.SysLogExample;
 import com.lqjk.admin.mapper.provider.SysLogSqlProvider;
 import org.apache.ibatis.annotations.*;

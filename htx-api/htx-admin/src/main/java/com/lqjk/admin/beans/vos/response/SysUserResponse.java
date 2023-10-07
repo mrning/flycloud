@@ -2,7 +2,7 @@ package com.lqjk.admin.beans.vos.response;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

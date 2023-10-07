@@ -1,7 +1,7 @@
 package com.lqjk.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 import com.lqjk.admin.beans.example.SysRolePermissionExample;
 import com.lqjk.admin.mapper.provider.SysRolePermissionSqlProvider;
 import org.apache.ibatis.annotations.*;

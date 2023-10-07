@@ -39,10 +39,6 @@ spring:
   config:
     import:
       - optional:nacos:htx-common.yml
-springfox:
-  documentation:
-    # prod环境不启用swagger
-    enabled: false
 xxl:
   job:
     admin:

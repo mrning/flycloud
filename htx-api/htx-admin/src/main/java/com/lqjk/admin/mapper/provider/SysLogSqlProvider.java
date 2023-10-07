@@ -1,6 +1,6 @@
 package com.lqjk.admin.mapper.provider;
 
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.example.SysLogExample;
 import org.apache.ibatis.jdbc.SQL;
 

@@ -1,11 +1,9 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.bizentity;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lqjk.base.annotation.AutoColumn;
-import com.lqjk.request.res.SysDeptResponse;
-import com.lqjk.request.res.SysRoleResponse;
+import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
@@ -50,17 +48,5 @@ public class SysDept extends BaseEntity {
     @TableField(exist = false)
     @AutoColumn(isIgnore = true)
     private List<SysDept> children;
-
-    public static <T> SysDept convertByRequest(T request) {
-        SysDept sysDept = new SysDept();
-        BeanUtil.copyProperties(request, sysDept);
-        return sysDept;
-    }
-
-    public static SysDeptResponse convert(SysDept dept){
-        SysDeptResponse res = new SysDeptResponse();
-        BeanUtil.copyProperties(dept,res);
-        return res;
-    }
 
 }

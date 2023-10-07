@@ -2,12 +2,11 @@ package com.lqjk.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysUserRole;
+import com.lqjk.base.bizentity.SysUserRole;
 import com.lqjk.admin.beans.vos.request.UserRoleRequest;
 import com.lqjk.admin.beans.vos.response.SysUserRoleResponse;
 import com.lqjk.admin.dao.SysRoleDao;
 import com.lqjk.admin.dao.SysUserDao;
-import com.lqjk.admin.dao.SysUserDeptDao;
 import com.lqjk.admin.dao.SysUserRoleDao;
 import com.lqjk.admin.mapper.SysUserRoleMapper;
 import com.lqjk.admin.service.SysUserRoleService;

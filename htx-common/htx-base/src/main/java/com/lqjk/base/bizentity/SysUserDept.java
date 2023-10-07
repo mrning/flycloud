@@ -1,6 +1,7 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.bizentity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 
 @Data

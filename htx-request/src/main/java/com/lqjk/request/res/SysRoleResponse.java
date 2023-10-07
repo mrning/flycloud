@@ -1,6 +1,8 @@
 package com.lqjk.request.res;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lqjk.base.bizentity.SysRole;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -59,6 +61,12 @@ public class SysRoleResponse {
      */
     private String description;
 
-
+    public SysRoleResponse convertByEntity(SysRole sysRole){
+        if (null == sysRole){
+            return null;
+        }
+        BeanUtil.copyProperties(sysRole,this);
+        return this;
+    }
 
 }

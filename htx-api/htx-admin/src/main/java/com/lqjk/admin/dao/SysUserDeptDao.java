@@ -2,10 +2,10 @@ package com.lqjk.admin.dao;
 
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysDept;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysDept;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.beans.vos.request.UserDeptRequest;
-import com.lqjk.admin.entity.SysUserDept;
+import com.lqjk.base.bizentity.SysUserDept;
 
 import java.util.List;
 

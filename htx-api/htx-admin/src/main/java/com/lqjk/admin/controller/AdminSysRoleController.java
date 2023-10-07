@@ -1,6 +1,6 @@
 package com.lqjk.admin.controller;
 
-import com.lqjk.admin.entity.SysRole;
+import com.lqjk.base.bizentity.SysRole;
 import com.lqjk.admin.beans.vos.request.RoleAddRequest;
 import com.lqjk.admin.beans.vos.request.RoleRequest;
 import com.lqjk.admin.beans.vos.request.RoleUpdateRequest;

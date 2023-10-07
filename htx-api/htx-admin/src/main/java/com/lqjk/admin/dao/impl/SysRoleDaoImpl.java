@@ -2,7 +2,7 @@ package com.lqjk.admin.dao.impl;
 
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lqjk.admin.entity.SysRole;
+import com.lqjk.base.bizentity.SysRole;
 import com.lqjk.admin.beans.example.SysRoleExample;
 import com.lqjk.admin.beans.vos.request.RoleRequest;
 import com.lqjk.admin.dao.SysRoleDao;

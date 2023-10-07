@@ -2,7 +2,7 @@ package com.lqjk.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 import com.lqjk.admin.dao.SysRolePermissionDao;
 import com.lqjk.admin.mapper.SysRolePermissionMapper;
 import com.lqjk.admin.service.SysRolePermissionService;

@@ -1,6 +1,6 @@
 package com.lqjk.admin.dao.impl;
 
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.example.SysLogExample;
 import com.lqjk.admin.beans.vos.request.SysLogRequest;
 import com.lqjk.admin.dao.SysLogDao;

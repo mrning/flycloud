@@ -2,7 +2,7 @@ package com.lqjk.admin.service;
 
 import com.lqjk.admin.beans.vos.response.SysUserResponse;
 import com.lqjk.admin.beans.vos.request.UserDeptRequest;
-import com.lqjk.admin.entity.SysUserDept;
+import com.lqjk.base.bizentity.SysUserDept;
 import com.lqjk.base.basebeans.PageResult;
 
 import java.util.List;

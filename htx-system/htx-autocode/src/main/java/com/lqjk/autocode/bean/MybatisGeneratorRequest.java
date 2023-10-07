@@ -1,27 +1,29 @@
 package com.lqjk.autocode.bean;
 
 import com.lqjk.base.enums.PlatformEnum;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
 
 @Data
+@Schema(description = "自动代码生成请求参数")
 public class MybatisGeneratorRequest {
 
-    @SchemaProperty(name = "库名，建表或者代码生成时连接的库名",example = "htx")
+    @Schema(description = "库名，建表或者代码生成时连接的库名", example = "htx-admin")
     String schema;
 
-    @SchemaProperty(name = "表名",example = "sys_user")
+    @Schema(description = "表名", example = "sys_user")
     String tableName;
 
-    @SchemaProperty(name = "表名描述",example = "用戶管理")
+    @Schema(description = "表名描述")
     String desc;
 
-    @ApiModelProperty("平台类型，会影响到生成java类的路径")
+    @Schema(description = "平台类型，会影响到生成java类的路径")
     PlatformEnum platform;
 
-    @SchemaProperty(name = "根据code建表时，自动扫描entity的包路径",example = "com.lqjk.system.core.entity.admin")
+    @Schema(description = "根据code建表时，自动扫描entity的包路径", example = "com.lqjk.base.bizentity")
     private String packagePath;
 
-    @SchemaProperty(name = "根据code建表时，建表模式 update表示更新，create表示删除原表重新创建", example = "create")
+    @Schema(description = "根据code建表时，建表模式`update`表示更新，`create`表示删除原表重新创建")
     private String tableAuto;
 }

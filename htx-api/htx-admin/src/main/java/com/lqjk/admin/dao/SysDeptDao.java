@@ -2,7 +2,7 @@ package com.lqjk.admin.dao;
 
 import cn.hutool.db.Page;
 import com.lqjk.admin.beans.vos.request.DeptRequest;
-import com.lqjk.admin.entity.SysDept;
+import com.lqjk.base.bizentity.SysDept;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.lqjk.admin.beans.vos.request;
 
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 

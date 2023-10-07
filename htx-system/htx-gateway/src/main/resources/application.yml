@@ -2,6 +2,20 @@ server:
   port: 8000
 spring:
   profiles:
-    active: dev
+    active: @profiles.active@
   application:
-    name: htx-gateway
+    name: @artifactId@
+  cloud:
+    nacos:
+      config:
+        server-addr: @nacos.config.server-addr@
+        group: @nacos.config.group@
+        file-extension: yaml
+      discovery:
+        server-addr: @nacos.config.server-addr@
+        watch:
+          enabled: true
+  config:
+    import:
+      - optional:nacos:htx-common.yml
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml

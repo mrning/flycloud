@@ -5,7 +5,7 @@ import com.lqjk.admin.beans.example.SysDictExample;
 import com.lqjk.admin.mapper.provider.SysDictSqlProvider;
 import java.util.List;
 
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;

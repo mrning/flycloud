@@ -12,7 +12,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.PrintWriter;
@@ -45,8 +44,7 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 		}
 
 		// 针对令牌过期返回特殊的 424
-		if (authException instanceof InvalidBearerTokenException
-				|| authException instanceof InsufficientAuthenticationException) {
+		if (authException instanceof InsufficientAuthenticationException) {
 			response.setStatus(org.springframework.http.HttpStatus.FAILED_DEPENDENCY.value());
 			result.setMessage(this.messageSource.getMessage("OAuth2ResourceOwnerBaseAuthenticationProvider.tokenExpired",
 					null, LocaleContextHolder.getLocale()));

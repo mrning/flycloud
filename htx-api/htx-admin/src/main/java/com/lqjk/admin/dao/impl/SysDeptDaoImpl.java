@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lqjk.admin.beans.example.SysDeptExample;
 import com.lqjk.admin.beans.vos.request.DeptRequest;
 import com.lqjk.admin.dao.SysDeptDao;
-import com.lqjk.admin.entity.SysDept;
+import com.lqjk.base.bizentity.SysDept;
 import com.lqjk.admin.mapper.SysDeptMapper;
 import com.lqjk.base.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;

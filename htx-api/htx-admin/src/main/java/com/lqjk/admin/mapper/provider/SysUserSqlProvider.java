@@ -1,7 +1,7 @@
 package com.lqjk.admin.mapper.provider;
 
 import com.lqjk.admin.beans.example.SysUserExample;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;

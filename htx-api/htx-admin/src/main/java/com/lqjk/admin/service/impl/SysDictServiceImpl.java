@@ -7,7 +7,7 @@ import com.lqjk.admin.dao.SysDictDao;
 import com.lqjk.admin.mapper.SysDictMapper;
 import com.lqjk.admin.service.SysDictService;
 import com.lqjk.base.basebeans.PageResult;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.basebeans;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

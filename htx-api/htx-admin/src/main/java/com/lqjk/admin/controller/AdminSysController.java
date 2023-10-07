@@ -3,9 +3,8 @@ package com.lqjk.admin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lqjk.admin.beans.vos.SysUserLoginVO;
 import com.lqjk.admin.beans.vos.request.RegisRequest;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.service.SysUserService;
 import com.lqjk.admin.service.UploadFileService;
 import com.lqjk.admin.service.impl.ossImpl.AliOssServiceImpl;
@@ -13,6 +12,7 @@ import com.lqjk.admin.service.impl.ossImpl.TencentServiceImpl;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.enums.UploadClientEnum;
 import com.lqjk.base.utils.*;
+import com.lqjk.request.req.auth.AuthLoginRequest;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -85,30 +85,15 @@ public class AdminSysController {
     /**
      * 用户名密码登录接口
      *
-     * @param sysLoginModel
      * @return
      */
     @PostMapping(value = "/login")
-    public Result<JSONObject> login(@RequestBody SysUserLoginVO sysLoginModel) {
+    public Result<JSONObject> login(@RequestBody AuthLoginRequest authLoginRequest) {
         Result<JSONObject> result;
         // 用户名
-        String username = sysLoginModel.getUsername();
+        String username = authLoginRequest.getUsername();
         // 密码
-        String password = sysLoginModel.getPassword();
-//        // 验证码
-//        String captcha = sysLoginModel.getCaptcha();
-//
-//        // 1. 校验验证码
-//        if (StringUtils.isBlank(captcha)) {
-//            result.error500("验证码不能为空");
-//            return result;
-//        }
-//        String lowerCase = captcha.toLowerCase();
-//        Object checkCode = redisUtil.get(MD5Util.MD5Encode(lowerCase + sysLoginModel.getCheckKey(), "utf-8"));
-//        if (checkCode == null || !checkCode.equals(lowerCase)) {
-//            result.error500("验证码错误");
-//            return result;
-//        }
+        String password = authLoginRequest.getPassword();
 
         // 2. 校验用户是否有效
         SysUser sysUser = sysUserService.getUserByName(username);

@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao;
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.request.req.admin.UserRequest;
 
 import java.util.List;

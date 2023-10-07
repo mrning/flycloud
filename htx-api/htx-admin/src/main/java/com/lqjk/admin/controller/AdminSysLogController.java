@@ -1,7 +1,7 @@
 package com.lqjk.admin.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.vos.request.SysLogRequest;
 import com.lqjk.admin.service.SysLogService;
 import com.lqjk.base.basebeans.PageResult;

@@ -1,7 +1,7 @@
 package com.lqjk.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lqjk.admin.entity.SysRole;
+import com.lqjk.base.bizentity.SysRole;
 import com.lqjk.admin.beans.example.SysRoleExample;
 import com.lqjk.admin.mapper.provider.SysRoleSqlProvider;
 import org.apache.ibatis.annotations.*;

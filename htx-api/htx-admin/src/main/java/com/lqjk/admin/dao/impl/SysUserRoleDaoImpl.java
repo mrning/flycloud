@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lqjk.admin.beans.example.SysUserRoleExample;
 import com.lqjk.admin.beans.vos.request.UserRoleRequest;
 import com.lqjk.admin.dao.SysUserRoleDao;
-import com.lqjk.admin.entity.SysUserRole;
+import com.lqjk.base.bizentity.SysUserRole;
 import com.lqjk.admin.mapper.SysUserRoleMapper;
 import com.lqjk.base.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;

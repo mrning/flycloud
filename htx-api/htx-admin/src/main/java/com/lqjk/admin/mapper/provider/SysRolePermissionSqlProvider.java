@@ -1,6 +1,6 @@
 package com.lqjk.admin.mapper.provider;
 
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 import com.lqjk.admin.beans.example.SysRolePermissionExample;
 import org.apache.ibatis.jdbc.SQL;
 

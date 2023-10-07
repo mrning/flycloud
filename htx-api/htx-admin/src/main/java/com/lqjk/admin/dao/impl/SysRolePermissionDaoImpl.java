@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao.impl;
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysRolePermission;
+import com.lqjk.base.bizentity.SysRolePermission;
 import com.lqjk.admin.beans.example.SysRolePermissionExample;
 import com.lqjk.admin.dao.SysRolePermissionDao;
 import com.lqjk.admin.mapper.SysRolePermissionMapper;

@@ -38,13 +38,14 @@
 
 ### 使用说明
  ##### 理想状态下，使用该平台的正确打开方式：
- 1. 【htx-system-core】依赖【htx-common-base】，其他项目引用system-core
- 2. 在【htx-system-core】项目 com.lqjk.system.core.entity.admin包下面创建需要的entity类，并且继承BaseEntity
- 3. 然后访问[swagger-ui](http://htxalitest.lcago.cn:9088/swagger-ui/index.html)
- 4. 调用 `mybatis自动生成代码 >>> 代码生成入口` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
+ 1. 【htx-request】依赖【htx-base】，其他项目引用htx-request
+ 2. 在【htx-base】项目 com.lqjk.base.bizentity 包下面创建需要的entity类，并且继承BaseEntity
+ 3. 然后访问[swagger-ui](http://localhost:8009/doc.html)
+ 4. 调用 `mybatis自动生成代码 >>> 根据实体类生成表结构(或者根据表结构生成代码)` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
  5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
  6. 前端直接调用接口使用数据即可
  7. 接收前端时间参数使用 Date 类型，返回给前端时间结果时如果使用了 LocalDateTime 需要添加注解 @JsonFormat
+ 8. 如果需要entity和request中的vo相互转换的话，将转换逻辑写到htx-request定义的请求实体里面，因为【1】
 
 ### 相关技术文档
 - [Jdk17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)

@@ -1,6 +1,4 @@
 com.lqjk.security.service.PigUserDetailsServiceImpl
 com.lqjk.security.service.PigAppUserDetailsServiceImpl
-com.lqjk.security.service.PigRedisOAuth2AuthorizationService
-com.lqjk.security.service.PigRedisOAuth2AuthorizationConsentService
 com.lqjk.security.component.PigSecurityInnerAspect
 com.lqjk.security.component.PigSecurityMessageSourceConfiguration

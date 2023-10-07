@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 
 import java.util.List;
 

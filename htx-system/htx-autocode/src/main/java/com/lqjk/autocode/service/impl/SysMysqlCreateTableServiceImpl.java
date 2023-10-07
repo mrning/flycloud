@@ -111,7 +111,7 @@ public class SysMysqlCreateTableServiceImpl implements SysMysqlCreateTableServic
 
             // 如果配置文件配置的是create，表示将所有的表删掉重新创建
             if ("create".equals(actableConfig.getTableAuto())) {
-                createMysqlTablesMapper.dorpTableByName(tableName);
+                createMysqlTablesMapper.dropTableByName(tableName);
             }
             // 先查该表是否以存在
             int exist = createMysqlTablesMapper.findTableCountByTableName(tableName);

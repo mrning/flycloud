@@ -5,7 +5,7 @@ import com.lqjk.admin.beans.vos.request.RegisRequest;
 import com.lqjk.admin.beans.vos.request.UserAddRequest;
 import com.lqjk.admin.beans.vos.request.UserUpdateRequest;
 import com.lqjk.admin.beans.vos.response.SysUserResponse;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.request.req.admin.UserRequest;

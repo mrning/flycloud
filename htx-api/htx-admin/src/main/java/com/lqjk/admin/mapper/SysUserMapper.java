@@ -2,7 +2,7 @@ package com.lqjk.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lqjk.admin.beans.example.SysUserExample;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.mapper.provider.SysUserSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;

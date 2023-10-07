@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao;
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.vos.request.SysLogRequest;
 
 import java.util.Date;

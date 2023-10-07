@@ -4,9 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.lqjk.admin.entity.SysDept;
-import com.lqjk.admin.entity.SysUser;
-import com.lqjk.admin.entity.SysUserDept;
+import com.lqjk.base.bizentity.SysDept;
+import com.lqjk.base.bizentity.SysUser;
+import com.lqjk.base.bizentity.SysUserDept;
 import com.lqjk.admin.beans.dtos.TreeDto;
 import com.lqjk.admin.beans.vos.request.DeptRequest;
 import com.lqjk.admin.dao.SysDeptDao;
@@ -66,7 +66,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
         PageResult<SysDeptResponse> pageResult = new PageResult<>();
         List<SysDeptResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPageNumber(), deptRequest.getPageSize()))
                 .stream().map(sysDept -> {
-                    SysDeptResponse sysDeptResponse = SysDept.convert(sysDept);
+                    SysDeptResponse sysDeptResponse = new SysDeptResponse().convertByEntity(sysDept);
                     // 上级部门名称
                     sysDeptResponse.setParentName(StringUtils.isNotBlank(sysDept.getParentUuid()) ? sysDeptDao.queryByUuid(sysDept.getParentUuid()).getDepartName() : "");
                     // 部门领导昵称

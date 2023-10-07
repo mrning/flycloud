@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package com.lqjk.security.feign;
+package com.lqjk.security.annotation;
 
-import feign.RequestInterceptor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import com.lqjk.security.component.PigResourceServerAutoConfiguration;
+import com.lqjk.security.component.HtxResourceServerConfiguration;
+import org.springframework.context.annotation.Import;
 
-public class PigFeignClientConfiguration {
+import java.lang.annotation.*;
 
-	/**
-	 * 注入 oauth2 feign token 增强
-	 * @param tokenResolver token获取处理器
-	 * @return 拦截器
-	 */
-	@Bean
-	public RequestInterceptor oauthRequestInterceptor(BearerTokenResolver tokenResolver) {
-		return new PigOAuthRequestInterceptor(tokenResolver);
-	}
+/**
+ * @author lengleng
+ * @date 2022-06-04
+ * <p>
+ * 资源服务注解
+ */
+@Documented
+@Inherited
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Import({ PigResourceServerAutoConfiguration.class, HtxResourceServerConfiguration.class })
+public @interface EnableHtxResourceServer {
 
 }

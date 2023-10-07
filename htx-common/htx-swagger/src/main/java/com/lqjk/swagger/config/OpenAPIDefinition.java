@@ -1,28 +1,13 @@
-/*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * Neither the name of the pig4cloud.com developer nor the names of its
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
- */
 package com.lqjk.swagger.config;
 
 import com.lqjk.swagger.support.SwaggerProperties;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.Scopes;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -33,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +34,6 @@ import java.util.List;
  * havingValue = "true") 然后在测试配置或者开发配置中添加swagger.enable=true即可开启，生产环境不填则默认关闭Swagger.
  * </p>
  *
- * @author lengleng
  */
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
@@ -64,9 +49,9 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		clientCredential.setTokenUrl(swaggerProperties.getTokenUrl());
 		clientCredential.setScopes(new Scopes().addString(swaggerProperties.getScope(), swaggerProperties.getScope()));
 		OAuthFlows oauthFlows = new OAuthFlows();
-		oauthFlows.password(clientCredential);
+		oauthFlows.authorizationCode(clientCredential);
 		SecurityScheme securityScheme = new SecurityScheme();
-		securityScheme.setType(SecurityScheme.Type.OAUTH2);
+		securityScheme.setType(SecurityScheme.Type.HTTP);
 		securityScheme.setFlows(oauthFlows);
 		return securityScheme;
 	}

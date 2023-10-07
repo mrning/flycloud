@@ -1,8 +1,8 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.bizentity;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lqjk.request.req.admin.LogRequest;
+import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -75,11 +75,6 @@ public class SysLog extends BaseEntity {
 		SysUser sysUser = new SysUser();
 		BeanUtil.copyProperties(request, sysUser);
 		return sysUser;
-	}
-
-	public SysLog convertByRequest(LogRequest request){
-		BeanUtil.copyProperties(request,this);
-		return this;
 	}
 
 }

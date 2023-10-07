@@ -1,7 +1,7 @@
 package com.lqjk.admin.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.lqjk.admin.entity.SysDept;
+import com.lqjk.base.bizentity.SysDept;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.admin.beans.dtos.TreeDto;
 import com.lqjk.admin.beans.vos.request.DeptRequest;

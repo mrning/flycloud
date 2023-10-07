@@ -3,7 +3,7 @@ package com.lqjk.admin.dao.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.lqjk.admin.entity.SysPermission;
+import com.lqjk.base.bizentity.SysPermission;
 import com.lqjk.admin.beans.example.SysPermissionExample;
 import com.lqjk.admin.beans.vos.request.PermissionRequest;
 import com.lqjk.admin.dao.SysPermissionDao;

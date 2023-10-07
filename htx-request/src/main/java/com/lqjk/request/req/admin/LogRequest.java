@@ -1,5 +1,8 @@
 package com.lqjk.request.req.admin;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.lqjk.base.bizentity.SysDept;
+import com.lqjk.base.bizentity.SysLog;
 import lombok.Data;
 
 @Data
@@ -57,4 +60,18 @@ public class LogRequest {
     private Integer operateType;
 
     private String clientId;
+
+    public LogRequest convertByEntity(SysLog sysLog) {
+        if (null == sysLog){
+            return null;
+        }
+        BeanUtil.copyProperties(sysLog,this);
+        return this;
+    }
+
+    public SysLog convertToEntity(){
+        SysLog sysLog = new SysLog();
+        BeanUtil.copyProperties(this,sysLog);
+        return sysLog;
+    }
 }

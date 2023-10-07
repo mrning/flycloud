@@ -15,7 +15,6 @@
         <module>htx-common</module>
         <module>htx-api</module>
         <module>htx-request</module>
-        <module>htx-api/htx-user</module>
     </modules>
 
     <properties>

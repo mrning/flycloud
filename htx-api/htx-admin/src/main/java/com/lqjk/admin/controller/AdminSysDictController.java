@@ -4,7 +4,7 @@ import com.lqjk.admin.beans.vos.request.SysDictPageRequest;
 import com.lqjk.admin.service.SysDictService;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

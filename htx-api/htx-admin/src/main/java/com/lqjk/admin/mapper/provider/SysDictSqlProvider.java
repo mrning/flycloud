@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lqjk.admin.beans.example.SysDictExample;
-import com.lqjk.admin.entity.SysDict;
+import com.lqjk.base.bizentity.SysDict;
 import org.apache.ibatis.jdbc.SQL;
 
 public class SysDictSqlProvider {

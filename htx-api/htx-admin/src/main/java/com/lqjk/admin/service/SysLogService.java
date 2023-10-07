@@ -1,7 +1,7 @@
 package com.lqjk.admin.service;
 
 
-import com.lqjk.admin.entity.SysLog;
+import com.lqjk.base.bizentity.SysLog;
 import com.lqjk.admin.beans.vos.request.SysLogRequest;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.request.req.admin.LogRequest;

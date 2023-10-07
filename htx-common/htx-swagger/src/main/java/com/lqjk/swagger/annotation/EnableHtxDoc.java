@@ -35,7 +35,7 @@ import java.lang.annotation.*;
 @Inherited
 @EnableConfigurationProperties(SwaggerProperties.class)
 @Import(OpenAPIDefinitionImportSelector.class)
-public @interface EnablePigDoc {
+public @interface EnableHtxDoc {
 
 	/**
 	 * 网关路由前缀

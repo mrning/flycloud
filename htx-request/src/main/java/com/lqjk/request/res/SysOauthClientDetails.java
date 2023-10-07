@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
  * 客户端信息
  * </p>
  *
- * @author lengleng
- * @since 2018-05-15
  */
 @Data
 @Schema(description = "客户端信息")

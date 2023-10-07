@@ -2,6 +2,7 @@ package com.lqjk.autocode.mapper;
 
 
 import com.lqjk.autocode.table.TableSql;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @author starmark
  */
+@Mapper
 public interface CreateMysqlTablesMapper {
 
     /**
@@ -49,5 +51,5 @@ public interface CreateMysqlTablesMapper {
      *
      * @param tableName 表结构的map
      */
-    void dorpTableByName(@Param("tableName") String tableName);
+    void dropTableByName(@Param("tableName") String tableName);
 }

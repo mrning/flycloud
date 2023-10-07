@@ -18,4 +18,9 @@ public class AuthLogoutRequest {
     private String token;
     @NotEmpty
     private String username;
+
+    /**
+     * 客户端类型
+     */
+    private String clientId;
 }

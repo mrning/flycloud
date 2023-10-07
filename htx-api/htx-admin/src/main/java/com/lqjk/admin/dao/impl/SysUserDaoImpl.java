@@ -1,7 +1,7 @@
 package com.lqjk.admin.dao.impl;
 
 import cn.hutool.db.Page;
-import com.lqjk.admin.entity.SysUser;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.beans.example.SysUserExample;
 import com.lqjk.admin.dao.SysUserDao;
 import com.lqjk.admin.mapper.SysUserMapper;

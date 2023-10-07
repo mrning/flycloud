@@ -1,8 +1,8 @@
-package com.lqjk.admin.entity;
+package com.lqjk.base.bizentity;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lqjk.request.res.SysRoleResponse;
+import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -40,12 +40,6 @@ public class SysRole extends BaseEntity {
         SysRole sysRole = new SysRole();
         BeanUtil.copyProperties(request, sysRole);
         return sysRole;
-    }
-
-    public SysRoleResponse convert(){
-        SysRoleResponse res = new SysRoleResponse();
-        BeanUtil.copyProperties(this,res);
-        return res;
     }
 
 }
