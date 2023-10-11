@@ -1,8 +1,7 @@
 package com.lqjk.base.utils;
 
 import cn.hutool.core.codec.Base64;
-import com.lqjk.base.exception.CheckedException;
-import com.sun.istack.NotNull;
+import com.lqjk.base.basebeans.exceptions.BusinessException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -127,7 +126,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	private static String[] splitClient(String header) {
 		if (header == null || !header.startsWith(BASIC_)) {
-			throw new CheckedException("请求头中client信息为空");
+			throw new BusinessException("请求头中client信息为空");
 		}
 		byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
 		byte[] decoded;
@@ -135,7 +134,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 			decoded = Base64.decode(base64Token);
 		}
 		catch (IllegalArgumentException e) {
-			throw new CheckedException("Failed to decode basic authentication token");
+			throw new BusinessException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, StandardCharsets.UTF_8);
@@ -143,7 +142,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		int delim = token.indexOf(":");
 
 		if (delim == -1) {
-			throw new CheckedException("Invalid basic authentication token");
+			throw new BusinessException("Invalid basic authentication token");
 		}
 		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
 	}

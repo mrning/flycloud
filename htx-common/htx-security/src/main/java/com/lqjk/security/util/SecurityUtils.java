@@ -2,7 +2,7 @@ package com.lqjk.security.util;
 
 import cn.hutool.core.util.StrUtil;
 import com.lqjk.base.constants.SecurityConstants;
-import com.lqjk.security.service.PigUser;
+import com.lqjk.security.service.HtxSecurityUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,10 +30,10 @@ public class SecurityUtils {
 	/**
 	 * 获取用户
 	 */
-	public PigUser getUser(Authentication authentication) {
+	public HtxSecurityUser getUser(Authentication authentication) {
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof PigUser) {
-			return (PigUser) principal;
+		if (principal instanceof HtxSecurityUser) {
+			return (HtxSecurityUser) principal;
 		}
 		return null;
 	}
@@ -41,7 +41,7 @@ public class SecurityUtils {
 	/**
 	 * 获取用户
 	 */
-	public PigUser getUser() {
+	public HtxSecurityUser getUser() {
 		Authentication authentication = getAuthentication();
 		if (authentication == null) {
 			return null;

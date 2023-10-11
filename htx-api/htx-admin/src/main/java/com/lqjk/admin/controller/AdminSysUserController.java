@@ -15,6 +15,7 @@ import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.request.req.admin.UserRequest;
 import com.lqjk.request.res.SysUserDeptAndRoleInfo;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,14 +37,15 @@ import java.util.List;
  * @author zac
  * @date 2021年4月24日星期六
  */
+@Slf4j
 @Tag(name = "用户管理")
 @RestController
 @RequestMapping("/sysUser")
-@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-@Slf4j
 public class AdminSysUserController {
+
     @Autowired
     private SysUserService sysUserService;
+
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
@@ -56,6 +58,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "添加用户")
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody @Validated UserAddRequest userAddRequest) {
         return Result.success(sysUserService.add(userAddRequest));
@@ -66,6 +69,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "删除用户")
     @PostMapping("/del")
     public Result<Integer> del(@RequestBody SysUser sysUser) {
         return Result.success(sysUserService.del(sysUser));
@@ -77,6 +81,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "修改用户")
     @PostMapping("/update")
     public Result<Integer> update(@RequestBody UserUpdateRequest userUpdateRequest, HttpServletRequest request) {
         return Result.success(sysUserService.update(userUpdateRequest, request.getHeader("token")));
@@ -88,6 +93,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "分页查询")
     @PostMapping("/queryPage")
     public Result<PageResult<SysUserResponse>> queryPage(@RequestBody UserRequest userRequest) {
         return Result.success(sysUserService.queryPage(userRequest));
@@ -99,8 +105,9 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "查询全部")
     @PostMapping("/queryAll")
-    public Result<List<SysUser>> queryPage() {
+    public Result<List<SysUser>> queryAll() {
         return Result.success(sysUserService.queryAllUser(Wrappers.emptyWrapper()));
     }
 
@@ -110,6 +117,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "根据角色id分页查询用户列表")
     @PostMapping("/userRoleList")
     public Result<PageResult<SysUserRoleResponse>> queryUserRolePage(@RequestBody UserRoleRequest userRoleRequest) {
         return Result.success(sysUserRoleService.queryPage(userRoleRequest));
@@ -121,6 +129,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "根据部门id查询用户列表")
     @PostMapping("/userListByDept")
     public Result<List<SysUserResponse>> userListByDept(@RequestBody UserDeptRequest userDeptRequest) {
         return Result.success(sysUserDeptService.userListByDept(userDeptRequest));
@@ -132,6 +141,7 @@ public class AdminSysUserController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "根据用户id获取部门和角色信息")
     @PostMapping("/deptAndRoleInfo")
     public Result<SysUserDeptAndRoleInfo> deptAndRoleInfo(@RequestBody UserRequest userRequest) {
         return Result.success(sysUserService.deptAndRoleInfo(userRequest));

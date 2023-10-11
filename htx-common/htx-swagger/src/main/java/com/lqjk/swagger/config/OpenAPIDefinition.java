@@ -1,13 +1,10 @@
 package com.lqjk.swagger.config;
 
+import com.lqjk.base.constants.CommonConstant;
 import com.lqjk.swagger.support.SwaggerProperties;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -18,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,24 +40,14 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 
 	private ApplicationContext applicationContext;
 
-	private SecurityScheme securityScheme(SwaggerProperties swaggerProperties) {
-		OAuthFlow clientCredential = new OAuthFlow();
-		clientCredential.setTokenUrl(swaggerProperties.getTokenUrl());
-		clientCredential.setScopes(new Scopes().addString(swaggerProperties.getScope(), swaggerProperties.getScope()));
-		OAuthFlows oauthFlows = new OAuthFlows();
-		oauthFlows.authorizationCode(clientCredential);
-		SecurityScheme securityScheme = new SecurityScheme();
-		securityScheme.setType(SecurityScheme.Type.HTTP);
-		securityScheme.setFlows(oauthFlows);
-		return securityScheme;
-	}
-
 	@Override
 	public void afterPropertiesSet() {
 		SwaggerProperties swaggerProperties = applicationContext.getBean(SwaggerProperties.class);
 		this.info(new Info().title(swaggerProperties.getTitle()));
-		// oauth2.0 password
-		this.schemaRequirement(HttpHeaders.AUTHORIZATION, this.securityScheme(swaggerProperties));
+
+		SecurityScheme securityScheme = new SecurityScheme();
+		securityScheme.setType(SecurityScheme.Type.HTTP);
+		this.schemaRequirement(CommonConstant.REQUEST_HEADER_TOKEN, securityScheme);
 		// servers
 		List<Server> serverList = new ArrayList<>();
 		serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));

@@ -14,11 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>com.lqjk</groupId>
-            <artifactId>htx-base</artifactId>
+            <artifactId>htx-swagger</artifactId>
         </dependency>
         <dependency>
             <groupId>com.lqjk</groupId>
-            <artifactId>htx-request</artifactId>
+            <artifactId>htx-security</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -50,14 +50,12 @@
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>${sa-token.version}</version>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
         </dependency>
         <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-dao-redis-jackson</artifactId>
-            <version>${sa-token.version}</version>
+            <artifactId>sa-token-redis-jackson</artifactId>
         </dependency>
         <!--SpringBoot校验框架-->
         <dependency>
@@ -80,10 +78,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
         </dependency>
     </dependencies>
 

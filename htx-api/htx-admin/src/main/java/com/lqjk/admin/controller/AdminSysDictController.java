@@ -5,6 +5,7 @@ import com.lqjk.admin.service.SysDictService;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.bizentity.SysDict;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class AdminSysDictController {
      * @date 2023年4月26日星期三
      * @author zac
      */
+    @Operation(summary = "添加")
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody SysDict sysDict) {
         return Result.success(sysDictService.add(sysDict));
@@ -43,6 +45,7 @@ public class AdminSysDictController {
      * @date 2023年4月26日星期三
      * @author zac
      */
+    @Operation(summary = "删除")
     @PostMapping("/del")
     public Result<Integer> del(@RequestBody SysDict sysDict) {
         return Result.success(sysDictService.del(sysDict));
@@ -53,6 +56,7 @@ public class AdminSysDictController {
      * @date 2023年4月26日星期三
      * @author zac
      */
+    @Operation(summary = "修改")
     @PostMapping("/update")
     public Result<Integer> update(@RequestBody SysDict sysDict) {
         return Result.success(sysDictService.update(sysDict));
@@ -63,11 +67,13 @@ public class AdminSysDictController {
      * @date 2023年4月26日星期三
      * @author zac
      */
+    @Operation(summary = "分页查询")
     @PostMapping("/queryPage")
     public Result<PageResult<SysDict>> queryPage(@RequestBody SysDictPageRequest pageRequest) {
         return Result.success(sysDictService.queryPage(pageRequest));
     }
 
+    @Operation(summary = "查询全部")
     @PostMapping("/queryAll")
     public Result<List<SysDict>> queryAll(){
         return Result.success(sysDictService.queryAll());

@@ -6,7 +6,10 @@ import cn.hutool.json.JSONUtil;
 import com.lqjk.auth.constant.ClientContent;
 import com.lqjk.auth.service.ClientCommonService;
 import com.lqjk.base.basebeans.Result;
+import com.lqjk.base.constants.RedisKey;
+import com.lqjk.base.constants.SecurityConstants;
 import com.lqjk.base.domain.UserDTO;
+import com.lqjk.base.enums.PlatformEnum;
 import com.lqjk.base.utils.RedisUtil;
 import com.lqjk.request.feign.AdminFeign;
 import com.lqjk.request.req.auth.AuthLoginRequest;
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 后台管理员管理Service实现类
@@ -28,10 +33,16 @@ public class AdminServiceImpl extends CommonServiceImpl {
 
     @Autowired
     private RedisUtil redisUtil;
+
     @Value("${spring.redis.expire.common}")
     private Long REDIS_EXPIRE;
+
+    @Value("${spring.redis.expire.token.admin:0L}")
+    private Long REDIS_EXPIRE_TOKEN_ADMIN;
+
     @Value("${spring.redis.key.admin}")
     private String REDIS_KEY_ADMIN;
+
     @Autowired
     private AdminFeign adminFeign;
 
@@ -41,20 +52,25 @@ public class AdminServiceImpl extends CommonServiceImpl {
     }
 
     @Override
-    public String login(AuthLoginRequest ssoLoginRequest) {
+    public Result<String> login(AuthLoginRequest authLoginRequest) {
         String token = null;
         //密码需要客户端加密后传递
         try {
-            Result<JSONObject> res = adminFeign.adminLogin(ssoLoginRequest);
+            Result<JSONObject> res = adminFeign.adminLogin(authLoginRequest,SecurityConstants.FROM_IN);
             if (res.isSuccess()){
                 JSONObject resObj = JSONUtil.parseObj(res.getResult().get("userInfo"));
                 StpUtil.login(resObj.getStr("uuid"));
                 token = StpUtil.getTokenValue();
+                // 登录后将用户信息缓存
+                String key = PlatformEnum.ADMIN.getValue() +":"+ RedisKey.LOGIN_SYSTEM_USERINFO + token;
+                redisUtil.set(key, res.getResult(), REDIS_EXPIRE_TOKEN_ADMIN, TimeUnit.HOURS);
+                return Result.success(token,"登录成功");
             }
         } catch (Exception e) {
-            log.warn("登录异常:{}", e.getMessage());
+            log.error("登录异常", e);
+            return Result.error(e.getMessage(),"");
         }
-        return token;
+        return Result.error("","");
     }
 
     @Override

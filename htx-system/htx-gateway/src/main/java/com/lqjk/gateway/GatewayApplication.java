@@ -15,7 +15,7 @@ public class GatewayApplication {
         log.info("""
                 
                 ----------------------------------------------------------
-                            Application Gateway is running！
+                            GatewayApplication is running！
                 ----------------------------------------------------------""");
     }
 

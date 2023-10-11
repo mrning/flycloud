@@ -18,6 +18,7 @@ import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.bizentity.*;
 import com.lqjk.base.constants.CommonConstant;
 import com.lqjk.base.constants.RedisKey;
+import com.lqjk.base.enums.PlatformEnum;
 import com.lqjk.base.utils.PasswordUtil;
 import com.lqjk.base.utils.RedisUtil;
 import com.lqjk.request.req.admin.UserRequest;
@@ -81,6 +82,8 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.add(sysUser);
     }
 
+    private static final String TOKEN_KEY = PlatformEnum.ADMIN.getValue() +":"+RedisKey.LOGIN_SYSTEM_USERINFO;
+
     public Integer del(SysUser sysUser) {
         Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，删除失败");
         Assert.isTrue(BeanUtil.isNotEmpty(sysUser), "不能全部属性为空");
@@ -102,7 +105,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
             sysUser.setPassword(PasswordUtil.getPasswordEncode(sysUser.getPassword()));
-            SysUser sysUserCache = (SysUser) redisUtil.get(RedisKey.LOGIN_TOKEN + ":" + token);
+            SysUser sysUserCache = (SysUser) redisUtil.get(TOKEN_KEY + token);
             if (sysUserCache != null && sysUserCache.getUuid().equals(sysUser.getUuid())) {
                 // 如果密码修改则用户退出重新登录
                 logout(token);
@@ -260,11 +263,11 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
     @Override
     public boolean logout(String token) {
-        SysUser sysUser = (SysUser) redisUtil.get(RedisKey.LOGIN_TOKEN + ":" + token);
+        SysUser sysUser = (SysUser) redisUtil.get(TOKEN_KEY + token);
         if (sysUser == null) {
             return true;
         }
-        redisUtil.del(RedisKey.LOGIN_TOKEN + ":" + token);
+        redisUtil.del(TOKEN_KEY + token);
         return true;
     }
 

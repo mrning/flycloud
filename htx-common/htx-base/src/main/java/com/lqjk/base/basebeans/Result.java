@@ -119,6 +119,10 @@ public class Result<T> implements Serializable {
 		return r;
 	}
 
+	public static<T> Result<T> error(String msg,T data) {
+		return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500,msg,data);
+	}
+
 	public Result<T> error500(String message) {
 		this.message = message;
 		this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;

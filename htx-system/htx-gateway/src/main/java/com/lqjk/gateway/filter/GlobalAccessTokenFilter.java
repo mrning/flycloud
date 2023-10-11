@@ -19,7 +19,6 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class GlobalAccessTokenFilter implements GlobalFilter, Ordered {
-    public final static String X_ACCESS_TOKEN = "X-SA-Token";
 
     @Value("${htx.security.ignore.urls:[]}")
     private String[] ignorePaths;
@@ -27,8 +26,7 @@ public class GlobalAccessTokenFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String url = exchange.getRequest().getURI().getPath();
-
-        log.info("  access url :  "+ url);
+        log.info("[Gateway全局拦截]请求url : "+ url);
 
         PathMatcher pathMatcher = new AntPathMatcher();
         // 是否需要认证

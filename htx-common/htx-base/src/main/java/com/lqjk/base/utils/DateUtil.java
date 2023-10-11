@@ -391,6 +391,10 @@ public class DateUtil extends PropertyEditorSupport {
         return datetimeFormat.get().format(getCalendar().getTime());
     }
 
+    public static String formatDateTimeYyyymmddhhmmss() {
+        return yyyymmddhhmmss.get().format(getCalendar().getTime());
+    }
+
     /**
      * 获取时间字符串
      */

@@ -20,14 +20,6 @@
     <dependencies>
         <dependency>
             <groupId>com.lqjk</groupId>
-            <artifactId>htx-base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lqjk</groupId>
-            <artifactId>htx-request</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lqjk</groupId>
             <artifactId>htx-swagger</artifactId>
         </dependency>
         <dependency>

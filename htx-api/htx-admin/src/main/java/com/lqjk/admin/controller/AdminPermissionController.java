@@ -9,6 +9,7 @@ import com.lqjk.admin.beans.vos.request.PermissionUpdateRequest;
 import com.lqjk.admin.service.SysPermissionService;
 import com.lqjk.base.basebeans.PageResult;
 import com.lqjk.base.basebeans.Result;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class AdminPermissionController {
      * @date 2022年12月11日星期日
      * @author zac
      */
+    @Operation(summary = "添加权限")
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody PermissionAddRequest permissionAddRequest) {
         return Result.success(sysPermissionService.add(permissionAddRequest));
@@ -44,6 +46,7 @@ public class AdminPermissionController {
      * @date 2022年12月11日星期日
      * @author zac
      */
+    @Operation(summary = "删除权限")
     @PostMapping("/del")
     public Result<Integer> del(@RequestBody SysPermission sysPermission) {
         return Result.success(sysPermissionService.del(sysPermission));
@@ -54,6 +57,7 @@ public class AdminPermissionController {
      * @date 2022年12月11日星期日
      * @author zac
      */
+    @Operation(summary = "修改权限")
     @PostMapping("/update")
     public Result<Integer> update(@RequestBody PermissionUpdateRequest permissionUpdateRequest) {
         return Result.success(sysPermissionService.update(permissionUpdateRequest));
@@ -64,6 +68,7 @@ public class AdminPermissionController {
      * @date 2022年12月11日星期日
      * @author zac
      */
+    @Operation(summary = "分页查询")
     @PostMapping("/queryPage")
     public Result<PageResult<SysPermission>> queryPage(@RequestBody PermissionRequest permissionRequest) {
         return Result.success(sysPermissionService.queryPage(permissionRequest));
@@ -74,6 +79,7 @@ public class AdminPermissionController {
      *
      * @return
      */
+    @Operation(summary = "查询用户拥有的菜单权限")
     @GetMapping(value = "/getPermissionList")
     public Result<?> getPermissionList() {
         List<SysPermission> sysPermissions = sysPermissionService.list();

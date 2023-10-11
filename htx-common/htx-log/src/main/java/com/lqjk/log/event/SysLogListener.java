@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.lqjk.base.constants.SecurityConstants;
 import com.lqjk.log.config.LogProperties;
 import com.lqjk.request.feign.AdminFeign;
 import com.lqjk.request.req.admin.LogRequest;
@@ -39,7 +40,7 @@ public class SysLogListener implements InitializingBean {
 		SysLogEventSource source = (SysLogEventSource) event.getSource();
 		LogRequest sysLog = new LogRequest();
 		BeanUtils.copyProperties(source, sysLog);
-		adminFeign.addLog(sysLog);
+		adminFeign.addLog(sysLog, SecurityConstants.FROM_IN);
 	}
 
 	@Override

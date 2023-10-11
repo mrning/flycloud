@@ -5,10 +5,6 @@ import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
-/**
- * @author lengleng
- * @date 2019/2/1
- */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

@@ -107,6 +107,14 @@ public class RestUtil {
         return postNative(url, variables, params).getBody();
     }
 
+    public static JSONObject postForm(String url, JSONObject variables, JSONObject params){
+        return request(url, HttpMethod.POST, getHeaderApplicationForm(), variables, params, JSONObject.class).getBody();
+    }
+
+    public static String postFormXml(String url, JSONObject variables, String body){
+        return requestXml(url, HttpMethod.POST, getHeaderApplicationForm(), variables, body, String.class).getBody();
+    }
+
     /**
      * 发送 POST 请求，返回原生 ResponseEntity 对象
      */
@@ -181,7 +189,8 @@ public class RestUtil {
      * @param responseType 返回类型
      * @return ResponseEntity<responseType>
      */
-    public static <T> ResponseEntity<T> request(String url, HttpMethod method, HttpHeaders headers, JSONObject variables, JSONObject params, Class<T> responseType) {
+    public static <T> ResponseEntity<T> request(String url, HttpMethod method, HttpHeaders headers, JSONObject variables,
+                                                JSONObject params, Class<T> responseType) {
         if (StringUtils.isEmpty(url)) {
             throw new RuntimeException("url 不能为空");
         }
@@ -206,10 +215,52 @@ public class RestUtil {
     }
 
     /**
+     * 发送请求
+     *
+     * @param url          请求地址
+     * @param method       请求方式
+     * @param headers      请求头  可空
+     * @param variables    请求url参数 可空
+     * @param body        请求body参数 可空
+     * @param responseType 返回类型
+     * @return ResponseEntity<responseType>
+     */
+    public static <T> ResponseEntity<T> requestXml(String url, HttpMethod method, HttpHeaders headers, JSONObject variables,
+                                                String body, Class<T> responseType) {
+        if (StringUtils.isEmpty(url)) {
+            throw new RuntimeException("url 不能为空");
+        }
+        if (method == null) {
+            throw new RuntimeException("method 不能为空");
+        }
+        if (headers == null) {
+            headers = new HttpHeaders();
+        }
+        // 请求体
+        if (StringUtils.isBlank(body)) {
+            throw new RuntimeException("body 不能为空");
+        }
+        // 拼接 url 参数
+        if (variables != null) {
+            url += ("?" + asUrlVariables(variables));
+        }
+        // 发送请求
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+        return RT.exchange(url, method, request, responseType);
+    }
+
+    /**
      * 获取JSON请求头
      */
     private static HttpHeaders getHeaderApplicationJson() {
         return getHeader(MediaType.APPLICATION_JSON_UTF8_VALUE);
+    }
+
+    /**
+     * 获取JSON请求头
+     */
+    private static HttpHeaders getHeaderApplicationForm() {
+        return getHeader(MediaType.APPLICATION_FORM_URLENCODED_VALUE);
     }
 
     /**

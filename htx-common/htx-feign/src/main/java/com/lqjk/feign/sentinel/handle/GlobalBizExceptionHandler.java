@@ -75,7 +75,7 @@ public class GlobalBizExceptionHandler {
 		String msg = SpringSecurityMessageSource.getAccessor()
 			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.warn("拒绝授权异常信息 ex={}", msg);
-		return Result.error(e.getLocalizedMessage());
+		return Result.error(HttpStatus.FORBIDDEN.value(),e.getLocalizedMessage());
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class GlobalBizExceptionHandler {
 	public Result handleBodyValidException(MethodArgumentNotValidException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		log.warn("参数绑定异常,ex = {}", fieldErrors.get(0).getDefaultMessage());
-		return Result.error(String.format("%s %s", fieldErrors.get(0).getField(), fieldErrors.get(0).getDefaultMessage()));
+		return Result.error(HttpStatus.BAD_REQUEST.value(),String.format("%s %s", fieldErrors.get(0).getField(), fieldErrors.get(0).getDefaultMessage()));
 	}
 
 	/**

@@ -9,7 +9,9 @@ import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.utils.ConverUtil;
 import com.lqjk.base.utils.DateUtil;
 import com.lqjk.request.req.admin.LogRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,9 +24,10 @@ import java.util.*;
  * @date 2021年4月24日星期六
  * @author zac
  */
+@Slf4j
 @RestController
 @RequestMapping("/sysLog")
-@Slf4j
+@Tag(name = "日志管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AdminSysLogController {
     @Autowired
@@ -35,6 +38,7 @@ public class AdminSysLogController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "添加日志")
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody LogRequest sysLog) {
         return Result.success(sysLogService.add(sysLog));
@@ -45,6 +49,7 @@ public class AdminSysLogController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "删除日志")
     @PostMapping("/del")
     public Result<Integer> del(@RequestBody SysLog sysLog) {
         return Result.success(sysLogService.del(sysLog));
@@ -55,6 +60,7 @@ public class AdminSysLogController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "更新日志")
     @PostMapping("/update")
     public Result<Integer> update(@RequestBody SysLog sysLog) {
         return Result.success(sysLogService.update(sysLog));
@@ -65,6 +71,7 @@ public class AdminSysLogController {
      * @date 2021年4月24日星期六
      * @author zac
      */
+    @Operation(summary = "分页查询")
     @PostMapping("/queryPage")
     public Result<PageResult<SysLog>> queryPage(@RequestBody SysLogRequest sysLogRequest) {
         return Result.success(sysLogService.queryPage(sysLogRequest));
@@ -75,6 +82,7 @@ public class AdminSysLogController {
      *
      * @return
      */
+    @Operation(summary = "获取单日访问量")
     @GetMapping("loginfo")
     public Result<Object> loginfo() {
         JSONObject obj = new JSONObject();
@@ -96,6 +104,7 @@ public class AdminSysLogController {
      *
      * @return
      */
+    @Operation(summary = "获取一周访问量")
     @GetMapping("visitInfo")
     public Result<List<Map<String, Object>>> visitInfo() {
         Result<List<Map<String, Object>>> result = new Result<List<Map<String, Object>>>();

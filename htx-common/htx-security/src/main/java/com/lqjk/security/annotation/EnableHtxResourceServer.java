@@ -16,8 +16,7 @@
 
 package com.lqjk.security.annotation;
 
-import com.lqjk.security.component.PigResourceServerAutoConfiguration;
-import com.lqjk.security.component.HtxResourceServerConfiguration;
+import com.lqjk.security.config.HtxResourceServerConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -32,7 +31,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Import({ PigResourceServerAutoConfiguration.class, HtxResourceServerConfiguration.class })
+@Import({ HtxResourceServerConfiguration.class })
 public @interface EnableHtxResourceServer {
 
 }

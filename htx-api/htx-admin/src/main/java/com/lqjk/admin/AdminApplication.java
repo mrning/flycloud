@@ -1,5 +1,6 @@
 package com.lqjk.admin;
 
+import com.lqjk.feign.annotation.EnableHtxFeignClients;
 import com.lqjk.security.annotation.EnableHtxResourceServer;
 import com.lqjk.swagger.annotation.EnableHtxDoc;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @EnableHtxResourceServer
 @SpringBootApplication(scanBasePackages = {"com.lqjk"})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.lqjk.request.feign")
+@EnableHtxFeignClients(basePackages = "com.lqjk.request.feign")
 @MapperScan(basePackages = {"com.lqjk.admin.mapper",
         "com.baomidou.mybatisplus.core.mapper"})
 public class AdminApplication {

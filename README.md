@@ -9,7 +9,7 @@
 - Jdk17 [下载地址](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 - SpringBoot 3.1.3
 - SpringCloud Alibaba 2022 + Nacos
-- Sa-Token 1.30.0
+- Sa-Token 1.34.0
 - Mybatis + Mybatis-plus
 - Mysql8
 - Redis
@@ -37,15 +37,13 @@
 - 更多安装部署命令，请参照[安装命令详情](https://gitee.com/mrning001/zacbook/blob/master/dockertext.txt)
 
 ### 使用说明
- ##### 理想状态下，使用该平台的正确打开方式：
- 1. 【htx-request】依赖【htx-base】，其他项目引用htx-request
- 2. 在【htx-base】项目 com.lqjk.base.bizentity 包下面创建需要的entity类，并且继承BaseEntity
- 3. 然后访问[swagger-ui](http://localhost:8009/doc.html)
- 4. 调用 `mybatis自动生成代码 >>> 根据实体类生成表结构(或者根据表结构生成代码)` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
- 5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
- 6. 前端直接调用接口使用数据即可
- 7. 接收前端时间参数使用 Date 类型，返回给前端时间结果时如果使用了 LocalDateTime 需要添加注解 @JsonFormat
- 8. 如果需要entity和request中的vo相互转换的话，将转换逻辑写到htx-request定义的请求实体里面，因为【1】
+1. 【htx-request】依赖【htx-base】，其他项目引用htx-request
+2. 在【htx-base】项目 com.lqjk.base.bizentity 包下面创建需要的entity类，并且继承BaseEntity
+3. 启动【htx-autocode】 --> AutoCodeApplication 然后访问[swagger-ui](http://localhost:8009/doc.html)
+4. 调用 `mybatis自动生成代码 >>> 根据实体类生成表结构(或者根据表结构生成代码)` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
+5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
+6. 接收前端时间参数使用 Date 类型，返回给前端时间结果时如果使用了 LocalDateTime 需要添加注解 @JsonFormat
+7. 如果需要entity和request中的vo相互转换的话，将转换逻辑写到htx-request定义的请求实体里面，因为【1】
 
 ### 相关技术文档
 - [Jdk17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)

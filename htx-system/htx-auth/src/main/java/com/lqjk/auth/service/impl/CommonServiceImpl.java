@@ -1,6 +1,7 @@
 package com.lqjk.auth.service.impl;
 
 import com.lqjk.auth.service.ClientCommonService;
+import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.domain.UserDTO;
 import com.lqjk.request.req.auth.AuthLoginRequest;
 import com.lqjk.request.req.auth.AuthLogoutRequest;
@@ -15,7 +16,7 @@ public abstract class CommonServiceImpl implements ClientCommonService {
     }
 
     @Override
-    public String login(AuthLoginRequest ssoLoginRequest) {
+    public Result<String> login(AuthLoginRequest ssoLoginRequest) {
         return null;
     }
 

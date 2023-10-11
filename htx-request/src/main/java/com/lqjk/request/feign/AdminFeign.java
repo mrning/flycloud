@@ -2,24 +2,25 @@ package com.lqjk.request.feign;
 
 import cn.hutool.json.JSONObject;
 import com.lqjk.base.basebeans.Result;
+import com.lqjk.base.bizentity.SysUser;
+import com.lqjk.base.constants.SecurityConstants;
 import com.lqjk.request.req.admin.LogRequest;
+import com.lqjk.request.req.admin.UserRequest;
 import com.lqjk.request.req.auth.AuthLoginRequest;
+import com.lqjk.request.res.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by macro on 2019/10/18.
- */
-@FeignClient("htx-admin")
+@FeignClient(value = "htx-admin")
 public interface AdminFeign {
 
-    @GetMapping("/sys/login")
-    Result<JSONObject> adminLogin(@RequestBody AuthLoginRequest authLoginRequest);
+    @PostMapping("/sys/login")
+    Result<JSONObject> adminLogin(@RequestBody AuthLoginRequest authLoginRequest,@RequestHeader(SecurityConstants.FROM) String from);
 
-    @PostMapping("/admin/sysLog/add")
-    Result<Integer> addLog(@RequestBody LogRequest logRequest);
+    @PostMapping("/sysLog/add")
+    Result<Integer> addLog(@RequestBody LogRequest logRequest,@RequestHeader(SecurityConstants.FROM) String from);
+
+    @PostMapping("/sysUser/query")
+    Result<UserInfo> queryUser(@RequestBody UserRequest userRequest, @RequestHeader(SecurityConstants.FROM) String from);
 
 }

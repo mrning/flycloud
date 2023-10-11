@@ -4,20 +4,24 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lqjk.admin.beans.vos.request.RegisRequest;
-import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.admin.service.SysUserService;
 import com.lqjk.admin.service.UploadFileService;
 import com.lqjk.admin.service.impl.ossImpl.AliOssServiceImpl;
 import com.lqjk.admin.service.impl.ossImpl.TencentServiceImpl;
 import com.lqjk.base.basebeans.Result;
+import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.base.enums.UploadClientEnum;
 import com.lqjk.base.utils.*;
 import com.lqjk.request.req.auth.AuthLoginRequest;
+import com.lqjk.request.req.auth.AuthPhoneLoginRequest;
+import com.lqjk.security.annotation.Inner;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
@@ -33,16 +37,17 @@ import org.springframework.web.multipart.MultipartRequest;
  */
 @RestController
 @RequestMapping("/sys")
+@Tag(name = "系统管理")
 @Slf4j
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
+@RequiredArgsConstructor
 public class AdminSysController {
 
     private UploadFileService uploadFileService;
 
-    @Autowired
-    private RedisUtil redisUtil;
-    @Autowired
-    private SysUserService sysUserService;
+    private final RedisUtil redisUtil;
+
+    private final SysUserService sysUserService;
 
     @Value("${htx.uploadClient:OSS_TENCENT_CLIENT}")
     private String uploadClient;
@@ -50,27 +55,30 @@ public class AdminSysController {
     /**
      * 用户注册接口
      * 用户名和密码必输一个
+     *
      * @param regisRequest
      * @return
      */
+    @Inner
+    @Operation(summary = "用户注册接口")
     @PostMapping("/register")
     public Result userRegister(@RequestBody RegisRequest regisRequest) {
         Assert.isTrue(StringUtils.isNotBlank(regisRequest.getUsername()) || StringUtils.isNotBlank(regisRequest.getPhone()), "用户名不能为空");
 
         // 用户名注册
-        if (StringUtils.isNotBlank(regisRequest.getUsername())){
+        if (StringUtils.isNotBlank(regisRequest.getUsername())) {
             Assert.isTrue(null == sysUserService.getUserByName(regisRequest.getUsername()), "用户名已注册");
             Assert.notNull(regisRequest.getPassword(), "密码不能为空");
-            Assert.notNull(regisRequest.getMail(),"邮箱不能为空");
+            Assert.notNull(regisRequest.getMail(), "邮箱不能为空");
             // 校验邮箱
             if (StringUtils.isNotBlank(regisRequest.getMail())) {
                 Assert.isTrue(null == sysUserService.getUserByEmail(regisRequest.getMail()), "邮箱已被注册");
             }
         }
         // 手机号注册
-        if (StringUtils.isNotBlank(regisRequest.getPhone())){
-            Assert.notNull(regisRequest.getSmscode(),"验证码不能为空");
-            Assert.isTrue(null == sysUserService.getUserByPhone(regisRequest.getPhone()),"用户名已注册");
+        if (StringUtils.isNotBlank(regisRequest.getPhone())) {
+            Assert.notNull(regisRequest.getSmscode(), "验证码不能为空");
+            Assert.isTrue(null == sysUserService.getUserByPhone(regisRequest.getPhone()), "用户名已注册");
             // 校验验证码
             Object code = redisUtil.get(regisRequest.getPhone());
             Assert.isTrue(regisRequest.getSmscode().equals(code), "手机验证码错误");
@@ -84,9 +92,9 @@ public class AdminSysController {
 
     /**
      * 用户名密码登录接口
-     *
-     * @return
      */
+    @Inner
+    @Operation(summary = "用户名密码登录接口")
     @PostMapping(value = "/login")
     public Result<JSONObject> login(@RequestBody AuthLoginRequest authLoginRequest) {
         Result<JSONObject> result;
@@ -123,24 +131,23 @@ public class AdminSysController {
     /**
      * 手机号登录接口
      *
-     * @param jsonObject
+     * @param phoneLoginRequest
      * @return
      */
+    @Inner
+    @Operation(summary = "手机号登录接口")
     @PostMapping("/phoneLogin")
-    public Result<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) throws Exception {
-        String phone = jsonObject.getString("mobile");
-        String smscode = jsonObject.getString("captcha");
-
+    public Result<JSONObject> phoneLogin(@RequestBody AuthPhoneLoginRequest phoneLoginRequest) {
         // 校验用户有效性
-        SysUser sysUser = sysUserService.getUserByPhone(phone);
+        SysUser sysUser = sysUserService.getUserByPhone(phoneLoginRequest.getMobile());
         Result<JSONObject> result = sysUserService.checkUserIsEffective(sysUser);
         if (!result.isSuccess()) {
             return result;
         }
 
         // 验证手机验证码
-        Object code = redisUtil.get(phone);
-        if (!smscode.equals(code)) {
+        Object code = redisUtil.get(phoneLoginRequest.getMobile());
+        if (!phoneLoginRequest.getCaptcha().equals(code)) {
             result.setMessage("手机验证码错误");
             return result;
         }
@@ -156,6 +163,7 @@ public class AdminSysController {
      * @param request
      * @return
      */
+    @Operation(summary = "退出登录")
     @PostMapping(value = "/logout")
     public Result<Object> logout(HttpServletRequest request) {
         //用户退出逻辑
@@ -173,10 +181,10 @@ public class AdminSysController {
      * @param sysUser
      * @return
      */
+    @Operation(summary = "校验用户账号是否唯一")
     @GetMapping(value = "/checkOnlyUser")
-    public Result<Boolean> checkOnlyUser(SysUser sysUser) {
+    public Result<Boolean> checkOnlyUser(@RequestBody SysUser sysUser) {
         Result<Boolean> result = new Result<>();
-        //如果此参数为false则程序发生异常
         result.setResult(true);
         try {
             //通过传入信息查询新的用户信息
@@ -190,7 +198,7 @@ public class AdminSysController {
         } catch (Exception e) {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
-            return result;
+            log.error("checkOnlyUser error", e);
         }
         result.setSuccess(true);
         return result;
@@ -199,6 +207,7 @@ public class AdminSysController {
     /**
      * 修改密码
      */
+    @Operation(summary = "修改密码")
     @PutMapping(value = "/changePassword")
     public Result<?> changePassword(@RequestBody SysUser sysUser) {
         SysUser u = sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername()));
@@ -214,6 +223,8 @@ public class AdminSysController {
      *
      * @param key
      */
+    @Inner
+    @Operation(summary = "后台生成图形验证码")
     @GetMapping(value = "/randomImage")
     public Result<String> randomImage(@RequestParam String key) {
         Result<String> res = new Result<String>();
@@ -239,6 +250,7 @@ public class AdminSysController {
      *
      * @return
      */
+    @Operation(summary = "文件上传统一方法")
     @PostMapping(value = "/upload")
     public Result<String> upload(MultipartRequest multipartRequest, String savePath) {
         Result<String> result = new Result<>();

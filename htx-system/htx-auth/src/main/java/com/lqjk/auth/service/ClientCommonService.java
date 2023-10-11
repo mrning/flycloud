@@ -3,6 +3,7 @@ package com.lqjk.auth.service;
 
 import com.lqjk.auth.constant.ClientContent;
 import com.lqjk.auth.service.impl.AdminServiceImpl;
+import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.domain.UserDTO;
 import com.lqjk.request.req.auth.AuthLoginRequest;
 import com.lqjk.request.req.auth.AuthLogoutRequest;
@@ -21,7 +22,7 @@ public interface ClientCommonService {
      * @param ssoLoginRequest 用户名
      * @return 生成的JWT的token
      */
-    String login(AuthLoginRequest ssoLoginRequest);
+    Result<String> login(AuthLoginRequest ssoLoginRequest);
 
     boolean logout(AuthLogoutRequest ssoLogoutRequest);
 
