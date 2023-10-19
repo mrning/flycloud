@@ -1,6 +1,6 @@
 package com.lqjk.auth.service.impl;
 
-import com.lqjk.auth.constant.ClientContent;
+import cn.dev33.satoken.stp.StpUtil;
 import com.lqjk.auth.service.ClientCommonService;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.domain.UserDTO;
@@ -9,16 +9,18 @@ import com.lqjk.request.req.auth.AuthLogoutRequest;
 import org.springframework.stereotype.Service;
 
 @Service("AppService")
-public class AppServiceImpl extends CommonServiceImpl {
+public class AppServiceImpl implements ClientCommonService {
 
     @Override
-    public ClientCommonService getService(String clientId) {
-        return clientId.equals(ClientContent.CLIENT_APP.getClientId()) ? this : null;
+    public ClientCommonService getService() {
+        return this;
     }
 
     @Override
     public Result<String> login(AuthLoginRequest ssoLoginRequest) {
-        return null;
+        // TODO app登录逻辑
+        StpUtil.login(ssoLoginRequest.getUsername());
+        return Result.success(StpUtil.getTokenValue(), "登录成功");
     }
 
     @Override

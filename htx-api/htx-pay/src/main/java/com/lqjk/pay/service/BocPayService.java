@@ -1,8 +1,9 @@
 package com.lqjk.pay.service;
 
+import cn.hutool.json.JSONObject;
 import com.lqjk.request.req.pay.BocPayUpRequest;
 
 public interface BocPayService {
 
-    String payUp(BocPayUpRequest bocPayUpRequest);
+    JSONObject payUp(BocPayUpRequest bocPayUpRequest);
 }

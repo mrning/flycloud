@@ -14,11 +14,12 @@ import java.util.IllegalFormatCodePointException;
  * 客户端公共接口
  */
 public interface ClientCommonService {
-    ClientCommonService getService(String clientId);
+    ClientCommonService getService();
 
 
     /**
      * 登录功能
+     *
      * @param ssoLoginRequest 用户名
      * @return 生成的JWT的token
      */

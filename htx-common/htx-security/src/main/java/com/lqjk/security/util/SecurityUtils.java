@@ -2,7 +2,7 @@ package com.lqjk.security.util;
 
 import cn.hutool.core.util.StrUtil;
 import com.lqjk.base.constants.SecurityConstants;
-import com.lqjk.security.service.HtxSecurityUser;
+import com.lqjk.security.config.HtxSecurityUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

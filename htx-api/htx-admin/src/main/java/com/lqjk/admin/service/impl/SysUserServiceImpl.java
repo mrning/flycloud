@@ -18,7 +18,7 @@ import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.bizentity.*;
 import com.lqjk.base.constants.CommonConstant;
 import com.lqjk.base.constants.RedisKey;
-import com.lqjk.base.enums.PlatformEnum;
+import com.lqjk.base.enums.UserClientEnum;
 import com.lqjk.base.utils.PasswordUtil;
 import com.lqjk.base.utils.RedisUtil;
 import com.lqjk.request.req.admin.UserRequest;
@@ -82,7 +82,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
         return sysUserDao.add(sysUser);
     }
 
-    private static final String TOKEN_KEY = PlatformEnum.ADMIN.getValue() +":"+RedisKey.LOGIN_SYSTEM_USERINFO;
+    private static final String TOKEN_KEY = UserClientEnum.ADMIN.getValue() +":"+RedisKey.LOGIN_SYSTEM_USERINFO;
 
     public Integer del(SysUser sysUser) {
         Assert.isTrue(StringUtils.isNotBlank(sysUser.getUuid()), "参数异常，删除失败");

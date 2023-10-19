@@ -1,5 +1,6 @@
 package com.lqjk.pay.beans;
 
+import cn.hutool.core.codec.Base64;
 import lombok.Data;
 
 /**
@@ -14,7 +15,7 @@ public class BocRequestVo {
      */
     private String merchantNo;
 
-    private String version = "1.0.1";
+    private String version = Base64.encode("1.0.1");
     /**
      * 交易码
      */
@@ -22,7 +23,7 @@ public class BocRequestVo {
     /**
      * 签名方法，固定上送：P7
      */
-    private String security = "P7";
+    private String security = Base64.encode("P7");
     /**
      * 请求报文明文信息: 将业务数据组成XML字符串格式进行UTF-8格式的转码
      */

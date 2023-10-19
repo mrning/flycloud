@@ -3,7 +3,6 @@ package com.lqjk.autocode.controller;
 import com.lqjk.autocode.bean.MybatisGeneratorRequest;
 import com.lqjk.autocode.service.MybatisGeneratorService;
 import com.lqjk.autocode.service.SysMysqlCreateTableService;
-import com.lqjk.base.enums.PlatformEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

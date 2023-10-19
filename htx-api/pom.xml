@@ -14,7 +14,6 @@
     <modules>
         <module>htx-admin</module>
         <module>htx-app</module>
-        <module>htx-user</module>
         <module>htx-pay</module>
     </modules>
 

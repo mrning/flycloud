@@ -1,5 +1,6 @@
 package com.lqjk.pay.controller;
 
+import cn.hutool.json.JSONObject;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.pay.service.BocPayService;
 import com.lqjk.request.req.pay.BocPayUpRequest;
@@ -23,7 +24,13 @@ public class BocPayController {
 
     @Operation(summary = "拉起支付")
     @PostMapping("/up")
-    public Result<String> payUp(@RequestBody BocPayUpRequest bocPayUpRequest){
-        return Result.success(bocPayService.payUp(bocPayUpRequest), "操作成功");
+    public Result<String> payUp(@RequestBody BocPayUpRequest bocPayUpRequest) {
+        JSONObject json = bocPayService.payUp(bocPayUpRequest);
+
+        cn.hutool.json.JSONObject headJson = json.getJSONObject("head");
+        if (!"ok".equals(headJson.getStr("responseCode"))) {
+            return Result.error(headJson.getStr("responseInfo"), "请求异常");
+        }
+        return Result.success(json.getJSONObject("body").toStringPretty(), "操作成功");
     }
 }

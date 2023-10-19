@@ -23,6 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -47,6 +48,9 @@ public class PermitAllUrlProperties implements InitializingBean {
 
 	private static final String[] DEFAULT_IGNORE_URLS = new String[] { "/actuator/**", "/error", "/v3/api-docs" };
 
+	@Value("${htx.security.ignore.urls:''}")
+	private String[] ignorePaths;
+
 	@Getter
 	@Setter
 	private List<String> urls = new ArrayList<>();
@@ -54,6 +58,7 @@ public class PermitAllUrlProperties implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() {
 		urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
+		urls.addAll(Arrays.asList(ignorePaths));
 		RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
 		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 

@@ -7,7 +7,12 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.*;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -46,7 +51,59 @@ public class RestUtil {
     private final static RestTemplate RT;
 
     static {
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory(){
+            @Override
+            protected void prepareConnection(HttpURLConnection connection, String httpMethod)
+                    throws IOException {
+                if (connection instanceof HttpsURLConnection) {
+                    prepareHttpsConnection((HttpsURLConnection) connection);
+                }
+                super.prepareConnection(connection, httpMethod);
+            }
+
+            private void prepareHttpsConnection(HttpsURLConnection connection) {
+                connection.setHostnameVerifier(new SkipHostnameVerifier());
+                try {
+                    connection.setSSLSocketFactory(createSslSocketFactory());
+                }
+                catch (Exception ex) {
+
+                }
+            }
+
+            private SSLSocketFactory createSslSocketFactory() throws Exception {
+                SSLContext context = SSLContext.getInstance("TLS");
+                context.init(null, new TrustManager[] { new SkipX509TrustManager() },
+                        new SecureRandom());
+                return context.getSocketFactory();
+            }
+
+            private class SkipHostnameVerifier implements HostnameVerifier {
+
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+
+            }
+
+            private static class SkipX509TrustManager implements X509TrustManager {
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                }
+
+            }
+        };
         requestFactory.setConnectTimeout(3000);
         requestFactory.setReadTimeout(3000);
         RT = new RestTemplate(requestFactory);
@@ -111,7 +168,7 @@ public class RestUtil {
         return request(url, HttpMethod.POST, getHeaderApplicationForm(), variables, params, JSONObject.class).getBody();
     }
 
-    public static String postFormXml(String url, JSONObject variables, String body){
+    public static String postFormXml(String url, JSONObject variables, JSONObject body){
         return requestXml(url, HttpMethod.POST, getHeaderApplicationForm(), variables, body, String.class).getBody();
     }
 
@@ -226,7 +283,7 @@ public class RestUtil {
      * @return ResponseEntity<responseType>
      */
     public static <T> ResponseEntity<T> requestXml(String url, HttpMethod method, HttpHeaders headers, JSONObject variables,
-                                                String body, Class<T> responseType) {
+                                                JSONObject body, Class<T> responseType) {
         if (StringUtils.isEmpty(url)) {
             throw new RuntimeException("url 不能为空");
         }
@@ -236,8 +293,9 @@ public class RestUtil {
         if (headers == null) {
             headers = new HttpHeaders();
         }
+        String bodyStr = asUrlVariables(body);
         // 请求体
-        if (StringUtils.isBlank(body)) {
+        if (StringUtils.isBlank(bodyStr)) {
             throw new RuntimeException("body 不能为空");
         }
         // 拼接 url 参数
@@ -245,7 +303,7 @@ public class RestUtil {
             url += ("?" + asUrlVariables(variables));
         }
         // 发送请求
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
+        HttpEntity<String> request = new HttpEntity<>(bodyStr, headers);
         return RT.exchange(url, method, request, responseType);
     }
 
@@ -253,7 +311,7 @@ public class RestUtil {
      * 获取JSON请求头
      */
     private static HttpHeaders getHeaderApplicationJson() {
-        return getHeader(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        return getHeader(MediaType.APPLICATION_JSON_VALUE);
     }
 
     /**

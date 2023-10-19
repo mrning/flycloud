@@ -11,16 +11,9 @@ import lombok.EqualsAndHashCode;
  * Created by macro on 2018/4/26.
  */
 @Data
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 public class AuthLogoutRequest {
     @NotEmpty
     private String token;
     @NotEmpty
     private String username;
-
-    /**
-     * 客户端类型
-     */
-    private String clientId;
 }

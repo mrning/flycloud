@@ -1,4 +1,4 @@
-package com.lqjk.security.service;
+package com.lqjk.security.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

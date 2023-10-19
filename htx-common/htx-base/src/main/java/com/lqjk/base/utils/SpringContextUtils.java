@@ -2,6 +2,7 @@ package com.lqjk.base.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -19,7 +20,13 @@ public class SpringContextUtils implements ApplicationContextAware {
 
 	/**
 	 * 上下文对象实例
+	 * -- GETTER --
+	 *  获取applicationContext
+	 *
+	 * @return
+
 	 */
+	@Getter
 	private static ApplicationContext applicationContext;
 
 	@Override
@@ -27,13 +34,8 @@ public class SpringContextUtils implements ApplicationContextAware {
 		SpringContextUtils.applicationContext = applicationContext;
 	}
 
-	/**
-	 * 获取applicationContext
-	 *
-	 * @return
-	 */
-	public static ApplicationContext getApplicationContext() {
-		return applicationContext;
+	public static String getProperty(String variableName) {
+		return getApplicationContext().getEnvironment().getProperty(variableName);
 	}
 
 	/**

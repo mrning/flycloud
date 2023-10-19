@@ -13,8 +13,4 @@ public class AuthLoginRequest {
     private String userUuid;
     private String username;
     private String password;
-    /**
-     * 客户端类型
-     */
-    private String clientId;
 }

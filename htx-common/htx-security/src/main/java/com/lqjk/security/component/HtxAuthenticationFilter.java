@@ -7,9 +7,9 @@ import cn.hutool.json.JSONUtil;
 import com.lqjk.base.basebeans.exceptions.BusinessException;
 import com.lqjk.base.constants.RedisKey;
 import com.lqjk.base.constants.SecurityConstants;
-import com.lqjk.base.enums.PlatformEnum;
+import com.lqjk.base.enums.UserClientEnum;
 import com.lqjk.base.utils.RedisUtil;
-import com.lqjk.security.service.HtxSecurityUser;
+import com.lqjk.security.config.HtxSecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -45,16 +44,22 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 从请求头中获取认证信息
+        final String headerClient = request.getHeader("client");
+        if(null == UserClientEnum.getByValue(headerClient)){
+            log.error("请求头中的client值当前不支持");
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String authHeaderToken = request.getHeader("token");
-
         if (authHeaderToken == null || allUrlProperties.getUrls().contains(request.getRequestURI())) {
+            log.error("请求头中没有token，或当前请求url不需要认证");
             filterChain.doFilter(request, response);
             return;
         }
         // 从token中解析出user uuid
         String userUuid = String.valueOf(StpUtil.getLoginIdByToken(authHeaderToken));
         if (userUuid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = getUserDetails(authHeaderToken);
+            UserDetails userDetails = getUserDetails(authHeaderToken,headerClient);
 
             // 如果令牌有效，封装一个UsernamePasswordAuthenticationToken对象
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -70,9 +75,9 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @NotNull
-    private UserDetails getUserDetails(String authHeaderToken) {
+    private UserDetails getUserDetails(String authHeaderToken,String headerClient) {
         // 登录后将用户信息缓存
-        Object o = redisUtil.get(PlatformEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + authHeaderToken);
+        Object o = redisUtil.get(UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + authHeaderToken);
         if (null == o) {
             throw new BusinessException(HttpStatus.UNAUTHORIZED.value(), authHeaderToken + ", token已过期");
         }

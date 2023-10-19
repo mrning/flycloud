@@ -14,6 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
 @Slf4j
 @Service
 public class BocPayServiceImpl implements BocPayService {
@@ -29,9 +34,14 @@ public class BocPayServiceImpl implements BocPayService {
     @Value("${htx.pay.boc.serviceHost:''}")
     private String serviceHost;
 
-    @Override
-    public String payUp(BocPayUpRequest bocPayUpRequest) {
+    /**
+     * 中行数币支付私钥密码
+     */
+    @Value("${htx.pay.boc.privateKeyPwd:''}")
+    private String privateKeyPwd;
 
+    @Override
+    public cn.hutool.json.JSONObject payUp(BocPayUpRequest bocPayUpRequest) {
 
         String dateTime = DateUtil.formatDateTimeYyyymmddhhmmss();
         JSONObject request = new JSONObject();
@@ -53,7 +63,7 @@ public class BocPayServiceImpl implements BocPayService {
         //订单金额，整数位不要进行前补零,小数位补齐2位小数
         //即：不超过10位整数位+1位小数点+2位小数
         //无效格式如123，.10，1.1,有效格式如1.00，0.10
-        body.put("totalAmount", 0.01);
+        body.put("totalAmount", "0.01");
         //币种，当前只支持人民币，编码为001
         body.put("currency", "001");
         //发起支付的机器IP，仅支持IPV4
@@ -61,22 +71,26 @@ public class BocPayServiceImpl implements BocPayService {
         //订单生成时间 格式：YYYYMMDDHHMISS 示例：20140226152159
         body.put("timeStart", dateTime);
         //来源渠道
-        body.put("orderChannel", "0002");
+        body.put("orderChannel", "0001");
         // 消费场景子类，具体上送请参考消费子场景说明
         // 消费=D204 其他类消费 = 02043
         body.put("tranCode", "D20402043");
         //交易类型 TT04：H5/APP拉起支付
         body.put("tradeTypeCode", "TT04");
         //交易地址 线下场景填写机具布放地址；线上场景填写网络交易平台网络地址
-        body.put("tradePlace", "htxapp");
+        body.put("tradePlace", "61.169.87.122");
 
         request.put("head", head);
         request.put("body", body);
 
-        // 发起支付 message id
-        Long MESSAGE_ID_PAY_UP = 219701L;
-        String res = BocRestUtil.sendBocRest(bocMerchantNo, serviceHost, request.toJSONString(), MESSAGE_ID_PAY_UP);
-        log.info("中行拉起支付接口，返回结果为\n {}", XML.toJSONObject(Base64.decodeStr(res)));
-        return null;
+        try {
+            log.info("中行拉起支付接口，入参\n {}", request.toJSONString());
+            String res = BocRestUtil.sendBocRest(bocMerchantNo, serviceHost, request.toJSONString(), "219701",privateKeyPwd);
+            cn.hutool.json.JSONObject resJson = XML.toJSONObject(Base64.decodeStr(res));
+            log.info("中行拉起支付接口，返回结果为\n {}", resJson);
+            return resJson.getJSONObject("response");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

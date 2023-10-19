@@ -1,8 +1,7 @@
 package com.lqjk.autocode.bean;
 
-import com.lqjk.base.enums.PlatformEnum;
+import com.lqjk.base.enums.UserClientEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
 
 @Data
@@ -19,7 +18,7 @@ public class MybatisGeneratorRequest {
     String desc;
 
     @Schema(description = "平台类型，会影响到生成java类的路径")
-    PlatformEnum platform;
+    UserClientEnum platform;
 
     @Schema(description = "根据code建表时，自动扫描entity的包路径", example = "com.lqjk.base.bizentity")
     private String packagePath;

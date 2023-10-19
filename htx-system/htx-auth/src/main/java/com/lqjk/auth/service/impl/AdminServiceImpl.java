@@ -3,13 +3,12 @@ package com.lqjk.auth.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.lqjk.auth.constant.ClientContent;
 import com.lqjk.auth.service.ClientCommonService;
 import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.constants.RedisKey;
 import com.lqjk.base.constants.SecurityConstants;
 import com.lqjk.base.domain.UserDTO;
-import com.lqjk.base.enums.PlatformEnum;
+import com.lqjk.base.enums.UserClientEnum;
 import com.lqjk.base.utils.RedisUtil;
 import com.lqjk.request.feign.AdminFeign;
 import com.lqjk.request.req.auth.AuthLoginRequest;
@@ -17,7 +16,6 @@ import com.lqjk.request.req.auth.AuthLogoutRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -27,9 +25,8 @@ import java.util.concurrent.TimeUnit;
  * Created by macro on 2018/4/26.
  */
 @Slf4j
-@Primary
 @Service("AdminService")
-public class AdminServiceImpl extends CommonServiceImpl {
+public class AdminServiceImpl implements ClientCommonService {
 
     @Autowired
     private RedisUtil redisUtil;
@@ -47,8 +44,8 @@ public class AdminServiceImpl extends CommonServiceImpl {
     private AdminFeign adminFeign;
 
     @Override
-    public ClientCommonService getService(String clientId) {
-        return clientId.equals(ClientContent.CLIENT_ADMIN.getClientId()) ? this : null;
+    public ClientCommonService getService() {
+        return this;
     }
 
     @Override
@@ -56,21 +53,21 @@ public class AdminServiceImpl extends CommonServiceImpl {
         String token = null;
         //密码需要客户端加密后传递
         try {
-            Result<JSONObject> res = adminFeign.adminLogin(authLoginRequest,SecurityConstants.FROM_IN);
-            if (res.isSuccess()){
+            Result<JSONObject> res = adminFeign.adminLogin(authLoginRequest, SecurityConstants.FROM_IN);
+            if (res.isSuccess()) {
                 JSONObject resObj = JSONUtil.parseObj(res.getResult().get("userInfo"));
                 StpUtil.login(resObj.getStr("uuid"));
                 token = StpUtil.getTokenValue();
                 // 登录后将用户信息缓存
-                String key = PlatformEnum.ADMIN.getValue() +":"+ RedisKey.LOGIN_SYSTEM_USERINFO + token;
+                String key = UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + token;
                 redisUtil.set(key, res.getResult(), REDIS_EXPIRE_TOKEN_ADMIN, TimeUnit.HOURS);
-                return Result.success(token,"登录成功");
+                return Result.success(token, "登录成功");
             }
         } catch (Exception e) {
             log.error("登录异常", e);
-            return Result.error(e.getMessage(),"");
+            return Result.error(e.getMessage(), "");
         }
-        return Result.error("","");
+        return Result.error("", "");
     }
 
     @Override

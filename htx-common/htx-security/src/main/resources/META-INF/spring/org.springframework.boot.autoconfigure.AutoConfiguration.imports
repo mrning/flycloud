@@ -1,4 +1,2 @@
-com.lqjk.security.service.HtxUserDetailsServiceImpl
-com.lqjk.security.service.HtxAppUserDetailsServiceImpl
 com.lqjk.security.component.HtxSecurityInnerAspect
 com.lqjk.security.component.HtxSecurityMessageSourceConfiguration
