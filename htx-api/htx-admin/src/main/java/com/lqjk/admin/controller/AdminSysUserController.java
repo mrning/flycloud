@@ -23,10 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -109,6 +106,18 @@ public class AdminSysUserController {
     @PostMapping("/queryAll")
     public Result<List<SysUser>> queryAll() {
         return Result.success(sysUserService.queryAllUser(Wrappers.emptyWrapper()));
+    }
+
+    /**
+     * AutoCreateFile queryPage
+     *
+     * @date 2021年4月24日星期六
+     * @author zac
+     */
+    @Operation(summary = "查询当前用户信息")
+    @GetMapping("/info")
+    public Result<SysUser> getInfo() {
+        return Result.success(sysUserService.getInfo());
     }
 
     /**

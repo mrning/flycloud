@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lqjk.third.mapper.TeamRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.lqjk.third.beans.TeamRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="owner_id" property="ownerId" jdbcType="BIGINT" />
+    <result column="com_id" property="comId" jdbcType="BIGINT" />
+    <result column="travel_type" property="travelType" jdbcType="INTEGER" />
+    <result column="travel_times" property="travelTimes" jdbcType="INTEGER" />
+    <result column="traval_carbon" property="travalCarbon" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, owner_id, com_id, travel_type, travel_times, traval_carbon, status, last_update
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lqjk.third.beans.TeamRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from team_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from team_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from team_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lqjk.third.beans.TeamRecordExample" >
+    delete from team_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lqjk.third.beans.TeamRecord" >
+    insert into team_record (id, owner_id, com_id, 
+      travel_type, travel_times, traval_carbon, 
+      status, last_update)
+    values (#{id,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT}, #{comId,jdbcType=BIGINT}, 
+      #{travelType,jdbcType=INTEGER}, #{travelTimes,jdbcType=INTEGER}, #{travalCarbon,jdbcType=NUMERIC}, 
+      #{status,jdbcType=INTEGER}, #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lqjk.third.beans.TeamRecord" >
+    insert into team_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="comId != null" >
+        com_id,
+      </if>
+      <if test="travelType != null" >
+        travel_type,
+      </if>
+      <if test="travelTimes != null" >
+        travel_times,
+      </if>
+      <if test="travalCarbon != null" >
+        traval_carbon,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="lastUpdate != null" >
+        last_update,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=BIGINT},
+      </if>
+      <if test="travelType != null" >
+        #{travelType,jdbcType=INTEGER},
+      </if>
+      <if test="travelTimes != null" >
+        #{travelTimes,jdbcType=INTEGER},
+      </if>
+      <if test="travalCarbon != null" >
+        #{travalCarbon,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lqjk.third.beans.TeamRecordExample" resultType="java.lang.Integer" >
+    select count(*) from team_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update team_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.ownerId != null" >
+        owner_id = #{record.ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.comId != null" >
+        com_id = #{record.comId,jdbcType=BIGINT},
+      </if>
+      <if test="record.travelType != null" >
+        travel_type = #{record.travelType,jdbcType=INTEGER},
+      </if>
+      <if test="record.travelTimes != null" >
+        travel_times = #{record.travelTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.travalCarbon != null" >
+        traval_carbon = #{record.travalCarbon,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastUpdate != null" >
+        last_update = #{record.lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update team_record
+    set id = #{record.id,jdbcType=BIGINT},
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
+      com_id = #{record.comId,jdbcType=BIGINT},
+      travel_type = #{record.travelType,jdbcType=INTEGER},
+      travel_times = #{record.travelTimes,jdbcType=INTEGER},
+      traval_carbon = #{record.travalCarbon,jdbcType=NUMERIC},
+      status = #{record.status,jdbcType=INTEGER},
+      last_update = #{record.lastUpdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lqjk.third.beans.TeamRecord" >
+    update team_record
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="comId != null" >
+        com_id = #{comId,jdbcType=BIGINT},
+      </if>
+      <if test="travelType != null" >
+        travel_type = #{travelType,jdbcType=INTEGER},
+      </if>
+      <if test="travelTimes != null" >
+        travel_times = #{travelTimes,jdbcType=INTEGER},
+      </if>
+      <if test="travalCarbon != null" >
+        traval_carbon = #{travalCarbon,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdate != null" >
+        last_update = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lqjk.third.beans.TeamRecord" >
+    update team_record
+    set owner_id = #{ownerId,jdbcType=BIGINT},
+      com_id = #{comId,jdbcType=BIGINT},
+      travel_type = #{travelType,jdbcType=INTEGER},
+      travel_times = #{travelTimes,jdbcType=INTEGER},
+      traval_carbon = #{travalCarbon,jdbcType=NUMERIC},
+      status = #{status,jdbcType=INTEGER},
+      last_update = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

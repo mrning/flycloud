@@ -4,12 +4,15 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lqjk.admin.beans.example.SysDeptExample;
+import com.lqjk.admin.beans.example.SysDictExample;
 import com.lqjk.admin.beans.vos.request.DeptRequest;
 import com.lqjk.admin.dao.SysDeptDao;
 import com.lqjk.base.bizentity.SysDept;
 import com.lqjk.admin.mapper.SysDeptMapper;
+import com.lqjk.base.bizentity.SysDict;
 import com.lqjk.base.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,18 +40,19 @@ public class SysDeptDaoImpl implements SysDeptDao {
     }
 
     public Integer del(SysDept sysDept) {
-        SysDeptExample s = new SysDeptExample();
-        s.createCriteria().andUuidEqualTo(sysDept.getUuid());
         sysDept.setDeleted(true);
         sysDept.setUpdateTime(LocalDateTime.now());
-        return sysDeptMapper.updateByExampleSelective(sysDept, s);
+
+        SysDeptExample sysDeptExample = new SysDeptExample();
+        return sysDeptMapper.updateByExampleSelective(sysDept, buildExample(sysDept, sysDeptExample));
     }
 
     public Integer update(SysDept sysDept) {
         sysDept.setUpdateTime(LocalDateTime.now());
         sysDept.setUpdateUser(SysUtil.getCurrentUser().getNickname());
+
         SysDeptExample sysDeptExample = new SysDeptExample();
-        return sysDeptMapper.updateByExampleSelective(sysDept, sysDeptExample);
+        return sysDeptMapper.updateByExampleSelective(sysDept, buildExample(sysDept, sysDeptExample));
     }
 
     public List<SysDept> queryPage(DeptRequest deptRequest, Page page) {
@@ -59,6 +63,7 @@ public class SysDeptDaoImpl implements SysDeptDao {
 
     public Long queryPageCount(DeptRequest deptRequest) {
         SysDeptExample sysDeptExample = new SysDeptExample();
+        sysDeptExample.createCriteria().andDeletedEqualTo(Boolean.FALSE);
         return sysDeptMapper.countByExample(sysDeptExample);
     }
 
@@ -72,5 +77,13 @@ public class SysDeptDaoImpl implements SysDeptDao {
         SysDeptExample sysDeptExample = new SysDeptExample();
         sysDeptExample.createCriteria().andUuidEqualTo(deptUuid);
         return sysDeptMapper.selectByExample(sysDeptExample).get(0);
+    }
+
+    public SysDeptExample buildExample(SysDept sysDept, SysDeptExample sysDeptExample) {
+        SysDeptExample.Criteria criteria = sysDeptExample.createCriteria();
+        if (StringUtils.isNotBlank(sysDept.getUuid())){
+            criteria.andUuidEqualTo(sysDept.getUuid());
+        }
+        return sysDeptExample;
     }
 }

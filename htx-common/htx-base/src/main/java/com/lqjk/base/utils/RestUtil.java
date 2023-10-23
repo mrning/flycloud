@@ -1,6 +1,6 @@
 package com.lqjk.base.utils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -65,9 +65,8 @@ public class RestUtil {
                 connection.setHostnameVerifier(new SkipHostnameVerifier());
                 try {
                     connection.setSSLSocketFactory(createSslSocketFactory());
-                }
-                catch (Exception ex) {
-
+                }catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
 
@@ -120,6 +119,12 @@ public class RestUtil {
      */
     public static JSONObject get(String url) {
         return getNative(url, null, null).getBody();
+    }
+
+    public static String getHtml(String url){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        return request(url, HttpMethod.GET, headers, null,null,String.class).getBody();
     }
 
     /**
@@ -335,7 +340,7 @@ public class RestUtil {
      * 将 JSONObject 转为 a=1&b=2&c=3...&n=n 的形式
      */
     public static String asUrlVariables(JSONObject variables) {
-        Map<String, Object> source = variables.getInnerMap();
+        Map<String, Object> source = variables.toJavaObject(Map.class);
         Iterator<String> it = source.keySet().iterator();
         StringBuilder urlVariables = new StringBuilder();
         while (it.hasNext()) {

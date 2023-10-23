@@ -17,10 +17,10 @@ public class AppServiceImpl implements ClientCommonService {
     }
 
     @Override
-    public Result<String> login(AuthLoginRequest ssoLoginRequest) {
+    public String login(AuthLoginRequest ssoLoginRequest) {
         // TODO app登录逻辑
         StpUtil.login(ssoLoginRequest.getUsername());
-        return Result.success(StpUtil.getTokenValue(), "登录成功");
+        return StpUtil.getTokenValue();
     }
 
     @Override

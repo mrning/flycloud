@@ -44,7 +44,7 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 从请求头中获取认证信息
-        final String headerClient = request.getHeader("client");
+        final String headerClient = request.getHeader(SecurityConstants.CLIENT);
         if(null == UserClientEnum.getByValue(headerClient)){
             log.error("请求头中的client值当前不支持");
             filterChain.doFilter(request, response);

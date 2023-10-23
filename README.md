@@ -1,6 +1,7 @@
-# htx
+# htx-server
+## 沪碳行服务端代码
 
-基于spirngcloud alibaba实现的微服务脚手架，实现了熔断，限流，gateway路由控制，sso登录认证，鉴权等功能，更多功能持续开发中
+基于spring cloud alibaba实现的微服务脚手架
 
 
 ### 核心依赖
@@ -15,14 +16,18 @@
 - Redis
 
 ### 模块说明
-- htx-system-gateway【路由鉴权】端口：8000
-- htx-system-sso【登录认证】端口：8001
-- htx-system-monitor【监控】端口：8101
-- htx-system-autocode【代码生成】端口：8009
-- htx-system-core【服务调用中间件】
-- htx-common【公共模块，按需引用，无需启动】
-- htx-admin【管理后台】端口：8010
-- htx-app-user【app用户模块】端口：8020
+- htx-system
+  - htx-gateway【路由鉴权】端口：8000
+  - htx-auth【登录认证】端口：8001
+  - htx-monitor【监控】端口：8101
+  - htx-autocode【代码生成】端口：8009
+- htx-common 项目核心依赖，按需引用
+- htx-request 微服务feign定义和request + response 对象定义，方便引用
+- htx-api
+  - htx-admin【管理后台】端口：8010
+  - htx-app【app专用接口】端口：8020
+  - htx-pay【支付相关】端口：8008
+  - htx-third【第三方对接相关】端口：8003
 
 ### 安装教程
 - 安装jdk17

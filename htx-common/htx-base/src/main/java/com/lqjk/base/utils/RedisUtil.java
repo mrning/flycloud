@@ -1,5 +1,7 @@
 package com.lqjk.base.utils;
 
+import cn.hutool.core.util.StrUtil;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -40,6 +42,15 @@ public class RedisUtil {
 			return false;
 		}
 	}
+
+	public Set<String> keys(String key){
+		return redisTemplate.keys(key);
+	}
+
+	public String queryIndexCode() {
+		return Long.toString(redisTemplate.boundValueOps("generate_ticket_random").increment(RandomUtils.nextInt(1, 7)), 16);
+	}
+
 
 	/**
 	 * 根据key 获取过期时间
@@ -580,6 +591,39 @@ public class RedisUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	/**
+	 * 尝试加锁
+	 *
+	 * @param key        键
+	 * @param value      值
+	 * @param expireTime 到期时间
+	 * @return boolean
+	 */
+	public Boolean tryLock(String key, String value, Long expireTime) {
+		return getLock(key, value, expireTime);
+	}
+
+	/**
+	 * 获取锁
+	 *
+	 * @param key            键
+	 * @param value          值
+	 * @param lockExpireTime 锁定到期时间
+	 * @return boolean
+	 */
+	private Boolean getLock(String key, String value, long lockExpireTime) {
+		if (StrUtil.isEmpty(key)) {
+			return false;
+		}
+
+		if (Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(key, value))) {
+			set(key, value, lockExpireTime, TimeUnit.SECONDS);
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

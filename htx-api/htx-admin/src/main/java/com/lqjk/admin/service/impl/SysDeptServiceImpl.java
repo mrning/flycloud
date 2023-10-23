@@ -59,6 +59,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
     }
 
     public Integer update(SysDept sysDept) {
+        Assert.isTrue(BeanUtil.isNotEmpty(sysDept), "不能全部属性为空，会更新全表数据");
         return sysDeptDao.update(sysDept);
     }
 

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.MetroTakeRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.lqjk.third.beans.MetroTakeRecord" >
+    	<result column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="entry_date" property="entryDate" />
+        <result column="entry_station" property="entryStation" />
+        <result column="exit_date" property="exitDate" />
+        <result column="exit_station" property="exitStation" />
+        <result column="station_count" property="stationCount" />
+        <result column="trans_mileage" property="transMileage" />
+        <result column="trans_order_no" property="transOrderNo" />
+        <result column="status" property="status" />
+        <result column="disable" property="disable" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="city" property="city" />
+        <result column="third_channel" property="thirdChannel" />
+        <result column="team_no" property="teamNo" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    			id,
+                user_id,
+                entry_date,
+                entry_station,
+                exit_date,
+                exit_station,
+                station_count,
+                trans_mileage,
+                trans_order_no,
+                status,
+                disable,
+                create_time,
+                update_time,
+                city,
+                third_channel,
+                team_no
+    </sql>
+
+    <insert id="insert"  parameterType="com.lqjk.third.beans.MetroTakeRecord" useGeneratedKeys = "true" keyProperty = "id" >
+        INSERT INTO metro_take_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != userId and '' != userId">
+                user_id,
+            </if>
+            <if test="null != entryDate">
+                entry_date,
+            </if>
+            <if test="null != entryStation and '' != entryStation">
+                entry_station,
+            </if>
+            <if test="null != exitDate">
+                exit_date,
+            </if>
+            <if test="null != exitStation and '' != exitStation">
+                exit_station,
+            </if>
+            <if test="null != stationCount and '' != stationCount">
+                station_count,
+            </if>
+            <if test="null != transMileage and '' != transMileage">
+                trans_mileage,
+            </if>
+            <if test="null != transOrderNo and '' != transOrderNo">
+                trans_order_no,
+            </if>
+            <if test="null != status and '' != status">
+                status,
+            </if>
+            <if test="null != disable and '' != disable">
+                disable,
+            </if>
+            <if test="null != createTime">
+                create_time,
+            </if>
+            <if test="null != updateTime">
+                update_time,
+            </if>
+            <if test="null != city and '' != city">
+                city,
+            </if>
+            <if test="null != carbon ">
+                carbon,
+            </if>
+            <if test="null != appChannel ">
+                app_channel,
+            </if>
+            <if test="null != userNo ">
+                user_no,
+            </if>
+            <if test="null != teamNo ">
+                team_no,
+            </if>
+            <if test="null != thirdChannel and '' != thirdChannel">
+                third_channel,
+            </if>
+            <if test="source != null and source != ''">
+                source,
+            </if>
+            <if test="null != longevityChainFlag and '' != longevityChainFlag">
+                longevity_chain_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != userId and '' != userId">
+                #{userId},
+            </if>
+            <if test="null != entryDate">
+                #{entryDate},
+            </if>
+            <if test="null != entryStation and '' != entryStation">
+                #{entryStation},
+            </if>
+            <if test="null != exitDate">
+                #{exitDate},
+            </if>
+            <if test="null != exitStation and '' != exitStation">
+                #{exitStation},
+            </if>
+            <if test="null != stationCount and '' != stationCount">
+                #{stationCount},
+            </if>
+            <if test="null != transMileage and '' != transMileage">
+                #{transMileage},
+            </if>
+            <if test="null != transOrderNo and '' != transOrderNo">
+                #{transOrderNo},
+            </if>
+            <if test="null != status and '' != status">
+                #{status},
+            </if>
+            <if test="null != disable and '' != disable">
+                #{disable},
+            </if>
+            <if test="null != createTime">
+                #{createTime},
+            </if>
+            <if test="null != updateTime">
+                #{updateTime},
+            </if>
+            <if test="null != city and '' != city">
+                #{city},
+            </if>
+            <if test="null != carbon">
+                #{carbon},
+            </if>
+            <if test="null != appChannel ">
+                #{appChannel},
+            </if>
+            <if test="null != userNo ">
+                #{userNo},
+            </if>
+            <if test="null != teamNo">
+                #{teamNo},
+            </if>
+            <if test="null != thirdChannel and '' != thirdChannel">
+                #{thirdChannel},
+            </if>
+            <if test="source != null and source != ''">
+                #{source},
+            </if>
+            <if test="null != longevityChainFlag and '' != longevityChainFlag">
+                #{longevityChainFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM metro_take_record
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.lqjk.third.beans.MetroTakeRecord" >
+        UPDATE metro_take_record
+        <set>
+            <if test="null != userId and '' != userId">user_id = #{userId},</if>
+            <if test="null != entryDate and '' != entryDate">entry_date = #{entryDate},</if>
+            <if test="null != entryStation and '' != entryStation">entry_station = #{entryStation},</if>
+            <if test="null != exitDate and '' != exitDate">exit_date = #{exitDate},</if>
+            <if test="null != exitStation and '' != exitStation">exit_station = #{exitStation},</if>
+            <if test="null != stationCount and '' != stationCount">station_count = #{stationCount},</if>
+            <if test="null != transMileage and '' != transMileage">trans_mileage = #{transMileage},</if>
+            <if test="null != transOrderNo and '' != transOrderNo">trans_order_no = #{transOrderNo},</if>
+            <if test="null != status and '' != status">status = #{status},</if>
+            <if test="null != disable and '' != disable">disable = #{disable},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime},</if>
+            <if test="null != city and '' != city">city = #{city}</if>
+             <if test="null != longevityChainFlag and '' != longevityChainFlag">longevity_chain_flag = #{longevityChainFlag}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM metro_take_record
+        WHERE
+        trans_order_no = #{orderNo}
+    </select>
+
+    <select id="loadById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM metro_take_record
+        WHERE
+        id = #{id}
+    </select>
+    <!--上链相关-->
+    <select id='querySendAbleInfoList' resultMap="BaseResultMap" parameterType="com.lqjk.third.beans.MetroTakeRecord">
+    	SELECT <include refid="Base_Column_List" />
+        FROM metro_take_record
+        WHERE (longevity_chain_flag ='02' or longevity_chain_flag ='04')
+        <if test=" currentDate != null and  currentDate != '' ">
+        	 <![CDATA[AND to_char(create_time,'yyyyMMdd') = #{currentDate}]]>
+        </if>
+        Limit 500
+    </select>
+
+     <update id="updateLongevityChainFlag" parameterType="com.lqjk.third.beans.MetroTakeRecord" >
+        UPDATE metro_take_record
+        <set>
+        	longevity_chain_flag = #{longevityChainFlag}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectStatsData" resultType="map">
+        select COALESCE(count(*), 0)                metro_count,
+               COALESCE(sum(m.trans_mileage), 0) as metro_trans_mileage,
+               COALESCE(sum(m.carbon), 0)        as metro_carbon
+        from metro_take_record m
+        where m.user_id =#{ownerId,jdbcType=BIGINT} and m.entry_date >=#{createdTime,jdbcType=TIMESTAMP};
+    </select>
+
+    <select id="getMaxTransMileageData" resultMap="BaseResultMap">
+        SELECT *
+        FROM
+        metro_take_record
+        WHERE
+        user_id = #{ownerId,jdbcType=BIGINT}
+        AND create_time &lt; '2023-01-01 00:00:00.000'  and trans_mileage is not NULL ORDER BY trans_mileage desc LIMIT 1
+    </select>
+
+    <select id="sumTransMileage" resultType="java.math.BigDecimal">
+        select  coalesce(sum(trans_mileage),0)
+        from metro_take_record
+        where user_id = #{ownerId,jdbcType=BIGINT} and app_channel='qtx'
+    </select>
+    <update id="updateStatus" parameterType="com.lqjk.third.beans.MetroTakeRecord">
+        UPDATE metro_take_record
+        <set>
+        	status = #{status}
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="sumCarbon" resultType="java.lang.Long">
+        select  coalesce(sum(carbon),0)
+        from metro_take_record
+        where user_id = #{ownerId,jdbcType=BIGINT} and app_channel='qtx'
+        <if test="source != null and source != ''">
+            and source=#{source}
+        </if>
+    </select>
+</mapper>

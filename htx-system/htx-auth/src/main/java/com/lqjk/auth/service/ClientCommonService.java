@@ -23,7 +23,7 @@ public interface ClientCommonService {
      * @param ssoLoginRequest 用户名
      * @return 生成的JWT的token
      */
-    Result<String> login(AuthLoginRequest ssoLoginRequest);
+    String login(AuthLoginRequest ssoLoginRequest);
 
     boolean logout(AuthLogoutRequest ssoLogoutRequest);
 

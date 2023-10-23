@@ -20,5 +20,6 @@
         <module>htx-bom</module>
         <module>htx-swagger</module>
         <module>htx-security</module>
+        <module>htx-mq</module>
     </modules>
 </project>

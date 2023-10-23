@@ -89,4 +89,6 @@ public interface SysUserService extends SysBaseService<SysUser> {
     boolean logout(String token);
 
     SysUserDeptAndRoleInfo deptAndRoleInfo(UserRequest userRequest);
+
+    SysUser getInfo();
 }

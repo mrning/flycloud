@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lqjk.third.mapper.UserInformationMapper">
+
+    <resultMap type="com.lqjk.third.beans.UserInformation" id="UserInformationResultMap">
+        <id property="id" column="id"/>
+        <result property="acceptBegin" column="accept_begin"/>
+        <result property="acceptPush" column="accept_push"/>
+        <result property="address" column="address"/>
+        <result property="advantage" column="advantage"/>
+        <result property="acceptEnd" column="accept_end"/>
+        <result property="code" column="code"/>
+        <result property="company" column="company"/>
+        <result property="createDate" column="create_date"/>
+        <result property="creditSum" column="credit_sum"/>
+        <result property="disable" column="disable"/>
+        <result property="dob" column="dob"/>
+        <result property="email" column="email"/>
+        <result property="educationBackground" column="education_background"/>
+        <result property="gender" column="gender"/>
+        <result property="image" column="image"/>
+        <result property="idCode" column="id_code"/>
+        <result property="lastUpdate" column="last_update"/>
+        <result property="mobilePhone" column="mobile_phone"/>
+        <result property="nation" column="nation"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="policy" column="policy"/>
+        <result property="postCode" column="post_code"/>
+        <result property="position" column="position"/>
+        <result property="qq" column="qq"/>
+        <result property="rangeAccept" column="range_accept"/>
+        <result property="wechat" column="wechat"/>
+        <result property="workExp" column="work_exp"/>
+        <result property="smsFlag" column="sms_flag"/>
+        <result property="userNo" column="user_no"/>
+        <result column="app_channel" property="appChannel"></result>
+        <association property="owner" javaType="com.lqjk.third.beans.SysUser">
+            <result column="owner_id" property="id"></result>
+            <result column="app_channel" property="appChannel"></result>
+        </association>
+    </resultMap>
+
+    <update id="updateUserInformation" parameterType="com.lqjk.third.beans.UserInformation">
+        update info_user_information
+        <set>
+            <if test="acceptBegin!=null">
+                "accept_begin"=#{acceptBegin},
+            </if>
+            <if test="acceptPush!=null">
+                "accept_push"=#{acceptPush},
+            </if>
+            <if test="address!=null">
+                "address"=#{address},
+            </if>
+            <if test="advantage!=null">
+                "advantage"=#{advantage},
+            </if>
+            <if test="acceptEnd!=null">
+                "accept_end"=#{acceptEnd},
+            </if>
+            <if test="code!=null">
+                "code"=#{code},
+            </if>
+            <if test="company!=null">
+                "company"=#{company},
+            </if>
+            <if test="createDate!=null">
+                "create_date"=#{createDate},
+            </if>
+            <if test="creditSum!=null">
+                "credit_sum"=#{creditSum},
+            </if>
+            <if test="disable!=null">
+                "disable"=#{disable},
+            </if>
+            <if test="dob!=null">
+                "dob"=#{dob},
+            </if>
+            <if test="email!=null">
+                "email"=#{email},
+            </if>
+            <if test="educationBackground!=null">
+                "education_background"=#{educationBackground},
+            </if>
+            <if test="gender!=null">
+                "gender"=#{gender},
+            </if>
+            <if test="image!=null">
+                "image"=#{image},
+            </if>
+            <if test="idCode!=null">
+                "id_code"=#{idCode},
+            </if>
+            <if test="lastUpdate!=null">
+                "last_update"=#{lastUpdate},
+            </if>
+            <if test="mobilePhone!=null">
+                "mobile_phone"=#{mobilePhone},
+            </if>
+            <if test="nation!=null">
+                "nation"=#{nation},
+            </if>
+            <if test="nickName!=null">
+                "nick_name"=#{nickName},
+            </if>
+            <if test="policy!=null">
+                "policy"=#{policy},
+            </if>
+            <if test="postCode!=null">
+                "post_code"=#{postCode},
+            </if>
+            <if test="position!=null">
+                "position"=#{position},
+            </if>
+            <if test="qq!=null">
+                "qq"=#{qq},
+            </if>
+            <if test="rangeAccept!=null">
+                "range_accept"=#{rangeAccept},
+            </if>
+            <if test="wechat!=null">
+                "wechat"=#{wechat},
+            </if>
+            <if test="workExp!=null">
+                "work_exp"=#{workExp},
+            </if>
+            <if test="owner!=null and owner.id!=null">
+                "owner_id"=#{owner.id},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <select id="findUserInformationById" resultMap="UserInformationResultMap">
+        select *
+        from info_user_information
+        where id = #{id}
+        limit 1
+    </select>
+
+    <select id="findUserInformationByOwnerId" resultMap="UserInformationResultMap">
+        SELECT i.*,u.app_channel
+        FROM info_user_information i left join sys_user u on i.owner_id = u.user_id
+        WHERE owner_id = #{ownerId}
+        ORDER BY id
+        LIMIT 1
+    </select>
+
+     <select id="findUserInformationByPhone" resultMap="UserInformationResultMap">
+        SELECT i.*,u.app_channel
+        FROM info_user_information i left join sys_user u on i.owner_id = u.user_id
+        WHERE i.mobile_phone = #{phone} and u.app_channel = #{appChannel}
+        ORDER BY i.id
+        LIMIT 1
+    </select>
+
+    <select id="findUserInformationByUserNoIsNUll" resultMap="UserInformationResultMap">
+        SELECT owner_id,mobile_phone,id
+        FROM info_user_information
+        WHERE disable = false and  user_no is null and mobile_phone is not null order by id asc limit 1000
+    </select>
+
+</mapper>

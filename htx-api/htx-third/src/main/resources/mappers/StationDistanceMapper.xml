@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.StationDistanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.lqjk.third.beans.StationDistance" >
+        <result column="in_station_id" property="inStationId" />
+        <result column="in_station_name" property="inStationName" />
+        <result column="out_station_id" property="outStationId" />
+        <result column="out_station_name" property="outStationName" />
+        <result column="station_distance" property="stationDistance" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                in_station_id,
+                in_station_name,
+                out_station_id,
+                out_station_name,
+                station_distance
+    </sql>
+
+    <insert id="insert"  parameterType="com.lqjk.third.beans.StationDistance">
+        INSERT INTO station_distance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != inStationId and '' != inStationId">
+                in_station_id,
+            </if>
+            <if test="null != inStationName and '' != inStationName">
+                in_station_name,
+            </if>
+            <if test="null != outStationId and '' != outStationId">
+                out_station_id,
+            </if>
+            <if test="null != outStationName and '' != outStationName">
+                out_station_name,
+            </if>
+            <if test="null != stationDistance and '' != stationDistance">
+                station_distance
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != inStationId and '' != inStationId">
+                #{inStationId},
+            </if>
+            <if test="null != inStationName and '' != inStationName">
+                #{inStationName},
+            </if>
+            <if test="null != outStationId and '' != outStationId">
+                #{outStationId},
+            </if>
+            <if test="null != outStationName and '' != outStationName">
+                #{outStationName},
+            </if>
+            <if test="null != stationDistance and '' != stationDistance">
+                #{stationDistance}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM station_distance
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.lqjk.third.beans.StationDistance">
+        UPDATE station_distance
+        <set>
+            <if test="null != inStationId and '' != inStationId">in_station_id = #{inStationId},</if>
+            <if test="null != inStationName and '' != inStationName">in_station_name = #{inStationName},</if>
+            <if test="null != outStationId and '' != outStationId">out_station_id = #{outStationId},</if>
+            <if test="null != outStationName and '' != outStationName">out_station_name = #{outStationName},</if>
+            <if test="null != stationDistance and '' != stationDistance">station_distance = #{stationDistance}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM station_distance WHERE  in_station_id= #{inStationId} and out_station_id = #{outStationId}
+
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM station_distance
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM station_distance
+    </select>
+
+</mapper>

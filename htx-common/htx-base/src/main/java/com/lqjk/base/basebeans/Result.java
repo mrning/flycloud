@@ -55,20 +55,20 @@ public class Result<T> implements Serializable {
 		}
 	}
 
-	public static Result<Object> success() {
-		Result<Object> r = new Result<Object>();
+	public static Result<String> success() {
+		Result<String> r = new Result<>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setResult(ResEnum.SUCCESS.code);
 		r.setMessage(ResEnum.SUCCESS.message);
+		r.setResult(ResEnum.SUCCESS.message);
 		return r;
 	}
 	
-	public static Result<Object> success(String msg) {
-		Result<Object> r = new Result<Object>();
+	public static Result<String> success(String msg) {
+		Result<String> r = new Result<>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setResult(ResEnum.SUCCESS.code);
+		r.setResult(ResEnum.SUCCESS.message);
 		r.setMessage(msg);
 		return r;
 	}

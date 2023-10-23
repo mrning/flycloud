@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PageRequest {
 
-    private Long page = 1L;
+    private Integer page = 1;
 
-    private Long pageSize = 10L;
+    private Integer pageSize = 10;
 }

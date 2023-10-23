@@ -10,6 +10,7 @@ import com.lqjk.base.constants.SecurityConstants;
 import com.lqjk.base.domain.UserDTO;
 import com.lqjk.base.enums.UserClientEnum;
 import com.lqjk.base.utils.RedisUtil;
+import com.lqjk.request.FeignResult;
 import com.lqjk.request.feign.AdminFeign;
 import com.lqjk.request.req.auth.AuthLoginRequest;
 import com.lqjk.request.req.auth.AuthLogoutRequest;
@@ -49,11 +50,11 @@ public class AdminServiceImpl implements ClientCommonService {
     }
 
     @Override
-    public Result<String> login(AuthLoginRequest authLoginRequest) {
+    public String login(AuthLoginRequest authLoginRequest) {
         String token = null;
         //密码需要客户端加密后传递
         try {
-            Result<JSONObject> res = adminFeign.adminLogin(authLoginRequest, SecurityConstants.FROM_IN);
+            FeignResult<JSONObject> res = adminFeign.adminLogin(authLoginRequest, SecurityConstants.FROM_IN);
             if (res.isSuccess()) {
                 JSONObject resObj = JSONUtil.parseObj(res.getResult().get("userInfo"));
                 StpUtil.login(resObj.getStr("uuid"));
@@ -61,13 +62,13 @@ public class AdminServiceImpl implements ClientCommonService {
                 // 登录后将用户信息缓存
                 String key = UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + token;
                 redisUtil.set(key, res.getResult(), REDIS_EXPIRE_TOKEN_ADMIN, TimeUnit.HOURS);
-                return Result.success(token, "登录成功");
+                return token;
             }
         } catch (Exception e) {
-            log.error("登录异常", e);
-            return Result.error(e.getMessage(), "");
+            log.error("", e);
+            return "登录异常";
         }
-        return Result.error("", "");
+        return null;
     }
 
     @Override

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.CommunityTaskProcessMapper">
+
+    <resultMap id="BaseResultMap" type="com.lqjk.third.beans.CommunityTaskProcess" >
+        <id column="id" property="id" />
+        <result column="task_id" property="taskId" />
+        <result column="process_status" property="processStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="owner_id" property="ownerId" />
+        <result column="before_energy" property="beforeEnergy" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+                task_id,
+                process_status,
+                create_time,
+                owner_id,
+                before_energy
+    </sql>
+
+    <insert id="insert" parameterType="com.lqjk.third.beans.CommunityTaskProcess">
+        INSERT INTO community_task_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != taskId and '' != taskId">
+                task_id,
+            </if>
+            <if test="null != processStatus and '' != processStatus">
+                process_status,
+            </if>
+            <if test="null != createTime">
+                create_time,
+            </if>
+            <if test="null != ownerId and '' != ownerId">
+                owner_id,
+            </if>
+            <if test="null != beforeEnergy and '' != beforeEnergy">
+                before_energy,
+            </if>
+            <if test="null != realEnergy">
+                real_energy,
+            </if>
+            <if test="null != energy">
+                energy,
+            </if>
+            <if test="appChannel != null">app_channel,</if>
+            <if test="userNo != null">user_no</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != taskId and '' != taskId">
+                #{taskId},
+            </if>
+            <if test="null != processStatus and '' != processStatus">
+                #{processStatus},
+            </if>
+            <if test="null != createTime">
+                #{createTime},
+            </if>
+            <if test="null != ownerId and '' != ownerId">
+                #{ownerId},
+            </if>
+            <if test="null != beforeEnergy and '' != beforeEnergy">
+                #{beforeEnergy},
+            </if>
+            <if test="null != realEnergy">
+                #{realEnergy},
+            </if>
+            <if test="null != energy">
+                #{energy},
+            </if>
+            <if test="appChannel != null">#{appChannel},</if>
+            <if test="userNo != null">#{userNo}</if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM community_task_process
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.lqjk.third.beans.CommunityTaskProcess">
+        UPDATE community_task_process
+        <set>
+            <if test="null != taskId and '' != taskId">task_id = #{taskId},</if>
+            <if test="null != processStatus and '' != processStatus">process_status = #{processStatus},</if>
+            <if test="null != createTime and '' != createTime">create_time = #{createTime},</if>
+            <if test="null != ownerId and '' != ownerId">owner_id = #{ownerId},</if>
+            <if test="null != beforeEnergy and '' != beforeEnergy">before_energy = #{beforeEnergy}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

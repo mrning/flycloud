@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.AppThirdAuthMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="AppThirdAuthResult" type="com.lqjk.third.beans.AppThirdAuth">
+        <id column="id" property="id" />
+        <result column="owner_id" property="ownerId" />
+        <result column="channel" property="channel" />
+        <result column="auth_type" property="authType" />
+        <result column="auth_token" property="authToken" />
+        <result column="status" property="status" />
+        <result column="auth_time" property="authTime" />
+        <result column="app_name" property="appName" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <resultMap id="userAuthCardNo" type="com.lqjk.third.beans.UserAuthCardNo">
+        <id column="id" property="id" />
+        <result column="owner_id" property="ownerId" />
+        <result column="channel" property="channel" />
+        <result column="card_no" property="cardNo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="selectAppThirdAuthVo">
+     select id, owner_id, channel, auth_type, auth_token, status, auth_time, app_name, remark, create_time, update_time from app_third_auth
+    </sql>
+
+    <select id="selectById" parameterType="Long" resultMap="AppThirdAuthResult">
+        <include refid="selectAppThirdAuthVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectByAppThirdAuth" parameterType="com.lqjk.third.beans.AppThirdAuth" resultMap="AppThirdAuthResult">
+        <include refid="selectAppThirdAuthVo"/>
+        <where>
+            <if test="id != null "> and id = #{id}</if>
+            <if test="ownerId != null "> and owner_id = #{ownerId}</if>
+            <if test="channel != null and channel != ''"> and channel = #{channel}</if>
+            <if test="authType != null and authType != ''"> and auth_type = #{authType}</if>
+            <if test="authToken != null and authToken != ''"> and auth_token = #{authToken}</if>
+            <if test="status != null and status != ''"> and status = #{status}</if>
+            <if test="appChannel != null and appChannel != ''">and app_channel = #{appChannel}</if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.lqjk.third.beans.AppThirdAuth" useGeneratedKeys="true" keyProperty="id">
+        insert into app_third_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ownerId != null">owner_id,</if>
+            <if test="channel != null">channel,</if>
+            <if test="authType != null">auth_type,</if>
+            <if test="authToken != null">auth_token,</if>
+            <if test="status != null">status,</if>
+            <if test="authTime != null">auth_time,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="appChannel != null">app_channel,</if>
+            <if test="userNo != null">user_no,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="channel != null">#{channel},</if>
+            <if test="authType != null">#{authType},</if>
+            <if test="authToken != null">#{authToken},</if>
+            <if test="status != null">#{status},</if>
+            <if test="authTime != null">#{authTime},</if>
+            <if test="appName != null">#{appName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="appChannel != null">#{appChannel},</if>
+            <if test="userNo != null">#{userNo},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.lqjk.third.beans.AppThirdAuth">
+        update app_third_auth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="channel != null">channel = #{channel},</if>
+            <if test="authType != null">auth_type = #{authType},</if>
+            <if test="authToken != null">auth_token = #{authToken},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="authTime != null">auth_time = #{authTime},</if>
+            <if test="appName != null">app_name = #{appName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        delete from app_third_auth where id = #{id}
+    </delete>
+    <select id="findOwnerId" resultType="java.util.Map">
+        SELECT owner_id,user_no from app_third_auth where auth_type = #{authType} and status = '1' and remark = #{cardNo} and app_channel =#{appChannel}
+    </select>
+    <insert id="insertUserAuthCardNo">
+        insert into user_auth_card_no(
+	              owner_id,
+	              card_no,
+	              user_no
+	   		)
+	   		VALUES
+	    <foreach collection="cardNoList" item="item" index="index" separator="," >
+            (
+                #{ownerId},
+                #{item},
+                #{userNo}
+            )
+        </foreach>
+    </insert>
+    <delete id="deleteCardNo">
+        DELETE FROM user_auth_card_no where owner_id = #{ownerId} and auth_id = #{authId}
+    </delete>
+    <delete id="cancelUserAuthCardNo">
+        DELETE FROM user_auth_card_no
+         where owner_id = #{ownerId} and auth_id = #{authId} and card_no IN
+         <foreach collection="cardNoList" open="(" close=")" item="item" index="index" separator="," >
+               #{item}
+        </foreach>
+    </delete>
+    <select id="findByCardNo" resultMap="userAuthCardNo">
+        SELECT id,owner_id,card_no,channel from user_auth_card_no where card_no = #{cardNo}
+    </select>
+    <select id="getCardNoList" resultType="java.lang.String">
+        SELECT card_no from user_auth_card_no where owner_id = #{ownerId} and auth_id = #{authId}
+    </select>
+</mapper>

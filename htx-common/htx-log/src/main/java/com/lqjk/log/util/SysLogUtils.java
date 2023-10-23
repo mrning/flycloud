@@ -121,9 +121,8 @@ public class SysLogUtils {
 		}
 
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof OAuth2AuthenticatedPrincipal) {
-			OAuth2AuthenticatedPrincipal auth2Authentication = (OAuth2AuthenticatedPrincipal) principal;
-			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT_ID);
+		if (principal instanceof OAuth2AuthenticatedPrincipal auth2Authentication) {
+			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT);
 		}
 		return null;
 	}

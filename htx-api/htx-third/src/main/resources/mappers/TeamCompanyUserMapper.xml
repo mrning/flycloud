@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.TeamCompanyUserMapper">
+  <resultMap id="BaseResultMap" type="com.lqjk.third.beans.TeamCompanyUser">
+    <id column="serial_id" jdbcType="BIGINT" property="serialId" />
+    <result column="com_id" jdbcType="BIGINT" property="comId" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="join_time" jdbcType="TIMESTAMP" property="joinTime" />
+    <result column="leave_time" jdbcType="TIMESTAMP" property="leaveTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="join_code" jdbcType="VARCHAR" property="joinCode" />
+    <result column="invite_time" jdbcType="TIMESTAMP" property="inviteTime" />
+    <result column="invite_user" jdbcType="VARCHAR" property="inviteUser" />
+    <result column="invite_expired_time" jdbcType="TIMESTAMP" property="inviteExpiredTime" />
+    <result column="join_upload_status" jdbcType="INTEGER" property="joinUploadStatus" />
+    <result column="leave_upload_status" jdbcType="INTEGER" property="leaveUploadStatus" />
+    <result column="read_flag" jdbcType="INTEGER" property="readFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    serial_id, com_id, owner_id, join_time, leave_time, status, join_code, invite_time, 
+    invite_user, invite_expired_time, join_upload_status, leave_upload_status, read_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.lqjk.third.beans.TeamCompanyUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from team_company_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from team_company_user
+    where serial_id = #{serialId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from team_company_user
+    where serial_id = #{serialId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lqjk.third.beans.TeamCompanyUserExample">
+    delete from team_company_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lqjk.third.beans.TeamCompanyUser">
+    insert into team_company_user (com_id, owner_id,
+      join_time, leave_time, status, 
+      join_code, invite_time, invite_user, 
+      invite_expired_time, join_upload_status, 
+      leave_upload_status, read_flag)
+    values (#{comId,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT},
+      #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{joinCode,jdbcType=VARCHAR}, #{inviteTime,jdbcType=TIMESTAMP}, #{inviteUser,jdbcType=VARCHAR}, 
+      #{inviteExpiredTime,jdbcType=TIMESTAMP}, #{joinUploadStatus,jdbcType=INTEGER}, 
+      #{leaveUploadStatus,jdbcType=INTEGER}, #{readFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lqjk.third.beans.TeamCompanyUser">
+    insert into team_company_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serialId != null">
+        serial_id,
+      </if>
+      <if test="comId != null">
+        com_id,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="joinTime != null">
+        join_time,
+      </if>
+      <if test="leaveTime != null">
+        leave_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="joinCode != null">
+        join_code,
+      </if>
+      <if test="inviteTime != null">
+        invite_time,
+      </if>
+      <if test="inviteUser != null">
+        invite_user,
+      </if>
+      <if test="inviteExpiredTime != null">
+        invite_expired_time,
+      </if>
+      <if test="joinUploadStatus != null">
+        join_upload_status,
+      </if>
+      <if test="leaveUploadStatus != null">
+        leave_upload_status,
+      </if>
+      <if test="readFlag != null">
+        read_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serialId != null">
+        #{serialId,jdbcType=BIGINT},
+      </if>
+      <if test="comId != null">
+        #{comId,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="joinTime != null">
+        #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTime != null">
+        #{leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="joinCode != null">
+        #{joinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteTime != null">
+        #{inviteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inviteUser != null">
+        #{inviteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteExpiredTime != null">
+        #{inviteExpiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinUploadStatus != null">
+        #{joinUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="leaveUploadStatus != null">
+        #{leaveUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="readFlag != null">
+        #{readFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lqjk.third.beans.TeamCompanyUserExample" resultType="java.lang.Long">
+    select count(*) from team_company_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update team_company_user
+    <set>
+      <if test="row.serialId != null">
+        serial_id = #{row.serialId,jdbcType=BIGINT},
+      </if>
+      <if test="row.comId != null">
+        com_id = #{row.comId,jdbcType=BIGINT},
+      </if>
+      <if test="row.ownerId != null">
+        owner_id = #{row.ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="row.joinTime != null">
+        join_time = #{row.joinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.leaveTime != null">
+        leave_time = #{row.leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.status != null">
+        status = #{row.status,jdbcType=INTEGER},
+      </if>
+      <if test="row.joinCode != null">
+        join_code = #{row.joinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="row.inviteTime != null">
+        invite_time = #{row.inviteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.inviteUser != null">
+        invite_user = #{row.inviteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="row.inviteExpiredTime != null">
+        invite_expired_time = #{row.inviteExpiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.joinUploadStatus != null">
+        join_upload_status = #{row.joinUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="row.leaveUploadStatus != null">
+        leave_upload_status = #{row.leaveUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="row.readFlag != null">
+        read_flag = #{row.readFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update team_company_user
+    set serial_id = #{row.serialId,jdbcType=BIGINT},
+      com_id = #{row.comId,jdbcType=BIGINT},
+      owner_id = #{row.ownerId,jdbcType=BIGINT},
+      join_time = #{row.joinTime,jdbcType=TIMESTAMP},
+      leave_time = #{row.leaveTime,jdbcType=TIMESTAMP},
+      status = #{row.status,jdbcType=INTEGER},
+      join_code = #{row.joinCode,jdbcType=VARCHAR},
+      invite_time = #{row.inviteTime,jdbcType=TIMESTAMP},
+      invite_user = #{row.inviteUser,jdbcType=VARCHAR},
+      invite_expired_time = #{row.inviteExpiredTime,jdbcType=TIMESTAMP},
+      join_upload_status = #{row.joinUploadStatus,jdbcType=INTEGER},
+      leave_upload_status = #{row.leaveUploadStatus,jdbcType=INTEGER},
+      read_flag = #{row.readFlag,jdbcType=INTEGER}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lqjk.third.beans.TeamCompanyUser">
+    update team_company_user
+    <set>
+      <if test="comId != null">
+        com_id = #{comId,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="joinTime != null">
+        join_time = #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTime != null">
+        leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="joinCode != null">
+        join_code = #{joinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteTime != null">
+        invite_time = #{inviteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inviteUser != null">
+        invite_user = #{inviteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteExpiredTime != null">
+        invite_expired_time = #{inviteExpiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinUploadStatus != null">
+        join_upload_status = #{joinUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="leaveUploadStatus != null">
+        leave_upload_status = #{leaveUploadStatus,jdbcType=INTEGER},
+      </if>
+      <if test="readFlag != null">
+        read_flag = #{readFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where serial_id = #{serialId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lqjk.third.beans.TeamCompanyUser">
+    update team_company_user
+    set com_id = #{comId,jdbcType=BIGINT},
+      owner_id = #{ownerId,jdbcType=BIGINT},
+      join_time = #{joinTime,jdbcType=TIMESTAMP},
+      leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      join_code = #{joinCode,jdbcType=VARCHAR},
+      invite_time = #{inviteTime,jdbcType=TIMESTAMP},
+      invite_user = #{inviteUser,jdbcType=VARCHAR},
+      invite_expired_time = #{inviteExpiredTime,jdbcType=TIMESTAMP},
+      join_upload_status = #{joinUploadStatus,jdbcType=INTEGER},
+      leave_upload_status = #{leaveUploadStatus,jdbcType=INTEGER},
+      read_flag = #{readFlag,jdbcType=INTEGER}
+    where serial_id = #{serialId,jdbcType=BIGINT}
+  </update>
+</mapper>

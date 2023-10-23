@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lqjk.admin.beans.vos.request.RegisRequest;
+import com.lqjk.admin.service.SysToolService;
 import com.lqjk.admin.service.SysUserService;
 import com.lqjk.admin.service.UploadFileService;
 import com.lqjk.admin.service.impl.ossImpl.AliOssServiceImpl;
@@ -12,6 +13,7 @@ import com.lqjk.base.basebeans.Result;
 import com.lqjk.base.bizentity.SysUser;
 import com.lqjk.base.enums.UploadClientEnum;
 import com.lqjk.base.utils.*;
+import com.lqjk.request.FeignResult;
 import com.lqjk.request.req.auth.AuthLoginRequest;
 import com.lqjk.request.req.auth.AuthPhoneLoginRequest;
 import com.lqjk.security.annotation.Inner;
@@ -48,6 +50,8 @@ public class AdminSysController {
     private final RedisUtil redisUtil;
 
     private final SysUserService sysUserService;
+
+    private final SysToolService sysToolService;
 
     @Value("${htx.uploadClient:OSS_TENCENT_CLIENT}")
     private String uploadClient;
@@ -276,5 +280,11 @@ public class AdminSysController {
             result.error500("文件上传异常, " + e.getMessage());
         }
         return result;
+    }
+
+    @Operation(summary = "查询指定网址内的新闻刷新情况")
+    @PostMapping("/checkNews")
+    public FeignResult<String> checkNews(){
+        return FeignResult.success(sysToolService.checkNews());
     }
 }

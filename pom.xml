@@ -18,63 +18,21 @@
     </modules>
 
     <properties>
-        <spring-boot.version>3.1.3</spring-boot.version>
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
-        <spring.authorization.version>1.1.2</spring.authorization.version>
-        <screw.version>0.0.3</screw.version>
-        <captcha.version>2.2.3</captcha.version>
-        <aws.version>1.12.261</aws.version>
-        <velocity.version>2.3</velocity.version>
-        <velocity.tool.version>3.1</velocity.tool.version>
-        <configuration.version>1.10</configuration.version>
-        <jasypt.version>3.0.5</jasypt.version>
-        <jaxb.version>2.3.5</jaxb.version>
-        <swagger.fox.version>3.0.0</swagger.fox.version>
-        <xxl-job.version>2.3.1</xxl-job.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <spring-boot.version>3.1.3</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
     <dependencies>
-        <!--配置文件处理器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!--配置文件加解密-->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>
-        <!--监控-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!--监控客户端-->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring-boot-admin.version}</version>
-        </dependency>
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <!-- JAVA 17 -->
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
@@ -130,7 +88,9 @@
                 <!--Nacos服务地址-->
                 <nacos.config.server-addr>http://localhost:8848</nacos.config.server-addr>
                 <!--Nacos配置分组名称-->
-                <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <nacos.config.group>DEFAULT_GROUP</nacos.config.group><!--xxl管理平台地址-->
+                <!--xxl管理后台地址-->
+                <xxl.job.admin.url>http://localhost:8099/xxl-job-admin</xxl.job.admin.url>
             </properties>
             <activation>
                 <!-- 默认环境 -->
@@ -146,6 +106,8 @@
                 <nacos.config.server-addr>http://htxalitest.lcago.cn:8848</nacos.config.server-addr>
                 <!--Nacos配置分组名称-->
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <!--xxl管理后台地址-->
+                <xxl.job.admin.url>http://htxalitest.lcago.cn:8099/xxl-job-admin</xxl.job.admin.url>
             </properties>
             <activation>
                 <!-- 默认环境 -->
@@ -163,6 +125,8 @@
                 <nacos.config.namespace></nacos.config.namespace>
                 <!--Nacos配置分组名称-->
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <!--xxl管理后台地址-->
+                <xxl.job.admin.url>http://htxalitest.lcago.cn:8099/xxl-job-admin</xxl.job.admin.url>
             </properties>
         </profile>
     </profiles>

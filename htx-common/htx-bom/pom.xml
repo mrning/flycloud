@@ -23,6 +23,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <fastjson.version>2.0.37</fastjson.version>
+        <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
         <com.alibaba.druid.version>1.2.16</com.alibaba.druid.version>
         <knife4j.version>4.3.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
@@ -41,6 +42,7 @@
         <mica.version>3.0.8</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
         <sa-token.version>1.36.0</sa-token.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
     </properties>
 
     <!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号-->
@@ -74,6 +76,11 @@
             <dependency>
                 <groupId>com.lqjk</groupId>
                 <artifactId>htx-swagger</artifactId>
+                <version>${htx.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lqjk</groupId>
+                <artifactId>htx-mq</artifactId>
                 <version>${htx.common.version}</version>
             </dependency>
             <dependency>
@@ -209,18 +216,33 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--配置文件处理器-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <optional>true</optional>
+            </dependency>
+            <!--监控-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <!--监控客户端-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
             <!--web 模块-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

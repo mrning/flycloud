@@ -59,7 +59,7 @@ public interface SecurityConstants {
 	/**
 	 * 客户端ID
 	 */
-	String CLIENT_ID = "clientId";
+	String CLIENT = "client";
 
 	/**
 	 * 短信登录 参数名称

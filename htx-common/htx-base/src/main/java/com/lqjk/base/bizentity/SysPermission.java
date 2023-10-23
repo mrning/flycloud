@@ -6,6 +6,7 @@ import com.lqjk.base.basebeans.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -46,6 +47,10 @@ public class SysPermission extends BaseEntity implements Serializable {
     private Integer menuType;
 
     private Boolean hidden;
+
+    public boolean isLeaf() {
+        return StringUtils.isNotBlank(this.getParentUuid());
+    }
 
     public static <T> SysPermission convertByRequest(T request) {
         SysPermission sysPermission = new SysPermission();

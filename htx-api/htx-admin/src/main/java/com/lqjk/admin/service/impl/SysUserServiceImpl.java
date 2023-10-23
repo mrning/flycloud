@@ -1,5 +1,6 @@
 package com.lqjk.admin.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.db.Page;
@@ -116,7 +117,7 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
 
     public PageResult<SysUserResponse> queryPage(UserRequest userRequest) {
         PageResult<SysUserResponse> pageResult = new PageResult<>();
-        List<SysUserResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPageNumber(), userRequest.getPageSize()))
+        List<SysUserResponse> sysUsers = sysUserDao.queryPage(userRequest, new Page(userRequest.getPage(), userRequest.getPageSize()))
                 .stream().map(sysUser -> {
                     SysUserResponse sysUserResponse = SysUserResponse.convertByEntity(sysUser);
                     sysUserResponse.setRoleUuids(sysUserRoleService.queryRolesByUserUuid(sysUser.getUuid()).stream().map(SysUserRole::getRoleUuid).collect(Collectors.toList()));
@@ -288,5 +289,12 @@ public class SysUserServiceImpl extends SysBaseServiceImpl<SysUserMapper, SysUse
             return  sysUserDeptAndRoleInfo;
         }
         return null;
+    }
+
+    @Override
+    public SysUser getInfo() {
+        SysUser sysUser = sysUserDao.queryByUuid(String.valueOf(StpUtil.getLoginId()));
+
+        return sysUser;
     }
 }

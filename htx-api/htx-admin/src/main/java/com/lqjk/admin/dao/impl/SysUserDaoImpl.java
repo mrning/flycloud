@@ -34,14 +34,14 @@ public class SysUserDaoImpl implements SysUserDao {
     }
 
     public Integer del(SysUser sysUser) {
-        SysUserExample s = buildWhereParam(sysUser);
+        SysUserExample s = buildExample(sysUser);
         sysUser.setDeleted(true);
         sysUser.setUpdateTime(LocalDateTime.now());
         return sysUserMapper.updateByExampleSelective(sysUser, s);
     }
 
     public Integer update(SysUser sysUser) {
-        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        SysUserExample sysUserExample = buildExample(sysUser);
         sysUser.setUpdateTime(LocalDateTime.now());
         return sysUserMapper.updateByExampleSelective(sysUser, sysUserExample);
     }
@@ -49,18 +49,18 @@ public class SysUserDaoImpl implements SysUserDao {
     public List<SysUser> queryPage(UserRequest userRequest, Page page) {
         SysUser sysUser = new SysUser();
         sysUser.setUuid(userRequest.getUserUuid());
-        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        SysUserExample sysUserExample = buildExample(sysUser);
         return sysUserMapper.selectByExampleWithRowbounds(sysUserExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
     public Long queryPageCount(UserRequest userRequest) {
         SysUser sysUser = new SysUser();
         sysUser.setUuid(userRequest.getUserUuid());
-        SysUserExample sysUserExample = buildWhereParam(sysUser);
+        SysUserExample sysUserExample = buildExample(sysUser);
         return sysUserMapper.countByExample(sysUserExample);
     }
 
-    private SysUserExample buildWhereParam(SysUser sysUser) {
+    private SysUserExample buildExample(SysUser sysUser) {
         SysUserExample sysUserExample = new SysUserExample();
         SysUserExample.Criteria criteria = sysUserExample.createCriteria();
         if(StringUtils.isNotBlank(sysUser.getUuid())){

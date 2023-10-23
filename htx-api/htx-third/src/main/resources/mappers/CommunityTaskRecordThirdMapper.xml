@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqjk.third.mapper.CommunityTaskRecordThirdMapper">
+
+    <resultMap id="BaseResultMap" type="com.lqjk.third.beans.CommunityTaskRecordThird" >
+        <id column="id" property="id" />
+        <result column="owner_id" property="ownerId" />
+        <result column="task_id" property="taskId" />
+        <result column="complete_times" property="completeTimes" />
+        <result column="total_energy" property="totalEnergy" />
+        <result column="task_param" property="taskParam" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="real_total_energy" property="realTotalEnergy" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                owner_id,
+                task_id,
+                complete_times,
+                total_energy,
+                task_param,
+                create_time,
+                update_time,
+        real_total_energy
+
+    </sql>
+
+    <resultMap id="dtoMap" type="com.lqjk.third.beans.CommunityTaskDto" >
+        <result property="recordId" column="id"/>
+        <result property="completeTimes" column="complete_times"/>
+        <result property="totalEnergy" column="total_energy"/>
+        <result property="taskParam" column="task_param"/>
+        <result property="creamTime" column="create_time"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="taskDesc" column="task_desc"/>
+        <result property="taskTitle" column="task_title"/>
+        <result property="taskReward" column="task_reward"/>
+        <result property="rewardRules" column="reward_rules"/>
+        <result property="scene" column="scene"/>
+        <result property="rewardDesc" column="reward_desc"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="realTotalEnergy" column="real_total_energy"/>
+<!--        <result property="alertTitle" column="alert_title"/>-->
+<!--        <result property="alertDesc" column="alert_desc"/>-->
+    </resultMap>
+
+    <insert id="insert"  parameterType="com.lqjk.third.beans.CommunityTaskRecordThird">
+        INSERT INTO community_task_record_third
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != ownerId and '' != ownerId">
+                owner_id,
+            </if>
+            <if test="null != taskId and '' != taskId">
+                task_id,
+            </if>
+            <if test="null != completeTimes and '' != completeTimes">
+                complete_times,
+            </if>
+            <if test="null != totalEnergy and '' != totalEnergy">
+                total_energy,
+            </if>
+            <if test="null != taskParam and '' != taskParam">
+                task_param,
+            </if>
+            <if test="null != createTime">
+                create_time,
+            </if>
+            <if test="null != updateTime">
+                update_time,
+            </if>
+            <if test="null != appChannel and '' != appChannel">
+                app_channel,
+            </if>
+           <if test="null != userNo and '' != userNo">
+                user_no,
+            </if>
+            <if test="null != thirdChannel and '' != thirdChannel">
+                third_channel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != ownerId and '' != ownerId">
+                #{ownerId},
+            </if>
+            <if test="null != taskId and '' != taskId">
+                #{taskId},
+            </if>
+            <if test="null != completeTimes and '' != completeTimes">
+                #{completeTimes},
+            </if>
+            <if test="null != totalEnergy and '' != totalEnergy">
+                #{totalEnergy},
+            </if>
+            <if test="null != taskParam and '' != taskParam">
+                #{taskParam},
+            </if>
+            <if test="null != createTime">
+                #{createTime},
+            </if>
+            <if test="null != updateTime">
+                #{updateTime},
+            </if>
+            <if test="null != appChannel and '' != appChannel">
+                #{appChannel},
+            </if>
+           <if test="null != userNo and '' != userNo">
+                #{userNo},
+            </if>
+            <if test="null != thirdChannel and '' != thirdChannel">
+                #{thirdChannel}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM community_task_record_third
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.lqjk.third.beans.CommunityTaskRecordThird">
+        UPDATE community_task_record_third
+        <set>
+            <if test="null != ownerId">owner_id = #{ownerId},</if>
+            <if test="null != taskId and '' != taskId">task_id = #{taskId},</if>
+            <if test="null != completeTimes and '' != completeTimes">complete_times = #{completeTimes},</if>
+            <if test="null != totalEnergy and '' != totalEnergy">total_energy = #{totalEnergy},</if>
+            <if test="null != realTotalEnergy and '' != realTotalEnergy">real_total_energy = #{realTotalEnergy},</if>
+            <if test="null != taskParam and '' != taskParam">task_param = #{taskParam},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE owner_id = #{ownerId} and task_id = #{taskId} and third_channel =#{thirdChannel}
+    </update>
+
+    <update id="addRecord" parameterType="com.lqjk.third.beans.CommunityTaskRecordThird">
+        UPDATE community_task_record_third
+        <set>
+            <if test="null != completeTimes and '' != completeTimes">complete_times = complete_times + #{completeTimes},</if>
+            <if test="null != totalEnergy and '' != totalEnergy">total_energy = total_energy + #{totalEnergy},</if>
+            <if test="null != taskParam and '' != taskParam">task_param = task_param + #{taskParam},</if>
+            <if test="null != realTotalEnergy and '' != realTotalEnergy">real_total_energy = real_total_energy + #{realTotalEnergy},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
+        </set>
+        where owner_id =#{ownerId} and task_id = #{taskId} and third_channel = #{thirdChannel}
+        <selectKey keyProperty="taskParam" resultType="int" order="AFTER">
+            SELECT task_param
+            from community_task_record_third
+            where owner_id =#{ownerId}
+            and task_id = #{taskId}
+            and third_channel = #{thirdChannel}
+        </selectKey>
+    </update>
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM community_task_record_third
+        WHERE id = #{id}
+    </select>
+    <select id="selectOfUserIdAndTaskId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM community_task_record_third
+        WHERE owner_id = #{ownerId} and task_id = #{taskId} and third_channel = #{thirdChannel}
+    </select>
+    <select id="selectMetroDistance" resultType="java.lang.Integer">
+        select task_param
+        from community_task_record_third
+        where owner_id = #{ownerId} and task_id = #{taskId} and third_channel = #{thirdChannel}
+    </select>
+</mapper>

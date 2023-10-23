@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lqjk.third.mapper.CustomerMapper">
+    <resultMap id="customer_login" type="com.lqjk.third.beans.CustomerLogin">
+        <result property="id"                   column="id"  javaType="java.lang.Long"/>
+        <result property="code"                 column="code"  javaType="java.lang.String"/>
+        <result property="disable"              column="disable"  javaType="boolean"/>
+        <result property="email"                column="email"  javaType="java.lang.String"/>
+        <result property="lock"                 column="lock"  javaType="boolean"/>
+        <result property="name"                 column="name"  javaType="java.lang.String"/>
+        <result property="password"             column="password"  javaType="java.lang.String"/>
+        <result property="passwordLogin"        column="password_login"  javaType="boolean"/>
+        <result property="phoneLogin"           column="phone_login"  javaType="boolean"/>
+        <result property="phoneNumber"          column="phone_number"  javaType="java.lang.String"/>
+        <result property="username"             column="username"  javaType="java.lang.String"/>
+        <result property="ownerId"              column="owner_id"  javaType="java.lang.Long"/>
+        <result property="userId"               column="user_id"  javaType="java.lang.Long"/>
+        <result property="qrMetroUserCode"      column="qr_metro_user_code"  javaType="java.lang.String"/>
+        <result property="nfcMetroUserCode"     column="nfc_metro_user_code"  javaType="java.lang.String"/>
+        <result property="newNfcMetroUserCode"     column="new_nfc_metro_user_code"  javaType="java.lang.String"/>
+        <result property="currentMode"          column="current_mode"  javaType="java.lang.String"/>
+        <result property="agreementCode"        column="agreement_code"  javaType="java.lang.String"/>
+        <result property="customer_id"          column="customer_id"  javaType="java.lang.Long"/>
+        <result property="token"                column="token"  javaType="java.lang.String"/>
+        <result property="customer_key"         column="customer_key"  javaType="java.lang.String"/>
+        <result property="customer_pub"         column="customer_pub"  javaType="java.lang.String"/>
+        <result property="customer_equipment"   column="customer_equipment"  javaType="java.lang.String"/>
+        <result property="validity_time"        column="validity_time"  javaType="java.lang.String"/>
+        <result property="randomSeq"        column="random_seq"  javaType="java.lang.String"/>
+        <result property="nickName" column="nick_name" javaType="java.lang.String"/>
+        <result property="missionAccomplished"           column="mission_accomplished"  javaType="boolean"/>
+        <result property="createDate"         column="create_date"  javaType="java.util.Date"/>
+        <result property="missionTime"         column="mission_time"  javaType="java.util.Date"/>
+        <result property="image" column="image" javaType="java.lang.String"/>
+        <result property="appChannel" column="app_channel" javaType="java.lang.String"/>
+        <result property="userNo" column="user_no" javaType="java.lang.String"/>
+        <result property="lastUpdate" column="last_update" javaType="java.util.Date"/>
+        <result property="tokenChannel" column="token_channel"  javaType="java.lang.String"/>
+        <result property="walletAdd" column="wallet_add"  javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="InfoUserInformationResult" type="com.lqjk.third.beans.UserInformation">
+        <id column="id" property="id" />
+        <result column="accept_begin" property="acceptBegin" />
+        <result column="accept_push" property="acceptPush" />
+        <result column="address" property="address" />
+        <result column="advantage" property="advantage" />
+        <result column="accept_end" property="acceptEnd" />
+        <result column="code" property="code" />
+        <result column="company" property="company" />
+        <result column="create_date" property="createDate" />
+        <result column="credit_sum" property="creditSum" />
+        <result column="disable" property="disable" />
+        <result column="dob" property="dob" />
+        <result column="email" property="email" />
+        <result column="education_background" property="educationBackground" />
+        <result column="gender" property="gender" />
+        <result column="image" property="image" />
+        <result column="owner_id" property="ownerIdEx" />
+        <result column="id_code" property="idCode" />
+        <result column="last_update" property="lastUpdate" />
+        <result column="mobile_phone" property="mobilePhone" />
+        <result column="nation" property="nation" />
+        <result column="nick_name" property="nickName" />
+        <result column="policy" property="policy" />
+        <result column="post_code" property="postCode" />
+        <result column="position" property="position" />
+        <result column="qq" property="qq" />
+        <result column="range_accept" property="rangeAccept" />
+        <result column="wechat" property="wechat" />
+        <result column="work_exp" property="workExp" />
+        <result column="sms_flag" property="smsFlag" />
+        <result column="user_no" property="userNo" />
+    </resultMap>
+
+    <select id="getCustomerInfoByPhone" resultMap="customer_login">
+        SELECT a.id,
+        a.code,
+        a.disable,
+        a.email,
+        a.lock,
+        a.name,
+        a.password,
+        a.password_login,
+        a.phone_login,
+        a.phone_number,
+        a.username,
+        a.owner_id,
+        a.user_id,
+        a.qr_metro_user_code,
+        a.nfc_metro_user_code,
+        a.new_nfc_metro_user_code,
+        a.current_mode,
+        a.agreement_code,
+        a.random_seq,
+        b.customer_id,
+        b.token,
+        b.customer_key,
+        b.customer_pub,
+        b.Service_Key,
+        b.Service_Pub,
+        b.customer_equipment,
+        b.validity_time,
+        iui.nick_name,
+        iui.image,
+        a.mission_accomplished,
+        a.mission_time,
+        a.create_date,
+        a.app_channel,
+        iui.user_no
+        FROM sys_user_login a
+        LEFT JOIN customer_token b ON a.id = b.customer_id
+        LEFT JOIN info_user_information iui ON a.owner_id = iui.owner_id
+        WHERE  a.phone_number = #{phone}
+    </select>
+
+    <insert id="insertUser" parameterType="com.lqjk.third.beans.SysUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_user
+        (user_id,
+        user_type,
+        "create_time",
+        app_channel
+
+        )
+        values(nextval('sys_user_user_id_seq'),
+        '01',
+        #{createDate},
+        #{appChannel}
+        )
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT currval('sys_user_user_id_seq')
+        </selectKey>
+    </insert>
+    <insert id="insertCustomer" parameterType="com.lqjk.third.beans.UserLogin" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_user_login (id,code,create_date,disable,email,failed_login,hard_ware_code,lock
+        ,login_token,last_update,name,password,password_login,phone_login,phone_number,qq_id,qq_login,random_seq
+        ,security_answer,security_question,success_login,sina_id,token_valid_date,token_date,token,username,weibo_login
+        ,wechat_login,weibo_id,wechat_id,owner_id,update_user_id,user_id,qr_metro_user_code,nfc_metro_user_code,current_mode
+        ,agreement_code,city,login_city,app_channel)
+        VALUES (nextval('sys_user_login_id_seq'),#{code},#{createDate},#{disable},#{email},#{failedLogin},#{hardWareCode},#{lock},#{loginToken},
+        #{lastUpdate},#{name},#{password},#{passwordLogin},#{phoneLogin},#{phoneNumber},#{qqId},#{qqLogin},#{randomSeq},
+        #{securityAnswer},#{securityQuestion},#{successLogin},#{sinaId},#{tokenValidDate},#{tokenDate},#{token},#{username},
+        #{weiboLogin},#{wechatLogin},#{weiboId},#{wechatId},#{owner.id},#{updateUserId},#{userId},#{qrMetroUserCode},
+        #{nfcMetroUserCode},#{currentMode},#{agreementCode},#{city},#{loginCity},#{appChannel}
+        )
+    </insert>
+
+    <insert id="insertUserInformation" parameterType="com.lqjk.third.beans.UserInformation">
+        INSERT INTO info_user_information
+        (id,
+        "accept_begin",
+        "accept_push",
+        "address",
+        "advantage",
+        "accept_end",
+        "code",
+        "company",
+        "create_date",
+        "credit_sum",
+        "disable",
+        "dob",
+        "email",
+        "education_background",
+        "gender",
+        "image",
+        "id_code",
+        "last_update",
+        "mobile_phone",
+        "nation",
+        "nick_name",
+        "policy",
+        "post_code",
+        "position",
+        "qq",
+        "range_accept",
+        "wechat",
+        "work_exp",
+        "owner_id",
+        "user_no"
+        )
+        values(nextval('info_user_information_id_seq'),
+        #{acceptBegin},
+        #{acceptPush},
+        #{address},
+        #{advantage},
+        #{acceptEnd},
+        #{code},
+        #{company},
+        #{createDate},
+        #{creditSum},
+        #{disable},
+        #{dob},
+        #{email},
+        #{educationBackground},
+        #{gender},
+        #{image},
+        #{idCode},
+        #{lastUpdate},
+        #{mobilePhone},
+        #{nation},
+        #{nickName},
+        #{policy},
+        #{postCode},
+        #{position},
+        #{qq},
+        #{rangeAccept},
+        #{wechat},
+        #{workExp},
+        #{owner.id},
+        #{userNo}
+        )
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT currval('info_user_information_id_seq')
+        </selectKey>
+    </insert>
+
+    <select id="selectUserInformationByOwnerId" resultMap="InfoUserInformationResult">
+        select id, accept_begin, accept_push, address, advantage, accept_end, code, company, create_date, credit_sum, disable, dob, email, education_background, gender, image, id_code, last_update, mobile_phone, nation, nick_name, policy, post_code, position, qq, range_accept, wechat, work_exp, owner_id,sms_flag,user_no
+        from info_user_information
+        where owner_id =#{ownerId}
+    </select>
+</mapper>
