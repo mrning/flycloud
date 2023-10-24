@@ -281,7 +281,7 @@ public class AdminSysController {
         }
         return result;
     }
-
+    @Inner
     @Operation(summary = "查询指定网址内的新闻刷新情况")
     @PostMapping("/checkNews")
     public FeignResult<String> checkNews(){

@@ -37,6 +37,22 @@ public class DingUtils {
         }
     }
 
+    public static void sendText(String content) {
+        try {
+            DingTalkClient client = new DefaultDingTalkClient(getSignUrl());
+            OapiRobotSendRequest req = new OapiRobotSendRequest();
+            req.setMsgtype("text");
+            OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
+            text.setContent(content);
+            req.setText(text);
+            log.info("DingUtils#sendText req = {}", req.getText());
+            OapiRobotSendResponse rsp = client.execute(req);
+            log.info("DingUtils#sendText res = {}", rsp.getBody());
+        } catch (Exception e) {
+            log.error("DingUtils#sendText error", e);
+        }
+    }
+
     public static void sendLinkMsg(String title, String text, String url) {
         try {
             DingTalkClient client = new DefaultDingTalkClient(getSignUrl());
@@ -45,8 +61,9 @@ public class DingUtils {
             OapiRobotSendRequest.Link link = new OapiRobotSendRequest.Link();
             link.setTitle(title);
             link.setText(text);
-            link.setMessageUrl(url);
+            link.setMessageUrl(URLEncoder.encode(url, StandardCharsets.UTF_8));
             req.setLink(link);
+            log.info("DingUtils#sendLinkMsg req = {}", req.getLink());
             OapiRobotSendResponse rsp = client.execute(req);
             log.info("DingUtils#sendLinkMsg res = {}", rsp.getBody());
         } catch (Exception e) {

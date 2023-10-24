@@ -20,5 +20,5 @@ public interface AdminFeign {
     FeignResult<Integer> addLog(@RequestBody LogRequest logRequest,@RequestHeader(SecurityConstants.FROM) String from);
 
     @PostMapping("/sys/checkNews")
-    String checkNews();
+    FeignResult<String> checkNews();
 }

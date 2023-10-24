@@ -1,5 +1,7 @@
 package com.lqjk.job;
 
+import com.lqjk.base.constants.SecurityConstants;
+import com.lqjk.request.FeignResult;
 import com.lqjk.request.feign.AdminFeign;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -22,10 +24,13 @@ public class MyJobs {
     public void checkNews() {
         log.info(">>>>>>>>>>> xxl-job checkNews start");
         XxlJobHelper.log("TASK[checkNews] start.");
-        adminFeign.checkNews();
+        FeignResult<String> res = adminFeign.checkNews();
         XxlJobHelper.log("TASK[checkNews] end.");
-        // 处理执行结果，可以在任务管理页面 [调度日志] 菜单中的 [执行备注] 字段查看
-        XxlJobHelper.handleSuccess("执行成功");
+        if (res.isSuccess()){
+            // 处理执行结果，可以在任务管理页面 [调度日志] 菜单中的 [执行备注] 字段查看
+            XxlJobHelper.handleSuccess(res.getResult() +"，"+ res.getMessage());
+        }
+
     }
 
 }

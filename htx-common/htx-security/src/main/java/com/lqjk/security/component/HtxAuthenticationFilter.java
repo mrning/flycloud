@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,8 +46,8 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 从请求头中获取认证信息
         final String headerClient = request.getHeader(SecurityConstants.CLIENT);
-        if(null == UserClientEnum.getByValue(headerClient)){
-            log.error("请求头中的client值当前不支持");
+        if (StringUtils.isNotBlank(headerClient) && null == UserClientEnum.getByValue(headerClient)) {
+            log.error("请求头中的client值当前不支持: {}", headerClient);
             filterChain.doFilter(request, response);
             return;
         }
@@ -59,7 +60,7 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
         // 从token中解析出user uuid
         String userUuid = String.valueOf(StpUtil.getLoginIdByToken(authHeaderToken));
         if (userUuid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = getUserDetails(authHeaderToken,headerClient);
+            UserDetails userDetails = getUserDetails(authHeaderToken, headerClient);
 
             // 如果令牌有效，封装一个UsernamePasswordAuthenticationToken对象
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -75,7 +76,7 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @NotNull
-    private UserDetails getUserDetails(String authHeaderToken,String headerClient) {
+    private UserDetails getUserDetails(String authHeaderToken, String headerClient) {
         // 登录后将用户信息缓存
         Object o = redisUtil.get(UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + authHeaderToken);
         if (null == o) {
@@ -83,7 +84,7 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
         }
 
         JSONObject resObj = JSONUtil.parseObj(Objects.requireNonNull(o));
-        log.info("请求token: "+ authHeaderToken +", 该token对应的缓存用户信息: "+ resObj);
+        log.info("请求token: " + authHeaderToken + ", 该token对应的缓存用户信息: " + resObj);
 
         JSONArray roleArray = resObj.getJSONArray("roles");
         List<String> roles = roleArray.stream().map(o1 -> SecurityConstants.ROLE + ((JSONObject) o1).getStr("roleCode")).collect(Collectors.toList());
