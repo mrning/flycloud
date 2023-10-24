@@ -12,7 +12,7 @@ spring:
   config:
     import:
       - optional:nacos:htx-common.yml
-      - optional:nacos:${spring.application.name}-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}.yml
 logging:
   level:
     root: debug

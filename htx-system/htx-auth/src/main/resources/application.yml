@@ -33,5 +33,5 @@ spring:
   config:
     import:
       - optional:nacos:htx-common.yml
-      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml
+      - optional:nacos:${spring.application.name}.yml
 

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.lqjk"})
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.lqjk.third.mapper",
         "com.baomidou.mybatisplus.core.mapper"})

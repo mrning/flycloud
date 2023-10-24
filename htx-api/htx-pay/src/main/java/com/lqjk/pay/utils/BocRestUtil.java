@@ -2,28 +2,15 @@ package com.lqjk.pay.utils;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.json.XML;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.lqjk.base.utils.RestUtil;
 import com.lqjk.pay.beans.BocRequestVo;
 import com.lqjk.pay.constants.PayUrlConstant;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BocRestUtil {
 
@@ -43,7 +30,7 @@ public class BocRestUtil {
         bocRequestVo.setMessage(Base64.encode(XML.toXml(message)));
         bocRequestVo.setSignature(getBocSign(privatePwd, XML.toXml(message)));
 
-        return RestUtil.postFormXml(serviceHost + PayUrlConstant.PAY_UP,null, JSONObject.parseObject(JSONObject.toJSONString(bocRequestVo)));
+        return RestUtil.postFormXml(serviceHost + PayUrlConstant.PAY_UP,null, JSONObject.from(JSONObject.parseObject(JSONObject.toJSONString(bocRequestVo))));
     }
 
     @NotNull
