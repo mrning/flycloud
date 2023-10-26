@@ -3,7 +3,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: htx-admin
+    name: @artifactId@
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -12,5 +12,19 @@ spring:
       port: 35722
   main:
     allow-circular-references: true
+  cloud:
+    nacos:
+      config:
+        server-addr: @nacos.config.server-addr@
+        group: @nacos.config.group@
+        file-extension: yaml
+      discovery:
+        server-addr: @nacos.config.server-addr@
+        watch:
+          enabled: true
+  config:
+    import:
+      - optional:nacos:htx-common.yml
+      - optional:nacos:${spring.application.name}.yml
 server:
   port: 8010

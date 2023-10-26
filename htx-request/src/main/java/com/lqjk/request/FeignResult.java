@@ -64,12 +64,12 @@ public class FeignResult<T> implements Serializable {
 		return r;
 	}
 	
-	public static FeignResult<String> success(String msg) {
+	public static FeignResult<String> success(String data) {
 		FeignResult<String> r = new FeignResult<>();
 		r.setSuccess(true);
 		r.setCode(CommonConstant.SC_OK_200);
-		r.setResult(ResEnum.SUCCESS.message);
-		r.setMessage(msg);
+		r.setResult(data);
+		r.setMessage(ResEnum.SUCCESS.message);
 		return r;
 	}
 
