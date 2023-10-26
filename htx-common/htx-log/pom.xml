@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>htx-log</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <description>pig 日志服务</description>
 

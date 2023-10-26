@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>htx-security</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <description>htx 安全工具类</description>
 
