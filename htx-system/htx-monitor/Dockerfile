@@ -5,8 +5,8 @@ MAINTAINER zac
 
 ENV env=prod
 ENV JAVA_OPTS="-Xms512m -Xmx1024m -Dfile.encoding=utf-8"
-ENV port=8010
-ENV module=admin
+ENV port=8101
+ENV module=monitor
 #修改时区
 ENV TimeZone=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone
