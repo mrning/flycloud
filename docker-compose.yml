@@ -1,0 +1,52 @@
+version: '3'
+services:
+  htx-gateway:
+    build:
+      context: ./htx-system/htx-gateway
+    restart: always
+    ports:
+      - 8000:8000
+    container_name: htx-gateway
+    hostname: htx-gateway
+    image: htx-gateway
+    networks:
+      - spring_cloud_default
+
+  htx-auth:
+    build:
+      context: ./htx-system/htx-auth
+    restart: always
+    ports:
+      - 8001:8001
+    container_name: htx-auth
+    hostname: htx-auth
+    image: htx-auth
+    networks:
+      - spring_cloud_default
+
+  htx-monitor:
+    build:
+      context: ./htx-system/htx-monitor
+    restart: always
+    ports:
+      - 8101:8101
+    container_name: htx-monitor
+    hostname: htx-monitor
+    image: htx-monitor
+    networks:
+      - spring_cloud_default
+
+  htx-admin:
+    build:
+      context: ./htx-api/htx-admin
+    restart: always
+    container_name: htx-admin
+    hostname: htx-admin
+    image: htx-admin
+    networks:
+      - spring_cloud_default
+
+networks:
+  spring_cloud_default:
+    name:  spring_cloud_default
+    driver: bridge
