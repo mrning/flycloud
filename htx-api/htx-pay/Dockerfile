@@ -3,7 +3,9 @@ FROM openjdk:17-jdk
 #作者
 MAINTAINER zac
 
-ENV env=prod
+ARG profile
+ENV env=$profile
+RUN echo $env
 ENV JAVA_OPTS="-Xms512m -Xmx1024m -Dfile.encoding=utf-8 --add-exports java.base/sun.security.pkcs=ALL-UNNAMED "
 ENV port=8008
 ENV module=pay

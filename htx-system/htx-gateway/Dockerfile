@@ -3,10 +3,15 @@ FROM openjdk:17-jdk
 #作者
 MAINTAINER zac
 
-ENV env=prod
+ARG profile
+ENV env=$profile
+RUN echo $env
+
 ENV JAVA_OPTS="-Xms512m -Xmx1024m -Dfile.encoding=utf-8"
 ENV port=8000
 ENV module=gateway
+
+
 #修改时区
 ENV TimeZone=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone
