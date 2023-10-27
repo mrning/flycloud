@@ -6,6 +6,7 @@ services:
       args:
         - profile
     restart: always
+    network_mode: "host"
     ports:
       - 8000:8000
     container_name: htx-gateway
@@ -18,6 +19,7 @@ services:
       args:
         - profile
     restart: always
+    network_mode: "host"
     ports:
       - 8001:8001
     container_name: htx-auth
@@ -30,6 +32,7 @@ services:
       args:
         - profile
     restart: always
+    network_mode: "host"
     ports:
       - 8101:8101
     container_name: htx-monitor
@@ -42,6 +45,7 @@ services:
       args:
         - profile
     restart: always
+    network_mode: "host"
     ports:
       - 8010:8010
     container_name: htx-admin
