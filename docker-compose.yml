@@ -51,3 +51,16 @@ services:
     container_name: htx-admin
     hostname: htx-admin
     image: htx-admin
+
+  htx-job:
+    build:
+      context: ./htx-common/htx-job
+      args:
+        - profile
+    restart: always
+    network_mode: "host"
+    ports:
+      - "8066:8066"
+    container_name: htx-job
+    hostname: htx-job
+    image: htx-job
