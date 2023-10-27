@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>htx-auth</artifactId>
+    <packaging>jar</packaging>
     <description>各个服务登录认证模块</description>
 
     <dependencies>

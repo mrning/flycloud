@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>htx-swagger</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <description>htx 接口文档</description>
 
