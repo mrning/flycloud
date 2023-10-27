@@ -47,13 +47,13 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
         // 从请求头中获取认证信息
         final String headerClient = request.getHeader(SecurityConstants.CLIENT);
         if (StringUtils.isNotBlank(headerClient) && null == UserClientEnum.getByValue(headerClient)) {
-            log.error("请求头中的client值当前不支持: {}", headerClient);
+            log.warn("请求头中的client值当前不支持: {}", headerClient);
             filterChain.doFilter(request, response);
             return;
         }
         final String authHeaderToken = request.getHeader("token");
         if (authHeaderToken == null || allUrlProperties.getUrls().contains(request.getRequestURI())) {
-            log.error("请求头中没有token，或当前请求url不需要认证");
+            log.warn("请求头中没有token，或当前请求url不需要认证: {}", request.getRequestURL());
             filterChain.doFilter(request, response);
             return;
         }

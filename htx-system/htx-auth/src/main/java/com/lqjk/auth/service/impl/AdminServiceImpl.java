@@ -56,6 +56,7 @@ public class AdminServiceImpl implements ClientCommonService {
         try {
             FeignResult<JSONObject> res = adminFeign.adminLogin(authLoginRequest, SecurityConstants.FROM_IN);
             if (res.isSuccess()) {
+                log.info("adminFeign.adminLogin res {}", res.getResult());
                 JSONObject resObj = JSONUtil.parseObj(res.getResult().get("userInfo"));
                 StpUtil.login(resObj.getStr("uuid"));
                 token = StpUtil.getTokenValue();
