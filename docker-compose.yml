@@ -57,6 +57,7 @@ services:
       context: ./htx-common/htx-job
       args:
         - profile
+        - xxladd
     restart: on-failure
     network_mode: "host"
     ports:

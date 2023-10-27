@@ -9,7 +9,7 @@ spring:
 xxl:
   job:
     admin:
-      address: @xxl.job.admin.url@:http://localhost:8099/xxl-job-admin
+      address: ${xxl.job.address:http://localhost:8099/xxl-job-admin}
     ### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
     executor:
       appname: htx-xxl-job-executor-${spring.profiles.active}
