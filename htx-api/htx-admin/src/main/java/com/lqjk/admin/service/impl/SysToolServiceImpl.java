@@ -46,7 +46,7 @@ public class SysToolServiceImpl implements SysToolService {
             List<String> sthjjHrefs = ReUtil.findAll("href=\"(.*?)\"", sthjjList.get(0), 1);
             List<String> sthjjDates = ReUtil.findAll("<span class=\"date\">(.*?)</span>", sthjjList.get(0), 1);
             List<Object> cache = redisUtil.lGet("htx:news:STHJJ_NEWS", 0, 10L);
-            Set<String> cacheStr = (!CollectionUtils.isEmpty(cache) ? (List<Object>) cache.get(0) : new ArrayList<>()).stream().map(String::valueOf).collect(Collectors.toSet());
+            Set<String> cacheStr = (!CollectionUtils.isEmpty(cache) ? (Set<String>) cache.get(0) : new HashSet<>());
             List<String> titles = sthjjTitles;
             titles.removeAll(cacheStr);
             if (!CollectionUtils.isEmpty(titles)) {
@@ -81,7 +81,7 @@ public class SysToolServiceImpl implements SysToolService {
                 hjsDates.add(ReUtil.findAll("<span class=\"pull-right m-l-sm\">(.*?)</span>", s, 1).get(0));
             }
             List<Object> hjsCache = redisUtil.lGet("htx:news:HJS_NEWS", 0, 15L);
-            Set<String> hjsCacheStr = (!CollectionUtils.isEmpty(hjsCache) ? (Set<String>) hjsCache.get(0) : new ArrayList<>()).stream().map(String::valueOf).collect(Collectors.toSet());
+            Set<String> hjsCacheStr = (!CollectionUtils.isEmpty(hjsCache) ? (Set<String>) hjsCache.get(0) : new HashSet<>());
             List<String> titles = hjsTitles;
             titles.removeAll(hjsCacheStr);
             if (!CollectionUtils.isEmpty(titles)) {
