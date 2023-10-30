@@ -1,5 +1,4 @@
-# htx-server
-## 沪碳行服务端代码
+# zacboot
 
 基于spring cloud alibaba实现的微服务脚手架
 
@@ -16,18 +15,18 @@
 - Redis
 
 ### 模块说明
-- htx-system
-  - htx-gateway【路由鉴权】端口：8000
-  - htx-auth【登录认证】端口：8001
-  - htx-monitor【监控】端口：8101
-  - htx-autocode【代码生成】端口：8009
-- htx-common 项目核心依赖，按需引用
-- htx-request 微服务feign定义和request + response 对象定义，方便引用
-- htx-api
-  - htx-admin【管理后台】端口：8010
-  - htx-app【app专用接口】端口：8020
-  - htx-pay【支付相关】端口：8008
-  - htx-third【第三方对接相关】端口：8003
+- zacboot-system
+  - zacboot-gateway【路由鉴权】端口：8000
+  - zacboot-auth【登录认证】端口：8001
+  - zacboot-monitor【监控】端口：8101
+  - zacboot-autocode【代码生成】端口：8009
+- zacboot-common 项目核心依赖，按需引用
+- zacboot-request 微服务feign定义和request + response 对象定义，方便引用
+- zacboot-api
+  - zacboot-admin【管理后台】端口：8010
+  - zacboot-app【app专用接口】端口：8020
+  - zacboot-pay【支付相关】端口：8008
+  - zacboot-third【第三方对接相关】端口：8003
 
 ### 安装教程
 - 安装jdk17
@@ -42,9 +41,9 @@
 - 更多安装部署命令，请参照[安装命令详情](https://gitee.com/mrning001/zacbook/blob/master/dockertext.txt)
 
 ### 使用说明
-1. 【htx-request】依赖【htx-base】，其他项目引用htx-request
-2. 在【htx-base】项目 com.lqjk.base.bizentity 包下面创建需要的entity类，并且继承BaseEntity
-3. 启动【htx-autocode】 --> AutoCodeApplication 然后访问[swagger-ui](http://localhost:8009/doc.html)
+1. 【zacboot-request】依赖【zacboot-base】，其他项目引用zacboot-request
+2. 在【zacboot-base】项目 com.zac.base.bizentity 包下面创建需要的entity类，并且继承BaseEntity
+3. 启动【zacboot-autocode】 --> AutoCodeApplication 然后访问[swagger-ui](http://localhost:8009/doc.html)
 4. 调用 `mybatis自动生成代码 >>> 根据实体类生成表结构(或者根据表结构生成代码)` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
 5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
 6. 接收前端时间参数使用 Date 类型，返回给前端时间结果时如果使用了 LocalDateTime 需要添加注解 @JsonFormat
@@ -58,6 +57,22 @@
 - [Mybatis-plus](https://baomidou.com/guide/)
 - [Dubbo](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
 - [Nacos](https://nacos.io/zh-cn/docs/quick-start.html)
+
+### 部分部署命令
+` git clone -b test https://xxx@gitlab.***.git `
+
+` cd zacboot `
+
+` mvn clean package -Dmaven.test.skip=true -DskipTests `
+
+` docker-compose --env-file .env-test up zacboot-admin(如果无模块名称则启动全部，否则只启动单独镜像)  -d(是否置于后台运行) `# 启动镜像
+
+` docker-compose --env-file .env-test config ` # 镜像配置
+
+` docker-compose --env-file .env-test build `  # 镜像构建
+
+` docker-compose --env-file .env-test down `   # 镜像停止 
+`
 
 
 
