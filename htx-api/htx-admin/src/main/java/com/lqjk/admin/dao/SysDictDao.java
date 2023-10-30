@@ -22,4 +22,6 @@ public interface SysDictDao {
     Long queryPageCount(SysDict sysDict);
 
     List<SysDict> queryAll();
+
+    List<SysDict> queryByParentUuid(String parentCode);
 }

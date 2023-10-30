@@ -9,6 +9,7 @@ import com.lqjk.admin.dao.SysRoleDao;
 import com.lqjk.admin.mapper.SysRoleMapper;
 import com.lqjk.base.utils.SysUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,34 +37,39 @@ public class SysRoleDaoImpl implements SysRoleDao {
     }
 
     public Integer del(SysRole sysRole) {
-        SysRoleExample s = new SysRoleExample();
-        s.createCriteria().andUuidEqualTo(sysRole.getUuid());
         sysRole.setDeleted(true);
         sysRole.setUpdateTime(LocalDateTime.now());
-        return sysRoleMapper.updateByExampleSelective(sysRole, s);
+
+        return sysRoleMapper.updateByExampleSelective(sysRole, buildExample(sysRole));
     }
 
     public Integer update(SysRole sysRole) {
         sysRole.setUpdateTime(LocalDateTime.now());
         sysRole.setUpdateUser(SysUtil.getCurrentUser().getNickname());
-
-        SysRoleExample sysRoleExample = new SysRoleExample();
-        sysRoleExample.createCriteria().andUuidEqualTo(sysRole.getUuid());
-        return sysRoleMapper.updateByExampleSelective(sysRole, sysRoleExample);
+        return sysRoleMapper.updateByExampleSelective(sysRole, buildExample(sysRole));
     }
 
     public List<SysRole> queryPage(RoleRequest roleRequest, Page page) {
-        SysRoleExample sysRoleExample = new SysRoleExample();
-        return sysRoleMapper.selectByExampleWithRowbounds(buildExample(sysRoleExample), new RowBounds(page.getPageNumber(), page.getPageSize()));
+        return sysRoleMapper.selectByExampleWithRowbounds(buildExample(SysRole.convertByRequest(roleRequest)), new RowBounds(page.getPageNumber(), page.getPageSize()));
     }
 
     public Long queryPageCount(RoleRequest roleRequest) {
-        SysRoleExample sysRoleExample = new SysRoleExample();
-        return sysRoleMapper.countByExample(buildExample(sysRoleExample));
+        return sysRoleMapper.countByExample(buildExample(SysRole.convertByRequest(roleRequest)));
     }
 
-    private SysRoleExample buildExample(SysRoleExample sysRoleExample) {
-        sysRoleExample.createCriteria().andDeletedEqualTo(false);
+    private SysRoleExample buildExample(SysRole sysRole) {
+        SysRoleExample sysRoleExample = new SysRoleExample();
+        SysRoleExample.Criteria criteria = sysRoleExample.createCriteria();
+        if (StringUtils.isNotBlank(sysRole.getUuid())){
+            criteria.andUuidEqualTo(sysRole.getUuid());
+        }
+        if (StringUtils.isNotBlank(sysRole.getRoleName())){
+            criteria.andRoleNameLike("%"+sysRole.getRoleName()+"%");
+        }
+        if (StringUtils.isNotBlank(sysRole.getRoleCode())){
+            criteria.andRoleCodeEqualTo(sysRole.getRoleCode());
+        }
+        criteria.andDeletedEqualTo(false);
         return sysRoleExample;
     }
 

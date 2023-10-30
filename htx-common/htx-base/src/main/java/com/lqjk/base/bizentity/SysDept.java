@@ -1,5 +1,6 @@
 package com.lqjk.base.bizentity;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lqjk.base.annotation.AutoColumn;
@@ -48,5 +49,11 @@ public class SysDept extends BaseEntity {
     @TableField(exist = false)
     @AutoColumn(isIgnore = true)
     private List<SysDept> children;
+
+    public static <T> SysDept convertByRequest(T request) {
+        SysDept sysDept = new SysDept();
+        BeanUtil.copyProperties(request, sysDept);
+        return sysDept;
+    }
 
 }

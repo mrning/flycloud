@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -77,5 +78,12 @@ public class AdminSysDictController {
     @PostMapping("/queryAll")
     public Result<List<SysDict>> queryAll(){
         return Result.success(sysDictService.queryAll());
+    }
+
+    @Operation(summary = "根据父级uuid查询子集列表")
+    @PostMapping("/queryByParentUuid")
+    public Result<List<SysDict>> queryByParentUuid(@RequestBody SysDictPageRequest dictRequest){
+        Assert.notNull(dictRequest.getCode(), "父级编码不能为空");
+        return Result.success(sysDictService.queryByParentUuid(dictRequest.getCode()));
     }
 }

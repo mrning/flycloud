@@ -65,7 +65,7 @@ public class SysDeptServiceImpl extends SysBaseServiceImpl<SysDeptMapper, SysDep
 
     public PageResult<SysDeptResponse> queryPage(DeptRequest deptRequest) {
         PageResult<SysDeptResponse> pageResult = new PageResult<>();
-        List<SysDeptResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPageNumber(), deptRequest.getPageSize()))
+        List<SysDeptResponse> deptPageResponses = sysDeptDao.queryPage(deptRequest, new Page(deptRequest.getPage(), deptRequest.getPageSize()))
                 .stream().map(sysDept -> {
                     SysDeptResponse sysDeptResponse = new SysDeptResponse().convertByEntity(sysDept);
                     // 上级部门名称

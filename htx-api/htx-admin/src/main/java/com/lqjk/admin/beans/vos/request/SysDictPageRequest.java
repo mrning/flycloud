@@ -1,11 +1,12 @@
 package com.lqjk.admin.beans.vos.request;
 
+import com.lqjk.base.basebeans.PageRequest;
 import com.lqjk.base.bizentity.SysDict;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 @Data
-public class SysDictPageRequest {
+public class SysDictPageRequest extends PageRequest {
 
     /**
      * 编码
@@ -26,10 +27,6 @@ public class SysDictPageRequest {
      * 父级名称
      */
     private String parentName;
-
-    private Long page;
-
-    private Long limit;
 
     public SysDict converToDo(){
         SysDict sysDict = new SysDict();

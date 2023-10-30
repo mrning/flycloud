@@ -9,5 +9,5 @@ public class UserRequest extends PageRequest {
     private String username;
     private String mail;
     private String phone;
-    private String realname;
+    private String realName;
 }

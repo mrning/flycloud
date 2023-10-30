@@ -84,7 +84,7 @@ public class SysRoleServiceImpl extends SysBaseServiceImpl<SysRoleMapper, SysRol
 
     public PageResult<RolePageResponse> queryPage(RoleRequest roleRequest) {
         PageResult<RolePageResponse> pageResult = new PageResult<>();
-        List<RolePageResponse> sysRoles = sysRoleDao.queryPage(roleRequest, new Page(roleRequest.getPageNumber(), roleRequest.getPageSize()))
+        List<RolePageResponse> sysRoles = sysRoleDao.queryPage(roleRequest, new Page(roleRequest.getPage(), roleRequest.getPageSize()))
                 .stream().map(sysRole -> {
                     RolePageResponse rolePageResponse = RolePageResponse.convertByEntity(sysRole);
                     List<String> permissionUuids = sysRolePermissionService.queryByRoleUuid(sysRole.getUuid()).stream().map(SysRolePermission::getPermissionUuid).collect(Collectors.toList());

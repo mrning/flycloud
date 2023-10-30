@@ -1,6 +1,7 @@
 package com.lqjk.admin.beans.vos.request;
 
 import cn.hutool.db.Page;
+import com.lqjk.base.basebeans.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
@@ -22,7 +23,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(name = "SysPermission对象", description = "权限表")
-public class PermissionRequest extends Page implements Serializable {
+public class PermissionRequest extends PageRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

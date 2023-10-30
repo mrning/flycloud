@@ -1,5 +1,6 @@
 package com.lqjk.base.bizentity;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lqjk.base.basebeans.BaseEntity;
@@ -37,5 +38,11 @@ public class SysDict extends BaseEntity {
      * 父级名称
      */
     private String parentName;
+
+    public static <T> SysDict convertByRequest(T request) {
+        SysDict sysDict = new SysDict();
+        BeanUtil.copyProperties(request, sysDict);
+        return sysDict;
+    }
 
 }

@@ -20,7 +20,7 @@ public class ActableConfig {
     /**
      * 默认主键
      */
-    private String primarykey = "id";
+    private String primarykey = "uuid";
 
     /**
      * 自动创建模式：update表示更新，create表示删除原表重新创建

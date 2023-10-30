@@ -47,15 +47,13 @@ public class SysUserDaoImpl implements SysUserDao {
     }
 
     public List<SysUser> queryPage(UserRequest userRequest, Page page) {
-        SysUser sysUser = new SysUser();
-        sysUser.setUuid(userRequest.getUserUuid());
+        SysUser sysUser = SysUser.convertByRequest(userRequest);
         SysUserExample sysUserExample = buildExample(sysUser);
         return sysUserMapper.selectByExampleWithRowbounds(sysUserExample,new RowBounds(page.getPageNumber(),page.getPageSize()));
     }
 
     public Long queryPageCount(UserRequest userRequest) {
-        SysUser sysUser = new SysUser();
-        sysUser.setUuid(userRequest.getUserUuid());
+        SysUser sysUser = SysUser.convertByRequest(userRequest);
         SysUserExample sysUserExample = buildExample(sysUser);
         return sysUserMapper.countByExample(sysUserExample);
     }
@@ -65,6 +63,15 @@ public class SysUserDaoImpl implements SysUserDao {
         SysUserExample.Criteria criteria = sysUserExample.createCriteria();
         if(StringUtils.isNotBlank(sysUser.getUuid())){
             criteria.andUuidEqualTo(sysUser.getUuid());
+        }
+        if (StringUtils.isNotBlank(sysUser.getUsername())){
+            criteria.andUsernameEqualTo(sysUser.getUsername());
+        }
+        if (StringUtils.isNotBlank(sysUser.getRealName())){
+            criteria.andRealnameLike("%" + sysUser.getRealName() + "%");
+        }
+        if (StringUtils.isNotBlank(sysUser.getPhone())){
+            criteria.andPhoneEqualTo(sysUser.getPhone());
         }
         criteria.andDeletedEqualTo(Boolean.FALSE);
         return sysUserExample;

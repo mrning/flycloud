@@ -4,5 +4,5 @@ import com.lqjk.base.basebeans.PageRequest;
 import lombok.Data;
 
 @Data
-public class SysLogRequest extends PageRequest {
+public class SysActivityPageRequest extends PageRequest {
 }

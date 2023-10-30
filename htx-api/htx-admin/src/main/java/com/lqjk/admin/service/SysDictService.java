@@ -21,4 +21,6 @@ public interface SysDictService extends SysBaseService<SysDict> {
     PageResult<SysDict> queryPage(SysDictPageRequest pageRequest);
 
     List<SysDict> queryAll();
+
+    List<SysDict> queryByParentUuid(String parentCode);
 }

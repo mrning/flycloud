@@ -91,7 +91,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // controller生成插件
         PluginConfiguration controllerPlugin = new PluginConfiguration();
         controllerPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.ControllerGenPlugin");
-        controllerPlugin.addProperty("controllerPath", System.getProperty("user.dir") + "\\genDir\\");
+        controllerPlugin.addProperty("controllerPath", System.getProperty("user.dir") + "\\htx-system\\htx-autocode\\genDir\\");
         controllerPlugin.addProperty("controllerPackage", MgtConstant.TARGETPACKAGE + API_PACKAGE + platform);
         controllerPlugin.addProperty("controllerPlatform", platform);
         controllerPlugin.addProperty("controllerDesc", desc);
@@ -99,13 +99,13 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
         // service生成插件
         PluginConfiguration servicePlugin = new PluginConfiguration();
         servicePlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.ServiceGenPlugin");
-        servicePlugin.addProperty("servicePath", System.getProperty("user.dir") + "\\genDir\\");
+        servicePlugin.addProperty("servicePath", System.getProperty("user.dir") + "\\htx-system\\htx-autocode\\genDir\\");
         servicePlugin.addProperty("servicePackage", MgtConstant.TARGETPACKAGE_SERVICE);
         context.addPluginConfiguration(servicePlugin);
         // dao生成插件
         PluginConfiguration daoPlugin = new PluginConfiguration();
         daoPlugin.setConfigurationType(MgtConstant.TARGETPACKAGE + ".genplugins.DaoGenPlugin");
-        daoPlugin.addProperty("daoPath", System.getProperty("user.dir") + "\\genDir\\");
+        daoPlugin.addProperty("daoPath", System.getProperty("user.dir") + "\\htx-system\\htx-autocode\\genDir\\");
         daoPlugin.addProperty("daoPackage", MgtConstant.TARGETPACKAGE_DAO);
         context.addPluginConfiguration(daoPlugin);
     }
@@ -113,7 +113,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
     private void buildMapper(Context context) {
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setConfigurationType("ANNOTATEDMAPPER");
-        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
+        javaClientGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\htx-system\\htx-autocode\\genDir\\");
         javaClientGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_MAPPER);
         javaClientGeneratorConfiguration.addProperty("rootInterface","com.baomidou.mybatisplus.core.mapper.BaseMapper<"+context.getProperty("")+">");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
@@ -121,7 +121,7 @@ public class MybatisGeneratorServiceImpl implements MybatisGeneratorService {
 
     private void buildJavaModel(Context context) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\genDir\\");
+        javaModelGeneratorConfiguration.setTargetProject(System.getProperty("user.dir") + "\\htx-system\\htx-autocode\\genDir\\");
         javaModelGeneratorConfiguration.setTargetPackage(MgtConstant.TARGETPACKAGE_DTO);
         javaModelGeneratorConfiguration.addProperty("rootClass", "com.lqjk.system.core.entity.BaseEntity");
         javaModelGeneratorConfiguration.addProperty("exampleTargetPackage",javaModelGeneratorConfiguration.getTargetPackage()+".example");

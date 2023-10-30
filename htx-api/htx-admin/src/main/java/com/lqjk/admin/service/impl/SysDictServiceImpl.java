@@ -46,7 +46,7 @@ public class SysDictServiceImpl extends SysBaseServiceImpl<SysDictMapper, SysDic
     public PageResult<SysDict> queryPage(SysDictPageRequest pageRequest) {
         PageResult<SysDict> pageResult = new PageResult<>();
         SysDict sysDict = pageRequest.converToDo();
-        Page<SysDict> page = sysDictDao.queryPage(sysDict,new Page<>(pageRequest.getPage(),pageRequest.getLimit()));
+        Page<SysDict> page = sysDictDao.queryPage(sysDict,new Page<>(pageRequest.getPage(),pageRequest.getPageSize()));
         pageResult.setDataList(page.getRecords());
         pageResult.setTotal(page.getTotal());
         return pageResult;
@@ -55,5 +55,10 @@ public class SysDictServiceImpl extends SysBaseServiceImpl<SysDictMapper, SysDic
     @Override
     public List<SysDict> queryAll() {
         return sysDictDao.queryAll();
+    }
+
+    @Override
+    public List<SysDict> queryByParentUuid(String parentCode) {
+        return sysDictDao.queryByParentUuid(parentCode);
     }
 }

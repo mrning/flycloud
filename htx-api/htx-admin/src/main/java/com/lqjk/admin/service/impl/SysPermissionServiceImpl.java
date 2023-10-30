@@ -70,7 +70,7 @@ public class SysPermissionServiceImpl extends SysBaseServiceImpl<SysPermissionMa
     @Override
     public PageResult<SysPermission> queryPage(PermissionRequest permissionRequest) {
         PageResult<SysPermission> pageResult = new PageResult<>();
-        pageResult.setDataList(sysPermissionDao.queryPage(permissionRequest,new Page(permissionRequest.getPageNumber(),permissionRequest.getPageSize())));
+        pageResult.setDataList(sysPermissionDao.queryPage(permissionRequest,new Page(permissionRequest.getPage(),permissionRequest.getPageSize())));
         pageResult.setTotal(sysPermissionDao.queryPageCount(permissionRequest));
         return pageResult;
     }

@@ -71,10 +71,10 @@ public class SysLog extends BaseEntity {
 	 */
 	private Integer operateType;
 
-	public static <T> SysUser convertByRequest(T request) {
-		SysUser sysUser = new SysUser();
-		BeanUtil.copyProperties(request, sysUser);
-		return sysUser;
+	public static <T> SysLog convertByRequest(T request) {
+		SysLog sysLog = new SysLog();
+		BeanUtil.copyProperties(request, sysLog);
+		return sysLog;
 	}
 
 }

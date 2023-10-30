@@ -7,7 +7,7 @@
     </sql>
     <!-- 创建表的 -->
     <select id="createTable" parameterType="com.lqjk.autocode.table.TableSql">
-        create table `${name}`(
+        CREATE TABLE if not exists `${name}`(
         <foreach collection="columnSqls" item="fields" separator=",">
             <include refid="commonSql"></include>
         </foreach>
