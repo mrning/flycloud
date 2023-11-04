@@ -1,60 +1,60 @@
 version: '3'
 services:
-  htx-gateway:
+  zacboot-gateway:
     build:
-      context: ./htx-system/htx-gateway
+      context: zacboot-system/zacboot-gateway
       args:
         - profile
     restart: on-failure
     network_mode: "host"
     ports:
       - 8000:8000
-    container_name: htx-gateway
-    hostname: htx-gateway
-    image: htx-gateway
+    container_name: zacboot-gateway
+    hostname: zacboot-gateway
+    image: zacboot-gateway
 
-  htx-auth:
+  zacboot-auth:
     build:
-      context: ./htx-system/htx-auth
+      context: zacboot-system/zacboot-auth
       args:
         - profile
     restart: on-failure
     network_mode: "host"
     ports:
       - 8001:8001
-    container_name: htx-auth
-    hostname: htx-auth
-    image: htx-auth
+    container_name: zacboot-auth
+    hostname: zacboot-auth
+    image: zacboot-auth
 
-  htx-monitor:
+  zacboot-monitor:
     build:
-      context: ./htx-system/htx-monitor
+      context: zacboot-system/zacboot-monitor
       args:
         - profile
     restart: on-failure
     network_mode: "host"
     ports:
       - 8101:8101
-    container_name: htx-monitor
-    hostname: htx-monitor
-    image: htx-monitor
+    container_name: zacboot-monitor
+    hostname: zacboot-monitor
+    image: zacboot-monitor
 
-  htx-admin:
+  zacboot-admin:
     build:
-      context: ./htx-api/htx-admin
+      context: ./zacboot-api/zacboot-admin
       args:
         - profile
     restart: on-failure
     network_mode: "host"
     ports:
       - 8010:8010
-    container_name: htx-admin
-    hostname: htx-admin
-    image: htx-admin
+    container_name: zacboot-admin
+    hostname: zacboot-admin
+    image: zacboot-admin
 
-  htx-job:
+  zacboot-job:
     build:
-      context: ./htx-common/htx-job
+      context: ./zacboot-common/zacboot-job
       args:
         - profile
         - xxladd
@@ -62,6 +62,6 @@ services:
     network_mode: "host"
     ports:
       - "8066:8066"
-    container_name: htx-job
-    hostname: htx-job
-    image: htx-job
+    container_name: zacboot-job
+    hostname: zacboot-job
+    image: zacboot-job

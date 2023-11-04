@@ -47,7 +47,7 @@
 4. 调用 `mybatis自动生成代码 >>> 根据实体类生成表结构(或者根据表结构生成代码)` 自动生成对应的CRUD代码 或者 根据指定包下的entity生成/更新数据库字段
 5. 代码生成路径默认为项目根目录下的【gen-dir】文件夹里面
 6. 接收前端时间参数使用 Date 类型，返回给前端时间结果时如果使用了 LocalDateTime 需要添加注解 @JsonFormat
-7. 如果需要entity和request中的vo相互转换的话，将转换逻辑写到htx-request定义的请求实体里面，因为【1】
+7. 如果需要entity和request中的vo相互转换的话，将转换逻辑写到zacboot-request定义的请求实体里面，因为【1】
 
 ### 相关技术文档
 - [Jdk17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)

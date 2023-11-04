@@ -1,0 +1,39 @@
+server:
+  port: 8001
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    name: @artifactId@
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      config:
+        server-addr: @nacos.config.server-addr@
+        group: @nacos.config.group@
+        file-extension: yaml
+        namespace: zacboot
+      discovery:
+        server-addr: @nacos.config.server-addr@
+        namespace: zacboot
+        watch:
+          enabled: true
+    sentinel:
+      log:
+        switch-pid: true
+    openfeign:
+      okhttp:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: FULL
+  config:
+    import:
+      - optional:nacos:zacboot-common.yml
+      - optional:nacos:${spring.application.name}.yml
+

@@ -1,0 +1,8 @@
+# 启动脚本环境变量 --spring.profiles.active=home
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    name: @artifactId@
+server:
+  port: 8020

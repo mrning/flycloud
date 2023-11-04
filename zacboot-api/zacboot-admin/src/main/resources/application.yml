@@ -1,0 +1,32 @@
+# 启动脚本环境变量 --spring.profiles.active=home
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    name: @artifactId@
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  devtools:
+    livereload:
+      port: 35722
+  main:
+    allow-circular-references: true
+  cloud:
+    nacos:
+      config:
+        server-addr: @nacos.config.server-addr@
+        group: @nacos.config.group@
+        file-extension: yaml
+        namespace: zacboot
+      discovery:
+        server-addr: @nacos.config.server-addr@
+        namespace: zacboot
+        watch:
+          enabled: true
+  config:
+    import:
+      - optional:nacos:zacboot-common.yml
+      - optional:nacos:${spring.application.name}.yml
+server:
+  port: 8010
