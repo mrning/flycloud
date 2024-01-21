@@ -49,7 +49,7 @@ public class AdminServiceImpl implements ClientCommonService {
             if (res.isSuccess()) {
                 log.info("adminFeign.adminLogin res {}", res.getResult());
                 JSONObject resObj = JSONUtil.parseObj(res.getResult().get("userInfo"));
-                StpUtil.login(resObj.getStr("uuid"));
+                StpUtil.login(resObj.getStr("uuid"), REDIS_EXPIRE_TOKEN_ADMIN * 3600);
                 token = StpUtil.getTokenValue();
                 // 登录后将用户信息缓存
                 String key = UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + token;

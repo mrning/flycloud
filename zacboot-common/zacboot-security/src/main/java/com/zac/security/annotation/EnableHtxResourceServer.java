@@ -16,7 +16,7 @@
 
 package com.zac.security.annotation;
 
-import com.zac.security.config.HtxResourceServerConfiguration;
+import com.zac.security.config.ZacResourceServerConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -31,7 +31,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Import({ HtxResourceServerConfiguration.class })
+@Import({ ZacResourceServerConfiguration.class })
 public @interface EnableHtxResourceServer {
 
 }

@@ -1,7 +1,7 @@
 package com.zac.security.component;
 
 import com.zac.base.utils.UrlIPUtil;
-import com.zac.security.annotation.Inner;
+import com.zac.security.annotation.InnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -21,17 +21,17 @@ import org.springframework.core.annotation.AnnotationUtils;
 @Slf4j
 @Aspect
 @RequiredArgsConstructor
-public class HtxSecurityInnerAspect implements Ordered {
+public class ZacSecurityInnerAspect implements Ordered {
 
 	private final HttpServletRequest request;
 
 	@SneakyThrows
-	@Before("@within(inner) || @annotation(inner)")
-	public void around(JoinPoint point, Inner inner) {
+	@Before("@within(innerService) || @annotation(innerService)")
+	public void around(JoinPoint point, InnerService innerService) {
 		// 实际注入的inner实体由表达式后一个注解决定，即是方法上的@Inner注解实体，若方法上无@Inner注解，则获取类上的
-		if (inner == null) {
+		if (innerService == null) {
 			Class<?> clazz = point.getTarget().getClass();
-			inner = AnnotationUtils.findAnnotation(clazz, Inner.class);
+			innerService = AnnotationUtils.findAnnotation(clazz, InnerService.class);
 		}
 		log.warn("来源ip {} ,访问无需鉴权接口 {}", UrlIPUtil.getIpAddr(request), point.getSignature().getName());
 		// 这里做接口级别的权限拦截处理

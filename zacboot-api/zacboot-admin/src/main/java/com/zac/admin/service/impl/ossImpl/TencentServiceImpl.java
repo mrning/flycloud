@@ -1,6 +1,6 @@
 package com.zac.admin.service.impl.ossImpl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.zac.admin.service.UploadFileService;
 import org.springframework.web.multipart.MultipartFile;
 

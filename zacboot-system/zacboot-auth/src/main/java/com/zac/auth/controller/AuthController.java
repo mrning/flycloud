@@ -5,7 +5,7 @@ import com.zac.base.constants.SecurityConstants;
 import com.zac.request.FeignResult;
 import com.zac.request.req.auth.AuthLoginRequest;
 import com.zac.request.req.auth.AuthLogoutRequest;
-import com.zac.security.annotation.Inner;
+import com.zac.security.annotation.InnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    @Inner
+    @InnerService
     @Operation(summary = "多端登录共用")
     @PostMapping(value = "/token")
-    public FeignResult<String> getToken(@Validated @RequestBody AuthLoginRequest ssoLoginRequest, @RequestHeader(SecurityConstants.CLIENT) String clientId) {
-        return FeignResult.success(MultiBeanFactory.getService(clientId).login(ssoLoginRequest));
+    public FeignResult<String> getToken(@Validated @RequestBody AuthLoginRequest ssoLoginRequest, @RequestHeader(SecurityConstants.CLIENT) String client) {
+        return FeignResult.success(MultiBeanFactory.getService(client).login(ssoLoginRequest));
     }
 
-    @Inner
+    @InnerService
     @Operation(summary = "刷新token")
     @GetMapping(value = "/refreshToken")
     public FeignResult<String> refreshToken(HttpServletRequest request) {

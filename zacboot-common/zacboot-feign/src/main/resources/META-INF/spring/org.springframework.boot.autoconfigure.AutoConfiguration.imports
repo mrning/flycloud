@@ -1,3 +1,0 @@
-com.zac.feign.HtxFeignAutoConfiguration
-com.zac.feign.sentinel.SentinelAutoConfiguration
-com.zac.feign.sentinel.handle.GlobalBizExceptionHandler

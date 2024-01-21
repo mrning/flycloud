@@ -1,6 +1,6 @@
 package com.zac.admin.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zac.admin.beans.vos.request.RegisRequest;
@@ -16,7 +16,7 @@ import com.zac.base.utils.*;
 import com.zac.request.FeignResult;
 import com.zac.request.req.auth.AuthLoginRequest;
 import com.zac.request.req.auth.AuthPhoneLoginRequest;
-import com.zac.security.annotation.Inner;
+import com.zac.security.annotation.InnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,7 +63,7 @@ public class AdminSysController {
      * @param regisRequest
      * @return
      */
-    @Inner
+    @InnerService
     @Operation(summary = "用户注册接口")
     @PostMapping("/register")
     public Result userRegister(@RequestBody RegisRequest regisRequest) {
@@ -97,7 +97,7 @@ public class AdminSysController {
     /**
      * 用户名密码登录接口
      */
-    @Inner
+    @InnerService
     @Operation(summary = "用户名密码登录接口")
     @PostMapping(value = "/login")
     public Result<JSONObject> login(@RequestBody AuthLoginRequest authLoginRequest) {
@@ -138,7 +138,7 @@ public class AdminSysController {
      * @param phoneLoginRequest
      * @return
      */
-    @Inner
+    @InnerService
     @Operation(summary = "手机号登录接口")
     @PostMapping("/phoneLogin")
     public Result<JSONObject> phoneLogin(@RequestBody AuthPhoneLoginRequest phoneLoginRequest) {
@@ -227,7 +227,7 @@ public class AdminSysController {
      *
      * @param key
      */
-    @Inner
+    @InnerService
     @Operation(summary = "后台生成图形验证码")
     @GetMapping(value = "/randomImage")
     public Result<String> randomImage(@RequestParam String key) {
@@ -281,7 +281,7 @@ public class AdminSysController {
         }
         return result;
     }
-    @Inner
+    @InnerService
     @Operation(summary = "查询指定网址内的新闻刷新情况")
     @PostMapping("/checkNews")
     public FeignResult<String> checkNews(){

@@ -1,7 +1,7 @@
 package com.zac.admin.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.zac.base.bizentity.SysPermission;
 import com.zac.admin.beans.vos.request.PermissionAddRequest;
 import com.zac.admin.beans.vos.request.PermissionRequest;

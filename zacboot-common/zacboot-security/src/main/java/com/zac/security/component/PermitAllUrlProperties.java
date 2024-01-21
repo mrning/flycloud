@@ -18,7 +18,7 @@ package com.zac.security.component;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.zac.security.annotation.Inner;
+import com.zac.security.annotation.InnerService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -65,16 +65,16 @@ public class PermitAllUrlProperties implements InitializingBean {
 			HandlerMethod handlerMethod = map.get(info);
 
 			// 获取方法上边的注解 替代path variable 为 *
-			Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
+			InnerService method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), InnerService.class);
 			Optional.ofNullable(method)
-				.ifPresent(inner -> Objects.requireNonNull(info.getPatternsCondition())
+				.ifPresent(innerService -> Objects.requireNonNull(info.getPatternsCondition())
 					.getPatterns()
 					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 			// 获取类上边的注解, 替代path variable 为 *
-			Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
+			InnerService controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), InnerService.class);
 			Optional.ofNullable(controller)
-				.ifPresent(inner -> Objects.requireNonNull(info.getPatternsCondition())
+				.ifPresent(innerService -> Objects.requireNonNull(info.getPatternsCondition())
 					.getPatterns()
 					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 		});

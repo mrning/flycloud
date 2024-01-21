@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -27,8 +24,6 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 
 	private final ObjectMapper objectMapper;
 
-	private final MessageSource messageSource;
-
 	@Override
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -43,12 +38,6 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 			result.setResult(authException.getMessage());
 		}
 
-		// 针对令牌过期返回特殊的 424
-		if (authException instanceof InsufficientAuthenticationException) {
-			response.setStatus(org.springframework.http.HttpStatus.FAILED_DEPENDENCY.value());
-			result.setMessage(this.messageSource.getMessage("OAuth2ResourceOwnerBaseAuthenticationProvider.tokenExpired",
-					null, LocaleContextHolder.getLocale()));
-		}
 		PrintWriter printWriter = response.getWriter();
 		printWriter.append(objectMapper.writeValueAsString(result));
 	}

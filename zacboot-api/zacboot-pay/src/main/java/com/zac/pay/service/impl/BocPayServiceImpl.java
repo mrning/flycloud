@@ -3,7 +3,7 @@ package com.zac.pay.service.impl;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.XML;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.zac.base.utils.DateUtil;
 import com.zac.pay.service.BocPayService;
 import com.zac.pay.utils.BocRestUtil;

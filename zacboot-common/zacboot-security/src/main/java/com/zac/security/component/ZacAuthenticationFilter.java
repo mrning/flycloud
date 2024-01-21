@@ -9,15 +9,16 @@ import com.zac.base.constants.RedisKey;
 import com.zac.base.constants.SecurityConstants;
 import com.zac.base.enums.UserClientEnum;
 import com.zac.base.utils.RedisUtil;
-import com.zac.security.config.HtxSecurityUser;
+import com.zac.security.config.ZacSecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -36,14 +38,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
-public class HtxAuthenticationFilter extends OncePerRequestFilter {
+public class ZacAuthenticationFilter extends OncePerRequestFilter {
 
-    private final RedisUtil redisUtil;
-    private final PermitAllUrlProperties allUrlProperties;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private PermitAllUrlProperties allUrlProperties;
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         // 从请求头中获取认证信息
         final String headerClient = request.getHeader(SecurityConstants.CLIENT);
         if (StringUtils.isNotBlank(headerClient) && null == UserClientEnum.getByValue(headerClient)) {
@@ -60,7 +66,15 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
         // 从token中解析出user uuid
         String userUuid = String.valueOf(StpUtil.getLoginIdByToken(authHeaderToken));
         if (userUuid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = getUserDetails(authHeaderToken, headerClient);
+            UserDetails userDetails = null;
+            try {
+                userDetails = getUserDetails(authHeaderToken);
+            } catch (Exception e) {
+                if (e instanceof BusinessException) {
+                    resolver.resolveException(request, response, null, e);
+                }
+                throw e;
+            }
 
             // 如果令牌有效，封装一个UsernamePasswordAuthenticationToken对象
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -76,10 +90,10 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @NotNull
-    private UserDetails getUserDetails(String authHeaderToken, String headerClient) {
+    private UserDetails getUserDetails(String authHeaderToken) {
         // 登录后将用户信息缓存
         Object o = redisUtil.get(UserClientEnum.ADMIN.getValue() + ":" + RedisKey.LOGIN_SYSTEM_USERINFO + authHeaderToken);
-        if (null == o) {
+        if (null == o || !StpUtil.isLogin()) {
             throw new BusinessException(HttpStatus.UNAUTHORIZED.value(), authHeaderToken + ", token已过期");
         }
 
@@ -92,7 +106,7 @@ public class HtxAuthenticationFilter extends OncePerRequestFilter {
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles);
 
         JSONObject userInfo = resObj.getJSONObject("userInfo");
-        return new HtxSecurityUser(userInfo.getLong("id"), userInfo.getStr("username"),
+        return new ZacSecurityUser(userInfo.getLong("id"), userInfo.getStr("username"),
                 userInfo.getStr("password"), userInfo.getStr("phone"),
                 true, true, true, true, authorities);
     }

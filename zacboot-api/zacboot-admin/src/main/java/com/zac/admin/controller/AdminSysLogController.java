@@ -1,6 +1,6 @@
 package com.zac.admin.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.zac.base.bizentity.SysLog;
 import com.zac.admin.beans.vos.request.SysLogRequest;
 import com.zac.admin.service.SysLogService;

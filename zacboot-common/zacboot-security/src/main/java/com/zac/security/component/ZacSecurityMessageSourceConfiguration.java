@@ -33,7 +33,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
  * 注入自定义错误处理,覆盖 org/springframework/security/messages 内置异常
  */
 @ConditionalOnWebApplication(type = SERVLET)
-public class HtxSecurityMessageSourceConfiguration implements WebMvcConfigurer {
+public class ZacSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public MessageSource securityMessageSource() {

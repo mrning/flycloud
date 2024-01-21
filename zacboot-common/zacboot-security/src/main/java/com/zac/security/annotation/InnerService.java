@@ -27,7 +27,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Inner {
+public @interface InnerService {
 
 	/**
 	 * 是否AOP统一处理

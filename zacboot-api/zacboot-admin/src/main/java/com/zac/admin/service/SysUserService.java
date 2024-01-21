@@ -1,6 +1,6 @@
 package com.zac.admin.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.zac.admin.beans.vos.request.RegisRequest;
 import com.zac.admin.beans.vos.request.UserAddRequest;
 import com.zac.admin.beans.vos.request.UserUpdateRequest;

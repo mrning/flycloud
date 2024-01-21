@@ -1,6 +1,6 @@
 package com.zac.security.config;
 
-import com.zac.security.component.HtxAuthenticationFilter;
+import com.zac.security.component.ZacAuthenticationFilter;
 import com.zac.security.component.PermitAllUrlProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +28,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @Configuration
-public class HtxResourceServerConfiguration {
+public class ZacResourceServerConfiguration {
 
     private final PermitAllUrlProperties permitAllUrl;
 
-    private final HtxAuthenticationFilter authenticationFilter;
+    private final ZacAuthenticationFilter authenticationFilter;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)

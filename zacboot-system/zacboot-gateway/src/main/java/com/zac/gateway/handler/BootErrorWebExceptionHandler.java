@@ -13,6 +13,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 /**
  * 处理Gateway异常捕获后统一返回值
  */
@@ -41,7 +43,7 @@ public class BootErrorWebExceptionHandler implements ErrorWebExceptionHandler {
                 //设置响应到response的数据
                 DataBufferFactory bufferFactory = response.bufferFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
-                return bufferFactory.wrap(objectMapper.writeValueAsBytes(Result.error(ex.getMessage())));
+                return bufferFactory.wrap(objectMapper.writeValueAsBytes(Result.error(Objects.requireNonNull(response.getStatusCode()).value(),ex.getMessage())));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 return null;

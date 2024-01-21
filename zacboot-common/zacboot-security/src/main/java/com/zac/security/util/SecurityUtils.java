@@ -2,7 +2,7 @@ package com.zac.security.util;
 
 import cn.hutool.core.util.StrUtil;
 import com.zac.base.constants.SecurityConstants;
-import com.zac.security.config.HtxSecurityUser;
+import com.zac.security.config.ZacSecurityUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,10 +30,10 @@ public class SecurityUtils {
 	/**
 	 * 获取用户
 	 */
-	public HtxSecurityUser getUser(Authentication authentication) {
+	public ZacSecurityUser getUser(Authentication authentication) {
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof HtxSecurityUser) {
-			return (HtxSecurityUser) principal;
+		if (principal instanceof ZacSecurityUser) {
+			return (ZacSecurityUser) principal;
 		}
 		return null;
 	}
@@ -41,7 +41,7 @@ public class SecurityUtils {
 	/**
 	 * 获取用户
 	 */
-	public HtxSecurityUser getUser() {
+	public ZacSecurityUser getUser() {
 		Authentication authentication = getAuthentication();
 		if (authentication == null) {
 			return null;
