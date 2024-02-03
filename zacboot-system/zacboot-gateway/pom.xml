@@ -74,19 +74,6 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>jcenter</id>
-            <url>https://maven.aliyun.com/repository/jcenter</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>

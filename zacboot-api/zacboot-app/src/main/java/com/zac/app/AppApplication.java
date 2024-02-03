@@ -18,7 +18,7 @@ public class AppApplication {
         SpringApplication.run(AppApplication.class, args);
         log.info("""
                 ----------------------------------------------------------
-                -----------  Application Start is running!  --------------
+                -----------  APP Start is running!  --------------
                 ----------------------------------------------------------""");
     }
 }
